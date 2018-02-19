@@ -31,4 +31,8 @@ module.exports.codes = {
       code: '500',
       message: 'Internal server error'
     },
+    'MONGO_ERROR': {
+      code: '503',
+      message: 'Database error'
+    }
   };
