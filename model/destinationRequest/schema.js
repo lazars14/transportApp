@@ -33,7 +33,7 @@ module.exports = (function () {
       type: Number
     },
     /**
-     * DestinationRequest status [0 - submitted, 1 - awaitingConfirmation (await period 1 day), 2 - accepted]
+     * DestinationRequest status [0 - submitted, 1 - waiting for confirmation (should wait at least 1 day before rejecting), 2 - accepted, 3 - rejected]
      */
     status: {
       type: String
@@ -43,6 +43,18 @@ module.exports = (function () {
      */
     destinationId: {
       type: String
+    },
+    /**
+     * DestinationRequest request submission date
+     */
+    submissionDate: {
+      type: Date
+    },
+    /**
+     * DestinationRequest confirmation sent to user to accept date
+     */
+    confirmationRequestDate: {
+      type: Date
     }
   });
 
