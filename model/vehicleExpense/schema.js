@@ -17,7 +17,7 @@ module.exports = (function () {
     /**
      * VehicleExpense bus id
      */
-    busId: {
+    vehicleId: {
       type: String,
       required: true
     },
@@ -26,7 +26,7 @@ module.exports = (function () {
      */
     date: {
       type: Date,
-      required: true
+      default: Date.now
     }
   });
 

@@ -19,10 +19,13 @@ ManagerSchema.statics.validatePassword = function (password, hash) {
  * @param email
  * @returns {*}
  */
-function _findManagerByEmail(email) {
+function _findByEmail(email) {
   var deferred = Q.defer();
   model.findOne({email: email}, function (err, data) {
-    if (err) return deferred.reject(error("MONGO_ERROR"));
+    if (err){
+      logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find manager with email ' + email);
+      return deferred.reject(error("MONGO_ERROR"));
+    } 
     deferred.resolve(data);
   });
 
@@ -34,12 +37,15 @@ function _findManagerByEmail(email) {
  * @param id
  * @returns {*}
  */
-function _findManagerById(id) {
+function _findById(id) {
   var deferred = Q.defer();
   if (!id) deferred.resolve(null);
   else {
     model.findOne({"_id": mongoose.Types.ObjectId(id)}, function (err, data) {
-      if (err)  return deferred.reject(error("MONGO_ERROR"));
+      if (err){
+        logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find manager with id ' + id);
+        return deferred.reject(error("MONGO_ERROR"));
+      }
       deferred.resolve(data);
     });
   }
@@ -47,10 +53,28 @@ function _findManagerById(id) {
 };
 
 /**
- * Register manager
+ * Find manager by email
+ * @param email
+ * @returns {*}
+ */
+ManagerSchema.statics.getByEmail = function (email) {
+  return _findByEmail(email);
+};
+
+/**
+* Find manager by id
+* @param id
+* @returns {*}
+*/
+ManagerSchema.statics.findById = function (id) {
+  return _findById(id);
+};
+
+/**
+ * Add manager
  * @param manager
  */
-ManagerSchema.statics.register = function (manager) {
+ManagerSchema.statics.add = function (manager) {
   var deferred = Q.defer();
   manager = new model(manager);
   _findManagerByEmail(manager.email).then(function (found) {
@@ -58,8 +82,10 @@ ManagerSchema.statics.register = function (manager) {
       manager.password = manager.cryptPassword(manager.password);
 
       manager.save(function (err, manager) {
-        logger.error('Database error - ' + JSON.stringify(err));
-        if (err) return deferred.reject(error("MONGO_ERROR"));
+        if (err){
+          logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add manager');
+          return deferred.reject(error("MONGO_ERROR"));
+        }
         return deferred.resolve(manager);
       });
     })
@@ -95,32 +121,14 @@ ManagerSchema.statics.login = function (manager) {
 };
 
 /**
- * Find manager by email
- * @param email
- * @returns {*}
- */
-ManagerSchema.statics.geManagerByEmail = function (email) {
-    return _findManagerByEmail(email);
-  };
-
-/**
- * Find manager by id
- * @param id
- * @returns {*}
- */
-ManagerSchema.statics.findManagerById = function (id) {
-  return _findManagerById(id);
-};
-
-/**
  * Update manager
- * @param managerId
+ * @param Id
  * @param data
  * @returns {*}
  */
-ManagerSchema.statics.updateManager = function (managerId, data) {
+ManagerSchema.statics.update = function (Id, data) {
   var deferred = Q.defer();
-  _findManagerById(managerId).then(function (found) {
+  _findManagerById(id).then(function (found) {
       if(!found) return deferred.reject(error("NOT_FOUND"));
 
       if (data.firstName) found.firstName = data.firstName;
@@ -129,7 +137,7 @@ ManagerSchema.statics.updateManager = function (managerId, data) {
 
       found.save(function (err, manager) {
         if (err) {
-          logger.error('Database error - ' + JSON.stringify(err));
+          logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update manager with id ' + id);
           return deferred.reject(error("MONGO_ERROR"));
         }
         return deferred.resolve(manager);
@@ -145,7 +153,7 @@ ManagerSchema.statics.updateManager = function (managerId, data) {
  * Find all managers
  * @returns {*}
  */
-ManagerSchema.statics.getAllManagers = function () {
+ManagerSchema.statics.getAll = function () {
   var deferred = Q.defer();
   model.find({}, function (err, managers) {
     if (err) return deferred.reject(err);
@@ -159,7 +167,7 @@ ManagerSchema.statics.getAllManagers = function () {
  * @param id
  * @returns {*}
  */
-ManagerSchema.statics.removeManager = function (id) {
+ManagerSchema.statics.remove = function (id) {
   var deferred = Q.defer();
 
   _findManagerById(id).then(function (found) {
@@ -168,7 +176,7 @@ ManagerSchema.statics.removeManager = function (id) {
     model.remove({_id: mongoose.Types.ObjectId(id)}, function (err) {
       if (err) {
         logger.error('Error deleting ' + name + ' manager for id ' + id, err);
-        return deferred.reject(error('DATABASE_ERROR'));
+        return deferred.reject(error('MONGO_ERROR'));
       }
       deferred.resolve();
     });

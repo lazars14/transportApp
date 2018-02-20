@@ -48,7 +48,8 @@ module.exports = (function () {
      * DestinationRequest request submission date
      */
     submissionDate: {
-      type: Date
+      type: Date,
+      default: Date.now
     },
     /**
      * DestinationRequest confirmation sent to user to accept date
