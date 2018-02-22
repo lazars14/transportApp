@@ -6,13 +6,15 @@ module.exports = (function () {
      * Destination start location
      */
     startLocation: {
-      type: Object
+      type: Object,
+      required: true
     },
     /**
      * Destination end location
      */
     endLocation: {
-      type: Object
+      type: Object,
+      required: true
     },
     /**
      * Destination start date
@@ -42,25 +44,28 @@ module.exports = (function () {
      * Destination fuelExpenses (per 100km)
      */
     fuelExpenses: {
-      type: Number
+      type: Number,
+      required: true
     },
     /**
      * Destination vehicle id
      */
     vehicleId: {
-      type: String
+      type: String,
+      required: true
     },
     /**
-     * Destination driver id
+     * Destination drivers
      */
-    driverId: {
-        type: String
+    drivers: {
+        type: Array
     },
     /**
      * Destination manager id
      */
     managerId: {
-        type: String
+        type: String,
+        required: true
     }
   });
 

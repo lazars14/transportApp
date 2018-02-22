@@ -6,13 +6,15 @@ module.exports = (function () {
      * DestinationRequest start location
      */
     startLocation: {
-      type: Object
+      type: Object,
+      required: true
     },
     /**
      * DestinationRequest end location
      */
     endLocation: {
-      type: Object
+      type: Object,
+      required: true
     },
     /**
      * DestinationRequest start date
@@ -36,7 +38,8 @@ module.exports = (function () {
      * DestinationRequest status [0 - submitted, 1 - waiting for confirmation (should wait at least 1 day before rejecting), 2 - accepted, 3 - rejected]
      */
     status: {
-      type: String
+      type: String,
+      default: "submitted"
     },
     /**
      * DestinationRequest destination id
@@ -56,6 +59,12 @@ module.exports = (function () {
      */
     confirmationRequestDate: {
       type: Date
+    },
+    /**
+     * DestinationRequest user id
+     */
+    userId: {
+      type: String
     }
   });
 

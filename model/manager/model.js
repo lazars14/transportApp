@@ -77,7 +77,7 @@ ManagerSchema.statics.findById = function (id) {
 ManagerSchema.statics.add = function (manager) {
   var deferred = Q.defer();
   manager = new model(manager);
-  _findManagerByEmail(manager.email).then(function (found) {
+  _findByEmail(manager.email).then(function (found) {
       if (found) return deferred.reject(error("ALREADY_REGISTERED"));
       manager.password = manager.cryptPassword(manager.password);
 
@@ -102,7 +102,7 @@ ManagerSchema.statics.add = function (manager) {
  */
 ManagerSchema.statics.login = function (manager) {
   var deferred = Q.defer();
-  _findManagerByEmail(manager.email).then(function (found) {
+  _findByEmail(manager.email).then(function (found) {
       if (!model.validatePassword(manager.password, found.password))
         return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
 
@@ -128,7 +128,7 @@ ManagerSchema.statics.login = function (manager) {
  */
 ManagerSchema.statics.update = function (Id, data) {
   var deferred = Q.defer();
-  _findManagerById(id).then(function (found) {
+  _findById(id).then(function (found) {
       if(!found) return deferred.reject(error("NOT_FOUND"));
 
       if (data.firstName) found.firstName = data.firstName;
@@ -170,7 +170,7 @@ ManagerSchema.statics.getAll = function () {
 ManagerSchema.statics.remove = function (id) {
   var deferred = Q.defer();
 
-  _findManagerById(id).then(function (found) {
+  _findById(id).then(function (found) {
     if(!found) return deferred.reject(error("NOT_FOUND"));
 
     model.remove({_id: mongoose.Types.ObjectId(id)}, function (err) {

@@ -43,18 +43,16 @@ module.exports = (function () {
       default: ""
     },
     /**
-     * User phone push token
+     * User phone push tokens
      */
-    token: {
-        type: String
+    tokens: {
+        type: Array
     },
     /**
-     * User imei
+     * User imeis
      */
-    imei: {
-        type: String,
-        unique: true,
-        sparse: true
+    imeis: {
+        type: Array
     }
   });
 
