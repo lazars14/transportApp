@@ -71,10 +71,10 @@ ManagerSchema.statics.findById = function (id) {
 };
 
 /**
- * Add manager
+ * Register manager
  * @param manager
  */
-ManagerSchema.statics.add = function (manager) {
+ManagerSchema.statics.register = function (manager) {
   var deferred = Q.defer();
   manager = new model(manager);
   _findByEmail(manager.email).then(function (found) {
@@ -122,11 +122,11 @@ ManagerSchema.statics.login = function (manager) {
 
 /**
  * Update manager
- * @param Id
+ * @param id
  * @param data
  * @returns {*}
  */
-ManagerSchema.statics.update = function (Id, data) {
+ManagerSchema.statics.update = function (id, data) {
   var deferred = Q.defer();
   _findById(id).then(function (found) {
       if(!found) return deferred.reject(error("NOT_FOUND"));

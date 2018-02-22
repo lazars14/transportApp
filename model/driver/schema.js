@@ -6,13 +6,15 @@ module.exports = (function () {
      * Driver first name
      */
     firstName: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Driver last name
      */
     lastName: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Driver email address

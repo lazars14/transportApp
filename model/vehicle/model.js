@@ -42,7 +42,7 @@ function _findVehicleById(id){
  * @param licensePlate
  * @returns {*}
  */
-VehicleSchema.statics.getVehicleByLicensePlate = function(licensePlate){
+VehicleSchema.statics.getByLicensePlate = function(licensePlate){
     return _findVehicleByLicensePlate(licensePlate);
 };
 
@@ -51,7 +51,7 @@ VehicleSchema.statics.getVehicleByLicensePlate = function(licensePlate){
  * @param id
  * @returns {*}
  */
-VehicleSchema.statics.findVehicleById = function(id){
+VehicleSchema.statics.findById = function(id){
     return _findVehicleById(id);
 };
 
@@ -59,7 +59,7 @@ VehicleSchema.statics.findVehicleById = function(id){
  * Find all vehicles
  * @returns {*}
  */
-VehicleSchema.statics.findAllVehicles = function(){
+VehicleSchema.statics.findAll = function(){
     var deffered = Q.defer();
 
     model.find({}, function(err, vehicles){
@@ -78,7 +78,7 @@ VehicleSchema.statics.findAllVehicles = function(){
  * @param vehicle
  * @returns {*}
  */
-VehicleSchema.statics.addVehicle = function(vehicle){
+VehicleSchema.statics.add = function(vehicle){
     var deffered = Q.defer();
 
     vehicle = new model(vehicle);
@@ -106,7 +106,7 @@ VehicleSchema.statics.addVehicle = function(vehicle){
  * @param data
  * @returns {*}
  */
-VehicleSchema.statics.updateVehicle = function(vehicleId, data){
+VehicleSchema.statics.update = function(vehicleId, data){
     var deffered = Q.defer();
 
     _findVehicleById(vehicleId).then(function(found){
@@ -138,7 +138,7 @@ VehicleSchema.statics.updateVehicle = function(vehicleId, data){
  * @param id
  * @returns {*}
  */
-VehicleSchema.statics.removeVehicle = function(id){
+VehicleSchema.statics.remove = function(id){
     var deffered = Q.defer();
 
     _findVehicleById(id).then(function(found){
