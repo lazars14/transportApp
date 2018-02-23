@@ -1,0 +1,152 @@
+var controller = require('./controller');
+var express = require('express');
+var router = express.Router();
+
+
+/**
+ * @api {post} /users/register
+ * Register user
+ * @apiVersion 1.0.0
+ * @apiName Register User
+ * @apiGroup User
+ * @apiDescription User register - register user account
+ * 
+ * @apiParam (body){String} email Manager email
+ * @apiParam (body){String} password Manager password
+ * @apiParam (body){String} [firstName] Manager firstname
+ * @apiParam (body){String} [lastName] Manager lastname
+ * @apiParam (body){String} [phone] Manager phone
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} User Created user
+ * {
+ *    "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *    "firstName": "John",
+ *    "lastName": "Doe",
+ *    "phone": "060/123456",
+ *    "email": "johndoe@gmail.com",
+ *    "password": "a3-xjd=-s,;kfga=dg"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/users/register', controller.registerUser);
+
+/**
+ * @api {post} /users/login
+ * User Login
+ * @apiVersion 1.0.0
+ * @apiName User Login
+ * @apiGroup User
+ * @apiDescription User login - login to account
+ * 
+ * @apiParam (body){String} email User email
+ * @apiParam (body){String} password User password
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {String} token User token - expiration time one day
+ * {
+ *    "token": "23042016MSSSU2-032AE0AA"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/users/login', controller.loginUser);
+
+/**
+ * @api {post} /users/{userId}/requests
+ * User Add Request
+ * @apiVersion 1.0.0
+ * @apiName User Add Request
+ * @apiGroup User
+ * @apiDescription User add request - create new request
+ * 
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiParam (body){String} startLocation Vehicle license plate
+ * @apiParam (body){String} endLocation Vehicle license expire date
+ * @apiParam (body){String} userId Vehicle number of seats
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} DestinationRequest Created request
+ * {
+ *      "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *      "status": "submitted",
+ *      "submissionDate": "2018-03-01",
+ *      "startLocation" : {
+ *          "lat": "45.30",
+ *          "lng": "45.30"
+ *      },
+ *      "endLocation": {
+ *          "lat": "45.31",
+ *          "lng": "45.31"
+ *      },
+ *      "userId": "asdf32-sdfa032-asdfsa"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/users/:userId/requests', controller.addRequest);
+
+/**
+ * @api {get} /users/{userId}/requests
+ * User Requests
+ * @apiVersion 1.0.0
+ * @apiName User Requests
+ * @apiGroup User
+ * @apiDescription User get all requests - get all requests for specific user
+ * 
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} DestinationRequests Requests for user
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "status": "submitted",
+ *          "submissionDate": "2018-03-01",
+ *          "startLocation" : {
+ *              "lat": "45.30",
+ *              "lng": "45.30"
+ *          },
+ *          "endLocation": {
+ *              "lat": "45.31",
+ *              "lng": "45.31"
+ *          },
+ *          "userId": "asdf32-sdfa032-asdfsa"
+ *      },
+ *      {
+ *          "_id": "add.x-;s-39;x-s9-3la-ab3",
+ *          "status": "submitted",
+ *          "submissionDate": "2018-03-01",
+ *          "startLocation" : {
+ *              "lat": "45.32",
+ *              "lng": "45.32"
+ *          },
+ *          "endLocation": {
+ *              "lat": "45.33",
+ *              "lng": "45.33"
+ *          },
+ *          "userId": "asdf32-sdfa032-asdfsa"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/users/:userId/requests', controller.userRequests);
+
+logger.info('loaded USER routes');
+
+module.exports = router;

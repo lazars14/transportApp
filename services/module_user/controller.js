@@ -35,6 +35,35 @@ exports.registerUser = function(req, res, next){
     });
 }
 
+/**
+ * Login user
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.loginUser = function(req, res, next){
+    if(!req.body.email){
+        logger.error('Error - Login user - Email can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!isEmail(req.body.email)){
+        logger.error('Error - Login user - Wrong email format');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.password){
+        logger.error('Error - Login user - Password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    userModel.login(req.body).then(function(data){
+        res.json(data);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
 // DestinationRequest functions
 
 /**

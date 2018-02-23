@@ -2,8 +2,67 @@ var controller = require('./controller');
 var express = require('express');
 var router = express.Router();
 
+
 /**
- * @api {get} /client/{clientId}/managers
+ * @api {post} /clients/login
+ * Client Login
+ * @apiVersion 1.0.0
+ * @apiName Client Login
+ * @apiGroup Client
+ * @apiDescription Client login - login to account
+ * 
+ * @apiParam (body){String} email Client email
+ * @apiParam (body){String} password Client password
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {String} token Client token - expiration time one day
+ * {
+ *    "token": "23042016MSSSU2-032AE0AA"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/clients/login', controller.loginClient);
+
+/**
+ * @api {put} /clients/{clientId}
+ * Update Client Info
+ * @apiVersion 1.0.0
+ * @apiName Update Client
+ * @apiGroup Client
+ * @apiDescription Client update client - update client info
+ * 
+ * @apiParam (path){String} clientId Client id
+ * 
+ * @apiParam (body){String} [email] Client email
+ * @apiParam (body){String} [password] Client password
+ * @apiParam (body){String} [firstName] Client firstname
+ * @apiParam (body){String} [lastName] Client lastname
+ * @apiParam (body){String} [phone] Client phone
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Client Updated client
+ * {
+ *    "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *    "firstName": "John",
+ *    "lastName": "Doe",
+ *    "phone": "060/123456",
+ *    "email": "johndoe@gmail.com",
+ *    "password": "a3-xjd=-s,;kfga=dg"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.put('/clients/:clientId', controller.updateClient);
+
+/**
+ * @api {get} /clients/{clientId}/managers
  * Get All Managers
  * @apiVersion 1.0.0
  * @apiName Get All Managers
@@ -38,10 +97,10 @@ var router = express.Router();
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/client/:clientId/managers', controller.getAllManagers);
+router.get('/clients/:clientId/managers', controller.getAllManagers);
 
 /**
- * @api {post} /client/{clientId}/managers
+ * @api {post} /clients/{clientId}/managers
  * Add Manager
  * @apiVersion 1.0.0
  * @apiName Add Manager
@@ -72,10 +131,10 @@ router.get('/client/:clientId/managers', controller.getAllManagers);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/client/:clientId/managers', controller.registerManager);
+router.post('/clients/:clientId/managers', controller.registerManager);
 
 /**
- * @api {put} /client/{clientId}/managers/{managerId}
+ * @api {put} /clients/{clientId}/managers/{managerId}
  * Update Manager
  * @apiVersion 1.0.0
  * @apiName Update Manager
@@ -107,10 +166,10 @@ router.post('/client/:clientId/managers', controller.registerManager);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/client/:clientId/managers/:managerId', controller.updateManager);
+router.put('/clients/:clientId/managers/:managerId', controller.updateManager);
 
 /**
- * @api {delete} /client/{clientId}/managers/{managerId}
+ * @api {delete} /clients/{clientId}/managers/{managerId}
  * Delete Manager
  * @apiVersion 1.0.0
  * @apiName Delete Manager
@@ -136,10 +195,10 @@ router.put('/client/:clientId/managers/:managerId', controller.updateManager);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/client/:clientId/managers/:managerId', controller.deleteManager);
+router.delete('/clients/:clientId/managers/:managerId', controller.deleteManager);
 
 /**
- * @api {get} /client/{clientId}/vehicles
+ * @api {get} /clients/{clientId}/vehicles
  * Get All Vehicles
  * @apiVersion 1.0.0
  * @apiName Get All Vehicles
@@ -178,10 +237,10 @@ router.delete('/client/:clientId/managers/:managerId', controller.deleteManager)
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/client/:clientId/vehicles', controller.getAllVehicles);
+router.get('/clients/:clientId/vehicles', controller.getAllVehicles);
 
 /**
- * @api {get} /client/{clientId}/vehicles/{vehicleId}
+ * @api {get} /clients/{clientId}/vehicles/{vehicleId}
  * Get Vehicle
  * @apiVersion 1.0.0
  * @apiName Get Vehicle
@@ -209,10 +268,10 @@ router.get('/client/:clientId/vehicles', controller.getAllVehicles);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/client/:clientId/vehicles/:vehicleId', controller.getVehicleById);
+router.get('/clients/:clientId/vehicles/:vehicleId', controller.getVehicleById);
 
 /**
- * @api {post} /client/{clientId}/vehicles
+ * @api {post} /clients/{clientId}/vehicles
  * Add Vehicle
  * @apiVersion 1.0.0
  * @apiName Add Vehicle
@@ -247,10 +306,10 @@ router.get('/client/:clientId/vehicles/:vehicleId', controller.getVehicleById);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/client/:clientId/vehicles', controller.addVehicle);
+router.post('/clients/:clientId/vehicles', controller.addVehicle);
 
 /**
- * @api {put} /client/{clientId}/vehicles/{vehicleId}
+ * @api {put} /clients/{clientId}/vehicles/{vehicleId}
  * Update Vehicle
  * @apiVersion 1.0.0
  * @apiName Update Vehicle
@@ -286,10 +345,10 @@ router.post('/client/:clientId/vehicles', controller.addVehicle);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/client/:clientId/vehicles/:vehicleId', controller.updateVehicle);
+router.put('/clients/:clientId/vehicles/:vehicleId', controller.updateVehicle);
 
 /**
- * @api {delete} /client/{clientId}/vehicles/{vehicleId}
+ * @api {delete} /clients/{clientId}/vehicles/{vehicleId}
  * Delete Vehicle
  * @apiVersion 1.0.0
  * @apiName Delete Vehicle
@@ -317,4 +376,8 @@ router.put('/client/:clientId/vehicles/:vehicleId', controller.updateVehicle);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/client/:clientId/vehicles/:vehicleId', controller.removeVehicle);
+router.delete('/clients/:clientId/vehicles/:vehicleId', controller.removeVehicle);
+
+logger.info('loaded CLIENT routes');
+
+module.exports = router;

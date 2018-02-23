@@ -1,10 +1,60 @@
 var vehicleModel = require('../../model/vehicle/model');
 var driverModel = require('../../model/driver/model');
 var managerModel = require('../../model/manager/model');
+var clientModel = require('../../model/client/model');
 
 var isEmail = require('validator/lib/isEmail');
 var logger = require('../../lib/logger');
 
+// Client functions
+
+/**
+ * Client Login
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.loginClient = function(req, res, next){
+    if(!req.body.email){
+        logger.error('Error - Client login - Email can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!isEmail(req.body.email)){
+        logger.error('Error - Client login - Wrong email format');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.password){
+        logger.error('Error - Client login - Password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    clientModel.login(req.body).then(function(data){
+        res.json(data);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Update client
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.updateClient = function(req, res, next){
+    if(!req.params.clientId){
+        logger.error('Error - Client update - ClientId can\'t be empty');
+        return next(error("BAD_REQUEST"));    
+    }
+
+    clientModel.update(req.params.clientId, req.body).then(function(client){
+        res.json(client);
+    }).fail(function(err){
+        return next(err);
+    });
+}
 
 // Manager functions
 

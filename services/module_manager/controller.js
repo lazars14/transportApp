@@ -3,6 +3,38 @@ var vehicleModel = require('../../model/vehicle/model')
 
 var logger = require('../../lib/logger');
 
+// Manager functions
+
+/**
+ * Manager Login
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.loginManager = function(req, res, next){
+    if(!req.body.email){
+        logger.error('Error - Manager login - Email can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!isEmail(req.body.email)){
+        logger.error('Error - Manager login - Wrong email format');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.password){
+        logger.error('Error - Manager login - Password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    managerModel.login(req.body).then(function(data){
+        res.json(data);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+
 // Vehicle expenses functions
 
 /**
