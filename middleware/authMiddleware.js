@@ -42,7 +42,7 @@ var Auth = {
       }
       // if everything is good, save to request for use in other routes
       // req.decoded = decoded;
-      //req.params.userID = decoded.userID;
+      req.params.userID = decoded.userID;
       next();
     });
   },
@@ -64,7 +64,7 @@ var Auth = {
       }
       // if everything is good, save to request for use in other routes
       // req.decoded = decoded;
-      //req.params.userID = decoded.userID;
+      req.params.userID = decoded.userID;
       next();
     });
   }
