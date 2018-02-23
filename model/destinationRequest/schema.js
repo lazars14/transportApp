@@ -64,7 +64,8 @@ module.exports = (function () {
      * DestinationRequest user id
      */
     userId: {
-      type: String
+      type: String,
+      required: true
     }
   });
 

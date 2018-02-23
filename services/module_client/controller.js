@@ -22,24 +22,25 @@ exports.getAllManagers = function(req, res, next){
     });
 }
 
-/**
- * Find manager by Id
- * @param req
- * @param res
- * @param next
- */
-exports.findManagerById = function(req, res, next){
-    if(!req.params.managerId){
-        logger.error('Error - Find manager by id - ManagerId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
 
-    managerModel.findById(req.params.managerId).then(function(manager){
-        res.json(manager);
-    }).fail(function(err){
-        return next(err);
-    });
-}
+// /**
+//  * Find manager by Id
+//  * @param req
+//  * @param res
+//  * @param next
+//  */
+// exports.findManagerById = function(req, res, next){
+//     if(!req.params.managerId){
+//         logger.error('Error - Find manager by id - ManagerId can\'t be empty');
+//         return next(error("BAD_REQUEST"));
+//     }
+
+//     managerModel.findById(req.params.managerId).then(function(manager){
+//         res.json(manager);
+//     }).fail(function(err){
+//         return next(err);
+//     });
+// }
 
 /**
  * Register new manager
@@ -210,29 +211,29 @@ exports.removeVehicle = function(req, res, next){
     });
 }
 
-/**
- * Increase vehicle kms
- * @param req
- * @param res
- * @param next
- */
-exports.increaseVehiclekms = function(req, res, next){
-    if(!req.body.vehicleId){
-        logger.error('Error - Increase vehicle kms - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
+// /**
+//  * Increase vehicle kms
+//  * @param req
+//  * @param res
+//  * @param next
+//  */
+// exports.increaseVehiclekms = function(req, res, next){
+//     if(!req.body.vehicleId){
+//         logger.error('Error - Increase vehicle kms - VehicleId can\'t be empty');
+//         return next(error("BAD_REQUEST"));
+//     }
 
-    if(!req.body.numberOfKms){
-        logger.error('Error - Increase vehicle kms - NumberOfKms can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
+//     if(!req.body.numberOfKms){
+//         logger.error('Error - Increase vehicle kms - NumberOfKms can\'t be empty');
+//         return next(error("BAD_REQUEST"));
+//     }
 
-    vehicleModel.increaseKms(req.body.vehicleId, req.body.numberOfKms).then(function(vehicle){
-        res.json(vehicle);
-    }).fail(function(err){
-        return next(err);
-    });
-}
+//     vehicleModel.increaseKms(req.body.vehicleId, req.body.numberOfKms).then(function(vehicle){
+//         res.json(vehicle);
+//     }).fail(function(err){
+//         return next(err);
+//     });
+// }
 
 
 // Driver functions

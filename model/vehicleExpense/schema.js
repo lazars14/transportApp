@@ -6,13 +6,15 @@ module.exports = (function () {
      * VehicleExpense name
      */
     name: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * VehicleExpense amount
      */
     amount: {
-      type: Number
+      type: Number,
+      required: true
     },
     /**
      * VehicleExpense bus id

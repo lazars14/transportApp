@@ -56,7 +56,7 @@ VehicleExpenseSchema.statics.findAll = function(){
  * @param vehicleId
  * @returns {*}
  */
-VehicleExpenseSchema.statics.findAll = function(vehicleId){
+VehicleExpenseSchema.statics.findExpensesForVehicle = function(vehicleId){
     var deffered = Q.defer();
 
     model.find({vehicleId : vehicleId}, function(err, expenses){
@@ -72,27 +72,22 @@ VehicleExpenseSchema.statics.findAll = function(vehicleId){
 
 /**
  * Add vehicleExpense
+ * @param vehicleId
  * @param vehicleExpense
  * @returns {*}
  */
-VehicleExpenseSchema.statics.add = function(vehicleExpense){
+VehicleExpenseSchema.statics.add = function (vehicleExpense) {
     var deffered = Q.defer();
 
-    _findById(vehicleExpense._id).then(function(found){
-        found = new model(found);
-        
-        if(found) return deffered.reject(error("NOT_FOUND"));
+    vehicleExpense = new model(vehicleExpense);
+    vehicleExpense.vehicleId = vehicleId;
 
-        found.save(function(err, expense){
-            if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add expense');
-                return deffered.reject(error("MONGO_ERROR"));
-            };
-            return deffered.resolve(vehicleExpense);
-        });
-        
-    }).fail(function(err){
-        deffered.reject(err);
+    vehicleExpense.save(function (err, expense) {
+        if (err) {
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add expense');
+            return deffered.reject(error("MONGO_ERROR"));
+        };
+        return deffered.resolve(Expense);
     });
 
     return deffered.promise;
