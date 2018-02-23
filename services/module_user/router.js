@@ -72,7 +72,6 @@ router.post('/users/login', controller.loginUser);
  * 
  * @apiParam (body){String} startLocation Vehicle license plate
  * @apiParam (body){String} endLocation Vehicle license expire date
- * @apiParam (body){String} userId Vehicle number of seats
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} DestinationRequest Created request

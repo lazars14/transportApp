@@ -21,9 +21,9 @@ describe('main', function () {
   });
 
   it('should successfully drop test database', function (done) {
-    require('../services/module_client/test');
+    // require('../services/module_client/test');
     // require('../services/module_manager/test');
-    // require('../services/module_user/test');
+    require('../services/module_user/test');
     return done();
   });
 });
