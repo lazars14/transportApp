@@ -1,5 +1,6 @@
 var controller = require('./controller');
 var express = require('express');
+var auth = require('../../middleware/authMiddleware');
 var router = express.Router();
 
 
@@ -25,7 +26,7 @@ var router = express.Router();
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/managers/login', controller.loginManager);
+router.post('/managers/login', auth.checkManagerToken, controller.loginManager);
 
 logger.info('loaded MANAGER routes');
 

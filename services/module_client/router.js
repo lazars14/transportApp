@@ -1,5 +1,6 @@
 var controller = require('./controller');
 var express = require('express');
+var auth = require('../../middleware/authMiddleware');
 var router = express.Router();
 
 
@@ -59,7 +60,7 @@ router.post('/clients/login', controller.loginClient);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/clients/:clientId', controller.updateClient);
+router.put('/clients/:clientId', auth.checkClientToken, controller.updateClient);
 
 /**
  * @api {get} /clients/{clientId}/managers
@@ -97,7 +98,7 @@ router.put('/clients/:clientId', controller.updateClient);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/clients/:clientId/managers', controller.getAllManagers);
+router.get('/clients/:clientId/managers', auth.checkClientToken, controller.getAllManagers);
 
 /**
  * @api {post} /clients/{clientId}/managers
@@ -131,7 +132,7 @@ router.get('/clients/:clientId/managers', controller.getAllManagers);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/clients/:clientId/managers', controller.registerManager);
+router.post('/clients/:clientId/managers', auth.checkClientToken, controller.registerManager);
 
 /**
  * @api {put} /clients/{clientId}/managers/{managerId}
@@ -166,7 +167,7 @@ router.post('/clients/:clientId/managers', controller.registerManager);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/clients/:clientId/managers/:managerId', controller.updateManager);
+router.put('/clients/:clientId/managers/:managerId', auth.checkClientToken, controller.updateManager);
 
 /**
  * @api {delete} /clients/{clientId}/managers/{managerId}
@@ -195,7 +196,7 @@ router.put('/clients/:clientId/managers/:managerId', controller.updateManager);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/clients/:clientId/managers/:managerId', controller.deleteManager);
+router.delete('/clients/:clientId/managers/:managerId', auth.checkClientToken, controller.deleteManager);
 
 /**
  * @api {get} /clients/{clientId}/vehicles
@@ -237,7 +238,7 @@ router.delete('/clients/:clientId/managers/:managerId', controller.deleteManager
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/clients/:clientId/vehicles', controller.getAllVehicles);
+router.get('/clients/:clientId/vehicles', auth.checkClientToken, controller.getAllVehicles);
 
 /**
  * @api {get} /clients/{clientId}/vehicles/{vehicleId}
@@ -268,7 +269,7 @@ router.get('/clients/:clientId/vehicles', controller.getAllVehicles);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.get('/clients/:clientId/vehicles/:vehicleId', controller.getVehicleById);
+router.get('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.getVehicleById);
 
 /**
  * @api {post} /clients/{clientId}/vehicles
@@ -306,7 +307,7 @@ router.get('/clients/:clientId/vehicles/:vehicleId', controller.getVehicleById);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/clients/:clientId/vehicles', controller.addVehicle);
+router.post('/clients/:clientId/vehicles', auth.checkClientToken, controller.addVehicle);
 
 /**
  * @api {put} /clients/{clientId}/vehicles/{vehicleId}
@@ -345,7 +346,7 @@ router.post('/clients/:clientId/vehicles', controller.addVehicle);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/clients/:clientId/vehicles/:vehicleId', controller.updateVehicle);
+router.put('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.updateVehicle);
 
 /**
  * @api {delete} /clients/{clientId}/vehicles/{vehicleId}
@@ -376,7 +377,7 @@ router.put('/clients/:clientId/vehicles/:vehicleId', controller.updateVehicle);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/clients/:clientId/vehicles/:vehicleId', controller.removeVehicle);
+router.delete('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.removeVehicle);
 
 logger.info('loaded CLIENT routes');
 

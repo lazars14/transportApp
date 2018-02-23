@@ -1,5 +1,6 @@
 var controller = require('./controller');
 var express = require('express');
+var auth = require('../../middleware/authMiddleware');
 var router = express.Router();
 
 
@@ -95,7 +96,7 @@ router.post('/users/login', controller.loginUser);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/users/:userId/requests', controller.addRequest);
+router.post('/users/:userId/requests', auth.checkUserToken, controller.addRequest);
 
 /**
  * @api {get} /users/{userId}/requests
@@ -145,7 +146,7 @@ router.post('/users/:userId/requests', controller.addRequest);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/users/:userId/requests', controller.userRequests);
+router.post('/users/:userId/requests', auth.checkUserToken, controller.userRequests);
 
 logger.info('loaded USER routes');
 
