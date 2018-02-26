@@ -1,0 +1,45 @@
+{
+  "name": "transportapp",
+  "version": "1.0.0",
+  "description": "backend in node.js (mongo db) and frontend in angular 4",
+  "main": "server.js",
+  "dependencies": {
+    "apidoc": "^0.17.6",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "child_process": "^1.0.2",
+    "crypto": "^1.0.1",
+    "express": "^4.16.2",
+    "fs": "^0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-apidoc": "^0.2.7",
+    "gulp-mocha": "^5.0.0",
+    "istanbul": "^0.4.5",
+    "jsonwebtoken": "^8.1.1",
+    "lodash": "^4.17.5",
+    "mongoose": "^5.0.6",
+    "path": "^0.12.7",
+    "q": "^1.5.1",
+    "serve-index": "^1.9.1",
+    "should": "^13.2.1",
+    "supertest": "^3.0.0",
+    "validator": "^9.4.1",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "prestart": "gulp deploy",
+    "start": "supervisor server",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- ./test/main.js -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zomlaaa95/transportApp.git"
+  },
+  "author": "Lazar Stijakovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zomlaaa95/transportApp/issues"
+  },
+  "homepage": "https://github.com/zomlaaa95/transportApp#readme"
+}
