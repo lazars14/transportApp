@@ -28,14 +28,14 @@ module.exports = (function () {
      * Driver phone
      */
     phone: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Driver address
      */
     address: {
-      type: String,
-      default: ""
+      type: String
     }
   });
 

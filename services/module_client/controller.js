@@ -73,24 +73,24 @@ exports.getAllManagers = function(req, res, next){
 }
 
 
-// /**
-//  * Find manager by Id
-//  * @param req
-//  * @param res
-//  * @param next
-//  */
-// exports.findManagerById = function(req, res, next){
-//     if(!req.params.managerId){
-//         logger.error('Error - Find manager by id - ManagerId can\'t be empty');
-//         return next(error("BAD_REQUEST"));
-//     }
+/**
+ * Find manager by Id
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.findManagerById = function(req, res, next){
+    if(!req.params.managerId){
+        logger.error('Error - Find manager by id - ManagerId can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
 
-//     managerModel.findById(req.params.managerId).then(function(manager){
-//         res.json(manager);
-//     }).fail(function(err){
-//         return next(err);
-//     });
-// }
+    managerModel.findById(req.params.managerId).then(function(manager){
+        res.json(manager);
+    }).fail(function(err){
+        return next(err);
+    });
+}
 
 /**
  * Register new manager
@@ -256,6 +256,31 @@ exports.removeVehicle = function(req, res, next){
 
     vehicleModel.remove(req.params.vehicleId).then(function(){
         res.json();
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Find all expenses for vehicle
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getExpensesForVehicle = function(req, res, next){
+    if(!req.params.vehicleId){
+        logger.error('Error - Find expense for vehicle - VehicleId can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
+        if(!vehicle) return next(error("NOT_FOUND"));
+
+        expenseModel.findExpensesForVehicle(req.params.vehicleId).then(function(expenses){
+            res.json(expenses);
+        }).fail(function(err){
+            return next(err);
+        })
     }).fail(function(err){
         return next(err);
     });

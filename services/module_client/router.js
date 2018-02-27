@@ -38,7 +38,7 @@ router.post('/clients/login', controller.loginClient);
  * 
  * @apiParam (path){String} clientId Client id
  * 
- * @apiParam (body){String} [email] Client email
+ * @apiParam (body){String} email Client email
  * @apiParam (body){String} [password] Client password
  * @apiParam (body){String} [firstName] Client firstname
  * @apiParam (body){String} [lastName] Client lastname
@@ -99,6 +99,35 @@ router.put('/clients/:clientId', auth.checkClientToken, controller.updateClient)
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/managers', auth.checkClientToken, controller.getAllManagers);
+
+/**
+ * @api {get} /clients/{clientId}/managers/{managerId}
+ * Get Manager By Id
+ * @apiVersion 1.0.0
+ * @apiName Get Manager By Id
+ * @apiGroup Client
+ * @apiDescription Client get manager - get manager by id
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Manager Manager object
+ * {
+ *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *     "firstName": "John",
+ *     "lastName": "Doe",
+ *     "phone" : "060/123456",
+ *     "email": "johndoe@gmail.com",
+ *     "password": "a3-xjd=-s,;kfga=dg"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.get('/clients/:clientId/manager/:managerId', auth.checkClientToken, controller.findManagerById);
 
 /**
  * @api {post} /clients/{clientId}/managers
@@ -242,9 +271,9 @@ router.get('/clients/:clientId/vehicles', auth.checkClientToken, controller.getA
 
 /**
  * @api {get} /clients/{clientId}/vehicles/{vehicleId}
- * Get Vehicle
+ * Get Vehicle By Id
  * @apiVersion 1.0.0
- * @apiName Get Vehicle
+ * @apiName Get Vehicle By Id
  * @apiGroup Client
  * @apiDescription Client get vehicle - get vehicle with specific id
  * 
@@ -378,6 +407,206 @@ router.put('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, cont
  * @apiUse notAuthorized
  */
 router.delete('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.removeVehicle);
+
+/**
+ * @api {get} /clients/{clientId}/vehicles/{vehicleId}/expenses
+ * Get All Expenses For Vehicle
+ * @apiVersion 1.0.0
+ * @apiName Get All Expenses For Vehicle
+ * @apiGroup Client
+ * @apiDescription CLient get all vehicle expenses - get all expenses for specific vehicle
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Expenses All expenses for vehicle
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "name": "firstExpense",
+ *          "amount": "1000.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ *      {
+ *          "_id": "aas-;s-39;x-s9-3la-fwirw",
+ *          "name": "secondExpense",
+ *          "amount": "1500.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.get('/clients/:clientId/vehicles/:vehicleId/expenses', auth.checkClientToken, controller.getExpensesForVehicle);
+
+/**
+ * @api {get} /clients/{clientId}/drivers
+ * Get All Drivers
+ * @apiVersion 1.0.0
+ * @apiName Get All Drivers
+ * @apiGroup Client
+ * @apiDescription Client drivers - view all drivers
+ * 
+ * @apiParam (path){String} clientId Client id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Drivers Drivers array
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        },
+ *        {
+ *           "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *           "firstName": "Driver",
+ *           "lastName": "Two",
+ *           "email" : "drivertwo@gmail.com",
+ *           "phone": "0600234567",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.get('/clients/:clientId/drivers', auth.checkClientToken, controller.findAllDrivers);
+
+/**
+ * @api {get} /clients/{clientId}/drivers/{driverId}
+ * Get Driver By Id
+ * @apiVersion 1.0.0
+ * @apiName Get Driver By Id
+ * @apiGroup Client
+ * @apiDescription Client get driver - get driver with specific id
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} driverId Driver id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Driver Driver object
+ * {
+ *      "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *      "firstName": "Driver",
+ *      "lastName": "Two",
+ *      "email" : "drivertwo@gmail.com",
+ *      "phone": "0600234567",
+ *      "address": "St. Joseph's Boulevard 50"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.get('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.findDriverById);
+
+/**
+ * @api {post} /clients/{clientId}/drivers
+ * Add Driver
+ * @apiVersion 1.0.0
+ * @apiName Add Driver
+ * @apiGroup Client
+ * @apiDescription Client add driver - add new driver
+ * 
+ * @apiParam (path){String} clientId Client id
+ * 
+ * @apiParam (body){String} firstName Driver firstname
+ * @apiParam (body){String} lastName Driver lastname
+ * @apiParam (body){String} email Driver email
+ * @apiParam (body){String} phone Driver phone
+ * @apiParam (body){String} [address] Driver address
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Driver Created driver
+ * {
+ *      "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *      "firstName": "Driver",
+ *      "lastName": "Three",
+ *      "email" : "driverthree@gmail.com",
+ *      "phone": "0600345678",
+ *      "address": "St. Joseph's Boulevard 50"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.post('/clients/:clientId/drivers', auth.checkClientToken, controller.addDriver);
+
+/**
+ * @api {put} /clients/{clientId}/drivers/{driverId}
+ * Update Driver
+ * @apiVersion 1.0.0
+ * @apiName Update Driver
+ * @apiGroup Client
+ * @apiDescription Client update driver - update existing driver
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} driverId Driver id
+ * 
+ * @apiParam (body){String} [firstName] Driver firstname
+ * @apiParam (body){String} [lastName] Driver lastname
+ * @apiParam (body){String} email Driver email
+ * @apiParam (body){String} [phone] Driver phone
+ * @apiParam (body){String} [address] Driver address
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Driver Updated driver
+ * {
+ *      "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *      "firstName": "Driver",
+ *      "lastName": "Four",
+ *      "email" : "driverfour@gmail.com",
+ *      "phone": "0600234567",
+ *      "address": "St. Joseph's Boulevard 50"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.put('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.updateDriver);
+
+/**
+ * @api {delete} /clients/{clientId}/drivers/{driverId}
+ * Delete Driver
+ * @apiVersion 1.0.0
+ * @apiName Delete Driver
+ * @apiGroup Client
+ * @apiDescription Client delete driver - delete existing driver
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} driverId Driver id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Driver Deleted driver
+ * {
+ *      "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *      "firstName": "Driver",
+ *      "lastName": "Four",
+ *      "email" : "driverfour@gmail.com",
+ *      "phone": "0600234567",
+ *      "address": "St. Joseph's Boulevard 50"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.delete('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.removeDriver);
 
 logger.info('loaded CLIENT routes');
 
