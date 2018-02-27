@@ -14,7 +14,7 @@ describe("User tests", function () {
     it("register - fail - missing data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com"
+            email: "user@gmail.com"
         };
         return request(app).post('/users/register')
         .type('application/json').send(data).end(function (err, res) {
@@ -39,7 +39,7 @@ describe("User tests", function () {
     it("register - success - valid data ", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "user@gmail.com",
             password: "test"
         };
 
@@ -53,7 +53,7 @@ describe("User tests", function () {
     it("register - fail - already registered", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "user@gmail.com",
             password: "test"
         };
         return request(app).post('/clients/register')
@@ -78,7 +78,7 @@ describe("User tests", function () {
     it("login - fail - invalid password", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "user@gmail.com",
             password: "test123"
         };
         return request(app).post('/users/login')
@@ -91,7 +91,7 @@ describe("User tests", function () {
     it("login - success - valid data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "user@gmail.com",
             password: "test"
         };
         return request(app).post('/users/login')
@@ -289,7 +289,7 @@ describe("User tests", function () {
     it("change user email - fail - missing token", function (done) {
         var data;
         data = ({
-            oldEmail: "test@gmail.com",
+            oldEmail: "user@gmail.com",
             newEmail: "test123@gmail.com"
         });
         return request(app).put('/users/' + user._id + '/changeEmail')
@@ -302,7 +302,7 @@ describe("User tests", function () {
     it("change user email - fail - missing data", function (done) {
         var data;
         data = ({
-            oldEmail: "test@gmail.com"
+            oldEmail: "user@gmail.com"
         });
         return request(app).put('/users/' + user._id + '/changeEmail')
         .set('x-access-token', token)
@@ -315,7 +315,7 @@ describe("User tests", function () {
     it("change user email - fail - not allowed", function (done) {
         var data;
         data = ({
-            oldEmail: "test1234563546@gmail.com",
+            oldEmail: "user123@gmail.com",
             newEmail: "test123@gmail.com"
         });
         return request(app).put('/users/' + user._id + '/changeEmail')
@@ -329,7 +329,7 @@ describe("User tests", function () {
     it("change user email - fail - not found", function (done) {
         var data;
         data = ({
-            oldEmail: "test1234563546@gmail.com",
+            oldEmail: "user@gmail.com",
             newEmail: "test123@gmail.com"
         });
         return request(app).put('/users/5a1e98c67ecb023338a3cac3/changeEmail')
@@ -343,8 +343,8 @@ describe("User tests", function () {
     it("change user email - success - valid data", function (done) {
         var data;
         data = ({
-            oldEmail: "test@gmail.com",
-            newEmail: "test123@gmail.com"
+            oldEmail: "user@gmail.com",
+            newEmail: "user123@gmail.com"
         });
         return request(app).put('/users/' + user._id + '/changeEmail')
         .set('x-access-token', token)

@@ -57,6 +57,7 @@ router.post('/clients/login', controller.loginClient);
  * 
  * @apiUse internalError
  * @apiUse notFound
+ * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.put('/clients/:clientId', auth.checkClientToken, controller.updateClient);
@@ -539,6 +540,7 @@ router.post('/clients/:clientId/drivers', auth.checkClientToken, controller.addD
  * 
  * @apiUse internalError
  * @apiUse notFound
+ * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.put('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.updateDriver);

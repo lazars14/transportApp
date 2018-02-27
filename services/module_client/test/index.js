@@ -15,7 +15,19 @@ describe("Client tests", function () {
     it("login - fail - missing data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com"
+            email: "client@gmail.com"
+        };
+        return request(app).post('/clients/login')
+        .type('application/json').send(data).end(function (err, res) {
+            res.should.have.property("status", 400);
+            return done();
+            });
+    });
+
+    it("login - fail - wrong email format", function (done) {
+        var data;
+        data = {
+            email: "client@gmail.com"
         };
         return request(app).post('/clients/login')
         .type('application/json').send(data).end(function (err, res) {
@@ -27,7 +39,7 @@ describe("Client tests", function () {
     it("login - fail - invalid password", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "client@gmail.com",
             password: "test123"
         };
         return request(app).post('/clients/login')
@@ -40,7 +52,7 @@ describe("Client tests", function () {
     it("login - success - valid data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "client@gmail.com",
             password: "test"
         };
         return request(app).post('/clients/login')
@@ -58,7 +70,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedClient",
             lastName: "Client",
-            email: "test@gmail.com",
+            email: "client@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
@@ -74,7 +86,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedClient",
             lastName: "Client",
-            email: "test123@gmail.com",
+            email: "client@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
@@ -91,7 +103,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedClient",
             lastName: "Client",
-            email: "test@gmail.com",
+            email: "client@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
@@ -108,7 +120,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "First",
             lastName: "manager",
-            email: "firstmanager@gmail.com",
+            email: "manager@gmail.com",
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
@@ -119,12 +131,45 @@ describe("Client tests", function () {
             });
     });
 
+    it("new manager - fail - missing data", function (done) {
+        var data;
+        data = ({
+            firstName: "First",
+            lastName: "manager",
+            email: "manager@gmail.com",
+            phone: "060987654",
+            address: "St. John's Boulevard 12"
+        });
+        return request(app).post('/clients/' +client._id + '/managers')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("new manager - fail - wrong email format", function (done) {
+        var data;
+        data = ({
+            firstName: "First",
+            lastName: "manager",
+            email: "manager",
+            phone: "060987654",
+            address: "St. John's Boulevard 12",
+            password: "test"
+        });
+        return request(app).post('/clients/' +client._id + '/managers')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
     it("new manager - success - valid data", function (done) {
         var data;
         data = ({
             firstName: "First",
             lastName: "manager",
-            email: "firstmanager@gmail.com",
+            email: "manager@gmail.com",
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
@@ -185,13 +230,29 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedFirst",
             lastName: "manager",
-            email: "firstmanager@gmail.com",
+            email: "manager@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
         return request(app).put('/clients/' + client._id + '/managers/'+ manager._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("update manager - fail - wrong email format", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "manager",
+            email: "manager",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/clients/' + client._id + '/managers/'+ manager._id)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
                 return done();
             });
     });
@@ -261,7 +322,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "First",
             lastName: "Driver",
-            email: "firstdriver@gmail.com",
+            email: "driver@gmail.com",
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
@@ -272,12 +333,43 @@ describe("Client tests", function () {
             });
     });
 
+    it("new driver - fail - missing data", function (done) {
+        var data;
+        data = ({
+            lastName: "Driver",
+            email: "driver@gmail.com",
+            phone: "060987654",
+            address: "St. John's Boulevard 12"
+        });
+        return request(app).post('/clients/' +client._id + '/drivers')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("new driver - fail - wrong email format", function (done) {
+        var data;
+        data = ({
+            firstName: "First",
+            lastName: "Driver",
+            email: "driver",
+            phone: "060987654",
+            address: "St. John's Boulevard 12"
+        });
+        return request(app).post('/clients/' +client._id + '/drivers')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
     it("new driver - success - valid data", function (done) {
         var data;
         data = ({
             firstName: "First",
             lastName: "Driver",
-            email: "firstdriver@gmail.com",
+            email: "driver@gmail.com",
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
@@ -338,7 +430,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedFirst",
             lastName: "Driver",
-            email: "firstdriver@gmail.com",
+            email: "driver@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
@@ -354,11 +446,28 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedFirst",
             lastName: "Driver",
-            email: "firstdriver@gmail.com",
+            email: "driver@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
         return request(app).put('/clients/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("update driver - fail - wrong email format", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "Driver",
+            email: "driver",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/clients/' + client._id + '/drivers/' + driver._id)
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -371,7 +480,7 @@ describe("Client tests", function () {
         data = ({
             firstName: "UpdatedFirst",
             lastName: "Driver",
-            email: "firstdriver@gmail.com",
+            email: "driver@gmail.com",
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
@@ -493,11 +602,13 @@ describe("Client tests", function () {
     it("update vehicle - fail - missing token", function (done) {
         var data;
         data = ({
-            firstName: "UpdatedFirst",
-            lastName: "Driver",
-            email: "firstdriver@gmail.com",
-            phone: "060987653",
-            address: "St. John's Boulevard 11"
+            "name": "First bus",
+            "model": "Mercedes-Benz do Brasil",
+            "licensePlate" : "NS-123-AD",
+            "licenseExpireDate": "2019-10-21",
+            "numberOfSeats": "50",
+            "productionYear": "2015",
+            "numberOfKmPassed": "50000"
         });
         return request(app).put('/clients/' + client._id + '/vehicles/'+ vehicle._id)
         .type('application/json').send(data).end(function (err, res) {
@@ -509,11 +620,13 @@ describe("Client tests", function () {
     it("update vehicle - fail - not found", function (done) {
         var data;
         data = ({
-            firstName: "UpdatedFirst",
-            lastName: "Driver",
-            email: "firstdriver@gmail.com",
-            phone: "060987653",
-            address: "St. John's Boulevard 11"
+            "name": "First bus",
+            "model": "Mercedes-Benz do Brasil",
+            "licensePlate" : "NS-123-AD",
+            "licenseExpireDate": "2019-10-21",
+            "numberOfSeats": "50",
+            "productionYear": "2015",
+            "numberOfKmPassed": "50000"
         });
         return request(app).put('/clients/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
@@ -526,11 +639,13 @@ describe("Client tests", function () {
     it("update vehicle - success - valid data", function (done) {
         var data;
         data = ({
-            firstName: "UpdatedFirst",
-            lastName: "Driver",
-            email: "firstdriver@gmail.com",
-            phone: "060987653",
-            address: "St. John's Boulevard 11"
+            "name": "First bus",
+            "model": "Mercedes-Benz do Brasil",
+            "licensePlate" : "NS-123-AD",
+            "licenseExpireDate": "2019-10-21",
+            "numberOfSeats": "50",
+            "productionYear": "2015",
+            "numberOfKmPassed": "50000"
         });
         return request(app).put('/clients/' + client._id + '/vehicles/'+ vehicle._id)
             .set('x-access-token', token)

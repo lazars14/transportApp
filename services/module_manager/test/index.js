@@ -14,7 +14,20 @@ describe("Manager tests", function () {
     it("login - fail - missing data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com"
+            email: "manager@gmail.com"
+        };
+        return request(app).post('/managers/login')
+        .type('application/json').send(data).end(function (err, res) {
+            res.should.have.property("status", 400);
+            return done();
+            });
+    });
+
+    it("login - fail - wrong email format", function (done) {
+        var data;
+        data = {
+            email: "test",
+            password: "test"
         };
         return request(app).post('/managers/login')
         .type('application/json').send(data).end(function (err, res) {
@@ -26,7 +39,7 @@ describe("Manager tests", function () {
     it("login - fail - invalid password", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "manager@gmail.com",
             password: "test123"
         };
         return request(app).post('/managers/login')
@@ -39,7 +52,7 @@ describe("Manager tests", function () {
     it("login - success - valid data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com",
+            email: "manager@gmail.com",
             password: "test"
         };
         return request(app).post('/managers/login')
