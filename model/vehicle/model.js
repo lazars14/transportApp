@@ -8,7 +8,7 @@ var
  * @param licensePlate
  * @returns {*} 
  */
-function _findVehicleByLicensePlate(licensePlate){
+function _findByLicensePlate(licensePlate){
     var deffered = Q.defer();
     
     model.findOne({licensePlate : licensePlate}, function(err, data){
@@ -24,7 +24,7 @@ function _findVehicleByLicensePlate(licensePlate){
  * @param id
  * @returns {*}
  */
-function _findVehicleById(id){
+function _findById(id){
     var deffered = Q.defer();
 
     if(!id) deffered.resolve(null);
@@ -42,7 +42,7 @@ function _findVehicleById(id){
  * @param licensePlate
  * @returns {*}
  */
-VehicleSchema.statics.getByLicensePlate = function(licensePlate){
+VehicleSchema.statics.findByLicensePlate = function(licensePlate){
     return _findVehicleByLicensePlate(licensePlate);
 };
 
@@ -134,11 +134,11 @@ VehicleSchema.statics.update = function(vehicleId, data){
 };
 
 /**
- * Remove vehicle
+ * Delete vehicle
  * @param id
  * @returns {*}
  */
-VehicleSchema.statics.remove = function(id){
+VehicleSchema.statics.delete = function(id){
     var deffered = Q.defer();
 
     _findVehicleById(id).then(function(found){
@@ -146,7 +146,7 @@ VehicleSchema.statics.remove = function(id){
 
         model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to remove vehicle with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete vehicle with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve();
@@ -159,33 +159,33 @@ VehicleSchema.statics.remove = function(id){
     return deffered.promise;
 };
 
-/**
- * Increase vehicle km passed
- * @param id
- * @param numberOfKmsToAdd
- * @returns {*}
- */
-VehicleSchema.statics.increaseKms = function(id, numberOfKmsToAdd){
-    var deffered = Q.defer();
+// /**
+//  * Increase vehicle km passed
+//  * @param id
+//  * @param numberOfKmsToAdd
+//  * @returns {*}
+//  */
+// VehicleSchema.statics.increaseKms = function(id, numberOfKmsToAdd){
+//     var deffered = Q.defer();
 
-    _findVehicleById(id).then(function(found){
-        if(!found) return deffered.reject(error("NOT_FOUND"));
+//     _findVehicleById(id).then(function(found){
+//         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        found.numberOfKmPassed += numberOfKmsToAdd;
+//         found.numberOfKmPassed += numberOfKmsToAdd;
 
-        found.save(function(err, vehicle){
-            if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add kms to vehicle with id ' + id);
-                return deffered.reject(error("MONGO_ERROR"));
-            };
-            return deffered.resolve(vehicle);
-        });
-    }).fail(function(err){
-        deffered.reject(err);
-    });
+//         found.save(function(err, vehicle){
+//             if(err){
+//                 logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add kms to vehicle with id ' + id);
+//                 return deffered.reject(error("MONGO_ERROR"));
+//             };
+//             return deffered.resolve(vehicle);
+//         });
+//     }).fail(function(err){
+//         deffered.reject(err);
+//     });
 
-    return deffered.promise;
-};
+//     return deffered.promise;
+// };
 
 
 var model = mongoose.model('vehicle', VehicleSchema);

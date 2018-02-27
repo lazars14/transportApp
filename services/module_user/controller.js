@@ -83,11 +83,6 @@ exports.addRequest = function(req, res, next){
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.params.userId){
-        logger.error('Error - Create request - User id can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     userModel.findById(req.params.userId).then(function(found){
         if(!found) return next(error("NOT_FOUND"));
 
@@ -108,11 +103,6 @@ exports.addRequest = function(req, res, next){
  * @param next
  */
 exports.userRequests = function(req, res, next){
-    if(!req.params.userId){
-        logger.error('Error - Get user requests - User id can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     userModel.findById(req.params.userId).then(function(found){
         if(!found) return next(error("NOT_FOUND"));
 
@@ -121,6 +111,64 @@ exports.userRequests = function(req, res, next){
         }).fail(function(err){
             return next(err);
         });
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Change user password
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.changeUserPassword = function(req, res, next){
+    if(!req.body.oldPassword){
+        logger.error('Error - Change user password - Old password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.newPassword){
+        logger.error('Error - Change user password - New password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.repeatPassword){
+        logger.error('Error - Change user password - Repeat password can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.newPassword != !req.body.repeatPassword){
+        logger.error('Error - Change user password - New and repeated password don\'t match');
+        return next(error("NOT_ALLOWED"));
+    }
+
+    userModel.changeUserPassword(req.params.userId, req.body).then(function(user){
+        res.json();
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Change user email
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.changeUserEmail = function(req, res, next){
+    if(!req.body.oldEmail){
+        logger.error('Error - Change user email - Old email can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.newEmail){
+        logger.error('Error - Change user email - New email can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    userModel.changeUserEmail(req.params.userId, req.body).then(function(user){
+        res.json();
     }).fail(function(err){
         return next(err);
     });

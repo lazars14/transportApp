@@ -30,9 +30,8 @@ var router = express.Router();
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
+ * @apiUse alreadyRegistered
  * @apiUse badRequest
- * @apiUse notAuthorized
  */
 router.post('/users/register', controller.registerUser);
 
@@ -56,7 +55,7 @@ router.post('/users/register', controller.registerUser);
  * @apiUse internalError
  * @apiUse notFound
  * @apiUse badRequest
- * @apiUse notAuthorized
+ * @apiUse invalidCredentials
  */
 router.post('/users/login', controller.loginUser);
 
@@ -91,7 +90,6 @@ router.post('/users/login', controller.loginUser);
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
@@ -141,10 +139,57 @@ router.post('/users/:userId/requests', auth.checkUserToken, controller.addReques
  * ]
  * 
  * @apiUse internalError
- * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
 router.get('/users/:userId/requests', auth.checkUserToken, controller.userRequests);
+
+/**
+ * @api {put} /users/{userId}/changePassword
+ * User Change Password
+ * @apiVersion 1.0.0
+ * @apiName User Change Password
+ * @apiGroup User
+ * @apiDescription User change password - change existing password
+ * 
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiParam (body){String} oldPassword User's old password
+ * @apiParam (body){String} newPassword User's new password
+ * @apiParam (body){String} repeatPassword User's new rpassword repeated
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ * @apiUse notAllowed
+ * @apiUse notFound
+ */
+router.put('/users/:userId/changePassword', auth.checkUserToken, controller.changeUserPassword);
+
+/**
+ * @api {put} /users/{userId}/changeEmail
+ * User Change Email
+ * @apiVersion 1.0.0
+ * @apiName User Change Password
+ * @apiGroup User
+ * @apiDescription User change password - change existing password
+ * 
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiParam (body){String} oldEmail User's old email
+ * @apiParam (body){String} newEmail User's new email
+ *  
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ * @apiUse notAllowed
+ * @apiUse notFound
+ */
+router.put('/users/:userId/changeEmail', auth.checkUserToken, controller.changeUserEmail);
 
 logger.info('loaded USER routes');
 

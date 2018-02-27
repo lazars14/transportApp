@@ -66,7 +66,7 @@ describe("User tests", function () {
     it("login - fail - missing data", function (done) {
         var data;
         data = {
-            email: "test@gmail.com"
+            email: "user@gmail.com"
         };
         return request(app).post('/users/login')
         .type('application/json').send(data).end(function (err, res) {
@@ -212,6 +212,146 @@ describe("User tests", function () {
             res.should.have.property("status", 200);
             return done();
         });
+    });
+
+    it("change user password - fail - missing token", function (done) {
+        var data;
+        data = ({
+            oldPassword: "test",
+            newPassword: "newPassword",
+            repeatedPassword: "newPassword"
+        });
+        return request(app).put('/users/' + user._id + '/changePassword')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("change user password - fail - not found", function (done) {
+        var data;
+        data = ({
+            newPassword: "newPassword",
+            repeatedPassword: "newPassword"
+        });
+        return request(app).put('/users/5a1e98c67ecb023338a3cac3/changePassword')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("change user password - fail - missing data", function (done) {
+        var data;
+        data = ({
+            newPassword: "newPassword",
+            repeatedPassword: "newPassword"
+        });
+        return request(app).put('/users/' + user._id + '/changePassword')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("change user password - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            oldPassword: "test",
+            newPassword: "newPassword",
+            repeatedPassword: "newPassword123"
+        });
+        return request(app).put('/users/' + user._id + '/changePassword')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 403);
+                return done();
+            });
+    });
+
+    it("change user password - success - valid data", function (done) {
+        var data;
+        data = ({
+            oldPassword: "test",
+            newPassword: "newPassword",
+            repeatedPassword: "newPassword"
+        });
+        return request(app).put('/users/' + user._id + '/changePassword')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("change user email - fail - missing token", function (done) {
+        var data;
+        data = ({
+            oldEmail: "test@gmail.com",
+            newEmail: "test123@gmail.com"
+        });
+        return request(app).put('/users/' + user._id + '/changeEmail')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("change user email - fail - missing data", function (done) {
+        var data;
+        data = ({
+            oldEmail: "test@gmail.com"
+        });
+        return request(app).put('/users/' + user._id + '/changeEmail')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("change user email - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            oldEmail: "test1234563546@gmail.com",
+            newEmail: "test123@gmail.com"
+        });
+        return request(app).put('/users/' + user._id + '/changeEmail')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 403);
+                return done();
+            });
+    });
+
+    it("change user email - fail - not found", function (done) {
+        var data;
+        data = ({
+            oldEmail: "test1234563546@gmail.com",
+            newEmail: "test123@gmail.com"
+        });
+        return request(app).put('/users/5a1e98c67ecb023338a3cac3/changeEmail')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 403);
+                return done();
+            });
+    });
+
+    it("change user email - success - valid data", function (done) {
+        var data;
+        data = ({
+            oldEmail: "test@gmail.com",
+            newEmail: "test123@gmail.com"
+        });
+        return request(app).put('/users/' + user._id + '/changeEmail')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
     });
 
 });

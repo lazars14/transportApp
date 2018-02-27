@@ -152,7 +152,7 @@ ManagerSchema.statics.login = function (user) {
 UserSchema.statics.update = function(id, data){
     var deffered = Q.defer();
 
-    _findByEmail(data.email).then(function(found){
+    _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         if(data.firstName) found.firstName = data.firstName;
@@ -178,11 +178,11 @@ UserSchema.statics.update = function(id, data){
 }
 
 /**
- * Remove user
+ * Delete user
  * @param id
  * @returns {*}
  */
-UserSchema.statics.remove = function(id){
+UserSchema.statics.delete = function(id){
     var deffered = Q.defer();
 
     _findById(id).then(function(found){
@@ -190,7 +190,69 @@ UserSchema.statics.remove = function(id){
 
         model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to remove user with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to delete user with id ' + id);
+            };
+            return deffered.resolve();
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Change user password
+ * @param id
+ * @param data
+ */
+UserSchema.statics.changePassword = function(id, data){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        if(found.password != data.oldPassword) return deffered.reject(error("NOT_ALLOWED"));
+
+        found.password = data.newPassword;
+
+        found.save(function(err){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user password with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            // don't have to delete password, because I'm not returning the user object
+            return deffered.resolve();
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Change user email
+ * @param id
+ * @param data
+ */
+UserSchema.statics.changeEmail = function(id, data){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        if(found.email != data.oldEmail) return deffered.reject(error("NOT_ALLOWED"));
+
+        found.email = data.newEmail;
+
+        found.save(function(err){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user email with email ' + data.newEmail + ' (because it already exists) for user with id ' + id);
+                // email already exists
+                return deffered.reject(error("ALREADY_REGISTERED"));
             };
             return deffered.resolve();
         });

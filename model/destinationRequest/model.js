@@ -193,11 +193,11 @@ DestinationRequestSchema.statics.update = function(id, data){
 }
 
 /**
- * DestinationRequest remove
+ * Delete DestinationRequest
  * @param id
  * @returns {*}
  */
-DestinationRequestSchema.statics.remove = function(id){
+DestinationRequestSchema.statics.delete = function(id){
     var deffered = Q.defer();
 
     _findById(id).then(function(found){
@@ -205,7 +205,7 @@ DestinationRequestSchema.statics.remove = function(id){
 
         model.remove(function(err){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to remove destination request with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete destination request with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             }
             return deffered.resolve();

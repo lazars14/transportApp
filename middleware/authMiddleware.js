@@ -18,7 +18,12 @@ var Auth = {
       if (!decoded) {
         return next(error('FORBIDDEN'));
       }
-      req.params.clientID = decoded.clientID;
+      if (!req.params.clientId) {
+        return next(error('FORBIDDEN'));
+      }
+      if (req.params.clientId != decoded.clientId) {
+        return next(error('FORBIDDEN'));
+      }
       // if everything is good, save to request for use in other routes
       // req.decoded = decoded;
       next();
@@ -40,9 +45,14 @@ var Auth = {
       if (!decoded) {
         return next(error('FORBIDDEN'));
       }
+      if (!req.params.managerId) {
+        return next(error('FORBIDDEN'));
+      }
+      if (req.params.managerId != decoded.managerId) {
+        return next(error('FORBIDDEN'));
+      }
       // if everything is good, save to request for use in other routes
       // req.decoded = decoded;
-      req.params.userID = decoded.userID;
       next();
     });
   },
@@ -62,9 +72,14 @@ var Auth = {
       if (!decoded) {
         return next(error('FORBIDDEN'));
       }
+      if (!req.params.userId) {
+        return next(error('FORBIDDEN'));
+      }
+      if (req.params.userId != decoded.userId) {
+        return next(error('FORBIDDEN'));
+      }
       // if everything is good, save to request for use in other routes
       // req.decoded = decoded;
-      req.params.userID = decoded.userID;
       next();
     });
   }

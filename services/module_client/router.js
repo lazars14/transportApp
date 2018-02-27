@@ -24,7 +24,7 @@ var router = express.Router();
  * @apiUse internalError
  * @apiUse notFound
  * @apiUse badRequest
- * @apiUse notAuthorized
+ * @apiUse invalidCredentials
  */
 router.post('/clients/login', controller.loginClient);
 
@@ -38,7 +38,7 @@ router.post('/clients/login', controller.loginClient);
  * 
  * @apiParam (path){String} clientId Client id
  * 
- * @apiParam (body){String} email Client email
+ * @apiParam (body){String} [email] Client email
  * @apiParam (body){String} [password] Client password
  * @apiParam (body){String} [firstName] Client firstname
  * @apiParam (body){String} [lastName] Client lastname
@@ -57,7 +57,6 @@ router.post('/clients/login', controller.loginClient);
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.put('/clients/:clientId', auth.checkClientToken, controller.updateClient);
@@ -94,8 +93,6 @@ router.put('/clients/:clientId', auth.checkClientToken, controller.updateClient)
  * ]
  * 
  * @apiUse internalError
- * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/managers', auth.checkClientToken, controller.getAllManagers);
@@ -124,7 +121,6 @@ router.get('/clients/:clientId/managers', auth.checkClientToken, controller.getA
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/manager/:managerId', auth.checkClientToken, controller.findManagerById);
@@ -157,7 +153,6 @@ router.get('/clients/:clientId/manager/:managerId', auth.checkClientToken, contr
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
@@ -210,19 +205,9 @@ router.put('/clients/:clientId/managers/:managerId', auth.checkClientToken, cont
  * @apiParam (path){String} managerId Manager id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Object} Manager Deleted manager
- * {
- *    "_id": "a-d.x-;s-39;x-s9-3la-fl2",
- *    "firstName": "John",
- *    "lastName": "Doe",
- *    "phone": "060/123456",
- *    "email": "johndoe@gmail.com",
- *    "password": "a3-xjd=-s,;kfga=dg"
- * }
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.delete('/clients/:clientId/managers/:managerId', auth.checkClientToken, controller.deleteManager);
@@ -263,8 +248,6 @@ router.delete('/clients/:clientId/managers/:managerId', auth.checkClientToken, c
  * ]
  * 
  * @apiUse internalError
- * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/vehicles', auth.checkClientToken, controller.getAllVehicles);
@@ -295,7 +278,6 @@ router.get('/clients/:clientId/vehicles', auth.checkClientToken, controller.getA
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.getVehicleById);
@@ -332,7 +314,6 @@ router.get('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, cont
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
@@ -372,7 +353,6 @@ router.post('/clients/:clientId/vehicles', auth.checkClientToken, controller.add
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.put('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.updateVehicle);
@@ -389,21 +369,9 @@ router.put('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, cont
  * @apiParam (path){String} vehicleId Vehicle id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Object} Vehicle Deleted vehicle
- * {
- *      "_id": "a-d.x-;s-39;x-s9-3la-fl2",
- *      "name": "First bus",
- *      "model": "Mercedes-Benz do Brasil",
- *      "licensePlate" : "NS-123-AD",
- *      "licenseExpireDate": "2019-10-21",
- *      "numberOfSeats": "50"
- *      "productionYear": "2015"
- *      "numberOfKmPassed": "50000"
- * }
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.delete('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.removeVehicle);
@@ -439,7 +407,7 @@ router.delete('/clients/:clientId/vehicles/:vehicleId', auth.checkClientToken, c
  * ]
  * 
  * @apiUse internalError
- * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/vehicles/:vehicleId/expenses', auth.checkClientToken, controller.getExpensesForVehicle);
@@ -476,7 +444,6 @@ router.get('/clients/:clientId/vehicles/:vehicleId/expenses', auth.checkClientTo
  * ]
  * 
  * @apiUse internalError
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/drivers', auth.checkClientToken, controller.findAllDrivers);
@@ -505,7 +472,6 @@ router.get('/clients/:clientId/drivers', auth.checkClientToken, controller.findA
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.get('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.findDriverById);
@@ -538,7 +504,6 @@ router.get('/clients/:clientId/drivers/:driverId', auth.checkClientToken, contro
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
@@ -557,7 +522,7 @@ router.post('/clients/:clientId/drivers', auth.checkClientToken, controller.addD
  * 
  * @apiParam (body){String} [firstName] Driver firstname
  * @apiParam (body){String} [lastName] Driver lastname
- * @apiParam (body){String} email Driver email
+ * @apiParam (body){String} [email] Driver email
  * @apiParam (body){String} [phone] Driver phone
  * @apiParam (body){String} [address] Driver address
  * 
@@ -574,7 +539,6 @@ router.post('/clients/:clientId/drivers', auth.checkClientToken, controller.addD
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.put('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.updateDriver);
@@ -591,19 +555,9 @@ router.put('/clients/:clientId/drivers/:driverId', auth.checkClientToken, contro
  * @apiParam (path){String} driverId Driver id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Object} Driver Deleted driver
- * {
- *      "_id": "a-d.x-;flow1-s9-3la-aswsq",
- *      "firstName": "Driver",
- *      "lastName": "Four",
- *      "email" : "driverfour@gmail.com",
- *      "phone": "0600234567",
- *      "address": "St. Joseph's Boulevard 50"
- * }
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAuthorized
  */
 router.delete('/clients/:clientId/drivers/:driverId', auth.checkClientToken, controller.removeDriver);

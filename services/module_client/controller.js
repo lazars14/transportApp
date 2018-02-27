@@ -44,11 +44,6 @@ exports.loginClient = function(req, res, next){
  * @param next
  */
 exports.updateClient = function(req, res, next){
-    if(!req.params.clientId){
-        logger.error('Error - Client update - ClientId can\'t be empty');
-        return next(error("BAD_REQUEST"));    
-    }
-
     clientModel.update(req.params.clientId, req.body).then(function(client){
         res.json(client);
     }).fail(function(err){
@@ -80,11 +75,6 @@ exports.getAllManagers = function(req, res, next){
  * @param next
  */
 exports.findManagerById = function(req, res, next){
-    if(!req.params.managerId){
-        logger.error('Error - Find manager by id - ManagerId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     managerModel.findById(req.params.managerId).then(function(manager){
         res.json(manager);
     }).fail(function(err){
@@ -128,11 +118,6 @@ exports.registerManager = function(req, res, next){
  * @param next
  */
 exports.updateManager = function(req, res, next){
-    if(!req.params.managerId){
-        logger.error('Error - Manager delete - ManagerId can\'t be empty');
-        return next(error("BAD_REQUEST"));    
-    }
-
     managerModel.update(req.params.managerId, req.body).then(function(manager){
         res.json(manager);
     }).fail(function(err){
@@ -147,11 +132,6 @@ exports.updateManager = function(req, res, next){
  * @param next
  */
 exports.deleteManager = function(req, res, next){
-    if(!req.params.managerId){
-        logger.error('Error - Manager delete - ManagerId can\'t be empty');
-        return next(error("BAD_REQUEST"));    
-    }
-
     managerModel.remove(req.params.managerId).then(function(){
         res.json();
     }).fail(function(err){
@@ -182,11 +162,6 @@ exports.getAllVehicles = function(req, res, next){
  * @param next
  */
 exports.getVehicleById = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Find vehicle by id - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         res.json(vehicle);
     }).fail(function(err){
@@ -230,11 +205,6 @@ exports.addVehicle = function(req, res, next){
  * @param next
  */
 exports.updateVehicle = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Update vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.update(req.params.vehicleId, req.body).then(function(vehicle){
         res.json(vehicle);
     }).fail(function(err){
@@ -249,11 +219,6 @@ exports.updateVehicle = function(req, res, next){
  * @param next
  */
 exports.removeVehicle = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Remove vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.remove(req.params.vehicleId).then(function(){
         res.json();
     }).fail(function(err){
@@ -268,11 +233,6 @@ exports.removeVehicle = function(req, res, next){
  * @param next
  */
 exports.getExpensesForVehicle = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Find expense for vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
@@ -334,11 +294,6 @@ exports.findAllDrivers = function(req, res, next){
  * @param next
  */
 exports.findDriverById = function(req, res, next){
-    if(!req.params.driverId){
-        logger.error('Error - Find driver by id - DriverId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     driverModel.findById(req.params.driverId).then(function(driver){
         res.json(driver);
     }).fail(function(err){
@@ -384,11 +339,6 @@ exports.addDriver = function(req, res, next){
  * @param next
  */
 exports.updateDriver = function(req, res, next){
-    if(!req.params.driverId){
-        logger.error('Error - Update driver - DriverId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-    
     driverModel.update(req.params.driverId, req.body).then(function(driver){
         res.json(driver);
     }).fail(function(err){
@@ -403,11 +353,6 @@ exports.updateDriver = function(req, res, next){
  * @param next
  */
 exports.removeDriver = function(req, res, next){
-    if(!req.params.driverId){
-        logger.error('Error - Remove driver - DriverId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     driverModel.remove(req.params.driverId).then(function(){
         res.json();
     }).fail(function(err){

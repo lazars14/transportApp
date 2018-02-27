@@ -24,7 +24,7 @@ var router = express.Router();
  * @apiUse internalError
  * @apiUse notFound
  * @apiUse badRequest
- * @apiUse notAuthorized
+ * @apiUse invalidCredentials
  */
 router.post('/managers/login', auth.checkManagerToken, controller.loginManager);
 
@@ -99,7 +99,7 @@ router.get('/managers/:managerId/vehicles', auth.checkManagerToken, controller.g
  * ]
  * 
  * @apiUse internalError
- * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
 router.get('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.getExpensesForVehicle);
@@ -127,7 +127,7 @@ router.get('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManage
  * }
  * 
  * @apiUse internalError
- * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
 router.get('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.getExpenseById);
@@ -142,6 +142,9 @@ router.get('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId'
  * 
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiParam (body){String} name Expense name
+ * @apiParam (body){String} amount Expense amount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Array} Expense Created expense
@@ -170,6 +173,9 @@ router.post('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManag
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} vehicleId Vehicle id
  * @apiParam (path){String} vehicleExpenseId Expense id
+ * 
+ * @apiParam (body){String} name Expense name
+ * @apiParam (body){String} amount Expense amount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Array} Expense Updated expense
@@ -201,17 +207,8 @@ router.put('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId'
  * @apiParam (path){String} vehicleExpenseId Expense id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Expense Deleted expense
- * {
- *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
- *     "name": "firstExpense",
- *     "amount": "1000.00",
- *     "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
- *     "date": "2018-03-01"
- * }
  * 
  * @apiUse internalError
- * @apiUse badRequest
  * @apiUse notFound
  * @apiUse notAuthorized
  */

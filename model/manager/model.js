@@ -57,7 +57,7 @@ function _findById(id) {
  * @param email
  * @returns {*}
  */
-ManagerSchema.statics.getByEmail = function (email) {
+ManagerSchema.statics.findByEmail = function (email) {
   return _findByEmail(email);
 };
 
@@ -163,11 +163,11 @@ ManagerSchema.statics.getAll = function () {
 };
 
 /**
- * Remove manager by id
+ * Delete manager by id
  * @param id
  * @returns {*}
  */
-ManagerSchema.statics.remove = function (id) {
+ManagerSchema.statics.delete = function (id) {
   var deferred = Q.defer();
 
   _findById(id).then(function (found) {

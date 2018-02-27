@@ -58,19 +58,14 @@ exports.getAllVehicles = function(req, res, next){
  * @param next
  */
 exports.getExpensesForVehicle = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Find expense for vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
+        vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
+            if (!vehicle) return next(error("NOT_FOUND"));
 
-    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-        if(!vehicle) return next(error("NOT_FOUND"));
-
-        expenseModel.findExpensesForVehicle(req.params.vehicleId).then(function(expenses){
-            res.json(expenses);
-        }).fail(function(err){
-            return next(err);
-        })
+            expenseModel.findExpensesForVehicle(req.params.vehicleId).then(function (expenses) {
+                res.json(expenses);
+            }).fail(function (err) {
+                return next(err);
+            });
     }).fail(function(err){
         return next(err);
     });
@@ -83,16 +78,6 @@ exports.getExpensesForVehicle = function(req, res, next){
  * @param next
  */
 exports.getExpenseById = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Find expense by id - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
-    if(!req.params.vehicleExpenseId){
-        logger.error('Error - Find expense by id - VehicleExpenseId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
@@ -113,11 +98,6 @@ exports.getExpenseById = function(req, res, next){
  * @param next
  */
 exports.addExpense = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Add expense for vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
@@ -138,16 +118,6 @@ exports.addExpense = function(req, res, next){
  * @param next
  */
 exports.updateExpense = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Update expense for vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
-    if(!req.params.vehicleExpenseId){
-        logger.error('Error - Update expense for vehicle - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
@@ -168,16 +138,6 @@ exports.updateExpense = function(req, res, next){
  * @param next
  */
 exports.removeExpense = function(req, res, next){
-    if(!req.params.vehicleId){
-        logger.error('Error - Remove expense - VehicleId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
-    if(!req.params.vehicleExpenseId){
-        logger.error('Error - Remove expense - VehicleExpenseId can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
     vehicleModel.update(req.params.vehicleExpenseId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
