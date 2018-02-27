@@ -141,11 +141,10 @@ router.post('/users/:userId/requests', auth.checkUserToken, controller.addReques
  * ]
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/users/:userId/requests', auth.checkUserToken, controller.userRequests);
+router.get('/users/:userId/requests', auth.checkUserToken, controller.userRequests);
 
 logger.info('loaded USER routes');
 
