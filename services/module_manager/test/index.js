@@ -275,5 +275,55 @@ describe("Manager tests", function () {
             });
     });
 
+    it("extend registration for vehicle - fail - missing token", function (done) {
+        var data = {
+            licensePlate: "NS-233-SF",
+            licenseExpireDate: "2019-12-21"
+        };
+        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("extend registration for vehicle - fail - missing data", function (done) {
+        var data = {
+            licenseExpireDate: "2019-12-21"
+        };
+        return request(app).get('/managers/' + manager._id + '/vehicles/' + vehicle._id + '/extendRegistration')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("extend registration for vehicle - fail - not found", function (done) {
+        var data = {
+            licensePlate: "NS-233-SF",
+            licenseExpireDate: "2019-12-21"
+        };
+        return request(app).get('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/extendRegistration')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("extend registration for vehicle - success - valid data", function (done) {
+        var data = {
+            licensePlate: "NS-233-SF",
+            licenseExpireDate: "2019-12-21"
+        };
+        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
 
 });

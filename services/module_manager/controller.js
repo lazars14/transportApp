@@ -151,5 +151,28 @@ exports.removeExpense = function(req, res, next){
     });
 }
 
+/**
+ * Extend vehicle registration
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.extendVehicleRegistration = function(req, res, next){
+    if(!req.body.licensePlate){
+        logger.error('Error - Extend vehicle registration - License plate can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.licenseExpireDate){
+        logger.error('Error - Extend vehicle registration - License expire date can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    vehicleModel.extendVechicleRegistration(req.params.vehicleId, req.body).then(function(vehicle){
+        res.json();
+    }).fail(function(err){
+        return next(err);
+    });
+}
 
 

@@ -214,6 +214,29 @@ router.put('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId'
  */
 router.delete('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.removeExpense);
 
+/**
+ * @api {put} /managers/{managerId}/vehicles/{vehicleId}/extendRegistration
+ * Extend Registration For Vehicle
+ * @apiVersion 1.0.0
+ * @apiName Extend Registration For Vehicle
+ * @apiGroup Manager
+ * @apiDescription Manager extend registration for vehicle - extend registration for specific vehicle
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiParam (body){String} licensePlate Vehicle new license plate
+ * @apiParam (body){Date} licenseExpireDate Vehicle new license expire date
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.delete('/managers/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
+
 logger.info('loaded MANAGER routes');
 
 module.exports = router;

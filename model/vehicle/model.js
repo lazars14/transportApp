@@ -187,6 +187,35 @@ VehicleSchema.statics.delete = function(id){
 //     return deffered.promise;
 // };
 
+/**
+ * Extend vehicle registration
+ * @param id
+ * @param data
+ */
+VehicleSchema.statics.extendRegistration = function(id, data){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        found.licensePlate = data.licensePlate;
+        found.licenseExpireDate = data.licenseExpireDate;
+
+        found.save(function(err, vehicle){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to extend registration for vehicle with id ' + id + ', because license plate ' + data.licensePlate + ' already exists');
+                return deffered.reject(error("MONGO_ERROR"));
+            }
+            return deffered.resolve(vehicle);
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    })
+
+    return deffered.promise;
+}
+
 
 var model = mongoose.model('vehicle', VehicleSchema);
 
