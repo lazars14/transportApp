@@ -123,7 +123,7 @@ UserSchema.statics.register = function(user){
  * @param user
  * @returns {*}
  */
-ManagerSchema.statics.login = function (user) {
+UserSchema.statics.login = function (user) {
     var deferred = Q.defer();
 
     _findByEmail(user.email).then(function (found) {

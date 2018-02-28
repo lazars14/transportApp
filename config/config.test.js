@@ -7,6 +7,19 @@ var config = {
     logger: {
       path: './log/server.log'
     },
+    log: {
+      "level" : "info",
+      "json" : false,
+      "logsToFile" : true,
+      "fileLogParams" : {
+        "folder" : "log",
+        "prefix" : "transportApp_test",
+        "datePattern" : "yyyy_MM_dd",
+        "extension" : "log",
+        "keepLogsDays" : 3
+      },
+      "logsToDatabase": false
+    },
     mongodb: {
       host: "mongodb://localhost:27017/",
       db: "transportApp_test",

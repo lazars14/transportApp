@@ -14,17 +14,20 @@
     "gulp": "^3.9.1",
     "gulp-apidoc": "^0.2.7",
     "gulp-mocha": "^5.0.0",
+    "gulp-run": "^1.7.1",
     "istanbul": "^0.4.5",
     "jsonwebtoken": "^8.1.1",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.6",
     "path": "^0.12.7",
     "q": "^1.5.1",
+    "request-validator": "^0.3.3",
     "serve-index": "^1.9.1",
     "should": "^13.2.1",
     "supertest": "^3.0.0",
     "validator": "^9.4.1",
-    "winston": "^2.4.0"
+    "winston": "^2.4.0",
+    "winston-daily-rotate-file": "^1.7.2"
   },
   "devDependencies": {},
   "scripts": {

@@ -165,6 +165,6 @@ DriverSchema.statics.delete = function(id){
 }
 
 
-var model = mongoose.model('driver', VehicleSchema);
+var model = mongoose.model('driver', DriverSchema);
 
 module.exports = model;
