@@ -17,7 +17,7 @@ describe("Client tests", function () {
         data = {
             email: "client@gmail.com"
         };
-        return request(app).post('/clients/login')
+        return request(app).post('/client/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 400);
             return done();
@@ -29,7 +29,7 @@ describe("Client tests", function () {
         data = {
             email: "client@gmail.com"
         };
-        return request(app).post('/clients/login')
+        return request(app).post('/client/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 400);
             return done();
@@ -42,7 +42,7 @@ describe("Client tests", function () {
             email: "client@gmail.com",
             password: "test123"
         };
-        return request(app).post('/clients/login')
+        return request(app).post('/client/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 409);
             return done();
@@ -55,7 +55,7 @@ describe("Client tests", function () {
             email: "client@gmail.com",
             password: "test"
         };
-        return request(app).post('/clients/login')
+        return request(app).post('/client/login')
         .type('application/json').send(data).end(function (err, res) {
             res.body.should.have.property("token");
             // data for further tests
@@ -74,7 +74,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id)
+        return request(app).put('/client/' + client._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -90,7 +90,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/client/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -107,7 +107,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id)
+        return request(app).put('/client/' + client._id)
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -124,7 +124,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/managers')
+        return request(app).post('/client/' +client._id + '/managers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -140,7 +140,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/managers')
+        return request(app).post('/client/' +client._id + '/managers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -157,7 +157,7 @@ describe("Client tests", function () {
             address: "St. John's Boulevard 12",
             password: "test"
         });
-        return request(app).post('/clients/' +client._id + '/managers')
+        return request(app).post('/client/' +client._id + '/managers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -173,7 +173,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/managers')
+        return request(app).post('/client/' +client._id + '/managers')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -183,7 +183,7 @@ describe("Client tests", function () {
     });
 
     it("find all managers - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/managers')
+        return request(app).get('/client/' + client._id + '/managers')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -191,7 +191,7 @@ describe("Client tests", function () {
     });
 
     it("find all managers - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/managers')
+        return request(app).get('/client/' + client._id + '/managers')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -200,7 +200,7 @@ describe("Client tests", function () {
     });
 
     it("find manager by id - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).get('/client/' + client._id + '/managers/'+ manager._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -208,7 +208,7 @@ describe("Client tests", function () {
     });
 
     it("find manager by id - fail - not found", function (done) {
-        return request(app).get('/clients/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -217,7 +217,7 @@ describe("Client tests", function () {
     });
 
     it("find manager by id - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).get('/client/' + client._id + '/managers/'+ manager._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -234,7 +234,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).put('/client/' + client._id + '/managers/'+ manager._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -250,7 +250,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).put('/client/' + client._id + '/managers/'+ manager._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -266,7 +266,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/client/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -283,7 +283,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).put('/client/' + client._id + '/managers/'+ manager._id)
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -292,7 +292,7 @@ describe("Client tests", function () {
     });
 
     it("delete manager - fail - missing token", function (done) {
-        return request(app).delete('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -300,7 +300,7 @@ describe("Client tests", function () {
     });
 
     it("delete manager - fail - not found", function (done) {
-        return request(app).delete('/clients/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
+        return request(app).delete('/client/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -309,7 +309,7 @@ describe("Client tests", function () {
     });
 
     it("delete manager - success - valid data", function (done) {
-        return request(app).delete('/clients/' + client._id + '/managers/'+ manager._id)
+        return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -326,7 +326,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/drivers')
+        return request(app).post('/client/' +client._id + '/drivers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -341,7 +341,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/drivers')
+        return request(app).post('/client/' +client._id + '/drivers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -357,7 +357,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/drivers')
+        return request(app).post('/client/' +client._id + '/drivers')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -373,7 +373,7 @@ describe("Client tests", function () {
             phone: "060987654",
             address: "St. John's Boulevard 12"
         });
-        return request(app).post('/clients/' +client._id + '/drivers')
+        return request(app).post('/client/' +client._id + '/drivers')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -383,7 +383,7 @@ describe("Client tests", function () {
     });
 
     it("find all drivers - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/drivers')
+        return request(app).get('/client/' + client._id + '/drivers')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -391,7 +391,7 @@ describe("Client tests", function () {
     });
 
     it("find driver by id - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/drivers')
+        return request(app).get('/client/' + client._id + '/drivers')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -400,7 +400,7 @@ describe("Client tests", function () {
     });
 
     it("find driver by id - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).get('/client/' + client._id + '/drivers/'+ driver._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -408,7 +408,7 @@ describe("Client tests", function () {
     });
 
     it("find driver by id - fail - not found", function (done) {
-        return request(app).get('/clients/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -417,7 +417,7 @@ describe("Client tests", function () {
     });
 
     it("find driver by id - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).get('/client/' + client._id + '/drivers/'+ driver._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -434,7 +434,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).put('/client/' + client._id + '/drivers/'+ driver._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -450,7 +450,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -467,7 +467,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/drivers/' + driver._id)
+        return request(app).put('/client/' + client._id + '/drivers/' + driver._id)
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -484,7 +484,7 @@ describe("Client tests", function () {
             phone: "060987653",
             address: "St. John's Boulevard 11"
         });
-        return request(app).put('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).put('/client/' + client._id + '/drivers/'+ driver._id)
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -493,7 +493,7 @@ describe("Client tests", function () {
     });
 
     it("delete driver - fail - missing token", function (done) {
-        return request(app).delete('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -501,7 +501,7 @@ describe("Client tests", function () {
     });
 
     it("delete driver - fail - not found", function (done) {
-        return request(app).delete('/clients/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+        return request(app).delete('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -510,7 +510,7 @@ describe("Client tests", function () {
     });
 
     it("delete driver - success - valid data", function (done) {
-        return request(app).delete('/clients/' + client._id + '/drivers/'+ driver._id)
+        return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -529,7 +529,7 @@ describe("Client tests", function () {
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).post('/clients/' +client._id + '/vehicles')
+        return request(app).post('/client/' +client._id + '/vehicles')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -547,7 +547,7 @@ describe("Client tests", function () {
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).post('/clients/' +client._id + '/vehicles')
+        return request(app).post('/client/' +client._id + '/vehicles')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -557,7 +557,7 @@ describe("Client tests", function () {
     });
 
     it("find all vehicles - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles')
+        return request(app).get('/client/' + client._id + '/vehicles')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -565,7 +565,7 @@ describe("Client tests", function () {
     });
 
     it("find all vehicles - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles')
+        return request(app).get('/client/' + client._id + '/vehicles')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -574,7 +574,7 @@ describe("Client tests", function () {
     });
 
     it("find vehicle by id - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).get('/client/' + client._id + '/vehicles/'+ vehicle._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -582,7 +582,7 @@ describe("Client tests", function () {
     });
 
     it("find vehicle by id - fail - not found", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -591,7 +591,7 @@ describe("Client tests", function () {
     });
 
     it("find vehicle by id - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).get('/client/' + client._id + '/vehicles/'+ vehicle._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -610,7 +610,7 @@ describe("Client tests", function () {
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).put('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).put('/client/' + client._id + '/vehicles/'+ vehicle._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -628,7 +628,7 @@ describe("Client tests", function () {
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).put('/clients/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -647,7 +647,7 @@ describe("Client tests", function () {
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).put('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).put('/client/' + client._id + '/vehicles/'+ vehicle._id)
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -656,7 +656,7 @@ describe("Client tests", function () {
     });
 
     it("find expenses for vehicle - fail - missing token", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/'+ vehicle._id + '/expenses/')
+        return request(app).get('/client/' + client._id + '/vehicles/'+ vehicle._id + '/expenses/')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -664,7 +664,7 @@ describe("Client tests", function () {
     });
 
     it("find expenses for vehicle - fail - not found", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/')
+        return request(app).get('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -673,7 +673,7 @@ describe("Client tests", function () {
     });
 
     it("find expenses for vehicle - success - valid data", function (done) {
-        return request(app).get('/clients/' + client._id + '/vehicles/'+ vehicle._id + '/expenses')
+        return request(app).get('/client/' + client._id + '/vehicles/'+ vehicle._id + '/expenses')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -682,7 +682,7 @@ describe("Client tests", function () {
     });
 
     it("delete vehicle - fail - missing token", function (done) {
-        return request(app).delete('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -690,7 +690,7 @@ describe("Client tests", function () {
     });
 
     it("delete vehicle - fail - not found", function (done) {
-        return request(app).delete('/clients/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+        return request(app).delete('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -699,7 +699,7 @@ describe("Client tests", function () {
     });
 
     it("delete vehicle - success - valid data", function (done) {
-        return request(app).delete('/clients/' + client._id + '/vehicles/'+ vehicle._id)
+        return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);

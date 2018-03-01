@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 /**
- * @api {post} /managers/login
+ * @api {post} /login
  * Manager Login
  * @apiVersion 1.0.0
  * @apiName Manager Login
@@ -26,10 +26,10 @@ var router = express.Router();
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
-router.post('/managers/login', auth.checkManagerToken, controller.loginManager);
+router.post('/login', auth.checkManagerToken, controller.loginManager);
 
 /**
- * @api {get} /managers/{managerId}/vehicles
+ * @api {get} /{managerId}/vehicles
  * Get All Vehicles
  * @apiVersion 1.0.0
  * @apiName Get All vehicles
@@ -66,10 +66,10 @@ router.post('/managers/login', auth.checkManagerToken, controller.loginManager);
  * @apiUse internalError
  * @apiUse notAuthorized
  */
-router.get('/managers/:managerId/vehicles', auth.checkManagerToken, controller.getAllVehicles);
+router.get('/:managerId/vehicles', auth.checkManagerToken, controller.getAllVehicles);
 
 /**
- * @api {get} /managers/{managerId}/vehicles/{vehicleId}/expenses
+ * @api {get} /{managerId}/vehicles/{vehicleId}/expenses
  * Get All Expenses For Vehicle
  * @apiVersion 1.0.0
  * @apiName Get All Expenses For Vehicle
@@ -102,10 +102,10 @@ router.get('/managers/:managerId/vehicles', auth.checkManagerToken, controller.g
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.getExpensesForVehicle);
+router.get('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.getExpensesForVehicle);
 
 /**
- * @api {get} /managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
+ * @api {get} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
  * Get Expense By Id
  * @apiVersion 1.0.0
  * @apiName Get Expense By Id
@@ -130,10 +130,10 @@ router.get('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManage
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.getExpenseById);
+router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.getExpenseById);
 
 /**
- * @api {post} /managers/{managerId}/vehicles/{vehicleId}/expenses
+ * @api {post} /{managerId}/vehicles/{vehicleId}/expenses
  * Add Expense For Vehicle
  * @apiVersion 1.0.0
  * @apiName Add Expense For Vehicle
@@ -160,10 +160,10 @@ router.get('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId'
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.addExpense);
+router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.addExpense);
 
 /**
- * @api {put} /managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
+ * @api {put} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
  * Update Expense For Vehicle
  * @apiVersion 1.0.0
  * @apiName Update Expense For Vehicle
@@ -192,10 +192,10 @@ router.post('/managers/:managerId/vehicles/:vehicleId/expenses', auth.checkManag
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.put('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.updateExpense);
+router.put('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.updateExpense);
 
 /**
- * @api {delete} /managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
+ * @api {delete} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
  * Delete Expense For Vehicle
  * @apiVersion 1.0.0
  * @apiName Delete Expense For Vehicle
@@ -212,10 +212,10 @@ router.put('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId'
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.removeExpense);
+router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.removeExpense);
 
 /**
- * @api {put} /managers/{managerId}/vehicles/{vehicleId}/extendRegistration
+ * @api {put} /{managerId}/vehicles/{vehicleId}/extendRegistration
  * Extend Registration For Vehicle
  * @apiVersion 1.0.0
  * @apiName Extend Registration For Vehicle
@@ -235,7 +235,7 @@ router.delete('/managers/:managerId/vehicles/:vehicleId/expenses/:vehicleExpense
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/managers/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
+router.delete('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
 
 logger.info('loaded MANAGER routes');
 

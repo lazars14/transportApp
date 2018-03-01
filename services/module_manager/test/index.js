@@ -16,7 +16,7 @@ describe("Manager tests", function () {
         data = {
             email: "manager@gmail.com"
         };
-        return request(app).post('/managers/login')
+        return request(app).post('/manager/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 400);
             return done();
@@ -29,7 +29,7 @@ describe("Manager tests", function () {
             email: "test",
             password: "test"
         };
-        return request(app).post('/managers/login')
+        return request(app).post('/manager/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 400);
             return done();
@@ -42,7 +42,7 @@ describe("Manager tests", function () {
             email: "manager@gmail.com",
             password: "test123"
         };
-        return request(app).post('/managers/login')
+        return request(app).post('/manager/login')
         .type('application/json').send(data).end(function (err, res) {
             res.should.have.property("status", 409);
             return done();
@@ -55,7 +55,7 @@ describe("Manager tests", function () {
             email: "manager@gmail.com",
             password: "test"
         };
-        return request(app).post('/managers/login')
+        return request(app).post('/manager/login')
         .type('application/json').send(data).end(function (err, res) {
             res.body.should.have.property("token");
             // data for further tests
@@ -66,7 +66,7 @@ describe("Manager tests", function () {
     });
 
     it("all vehicles - fail - missing token", function (done) {
-        return request(app).get('/managers/' +manager._id + '/vehicles')
+        return request(app).get('/manager/' +manager._id + '/vehicles')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -74,7 +74,7 @@ describe("Manager tests", function () {
     });
 
     it("all vehicles - success - valid data", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles')
+        return request(app).get('/manager/' + manager._id + '/vehicles')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -88,7 +88,7 @@ describe("Manager tests", function () {
             name: "someExpense",
             amount: 1352.00
         });
-        return request(app).post('/managers/' +manager._id + '/vehicles/' + vehicle._id + '/expenses' )
+        return request(app).post('/manager/' +manager._id + '/vehicles/' + vehicle._id + '/expenses' )
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -101,7 +101,7 @@ describe("Manager tests", function () {
             name: "someExpense",
             amount: 1352.00
         });
-        return request(app).post('/managers/' +manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses')
+        return request(app).post('/manager/' +manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -115,7 +115,7 @@ describe("Manager tests", function () {
             name: "someExpense",
             amount: 1352.00
         });
-        return request(app).post('/managers/' +manager._id + '/vehicles/' + vehicle._id + '/expenses')
+        return request(app).post('/manager/' +manager._id + '/vehicles/' + vehicle._id + '/expenses')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -125,7 +125,7 @@ describe("Manager tests", function () {
     });
 
     it("find expense by id - fail - missing token", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -133,7 +133,7 @@ describe("Manager tests", function () {
     });
 
     it("find expense by id - fail - not found", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
+        return request(app).get('/manager/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -142,7 +142,7 @@ describe("Manager tests", function () {
     });
 
     it("find expense by id - fail - not found", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/' + vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/manager/' + manager._id + '/vehicles/' + vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -151,7 +151,7 @@ describe("Manager tests", function () {
     });
 
     it("find expense by id - success - valid data", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -165,7 +165,7 @@ describe("Manager tests", function () {
             name: "updatedExpense",
             amount: 1372.00
         });
-        return request(app).put('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).put('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -178,7 +178,7 @@ describe("Manager tests", function () {
             name: "updatedExpense",
             amount: 1372.00
         });
-        return request(app).put('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
+        return request(app).put('/manager/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -192,7 +192,7 @@ describe("Manager tests", function () {
             name: "updatedExpense",
             amount: 1372.00
         });
-        return request(app).put('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -206,7 +206,7 @@ describe("Manager tests", function () {
             name: "updatedExpense",
             amount: 1372.00
         });
-        return request(app).put('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).put('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -215,7 +215,7 @@ describe("Manager tests", function () {
     });
 
     it("delete expense - fail - missing token", function (done) {
-        return request(app).delete('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).delete('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -223,7 +223,7 @@ describe("Manager tests", function () {
     });
 
     it("delete expense - fail - not found", function (done) {
-        return request(app).delete('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
+        return request(app).delete('/manager/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/' + expense._id)
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -232,7 +232,7 @@ describe("Manager tests", function () {
     });
 
     it("delete expense - fail - not found", function (done) {
-        return request(app).delete('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
+        return request(app).delete('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/5a1e98c67ecb023338a3cac3')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -241,7 +241,7 @@ describe("Manager tests", function () {
     });
 
     it("delete expense - success - valid data", function (done) {
-        return request(app).delete('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
+        return request(app).delete('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/' + expense._id)
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -250,7 +250,7 @@ describe("Manager tests", function () {
     });
 
     it("find expenses for vehicle - fail - missing token", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/')
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses/')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -258,7 +258,7 @@ describe("Manager tests", function () {
     });
 
     it("find expenses for vehicle - fail - not found", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/')
+        return request(app).get('/manager/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -267,7 +267,7 @@ describe("Manager tests", function () {
     });
 
     it("find expenses for vehicle - success - valid data", function (done) {
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses')
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/expenses')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 200);
@@ -280,7 +280,7 @@ describe("Manager tests", function () {
             licensePlate: "NS-233-SF",
             licenseExpireDate: "2019-12-21"
         };
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
                 return done();
@@ -291,7 +291,7 @@ describe("Manager tests", function () {
         var data = {
             licenseExpireDate: "2019-12-21"
         };
-        return request(app).get('/managers/' + manager._id + '/vehicles/' + vehicle._id + '/extendRegistration')
+        return request(app).get('/manager/' + manager._id + '/vehicles/' + vehicle._id + '/extendRegistration')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
@@ -304,7 +304,7 @@ describe("Manager tests", function () {
             licensePlate: "NS-233-SF",
             licenseExpireDate: "2019-12-21"
         };
-        return request(app).get('/managers/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/extendRegistration')
+        return request(app).get('/manager/' + manager._id + '/vehicles/5a1e98c67ecb023338a3cac3/extendRegistration')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -317,7 +317,7 @@ describe("Manager tests", function () {
             licensePlate: "NS-233-SF",
             licenseExpireDate: "2019-12-21"
         };
-        return request(app).get('/managers/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
+        return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicle._id + '/extendRegistration')
             .set('x-access-token', token)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);

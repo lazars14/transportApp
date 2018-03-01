@@ -1,7 +1,7 @@
 [
   {
     "type": "post",
-    "url": "/clients/{clientId}/drivers",
+    "url": "/{clientId}/drivers",
     "title": "Add Driver",
     "version": "1.0.0",
     "name": "Add_Driver",
@@ -101,7 +101,7 @@
   },
   {
     "type": "post",
-    "url": "/clients/{clientId}/managers",
+    "url": "/{clientId}/managers",
     "title": "Add Manager",
     "version": "1.0.0",
     "name": "Add_Manager",
@@ -201,7 +201,7 @@
   },
   {
     "type": "post",
-    "url": "/clients/{clientId}/vehicles",
+    "url": "/{clientId}/vehicles",
     "title": "Add Vehicle",
     "version": "1.0.0",
     "name": "Add_Vehicle",
@@ -286,7 +286,7 @@
             "type": "Object",
             "optional": false,
             "field": "Manager",
-            "description": "<p>Created vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot; &quot;productionYear&quot;: &quot;2015&quot; &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
+            "description": "<p>Created vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot;, &quot;productionYear&quot;: &quot;2015&quot;, &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
           }
         ]
       }
@@ -315,7 +315,7 @@
   },
   {
     "type": "post",
-    "url": "/clients/login",
+    "url": "/login",
     "title": "Client Login",
     "version": "1.0.0",
     "name": "Client_Login",
@@ -390,7 +390,7 @@
   },
   {
     "type": "delete",
-    "url": "/clients/{clientId}/drivers/{driverId}",
+    "url": "/{clientId}/drivers/{driverId}",
     "title": "Delete Driver",
     "version": "1.0.0",
     "name": "Delete_Driver",
@@ -453,7 +453,7 @@
   },
   {
     "type": "delete",
-    "url": "/clients/{clientId}/managers/{managerId}",
+    "url": "/{clientId}/managers/{managerId}",
     "title": "Delete Manager",
     "version": "1.0.0",
     "name": "Delete_Manager",
@@ -516,7 +516,7 @@
   },
   {
     "type": "delete",
-    "url": "/clients/{clientId}/vehicles/{vehicleId}",
+    "url": "/{clientId}/vehicles/{vehicleId}",
     "title": "Delete Vehicle",
     "version": "1.0.0",
     "name": "Delete_Vehicle",
@@ -579,7 +579,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/drivers",
+    "url": "/{clientId}/drivers",
     "title": "Get All Drivers",
     "version": "1.0.0",
     "name": "Get_All_Drivers",
@@ -637,7 +637,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/vehicles/{vehicleId}/expenses",
+    "url": "/{clientId}/vehicles/{vehicleId}/expenses",
     "title": "Get All Expenses For Vehicle",
     "version": "1.0.0",
     "name": "Get_All_Expenses_For_Vehicle",
@@ -707,7 +707,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/managers",
+    "url": "/{clientId}/managers",
     "title": "Get All Managers",
     "version": "1.0.0",
     "name": "Get_All_Managers",
@@ -765,7 +765,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/vehicles",
+    "url": "/{clientId}/vehicles",
     "title": "Get All Vehicles",
     "version": "1.0.0",
     "name": "Get_All_Vehicles",
@@ -823,7 +823,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/drivers/{driverId}",
+    "url": "/{clientId}/drivers/{driverId}",
     "title": "Get Driver By Id",
     "version": "1.0.0",
     "name": "Get_Driver_By_Id",
@@ -893,7 +893,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/managers/{managerId}",
+    "url": "/{clientId}/managers/{managerId}",
     "title": "Get Manager By Id",
     "version": "1.0.0",
     "name": "Get_Manager_By_Id",
@@ -963,7 +963,7 @@
   },
   {
     "type": "get",
-    "url": "/clients/{clientId}/vehicles/{vehicleId}",
+    "url": "/{clientId}/vehicles/{vehicleId}",
     "title": "Get Vehicle By Id",
     "version": "1.0.0",
     "name": "Get_Vehicle_By_Id",
@@ -1033,7 +1033,7 @@
   },
   {
     "type": "put",
-    "url": "/clients/{clientId}",
+    "url": "/{clientId}",
     "title": "Update Client Info",
     "version": "1.0.0",
     "name": "Update_Client",
@@ -1138,7 +1138,7 @@
   },
   {
     "type": "put",
-    "url": "/clients/{clientId}/drivers/{driverId}",
+    "url": "/{clientId}/drivers/{driverId}",
     "title": "Update Driver",
     "version": "1.0.0",
     "name": "Update_Driver",
@@ -1250,7 +1250,7 @@
   },
   {
     "type": "put",
-    "url": "/clients/{clientId}/managers/{managerId}",
+    "url": "/{clientId}/managers/{managerId}",
     "title": "Update Manager",
     "version": "1.0.0",
     "name": "Update_Manager",
@@ -1362,7 +1362,7 @@
   },
   {
     "type": "put",
-    "url": "/clients/{clientId}/vehicles/{vehicleId}",
+    "url": "/{clientId}/vehicles/{vehicleId}",
     "title": "Update Vehicle",
     "version": "1.0.0",
     "name": "Update_Vehicle",
@@ -1454,7 +1454,7 @@
             "type": "Object",
             "optional": false,
             "field": "Vehicle",
-            "description": "<p>Updated vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot; &quot;productionYear&quot;: &quot;2015&quot; &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
+            "description": "<p>Updated vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot;, &quot;productionYear&quot;: &quot;2015&quot;, &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
           }
         ]
       }
@@ -1483,7 +1483,7 @@
   },
   {
     "type": "post",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/expenses",
+    "url": "/{managerId}/vehicles/{vehicleId}/expenses",
     "title": "Add Expense For Vehicle",
     "version": "1.0.0",
     "name": "Add_Expense_For_Vehicle",
@@ -1569,7 +1569,7 @@
   },
   {
     "type": "delete",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
+    "url": "/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
     "title": "Delete Expense For Vehicle",
     "version": "1.0.0",
     "name": "Delete_Expense_For_Vehicle",
@@ -1639,7 +1639,7 @@
   },
   {
     "type": "put",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/extendRegistration",
+    "url": "/{managerId}/vehicles/{vehicleId}/extendRegistration",
     "title": "Extend Registration For Vehicle",
     "version": "1.0.0",
     "name": "Extend_Registration_For_Vehicle",
@@ -1723,7 +1723,7 @@
   },
   {
     "type": "get",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/expenses",
+    "url": "/{managerId}/vehicles/{vehicleId}/expenses",
     "title": "Get All Expenses For Vehicle",
     "version": "1.0.0",
     "name": "Get_All_Expenses_For_Vehicle",
@@ -1793,7 +1793,7 @@
   },
   {
     "type": "get",
-    "url": "/managers/{managerId}/vehicles",
+    "url": "/{managerId}/vehicles",
     "title": "Get All Vehicles",
     "version": "1.0.0",
     "name": "Get_All_vehicles",
@@ -1851,7 +1851,7 @@
   },
   {
     "type": "get",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
+    "url": "/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
     "title": "Get Expense By Id",
     "version": "1.0.0",
     "name": "Get_Expense_By_Id",
@@ -1928,7 +1928,7 @@
   },
   {
     "type": "post",
-    "url": "/managers/login",
+    "url": "/login",
     "title": "Manager Login",
     "version": "1.0.0",
     "name": "Manager_Login",
@@ -2003,7 +2003,7 @@
   },
   {
     "type": "put",
-    "url": "/managers/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
+    "url": "/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
     "title": "Update Expense For Vehicle",
     "version": "1.0.0",
     "name": "Update_Expense_For_Vehicle",
@@ -2101,7 +2101,7 @@
   },
   {
     "type": "post",
-    "url": "/users/register",
+    "url": "/register",
     "title": "Register user",
     "version": "1.0.0",
     "name": "Register_User",
@@ -2192,7 +2192,7 @@
   },
   {
     "type": "post",
-    "url": "/users/{userId}/requests",
+    "url": "/{userId}/requests",
     "title": "User Add Request",
     "version": "1.0.0",
     "name": "User_Add_Request",
@@ -2271,7 +2271,7 @@
   },
   {
     "type": "put",
-    "url": "/users/{userId}/changePassword",
+    "url": "/{userId}/changePassword",
     "title": "User Change Password",
     "version": "1.0.0",
     "name": "User_Change_Password",
@@ -2360,7 +2360,7 @@
   },
   {
     "type": "put",
-    "url": "/users/{userId}/changeEmail",
+    "url": "/{userId}/changeEmail",
     "title": "User Change Email",
     "version": "1.0.0",
     "name": "User_Change_Password",
@@ -2442,7 +2442,7 @@
   },
   {
     "type": "post",
-    "url": "/users/login",
+    "url": "/login",
     "title": "User Login",
     "version": "1.0.0",
     "name": "User_Login",
@@ -2517,7 +2517,7 @@
   },
   {
     "type": "get",
-    "url": "/users/{userId}/requests",
+    "url": "/{userId}/requests",
     "title": "User Requests",
     "version": "1.0.0",
     "name": "User_Requests",

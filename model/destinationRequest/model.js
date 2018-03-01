@@ -135,12 +135,14 @@ DestinationRequestSchema.statics.findAll = function(){
 
 /**
  * DestinationRequest add
+ * @param userId
  * @param destinationRequest
  * @returns {*}
  */
-DestinationRequestSchema.statics.add = function(destinationRequest){
+DestinationRequestSchema.statics.add = function(userId, destinationRequest){
     var deffered = Q.defer();
 
+    destinationRequest.userId = userId;
     destinationRequest = new model(destinationRequest);
 
     destinationRequest.save(function(err, data){

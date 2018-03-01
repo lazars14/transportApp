@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 /**
- * @api {post} /users/register
+ * @api {post} /register
  * Register user
  * @apiVersion 1.0.0
  * @apiName Register User
@@ -33,10 +33,10 @@ var router = express.Router();
  * @apiUse alreadyRegistered
  * @apiUse badRequest
  */
-router.post('/users/register', controller.registerUser);
+router.post('/register', controller.registerUser);
 
 /**
- * @api {post} /users/login
+ * @api {post} /login
  * User Login
  * @apiVersion 1.0.0
  * @apiName User Login
@@ -57,10 +57,10 @@ router.post('/users/register', controller.registerUser);
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
-router.post('/users/login', controller.loginUser);
+router.post('/login', controller.loginUser);
 
 /**
- * @api {post} /users/{userId}/requests
+ * @api {post} /{userId}/requests
  * User Add Request
  * @apiVersion 1.0.0
  * @apiName User Add Request
@@ -93,10 +93,10 @@ router.post('/users/login', controller.loginUser);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/users/:userId/requests', auth.checkUserToken, controller.addRequest);
+router.post('/:userId/requests', auth.checkUserToken, controller.addRequest);
 
 /**
- * @api {get} /users/{userId}/requests
+ * @api {get} /{userId}/requests
  * User Requests
  * @apiVersion 1.0.0
  * @apiName User Requests
@@ -142,10 +142,10 @@ router.post('/users/:userId/requests', auth.checkUserToken, controller.addReques
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/users/:userId/requests', auth.checkUserToken, controller.userRequests);
+router.get('/:userId/requests', auth.checkUserToken, controller.userRequests);
 
 /**
- * @api {put} /users/{userId}/changePassword
+ * @api {put} /{userId}/changePassword
  * User Change Password
  * @apiVersion 1.0.0
  * @apiName User Change Password
@@ -166,10 +166,10 @@ router.get('/users/:userId/requests', auth.checkUserToken, controller.userReques
  * @apiUse notAllowed
  * @apiUse notFound
  */
-router.put('/users/:userId/changePassword', auth.checkUserToken, controller.changeUserPassword);
+router.put('/:userId/changePassword', auth.checkUserToken, controller.changePassword);
 
 /**
- * @api {put} /users/{userId}/changeEmail
+ * @api {put} /{userId}/changeEmail
  * User Change Email
  * @apiVersion 1.0.0
  * @apiName User Change Password
@@ -189,7 +189,7 @@ router.put('/users/:userId/changePassword', auth.checkUserToken, controller.chan
  * @apiUse notAllowed
  * @apiUse notFound
  */
-router.put('/users/:userId/changeEmail', auth.checkUserToken, controller.changeUserEmail);
+router.put('/:userId/changeEmail', auth.checkUserToken, controller.changeEmail);
 
 logger.info('loaded USER routes');
 

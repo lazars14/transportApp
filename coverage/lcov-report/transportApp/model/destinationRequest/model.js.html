@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for transportApp\model\destinationRequest\model.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">transportApp/model/destinationRequest/</a> model.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.67% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>28/105</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20.83% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30.11% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>28/93</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var
+  Q             = require("q"),
+  DestinationRequestSchema = require('./schema.js'),
+  mongoose      = require('mongoose');
+&nbsp;
+/**
+ * find by id
+ * @param id
+ * @returns {*}
+ */
+<span class="fstat-no" title="function not covered" >function _findById(id){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.findOne({"_id" : mongoose.Types.ObjectId(id)}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with id ' + id);</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+<span class="cstat-no" title="statement not covered" >        deffered.resolve(data);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
+ * find by status
+ * @param status
+ * @returns {*}
+ */
+<span class="fstat-no" title="function not covered" >function _findByStatus(status){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.findOne({status : status}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with status ' + status);</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+<span class="cstat-no" title="statement not covered" >        deffered.resolve(data);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
+ * find by destination id
+ * @param destinationId
+ * @returns {*}
+ */
+<span class="fstat-no" title="function not covered" >function _findByDestinationId(destinationId){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.findOne({destinationId : destinationId}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with destination id ' + destinationId);</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+<span class="cstat-no" title="statement not covered" >        deffered.resolve(data);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
+ * find by user id
+ * @param userId
+ * @returns {*}
+ */
+function _findByUserId(userId){
+    var deffered = Q.defer();
+&nbsp;
+    model.findOne({userId : userId}, function(err, data){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with user id ' + userId);</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+        deffered.resolve(data);
+    });
+&nbsp;
+    return deffered.promise;
+}
+&nbsp;
+/**
+ * Find by id
+ * @param id
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findById = <span class="fstat-no" title="function not covered" >function(id){</span>
+<span class="cstat-no" title="statement not covered" >    return _findById(id);</span>
+}
+&nbsp;
+/**
+ * Find by status
+ * @param status
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findByStatus = <span class="fstat-no" title="function not covered" >function(status){</span>
+<span class="cstat-no" title="statement not covered" >    return _findByStatus(status);</span>
+}
+&nbsp;
+/**
+ * Find by destination id
+ * @param destinationId
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findByDestinationId = <span class="fstat-no" title="function not covered" >function(destinationId){</span>
+<span class="cstat-no" title="statement not covered" >    return _findByDestinationId(destinationId);</span>
+}
+&nbsp;
+/**
+ * Find by user id
+ * @param userId
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findByUserId = function(userId){
+    return _findByUserId(userId);
+}
+&nbsp;
+/**
+ * DestinationRequest find all
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findAll = <span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    model.find({}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all destination requests');</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+<span class="cstat-no" title="statement not covered" >        return deffered.resolve(data);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
+ * DestinationRequest add
+ * @param userId
+ * @param destinationRequest
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.add = function(userId, destinationRequest){
+    var deffered = Q.defer();
+&nbsp;
+    destinationRequest.userId = userId;
+    destinationRequest = new model(destinationRequest);
+&nbsp;
+    destinationRequest.save(function(err, data){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add destination request');</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        };
+        return deffered.resolve(data);
+    });
+&nbsp;
+    return deffered.promise;
+}
+&nbsp;
+/**
+ * DestinationRequest update
+ * @param id
+ * @param data
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.update = <span class="fstat-no" title="function not covered" >function(id, data){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    _findById(id).then(<span class="fstat-no" title="function not covered" >function(found){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(!found) <span class="cstat-no" title="statement not covered" >return deffered.reject(error("NOT_FOUND"));</span></span>
+ 
+<span class="cstat-no" title="statement not covered" >        if(data.startLocation) <span class="cstat-no" title="statement not covered" >found.startLocation = data.startLocation;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.endLocation) <span class="cstat-no" title="statement not covered" >found.endLocation = data.endLocation;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.startDate) <span class="cstat-no" title="statement not covered" >found.startDate = data.startDate;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.endDate) <span class="cstat-no" title="statement not covered" >found.endDate = data.endDate;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.price) <span class="cstat-no" title="statement not covered" >found.price = data.price;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.status) <span class="cstat-no" title="statement not covered" >found.status = data.status;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.destinationId) <span class="cstat-no" title="statement not covered" >found.destinationId = data.destinationId;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.submissionDate) <span class="cstat-no" title="statement not covered" >found.submissionDate = data.submissionDate;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.confirmationRequestDate) <span class="cstat-no" title="statement not covered" >found.confirmationRequestDate = data.confirmationRequestDate;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.userId) <span class="cstat-no" title="statement not covered" >found.userId = data.userId;</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        found.save(<span class="fstat-no" title="function not covered" >function(err, destinationRequest){</span></span>
+<span class="cstat-no" title="statement not covered" >            if(err){</span>
+<span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination request with id ' + id);</span>
+<span class="cstat-no" title="statement not covered" >                return deffered.reject(error("MONGO_ERROR"));</span>
+            };
+<span class="cstat-no" title="statement not covered" >            return deffered.resolve(destinationRequest);</span>
+        });
+&nbsp;
+    }).fail(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >        deffered.reject(err);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
+ * Delete DestinationRequest
+ * @param id
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.delete = <span class="fstat-no" title="function not covered" >function(id){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    _findById(id).then(<span class="fstat-no" title="function not covered" >function(found){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(!found) <span class="cstat-no" title="statement not covered" >return deffered.reject(error("NOT_FOUND"));</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        model.remove(<span class="fstat-no" title="function not covered" >function(err){</span></span>
+<span class="cstat-no" title="statement not covered" >            if(err){</span>
+<span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete destination request with id ' + id);</span>
+<span class="cstat-no" title="statement not covered" >                return deffered.reject(error("MONGO_ERROR"));</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return deffered.resolve();</span>
+        });
+&nbsp;
+    }).fail(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >        deffered.reject(err);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+&nbsp;
+var model = mongoose.model('destinationRequest', DestinationRequestSchema);
+&nbsp;
+module.exports = model;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 14:09:27 GMT+0100 (Central Europe Standard Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

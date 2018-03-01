@@ -17,16 +17,6 @@ gulp.task('apidoc', function(done) {
   }, done);
 });
 
-// gulp.task('apidoc',function(done){
-//   apidoc({
-//       src: "example/",
-//       dest: "build/",
-//       template: "template/",
-//       debug: true,
-//       includeFilters: [ ".*\\.js$" ]
-//   },done);
-// });
-
 gulp.task("test", function () {
   return gulp.src('./services/*/test/*.js', {
       read: false

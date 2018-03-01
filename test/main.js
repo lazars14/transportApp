@@ -20,6 +20,10 @@ describe('main', function () {
     });
   });
 
+  // it('should successfully create client in db', function(done){
+
+  // });
+
   it('should successfully drop test database', function (done) {
     // require('../services/module_client/test');
     // require('../services/module_manager/test');

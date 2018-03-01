@@ -40,7 +40,6 @@ function _findById(id){
  */
 function _findByEmail(email){
     var deffered = Q.defer();
-
     model.findOne({email : email}, function(err, user){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find user with email ' + email);
@@ -95,14 +94,12 @@ UserSchema.statics.findAll = function(){
  */
 UserSchema.statics.register = function(user){
     var deffered = Q.defer();
-
+    var uuid = user.uuid;
     user = new model(user);
-
     _findByEmail(user.email).then(function(found){
         if(found) return deffered.reject(error("ALREADY_REGISTERED"));
 
         user.password = user.cryptPassword(user.password);
-
         user.save(function(err, data){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to register user');
@@ -127,10 +124,10 @@ UserSchema.statics.login = function (user) {
     var deferred = Q.defer();
 
     _findByEmail(user.email).then(function (found) {
-        if (!model.validatePassword(manager.password, found.password)) return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
-  
+        if (!model.validatePassword(user.password, found.password)) return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
+
         var token = jwt.sign({email: found.email, userId: found._id}, config.token.secret, {
-          expiresInMinutes: 1440 // expires in 24 hours
+          expiresIn: 1440 // expires in 24 hours
         });
   
         found.password = undefined;
@@ -213,9 +210,9 @@ UserSchema.statics.changePassword = function(id, data){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        if(found.password != data.oldPassword) return deffered.reject(error("NOT_ALLOWED"));
+        if(!model.validatePassword(data.oldPassword, found.password)) return deffered.reject(error("NOT_ALLOWED"));
 
-        found.password = data.newPassword;
+        found.password = found.cryptPassword(data.newPassword);
 
         found.save(function(err){
             if(err){

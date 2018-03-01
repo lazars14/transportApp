@@ -122,7 +122,7 @@ exports.userRequests = function(req, res, next){
  * @param res
  * @param next
  */
-exports.changeUserPassword = function(req, res, next){
+exports.changePassword = function(req, res, next){
     if(!req.body.oldPassword){
         logger.error('Error - Change user password - Old password can\'t be empty');
         return next(error("BAD_REQUEST"));
@@ -138,12 +138,12 @@ exports.changeUserPassword = function(req, res, next){
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.body.newPassword != !req.body.repeatPassword){
+    if(req.body.newPassword != req.body.repeatPassword){
         logger.error('Error - Change user password - New and repeated password don\'t match');
         return next(error("NOT_ALLOWED"));
     }
 
-    userModel.changeUserPassword(req.params.userId, req.body).then(function(user){
+    userModel.changePassword(req.params.userId, req.body).then(function(user){
         res.json();
     }).fail(function(err){
         return next(err);
@@ -156,7 +156,7 @@ exports.changeUserPassword = function(req, res, next){
  * @param res
  * @param next
  */
-exports.changeUserEmail = function(req, res, next){
+exports.changeEmail = function(req, res, next){
     if(!req.body.oldEmail){
         logger.error('Error - Change user email - Old email can\'t be empty');
         return next(error("BAD_REQUEST"));
@@ -167,7 +167,7 @@ exports.changeUserEmail = function(req, res, next){
         return next(error("BAD_REQUEST"));
     }
 
-    userModel.changeUserEmail(req.params.userId, req.body).then(function(user){
+    userModel.changeEmail(req.params.userId, req.body).then(function(user){
         res.json();
     }).fail(function(err){
         return next(err);

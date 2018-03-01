@@ -3,6 +3,8 @@ config = require('./config/');
 logger = require('./lib/logger');
 error = require('./lib/error').error;
 
+// const all_routes = require('express-list-endpoints');
+
 logger.info('loaded enviroment:', config.env);
 
 var express = require('express'),
@@ -46,13 +48,15 @@ app.use(errorHandlerMiddleware);
 mongoose.connect(config.mongodb.host + config.mongodb.db, {
   db: {
     safe: true
-  },
-  useMongoClient: true
+  }
 }, function (err) {
   if (err) {
     logger.error("Mongoose - connection error: " + err);
     throw err;
   }
+  console.log("Mongoose - connection OK to: " + config.mongodb.host + config.mongodb.db);
+  console.log();
+  
   logger.info("Mongoose - connection OK to: " + config.mongodb.host + config.mongodb.db);
 });
 
@@ -72,8 +76,9 @@ app.use('/', express.static(__dirname + '/public/dist'));
 app.set('port', process.env.port || 9000);
 
 //init server
-app.listen(app.get("port"), function () {
+app.listen(app.get("port"), function () {console.log('Server running on port: ', app.get('port'));
   logger.info("listening on port " + (app.get("port")));
+  // console.log(all_routes(app));
   require('./postLoader.js').load(app);
 })
 
