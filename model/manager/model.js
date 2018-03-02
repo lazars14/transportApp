@@ -39,16 +39,15 @@ function _findByEmail(email) {
  */
 function _findById(id) {
   var deferred = Q.defer();
-  if (!id) deferred.resolve(null);
-  else {
-    model.findOne({"_id": mongoose.Types.ObjectId(id)}, function (err, data) {
-      if (err){
-        logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find manager with id ' + id);
-        return deferred.reject(error("MONGO_ERROR"));
-      }
-      deferred.resolve(data);
-    });
-  }
+
+  model.findOne({"_id": mongoose.Types.ObjectId(id)}, function (err, data) {
+    if (err){
+      logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find manager with id ' + id);
+      return deferred.reject(error("MONGO_ERROR"));
+    }
+    deferred.resolve(data);
+  });
+
   return deferred.promise;
 };
 
@@ -130,18 +129,20 @@ ManagerSchema.statics.update = function (id, data) {
   var deferred = Q.defer();
   _findById(id).then(function (found) {
       if(!found) return deferred.reject(error("NOT_FOUND"));
+      else {
+        if (data.firstName) found.firstName = data.firstName;
+        if (data.lastName) found.lastName = data.lastName;
+        if (data.phone) found.phone = data.phone;
+        if (data.password) found.password = found.cryptPassword(data.password);
 
-      if (data.firstName) found.firstName = data.firstName;
-      if (data.lastName) found.lastName = data.lastName;
-      if (data.phone) found.phone = data.phone;
-
-      found.save(function (err, manager) {
-        if (err) {
-          logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update manager with id ' + id);
-          return deferred.reject(error("MONGO_ERROR"));
-        }
-        return deferred.resolve(manager);
-      });
+        found.save(function (err, manager) {
+          if (err) {
+            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update manager with id ' + id);
+            return deferred.reject(error("MONGO_ERROR"));
+          }
+          return deferred.resolve(manager);
+        });
+      }
     })
     .fail(function (err) {
       deferred.reject(err);
@@ -153,7 +154,7 @@ ManagerSchema.statics.update = function (id, data) {
  * Find all managers
  * @returns {*}
  */
-ManagerSchema.statics.getAll = function () {
+ManagerSchema.statics.findAll = function () {
   var deferred = Q.defer();
   model.find({}, function (err, managers) {
     if (err) return deferred.reject(err);
@@ -188,6 +189,6 @@ ManagerSchema.statics.delete = function (id) {
   return deferred.promise;
 };
 
-var model = mongoose.model('manager', ManagerSchema);
+var model = mongoose.model('managers', ManagerSchema);
 
 module.exports = model;

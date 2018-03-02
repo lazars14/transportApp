@@ -52,11 +52,11 @@ VehicleExpenseSchema.statics.findAll = function(){
 };
 
 /** 
- * Find vehicleExpenses for vehicle
+ * find vehicleExpenses for vehicle
  * @param vehicleId
  * @returns {*}
  */
-VehicleExpenseSchema.statics.findExpensesForVehicle = function(vehicleId){
+function _findExpensesForVehicle(vehicleId){
     var deffered = Q.defer();
 
     model.find({vehicleId : vehicleId}, function(err, expenses){
@@ -69,6 +69,15 @@ VehicleExpenseSchema.statics.findExpensesForVehicle = function(vehicleId){
 
     return deffered.promise;
 };
+
+/**
+ * Find vehicleExpenses for vehicle
+ * @param vehicleId
+ * @returns {*}
+ */
+VehicleExpenseSchema.statics.findExpensesForVehicle = function(vehicleId){
+    return _findExpensesForVehicle(vehicleId);
+}
 
 /**
  * Add vehicleExpense
@@ -151,7 +160,7 @@ VehicleExpenseSchema.statics.delete = function(id){
 };
 
 
-var model = mongoose.model('vehicleExpense', VehicleExpenseSchema);
+var model = mongoose.model('vehicleExpenses', VehicleExpenseSchema);
 
 module.exports = model;
 

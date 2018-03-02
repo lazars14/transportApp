@@ -11,16 +11,14 @@ var
 function _findById(id){
   var deffered = Q.defer();
 
-  if(!id) return deffered.resolve(null);
-
   model.findOne({"_id" : mongoose.Types.ObjectId(id)}, function(err, driver) {
     if(err){
       logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find driver with id ' + id);
       return deffered.reject(error("MONGO_ERROR"));
     };
     deffered.resolve(driver);
-  });
-
+  });  
+  
   return deffered.promise;
 }
 
@@ -48,7 +46,7 @@ function _findByEmail(email){
  * @param email
  * @returns {*}
  */
-DriverSchema.statics.getByEmail = function(email){
+DriverSchema.statics.findByEmail = function(email){
   return _findByEmail(email);
 }
 
@@ -87,17 +85,17 @@ DriverSchema.statics.findAll = function(){
 DriverSchema.statics.add = function(driver){
   var deffered = Q.defer();
 
-  found = new model(found);
-
   _findByEmail(driver.email).then(function(found){
     if(found) return deffered.reject(error("ALREADY_REGISTERED"));
 
-    found.save(function(err, driver){
+    driver = new model(driver);
+
+    driver.save(function(err, data){
       if(err){
         logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add driver');
         return deffered.reject(error("MONGO_ERROR"));
       };
-      return deffered.resolve(driver);
+      return deffered.resolve(data);
     });
 
   }).fail(function(err){
@@ -165,6 +163,6 @@ DriverSchema.statics.delete = function(id){
 }
 
 
-var model = mongoose.model('driver', DriverSchema);
+var model = mongoose.model('drivers', DriverSchema);
 
 module.exports = model;

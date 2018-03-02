@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.75% </span>
+        <span class="strong">14.1% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/80</span>
+        <span class='fraction'>11/78</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/30</span>
+        <span class='fraction'>0/28</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.49% </span>
+        <span class="strong">15.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/71</span>
+        <span class='fraction'>11/70</span>
       </div>
     </div>
   </div>
@@ -210,9 +210,7 @@
 165
 166
 167
-168
-169
-170</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+168</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,8 +221,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -302,8 +298,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -394,16 +390,14 @@
 <span class="fstat-no" title="function not covered" >function _findById(id){</span>
 <span class="cstat-no" title="statement not covered" >  var deffered = Q.defer();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if(!id) <span class="cstat-no" title="statement not covered" >return deffered.resolve(null);</span></span>
-&nbsp;
 <span class="cstat-no" title="statement not covered" >  model.findOne({"_id" : mongoose.Types.ObjectId(id)}, <span class="fstat-no" title="function not covered" >function(err, driver) {</span></span>
 <span class="cstat-no" title="statement not covered" >    if(err){</span>
 <span class="cstat-no" title="statement not covered" >      logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find driver with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >      return deffered.reject(error("MONGO_ERROR"));</span>
     };
 <span class="cstat-no" title="statement not covered" >    deffered.resolve(driver);</span>
-  });
-&nbsp;
+  });  
+  
 <span class="cstat-no" title="statement not covered" >  return deffered.promise;</span>
 }
 &nbsp;
@@ -431,7 +425,7 @@
  * @param email
  * @returns {*}
  */
-DriverSchema.statics.getByEmail = <span class="fstat-no" title="function not covered" >function(email){</span>
+DriverSchema.statics.findByEmail = <span class="fstat-no" title="function not covered" >function(email){</span>
 <span class="cstat-no" title="statement not covered" >  return _findByEmail(email);</span>
 }
 &nbsp;
@@ -470,17 +464,17 @@ DriverSchema.statics.findAll = <span class="fstat-no" title="function not covere
 DriverSchema.statics.add = <span class="fstat-no" title="function not covered" >function(driver){</span>
 <span class="cstat-no" title="statement not covered" >  var deffered = Q.defer();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  found = new model(found);</span>
-&nbsp;
 <span class="cstat-no" title="statement not covered" >  _findByEmail(driver.email).then(<span class="fstat-no" title="function not covered" >function(found){</span></span>
 <span class="cstat-no" title="statement not covered" >    if(found) <span class="cstat-no" title="statement not covered" >return deffered.reject(error("ALREADY_REGISTERED"));</span></span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    found.save(<span class="fstat-no" title="function not covered" >function(err, driver){</span></span>
+<span class="cstat-no" title="statement not covered" >    driver = new model(driver);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    driver.save(<span class="fstat-no" title="function not covered" >function(err, data){</span></span>
 <span class="cstat-no" title="statement not covered" >      if(err){</span>
 <span class="cstat-no" title="statement not covered" >        logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add driver');</span>
 <span class="cstat-no" title="statement not covered" >        return deffered.reject(error("MONGO_ERROR"));</span>
       };
-<span class="cstat-no" title="statement not covered" >      return deffered.resolve(driver);</span>
+<span class="cstat-no" title="statement not covered" >      return deffered.resolve(data);</span>
     });
 &nbsp;
   }).fail(<span class="fstat-no" title="function not covered" >function(err){</span>
@@ -548,7 +542,7 @@ DriverSchema.statics.delete = <span class="fstat-no" title="function not covered
 }
 &nbsp;
 &nbsp;
-var model = mongoose.model('driver', DriverSchema);
+var model = mongoose.model('drivers', DriverSchema);
 &nbsp;
 module.exports = model;</pre></td></tr>
 </table></pre>
@@ -556,7 +550,7 @@ module.exports = model;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 14:09:27 GMT+0100 (Central Europe Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 14:05:15 GMT+0100 (Central Europe Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

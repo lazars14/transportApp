@@ -96,7 +96,7 @@ router.put('/:clientId', auth.checkClientToken, controller.updateClient);
  * @apiUse internalError
  * @apiUse notAuthorized
  */
-router.get('/:clientId/managers', auth.checkClientToken, controller.getAllManagers);
+router.get('/:clientId/managers', auth.checkClientToken, controller.findAllManagers);
 
 /**
  * @api {get} /{clientId}/managers/{managerId}
@@ -124,7 +124,7 @@ router.get('/:clientId/managers', auth.checkClientToken, controller.getAllManage
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/manager/:managerId', auth.checkClientToken, controller.findManagerById);
+router.get('/:clientId/managers/:managerId', auth.checkClientToken, controller.findManagerById);
 
 /**
  * @api {post} /{clientId}/managers
@@ -251,7 +251,7 @@ router.delete('/:clientId/managers/:managerId', auth.checkClientToken, controlle
  * @apiUse internalError
  * @apiUse notAuthorized
  */
-router.get('/:clientId/vehicles', auth.checkClientToken, controller.getAllVehicles);
+router.get('/:clientId/vehicles', auth.checkClientToken, controller.findAllVehicles);
 
 /**
  * @api {get} /{clientId}/vehicles/{vehicleId}
@@ -281,7 +281,7 @@ router.get('/:clientId/vehicles', auth.checkClientToken, controller.getAllVehicl
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.getVehicleById);
+router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.findVehicleById);
 
 /**
  * @api {post} /{clientId}/vehicles
@@ -317,6 +317,7 @@ router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.g
  * @apiUse internalError
  * @apiUse badRequest
  * @apiUse notAuthorized
+ * @apiUse alreadyRegistered
  */
 router.post('/:clientId/vehicles', auth.checkClientToken, controller.addVehicle);
 
@@ -345,8 +346,6 @@ router.post('/:clientId/vehicles', auth.checkClientToken, controller.addVehicle)
  *      "_id": "a-d.x-;s-39;x-s9-3la-fl2",
  *      "name": "First bus",
  *      "model": "Mercedes-Benz do Brasil",
- *      "licensePlate" : "NS-123-AD",
- *      "licenseExpireDate": "2019-10-21",
  *      "numberOfSeats": "50",
  *      "productionYear": "2015",
  *      "numberOfKmPassed": "50000"
@@ -375,7 +374,7 @@ router.put('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.u
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.removeVehicle);
+router.delete('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.deleteVehicle);
 
 /**
  * @api {get} /{clientId}/vehicles/{vehicleId}/expenses
@@ -507,6 +506,7 @@ router.get('/:clientId/drivers/:driverId', auth.checkClientToken, controller.fin
  * @apiUse internalError
  * @apiUse badRequest
  * @apiUse notAuthorized
+ * @apiUse alreadyRegistered
  */
 router.post('/:clientId/drivers', auth.checkClientToken, controller.addDriver);
 
@@ -562,7 +562,7 @@ router.put('/:clientId/drivers/:driverId', auth.checkClientToken, controller.upd
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:clientId/drivers/:driverId', auth.checkClientToken, controller.removeDriver);
+router.delete('/:clientId/drivers/:driverId', auth.checkClientToken, controller.deleteDriver);
 
 logger.info('loaded CLIENT routes');
 

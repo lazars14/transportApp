@@ -1,7 +1,9 @@
+var clientModel = require('../../model/client/model');
 var vehicleModel = require('../../model/vehicle/model');
 var driverModel = require('../../model/driver/model');
 var managerModel = require('../../model/manager/model');
-var clientModel = require('../../model/client/model');
+var expenseModel = require('../../model/vehicleExpense/model');
+
 
 var isEmail = require('validator/lib/isEmail');
 var logger = require('../../lib/logger');
@@ -59,8 +61,8 @@ exports.updateClient = function(req, res, next){
  * @param res
  * @param next
  */
-exports.getAllManagers = function(req, res, next){
-    managerModel.getAll().then(function(managers){
+exports.findAllManagers = function(req, res, next){
+    managerModel.findAll().then(function(managers){
         res.json(managers);
     }).fail(function(err){
         return next(err);
@@ -76,6 +78,7 @@ exports.getAllManagers = function(req, res, next){
  */
 exports.findManagerById = function(req, res, next){
     managerModel.findById(req.params.managerId).then(function(manager){
+        if(!manager) return next(error('NOT_FOUND'));
         res.json(manager);
     }).fail(function(err){
         return next(err);
@@ -118,6 +121,13 @@ exports.registerManager = function(req, res, next){
  * @param next
  */
 exports.updateManager = function(req, res, next){
+    if(req.body.email){
+        if(!isEmail(req.body.email)){
+            logger.error('Error - Update manager - Wrong email format');
+            return next(error('BAD_REQUEST'));
+        }
+    }
+
     managerModel.update(req.params.managerId, req.body).then(function(manager){
         res.json(manager);
     }).fail(function(err){
@@ -132,7 +142,7 @@ exports.updateManager = function(req, res, next){
  * @param next
  */
 exports.deleteManager = function(req, res, next){
-    managerModel.remove(req.params.managerId).then(function(){
+    managerModel.delete(req.params.managerId).then(function(){
         res.json();
     }).fail(function(err){
         return next(err);
@@ -147,7 +157,7 @@ exports.deleteManager = function(req, res, next){
  * @param res
  * @param next
  */
-exports.getAllVehicles = function(req, res, next){
+exports.findAllVehicles = function(req, res, next){
     vehicleModel.findAll().then(function(vehicles){
         res.json(vehicles);
     }).fail(function(err){
@@ -161,8 +171,9 @@ exports.getAllVehicles = function(req, res, next){
  * @param res
  * @param next
  */
-exports.getVehicleById = function(req, res, next){
+exports.findVehicleById = function(req, res, next){
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
+        if(!vehicle) return next(error('NOT_FOUND'));
         res.json(vehicle);
     }).fail(function(err){
         return next(err);
@@ -176,17 +187,17 @@ exports.getVehicleById = function(req, res, next){
  * @param next
  */
 exports.addVehicle = function(req, res, next){
-    if(!req.licensePlate){
+    if(!req.body.licensePlate){
         logger.error('Error - Add vehicle - License plate can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.licenseExpireDate){
+    if(!req.body.licenseExpireDate){
         logger.error('Error - Add vehicle - License expire date can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
     
-    if(!req.numberOfSeats){
+    if(!req.body.numberOfSeats){
         logger.error('Error - Add vehicle - Number of seats can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
@@ -213,13 +224,13 @@ exports.updateVehicle = function(req, res, next){
 }
 
 /**
- * Remove vehicle
+ * Delete vehicle
  * @param req
  * @param res
  * @param next
  */
-exports.removeVehicle = function(req, res, next){
-    vehicleModel.remove(req.params.vehicleId).then(function(){
+exports.deleteVehicle = function(req, res, next){
+    vehicleModel.delete(req.params.vehicleId).then(function(){
         res.json();
     }).fail(function(err){
         return next(err);
@@ -295,6 +306,7 @@ exports.findAllDrivers = function(req, res, next){
  */
 exports.findDriverById = function(req, res, next){
     driverModel.findById(req.params.driverId).then(function(driver){
+        if(!driver) return next(error('NOT_FOUND'));
         res.json(driver);
     }).fail(function(err){
         return next(err);
@@ -339,6 +351,13 @@ exports.addDriver = function(req, res, next){
  * @param next
  */
 exports.updateDriver = function(req, res, next){
+    if(req.body.email){
+        if(!isEmail(req.body.email)){
+            logger.error('Error - Update driver - Wrong email format');
+            return next(error('BAD_REQUEST'));
+        }
+    }
+
     driverModel.update(req.params.driverId, req.body).then(function(driver){
         res.json(driver);
     }).fail(function(err){
@@ -347,13 +366,13 @@ exports.updateDriver = function(req, res, next){
 }
 
 /**
- * Remove driver
+ * Delete driver
  * @param req
  * @param res
  * @param next
  */
-exports.removeDriver = function(req, res, next){
-    driverModel.remove(req.params.driverId).then(function(){
+exports.deleteDriver = function(req, res, next){
+    driverModel.delete(req.params.driverId).then(function(){
         res.json();
     }).fail(function(err){
         return next(err);

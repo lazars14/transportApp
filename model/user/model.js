@@ -19,7 +19,7 @@ UserSchema.statics.validatePassword = function (password, hash) {
  * @param id
  * @returns {*}
  */
-function _findById(id){
+var _findById = function(id){
     var deffered = Q.defer();
 
     model.findOne({"_id" : mongoose.Types.ObjectId(id)}, function(err, user){
@@ -38,8 +38,9 @@ function _findById(id){
  * @param email
  * @returns {*}
  */
-function _findByEmail(email){
+var _findByEmail = function (email){
     var deffered = Q.defer();
+    
     model.findOne({email : email}, function(err, user){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find user with email ' + email);
@@ -261,7 +262,7 @@ UserSchema.statics.changeEmail = function(id, data){
     return deffered.promise;
 }
 
-var model = mongoose.model('user', UserSchema);
+var model = mongoose.model('users', UserSchema);
 
 module.exports = model;
 

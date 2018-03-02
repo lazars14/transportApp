@@ -95,6 +95,11 @@ define({ "api": [
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
+        },
+        {
+          "title": "Already registered:",
+          "content": "HTTP/1.1 406 You are already registered\n {\n   \"error\": {\n     \"code\": \"406\",\n     \"message\": \"You are already registered\"\n   }\n }",
+          "type": "json"
         }
       ]
     }
@@ -308,6 +313,11 @@ define({ "api": [
         {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Already registered:",
+          "content": "HTTP/1.1 406 You are already registered\n {\n   \"error\": {\n     \"code\": \"406\",\n     \"message\": \"You are already registered\"\n   }\n }",
           "type": "json"
         }
       ]
@@ -1454,7 +1464,7 @@ define({ "api": [
             "type": "Object",
             "optional": false,
             "field": "Vehicle",
-            "description": "<p>Updated vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot;, &quot;productionYear&quot;: &quot;2015&quot;, &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
+            "description": "<p>Updated vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;numberOfSeats&quot;: &quot;50&quot;, &quot;productionYear&quot;: &quot;2015&quot;, &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
           }
         ]
       }

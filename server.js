@@ -48,7 +48,8 @@ app.use(errorHandlerMiddleware);
 mongoose.connect(config.mongodb.host + config.mongodb.db, {
   db: {
     safe: true
-  }
+  },
+  useMongoClient :  true
 }, function (err) {
   if (err) {
     logger.error("Mongoose - connection error: " + err);

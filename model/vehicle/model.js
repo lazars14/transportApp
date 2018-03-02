@@ -43,7 +43,7 @@ function _findById(id){
  * @returns {*}
  */
 VehicleSchema.statics.findByLicensePlate = function(licensePlate){
-    return _findVehicleByLicensePlate(licensePlate);
+    return _findByLicensePlate(licensePlate);
 };
 
 /**
@@ -52,7 +52,7 @@ VehicleSchema.statics.findByLicensePlate = function(licensePlate){
  * @returns {*}
  */
 VehicleSchema.statics.findById = function(id){
-    return _findVehicleById(id);
+    return _findById(id);
 };
 
 /**
@@ -81,16 +81,17 @@ VehicleSchema.statics.findAll = function(){
 VehicleSchema.statics.add = function(vehicle){
     var deffered = Q.defer();
 
-    vehicle = new model(vehicle);
-    _findVehicleByLicensePlate(vehicle.licensePlate).then(function(found){
+    _findByLicensePlate(vehicle.licensePlate).then(function(found){
         if(found) return deffered.reject(error("ALREADY_REGISTERED"));
 
-        vehicle.save(function(err, vehicle){
+        vehicle = new model(vehicle);
+
+        vehicle.save(function(err, data){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add new vehicle');
                 return deffered.reject(error("MONGO_ERROR"));
             }
-            return deffered.resolve(vehicle);
+            return deffered.resolve(data);
         });
 
     }).fail(function(err){
@@ -109,7 +110,7 @@ VehicleSchema.statics.add = function(vehicle){
 VehicleSchema.statics.update = function(vehicleId, data){
     var deffered = Q.defer();
 
-    _findVehicleById(vehicleId).then(function(found){
+    _findById(vehicleId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
         
         if(data.name) found.name = data.name;
@@ -141,7 +142,7 @@ VehicleSchema.statics.update = function(vehicleId, data){
 VehicleSchema.statics.delete = function(id){
     var deffered = Q.defer();
 
-    _findVehicleById(id).then(function(found){
+    _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
@@ -217,6 +218,6 @@ VehicleSchema.statics.extendRegistration = function(id, data){
 }
 
 
-var model = mongoose.model('vehicle', VehicleSchema);
+var model = mongoose.model('vehicles', VehicleSchema);
 
 module.exports = model;

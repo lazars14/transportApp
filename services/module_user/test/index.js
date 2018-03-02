@@ -241,20 +241,20 @@ describe("User tests", function () {
             });
     });
 
-    // it("change user password - fail - not found", function (done) {
-    //     var data;
-    //     data = ({
-    //         oldPassword: "test",
-    //         newPassword: "newPassword",
-    //         repeatPassword: "newPassword"
-    //     });
-    //     return request(app).put('/user/' + userIdDummy + '/changePassword')
-    //     .set('x-access-token', dummyToken)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 404);
-    //             return done();
-    //         });
-    // });
+    it("change user password - fail - not found", function (done) {
+        var data;
+        data = ({
+            oldPassword: "test",
+            newPassword: "newPassword",
+            repeatPassword: "newPassword"
+        });
+        return request(app).put('/user/' + userIdDummy + '/changePassword')
+        .set('x-access-token', dummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
 
     it("change user password - fail - missing data", function (done) {
         var data;
@@ -340,19 +340,19 @@ describe("User tests", function () {
             });
     });
 
-    // it("change user email - fail - not found", function (done) {
-    //     var data;
-    //     data = ({
-    //         oldEmail: "user@gmail.com",
-    //         newEmail: "test123@gmail.com"
-    //     });
-    //     return request(app).put('/user/5a1e98c67ecb023338a3cac3/changeEmail')
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 403);
-    //             return done();
-    //         });
-    // });
+    it("change user email - fail - not found", function (done) {
+        var data;
+        data = ({
+            oldEmail: "user@gmail.com",
+            newEmail: "test123@gmail.com"
+        });
+        return request(app).put('/user/' + userIdDummy + '/changeEmail')
+        .set('x-access-token', dummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
 
     it("change user email - success - valid data", function (done) {
         var data;

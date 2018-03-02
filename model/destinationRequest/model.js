@@ -221,7 +221,7 @@ DestinationRequestSchema.statics.delete = function(id){
 }
 
 
-var model = mongoose.model('destinationRequest', DestinationRequestSchema);
+var model = mongoose.model('destinationRequests', DestinationRequestSchema);
 
 module.exports = model;
 

@@ -190,6 +190,6 @@ DestinationSchema.statics.delete = function(id){
     return deffered.promise;
 }
 
-var model = mongoose.model('destination', DestinationSchema);
+var model = mongoose.model('destinations', DestinationSchema);
 
 module.exports = model;

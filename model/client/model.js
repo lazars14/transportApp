@@ -14,20 +14,22 @@ ClientSchema.statics.validatePassword = function (password, hash) {
   return bcrypt.compareSync(password, hash);
 };
 
+
+
 /**
  * find by email
  * @param email
  * @returns {*}
  */
-function _findByEmail(email){
+var _findByEmail = function (email){
     var deffered = Q.defer();
 
-    model.findOne({email : email}, function(err, data){
-        if(err){
+    model.findOne({email: email}, function (err, client) {
+        if (err) {
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find client with email ' + email);
             return deffered.reject(error("MONGO_ERROR"));
         };
-        deffered.resolve(data);
+        deffered.resolve(client);
     });
 
     return deffered.promise;
@@ -89,26 +91,25 @@ ClientSchema.statics.findById = function(id){
  * @param client
  * @returns {*}
  */
-ClientSchema.statics.login = function(client){
+ClientSchema.statics.login = function (client) {
     var deffered = Q.defer();
 
     _findByEmail(client.email).then(function (found) {
-        if (!model.validatePassword(client.password, found.password))
-          return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
-  
+        if (!model.validatePassword(client.password, found.password)) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
+
         var token = jwt.sign({email: found.email, clientId: found._id}, config.token.secret, {
-          expiresInMinutes: 1440 // expires in 24 hours
+            expiresIn: 1440 // expires in 24 hours
         });
-  
+
         found.password = undefined;
         delete found.password;
-        return deferred.resolve({token: token, client: found});
-      })
-      .fail(function (err) {
-        deferred.reject(err);
-      });
-    
-    return deferred.promise;
+        return deffered.resolve({token: token, client: found});
+        })
+        .fail(function (err) {
+            deffered.reject(err);
+        });
+
+    return deffered.promise;
 }
 
 /**
@@ -116,7 +117,7 @@ ClientSchema.statics.login = function(client){
  * @param id
  * @param data
  */
-ClientSchema.statics.update = function(id){
+ClientSchema.statics.update = function(id, data){
     var deffered = Q.defer();
 
     _findById(id).then(function(found){
@@ -126,7 +127,7 @@ ClientSchema.statics.update = function(id){
         if(data.lastName) found.lastName = data.lastName;
         if(data.phone) found.phone = data.phone;
         if(data.email) found.email = data.email; 
-        if(data.password) found.password = data.password;
+        if(data.password) found.password = found.cryptPassword(data.password);
 
         found.save(function(err, client){
             if(err){
@@ -141,8 +142,6 @@ ClientSchema.statics.update = function(id){
 
     return deffered.promise;
 } 
-
-
-var model = mongoose.model('client', ClientSchema);
+var model = mongoose.model('clients', ClientSchema);
 
 module.exports = model;

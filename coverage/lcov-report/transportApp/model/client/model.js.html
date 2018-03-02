@@ -35,9 +35,9 @@
         <span class='fraction'>0/15</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.37% </span>
+        <span class="strong">20.75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/54</span>
+        <span class='fraction'>11/53</span>
       </div>
     </div>
   </div>
@@ -190,8 +190,7 @@
 145
 146
 147
-148
-149</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+148</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -207,23 +206,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,6 +235,25 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,7 +288,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -333,8 +333,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -355,20 +353,22 @@ ClientSchema.statics.validatePassword = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >  return bcrypt.compareSync(password, hash);</span>
 };
 &nbsp;
+&nbsp;
+&nbsp;
 /**
  * find by email
  * @param email
  * @returns {*}
  */
-<span class="fstat-no" title="function not covered" >function _findByEmail(email){</span>
+var _findByEmail = <span class="fstat-no" title="function not covered" >function (email){</span>
 <span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.findOne({email : email}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
-<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >    model.findOne({email: email}, <span class="fstat-no" title="function not covered" >function (err, client) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find client with email ' + email);</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
         };
-<span class="cstat-no" title="statement not covered" >        deffered.resolve(data);</span>
+<span class="cstat-no" title="statement not covered" >        deffered.resolve(client);</span>
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
@@ -430,26 +430,25 @@ ClientSchema.statics.findById = <span class="fstat-no" title="function not cover
  * @param client
  * @returns {*}
  */
-ClientSchema.statics.login = <span class="fstat-no" title="function not covered" >function(client){</span>
+ClientSchema.statics.login = <span class="fstat-no" title="function not covered" >function (client) {</span>
 <span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    _findByEmail(client.email).then(<span class="fstat-no" title="function not covered" >function (found) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (!model.validatePassword(client.password, found.password))</span>
-<span class="cstat-no" title="statement not covered" >          return deferred.reject(error("INVALID_USERNAME_PASSWORD"));</span>
-  
+<span class="cstat-no" title="statement not covered" >        if (!model.validatePassword(client.password, found.password)) <span class="cstat-no" title="statement not covered" >return deffered.reject(error("INVALID_USERNAME_PASSWORD"));</span></span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        var token = jwt.sign({email: found.email, clientId: found._id}, config.token.secret, {</span>
-          expiresInMinutes: 1440 // expires in 24 hours
+            expiresIn: 1440 // expires in 24 hours
         });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        found.password = undefined;</span>
 <span class="cstat-no" title="statement not covered" >        delete found.password;</span>
-<span class="cstat-no" title="statement not covered" >        return deferred.resolve({token: token, client: found});</span>
-      })
-      .fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
-<span class="cstat-no" title="statement not covered" >        deferred.reject(err);</span>
-      });
-    
-<span class="cstat-no" title="statement not covered" >    return deferred.promise;</span>
+<span class="cstat-no" title="statement not covered" >        return deffered.resolve({token: token, client: found});</span>
+        })
+        .fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >            deffered.reject(err);</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
 }
 &nbsp;
 /**
@@ -457,7 +456,7 @@ ClientSchema.statics.login = <span class="fstat-no" title="function not covered"
  * @param id
  * @param data
  */
-ClientSchema.statics.update = <span class="fstat-no" title="function not covered" >function(id){</span>
+ClientSchema.statics.update = <span class="fstat-no" title="function not covered" >function(id, data){</span>
 <span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    _findById(id).then(<span class="fstat-no" title="function not covered" >function(found){</span></span>
@@ -467,7 +466,7 @@ ClientSchema.statics.update = <span class="fstat-no" title="function not covered
 <span class="cstat-no" title="statement not covered" >        if(data.lastName) <span class="cstat-no" title="statement not covered" >found.lastName = data.lastName;</span></span>
 <span class="cstat-no" title="statement not covered" >        if(data.phone) <span class="cstat-no" title="statement not covered" >found.phone = data.phone;</span></span>
 <span class="cstat-no" title="statement not covered" >        if(data.email) <span class="cstat-no" title="statement not covered" >found.email = data.email; </span></span>
-<span class="cstat-no" title="statement not covered" >        if(data.password) <span class="cstat-no" title="statement not covered" >found.password = data.password;</span></span>
+<span class="cstat-no" title="statement not covered" >        if(data.password) <span class="cstat-no" title="statement not covered" >found.password = found.cryptPassword(data.password);</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        found.save(<span class="fstat-no" title="function not covered" >function(err, client){</span></span>
 <span class="cstat-no" title="statement not covered" >            if(err){</span>
@@ -482,9 +481,7 @@ ClientSchema.statics.update = <span class="fstat-no" title="function not covered
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
 } 
-&nbsp;
-&nbsp;
-var model = mongoose.model('client', ClientSchema);
+var model = mongoose.model('clients', ClientSchema);
 &nbsp;
 module.exports = model;
 &nbsp;</pre></td></tr>
@@ -493,7 +490,7 @@ module.exports = model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 01 2018 14:09:27 GMT+0100 (Central Europe Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 14:05:15 GMT+0100 (Central Europe Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

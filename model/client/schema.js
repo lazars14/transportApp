@@ -28,6 +28,12 @@ module.exports = (function () {
     password: {
       type: String,
       required: true
+    },
+    /**
+     * Client phone
+     */
+    phone: {
+      type: String
     }
   });
 

@@ -10,7 +10,16 @@ describe("Client tests", function () {
     var token;
     var client;
     var driver;
+    var manager;
     var vehicle;
+
+    var dummyId = '5a1e98c67ecb023338a3cac3';
+    var clientDummyToken = jwt.sign({
+        email: "client@gmail.com",
+        clientId: dummyId
+    }, config.token.secret, {
+        expiresIn: 1440
+    }); 
 
     it("login - fail - missing data", function (done) {
         var data;
@@ -58,6 +67,7 @@ describe("Client tests", function () {
         return request(app).post('/client/login')
         .type('application/json').send(data).end(function (err, res) {
             res.body.should.have.property("token");
+            res.should.have.property("status", 200);
             // data for further tests
             token = res.body.token;
             client = res.body.client;
@@ -72,7 +82,7 @@ describe("Client tests", function () {
             lastName: "Client",
             email: "client@gmail.com",
             phone: "060987653",
-            address: "St. John's Boulevard 11"
+            password: "St. John's Boulevard 11"
         });
         return request(app).put('/client/' + client._id)
         .type('application/json').send(data).end(function (err, res) {
@@ -88,10 +98,10 @@ describe("Client tests", function () {
             lastName: "Client",
             email: "client@gmail.com",
             phone: "060987653",
-            address: "St. John's Boulevard 11"
+            password: "St. John's Boulevard 11"
         });
-        return request(app).put('/client/5a1e98c67ecb023338a3cac3')
-        .set('x-access-token', token)
+        return request(app).put('/client/' + dummyId)
+        .set('x-access-token', clientDummyToken)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
                 return done();
@@ -105,7 +115,7 @@ describe("Client tests", function () {
             lastName: "Client",
             email: "client@gmail.com",
             phone: "060987653",
-            address: "St. John's Boulevard 11"
+            password: "test123"
         });
         return request(app).put('/client/' + client._id)
             .set('x-access-token', token)
@@ -122,7 +132,7 @@ describe("Client tests", function () {
             lastName: "manager",
             email: "manager@gmail.com",
             phone: "060987654",
-            address: "St. John's Boulevard 12"
+            password: "test"
         });
         return request(app).post('/client/' +client._id + '/managers')
         .type('application/json').send(data).end(function (err, res) {
@@ -138,9 +148,9 @@ describe("Client tests", function () {
             lastName: "manager",
             email: "manager@gmail.com",
             phone: "060987654",
-            address: "St. John's Boulevard 12"
         });
         return request(app).post('/client/' +client._id + '/managers')
+        .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -154,10 +164,10 @@ describe("Client tests", function () {
             lastName: "manager",
             email: "manager",
             phone: "060987654",
-            address: "St. John's Boulevard 12",
             password: "test"
         });
         return request(app).post('/client/' +client._id + '/managers')
+        .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -171,7 +181,7 @@ describe("Client tests", function () {
             lastName: "manager",
             email: "manager@gmail.com",
             phone: "060987654",
-            address: "St. John's Boulevard 12"
+            password: "test"
         });
         return request(app).post('/client/' +client._id + '/managers')
         .set('x-access-token', token)
@@ -208,7 +218,7 @@ describe("Client tests", function () {
     });
 
     it("find manager by id - fail - not found", function (done) {
-        return request(app).get('/client/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/managers/' + dummyId)
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -251,6 +261,7 @@ describe("Client tests", function () {
             address: "St. John's Boulevard 11"
         });
         return request(app).put('/client/' + client._id + '/managers/'+ manager._id)
+        .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -291,31 +302,31 @@ describe("Client tests", function () {
             });
     });
 
-    it("delete manager - fail - missing token", function (done) {
-        return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 401);
-                return done();
-            });
-    });
+    // it("delete manager - fail - missing token", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
 
-    it("delete manager - fail - not found", function (done) {
-        return request(app).delete('/client/' + client._id + '/managers/5a1e98c67ecb023338a3cac3')
-        .set('x-access-token', token)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
+    // it("delete manager - fail - not found", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/managers/' + managerIdDummy)
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
 
-    it("delete manager - success - valid data", function (done) {
-        return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
-            .set('x-access-token', token)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 200);
-                return done();
-            });
-    });
+    // it("delete manager - success - valid data", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/managers/'+ manager._id)
+    //         .set('x-access-token', token)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
 
     it("new driver - fail - missing token", function (done) {
         var data;
@@ -342,6 +353,7 @@ describe("Client tests", function () {
             address: "St. John's Boulevard 12"
         });
         return request(app).post('/client/' +client._id + '/drivers')
+        .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -358,6 +370,7 @@ describe("Client tests", function () {
             address: "St. John's Boulevard 12"
         });
         return request(app).post('/client/' +client._id + '/drivers')
+        .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
@@ -382,6 +395,23 @@ describe("Client tests", function () {
             });
     });
 
+    it("new driver - fail - already registered", function (done) {
+        var data;
+        data = ({
+            firstName: "First",
+            lastName: "Driver",
+            email: "driver@gmail.com",
+            phone: "060987654",
+            address: "St. John's Boulevard 12"
+        });
+        return request(app).post('/client/' +client._id + '/drivers')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 406);
+                return done();
+            });
+    });
+
     it("find all drivers - fail - missing token", function (done) {
         return request(app).get('/client/' + client._id + '/drivers')
         .type('application/json').end(function (err, res) {
@@ -390,7 +420,7 @@ describe("Client tests", function () {
             });
     });
 
-    it("find driver by id - success - valid data", function (done) {
+    it("find all drivers - success - valid data", function (done) {
         return request(app).get('/client/' + client._id + '/drivers')
             .set('x-access-token', token)
             .type('application/json').end(function (err, res) {
@@ -399,7 +429,8 @@ describe("Client tests", function () {
             });
     });
 
-    it("find driver by id - fail - missing token", function (done) {
+    it("find driver by id - fail - missing token", function (done) 
+    {
         return request(app).get('/client/' + client._id + '/drivers/'+ driver._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
@@ -408,7 +439,7 @@ describe("Client tests", function () {
     });
 
     it("find driver by id - fail - not found", function (done) {
-        return request(app).get('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/drivers/' + dummyId)
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -470,7 +501,7 @@ describe("Client tests", function () {
         return request(app).put('/client/' + client._id + '/drivers/' + driver._id)
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
-                res.should.have.property("status", 404);
+                res.should.have.property("status", 400);
                 return done();
             });
     });
@@ -492,31 +523,31 @@ describe("Client tests", function () {
             });
     });
 
-    it("delete driver - fail - missing token", function (done) {
-        return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 401);
-                return done();
-            });
-    });
+    // it("delete driver - fail - missing token", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
 
-    it("delete driver - fail - not found", function (done) {
-        return request(app).delete('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
-        .set('x-access-token', token)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
+    // it("delete driver - fail - not found", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/drivers/5a1e98c67ecb023338a3cac3')
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
 
-    it("delete driver - success - valid data", function (done) {
-        return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
-            .set('x-access-token', token)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 200);
-                return done();
-            });
-    });
+    // it("delete driver - success - valid data", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/drivers/'+ driver._id)
+    //         .set('x-access-token', token)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
 
     it("new vehicle - fail - missing token", function (done) {
         var data;
@@ -542,7 +573,7 @@ describe("Client tests", function () {
             "name": "First bus",
             "model": "Mercedes-Benz do Brasil",
             "licensePlate" : "NS-123-AD",
-            "licenseExpireDate": "2019-10-21",
+            "licenseExpireDate": "2019-04-23T18:25:43.511Z",
             "numberOfSeats": "50",
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
@@ -552,6 +583,25 @@ describe("Client tests", function () {
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
                 vehicle = res.body;
+                return done();
+            });
+    });
+
+    it("new vehicle - fail - already registered", function (done) {
+        var data;
+        data = ({
+            "name": "First bus",
+            "model": "Mercedes-Benz do Brasil",
+            "licensePlate" : "NS-123-AD",
+            "licenseExpireDate": "2019-04-23T18:25:43.511Z",
+            "numberOfSeats": "50",
+            "productionYear": "2015",
+            "numberOfKmPassed": "50000"
+        });
+        return request(app).post('/client/' +client._id + '/vehicles')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 406);
                 return done();
             });
     });
@@ -582,7 +632,7 @@ describe("Client tests", function () {
     });
 
     it("find vehicle by id - fail - not found", function (done) {
-        return request(app).get('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+        return request(app).get('/client/' + client._id + '/vehicles/' + dummyId)
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -622,13 +672,11 @@ describe("Client tests", function () {
         data = ({
             "name": "First bus",
             "model": "Mercedes-Benz do Brasil",
-            "licensePlate" : "NS-123-AD",
-            "licenseExpireDate": "2019-10-21",
             "numberOfSeats": "50",
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
         });
-        return request(app).put('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+        return request(app).put('/client/' + client._id + '/vehicles/' + dummyId)
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -641,8 +689,6 @@ describe("Client tests", function () {
         data = ({
             "name": "First bus",
             "model": "Mercedes-Benz do Brasil",
-            "licensePlate" : "NS-123-AD",
-            "licenseExpireDate": "2019-10-21",
             "numberOfSeats": "50",
             "productionYear": "2015",
             "numberOfKmPassed": "50000"
@@ -664,7 +710,7 @@ describe("Client tests", function () {
     });
 
     it("find expenses for vehicle - fail - not found", function (done) {
-        return request(app).get('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3/expenses/')
+        return request(app).get('/client/' + client._id + '/vehicles/' + dummyId + '/expenses/')
         .set('x-access-token', token)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -681,29 +727,30 @@ describe("Client tests", function () {
             });
     });
 
-    it("delete vehicle - fail - missing token", function (done) {
-        return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 401);
-                return done();
-            });
-    });
+    // it("delete vehicle - fail - missing token", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
 
-    it("delete vehicle - fail - not found", function (done) {
-        return request(app).delete('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
-        .set('x-access-token', token)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
+    // it("delete vehicle - fail - not found", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/vehicles/5a1e98c67ecb023338a3cac3')
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
 
-    it("delete vehicle - success - valid data", function (done) {
-        return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
-            .set('x-access-token', token)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 200);
-                return done();
-            });
-    });
+    // it("delete vehicle - success - valid data", function (done) {
+    //     return request(app).delete('/client/' + client._id + '/vehicles/'+ vehicle._id)
+    //         .set('x-access-token', token)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+    
 });
