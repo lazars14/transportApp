@@ -1,7 +1,8 @@
 var expenseModel = require('../../model/vehicleExpense/model');
-var vehicleModel = require('../../model/vehicle/model')
+var vehicleModel = require('../../model/vehicle/model');
+var managerModel = require('../../model/manager/model');
 
-var logger = require('../../lib/logger');
+var isEmail = require('validator/lib/isEmail');
 
 // Manager functions
 
@@ -82,6 +83,7 @@ exports.getExpenseById = function(req, res, next){
         if(!vehicle) return next(error("NOT_FOUND"));
 
         expenseModel.findById(req.params.vehicleExpenseId).then(function(expense){
+            if(!expense) return next(error("NOT_FOUND"));
             res.json(expense);
         }).fail(function(err){
             return next(err);
@@ -122,6 +124,7 @@ exports.updateExpense = function(req, res, next){
         if(!vehicle) return next(error("NOT_FOUND"));
 
         expenseModel.update(req.params.vehicleExpenseId, req.body).then(function(expense){
+            if(!expense) return next(error("NOT_FOUND"));
             res.json(expense);
         }).fail(function(err){
             return next(err);
@@ -132,16 +135,16 @@ exports.updateExpense = function(req, res, next){
 }
 
  /**
- * Remove expense
+ * Delete expense
  * @param req
  * @param res
  * @param next
  */
-exports.removeExpense = function(req, res, next){
-    vehicleModel.update(req.params.vehicleExpenseId).then(function(vehicle){
+exports.deleteExpense = function(req, res, next){
+    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
-        expenseModel.remove(req.params.vehicleExpenseId).then(function(){
+        expenseModel.delete(req.params.vehicleExpenseId, req.body).then(function(){
             res.json();
         }).fail(function(err){
             return next(err);
@@ -168,7 +171,7 @@ exports.extendVehicleRegistration = function(req, res, next){
         return next(error("BAD_REQUEST"));
     }
 
-    vehicleModel.extendVechicleRegistration(req.params.vehicleId, req.body).then(function(vehicle){
+    vehicleModel.extendRegistration(req.params.vehicleId, req.body).then(function(vehicle){
         res.json();
     }).fail(function(err){
         return next(err);

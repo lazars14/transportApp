@@ -85,7 +85,7 @@ VehicleExpenseSchema.statics.findExpensesForVehicle = function(vehicleId){
  * @param vehicleExpense
  * @returns {*}
  */
-VehicleExpenseSchema.statics.add = function (vehicleExpense) {
+VehicleExpenseSchema.statics.add = function (vehicleId, vehicleExpense) {
     var deffered = Q.defer();
 
     vehicleExpense = new model(vehicleExpense);
@@ -96,7 +96,7 @@ VehicleExpenseSchema.statics.add = function (vehicleExpense) {
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add expense');
             return deffered.reject(error("MONGO_ERROR"));
         };
-        return deffered.resolve(Expense);
+        return deffered.resolve(expense);
     });
 
     return deffered.promise;

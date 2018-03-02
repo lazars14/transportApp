@@ -26,7 +26,7 @@ var router = express.Router();
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
-router.post('/login', auth.checkManagerToken, controller.loginManager);
+router.post('/login', controller.loginManager);
 
 /**
  * @api {get} /{managerId}/vehicles
@@ -212,7 +212,7 @@ router.put('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.removeExpense);
+router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.deleteExpense);
 
 /**
  * @api {put} /{managerId}/vehicles/{vehicleId}/extendRegistration
@@ -235,7 +235,7 @@ router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.delete('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
+router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
 
 logger.info('loaded MANAGER routes');
 

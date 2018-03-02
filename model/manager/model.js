@@ -106,7 +106,7 @@ ManagerSchema.statics.login = function (manager) {
         return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
 
       var token = jwt.sign({email: found.email, managerId: found._id}, config.token.secret, {
-        expiresInMinutes: 1440 // expires in 24 hours
+        expiresIn: 1440 // expires in 24 hours
       });
 
       found.password = undefined;
