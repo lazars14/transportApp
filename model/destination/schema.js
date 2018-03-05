@@ -44,15 +44,13 @@ module.exports = (function () {
      * Destination fuelExpenses (per 100km)
      */
     fuelExpenses: {
-      type: Number,
-      required: true
+      type: Number
     },
     /**
      * Destination vehicle id
      */
     vehicleId: {
-      type: String,
-      required: true
+      type: String
     },
     /**
      * Destination drivers

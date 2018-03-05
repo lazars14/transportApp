@@ -22,7 +22,6 @@ var router = express.Router();
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
@@ -64,9 +63,10 @@ router.post('/login', controller.loginManager);
  * ]
  * 
  * @apiUse internalError
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/vehicles', auth.checkManagerToken, controller.getAllVehicles);
+router.get('/:managerId/vehicles', auth.checkManagerToken, auth.checkManagerId, controller.getAllVehicles);
 
 /**
  * @api {get} /{managerId}/vehicles/{vehicleId}/expenses
@@ -102,7 +102,7 @@ router.get('/:managerId/vehicles', auth.checkManagerToken, controller.getAllVehi
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.getExpensesForVehicle);
+router.get('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, auth.checkManagerId, controller.getExpensesForVehicle);
 
 /**
  * @api {get} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
@@ -117,7 +117,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, c
  * @apiParam (path){String} vehicleExpenseId Expense id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Expenses All expenses for vehicle
+ * @apiSuccess {Object} Expense Object expense
  * {
  *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
  *     "name": "firstExpense",
@@ -130,7 +130,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, c
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.getExpenseById);
+router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, auth.checkManagerId, controller.getExpenseById);
 
 /**
  * @api {post} /{managerId}/vehicles/{vehicleId}/expenses
@@ -147,7 +147,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * @apiParam (body){String} amount Expense amount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Expense Created expense
+ * @apiSuccess {Object} Expense Created expense
  * {
  *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
  *     "name": "firstExpense",
@@ -160,7 +160,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, controller.addExpense);
+router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, auth.checkManagerId, controller.addExpense);
 
 /**
  * @api {put} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
@@ -178,7 +178,7 @@ router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, 
  * @apiParam (body){String} amount Expense amount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Expense Updated expense
+ * @apiSuccess {Object} Expense Updated expense
  * {
  *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
  *     "name": "firstExpense",
@@ -192,7 +192,7 @@ router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, 
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.put('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.updateExpense);
+router.put('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, auth.checkManagerId, controller.updateExpense);
 
 /**
  * @api {delete} /{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}
@@ -212,7 +212,7 @@ router.put('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, controller.deleteExpense);
+router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.checkManagerToken, auth.checkManagerId, controller.deleteExpense);
 
 /**
  * @api {put} /{managerId}/vehicles/{vehicleId}/extendRegistration
@@ -235,7 +235,7 @@ router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
+router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, auth.checkManagerId, controller.extendVehicleRegistration);
 
 /**
  * @api {get} /{managerId}/users
@@ -249,6 +249,62 @@ router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManag
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Array} Users All users
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      },
+ *      {
+ *          "_id": "aasdfse-39;x-s9-3la-fl2",
+ *          "firstName": "Johna",
+ *          "lastName": "Doe",
+ *          "phone": "060/234567",
+ *          "email": "johnadoe@gmail.com",
+ *          "password": "a3-asdfxjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/users', auth.checkManagerToken, auth.checkManagerId, controller.findAllUsers);
+
+/**
+ * @api {delete} /{managerId}/users/{userId}
+ * Delete User
+ * @apiVersion 1.0.0
+ * @apiName Delete User
+ * @apiGroup Manager
+ * @apiDescription Manager delete user - delete user 
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.delete('/:managerId/users/:userId', auth.checkManagerToken, auth.checkManagerId, controller.deleteUser);
+
+/**
+ * @api {get} /{managerId}/destinations/{destinationId}
+ * Get All Destinations For Manager
+ * @apiVersion 1.0.0
+ * @apiName Get All Destinations For Manager
+ * @apiGroup Manager
+ * @apiDescription Manager get all destinations - get all destinations for manager with specific id
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Destinations All destinations for manager
  * [
  *      {
  *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
@@ -270,26 +326,231 @@ router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManag
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/users', auth.checkManagerToken, controller.findAllUsers);
+router.get('/:managerId/destinations', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerId);
 
 /**
- * @api {delete} /{managerId}/users/{userId}
- * Delete User
+ * @api {get} /{managerId}/destinations/{destinationId}/other
+ * Get All Destinations Not Handled By Manager
  * @apiVersion 1.0.0
- * @apiName Delete User
+ * @apiName Get All Destinations Not Handled By Manager
  * @apiGroup Manager
- * @apiDescription Manager delete user - delete user 
+ * @apiDescription Manager get all destinations - get all destinations not handled by manager with specific id
  * 
  * @apiParam (path){String} managerId Manager id
- * @apiParam (path){String} userId User id
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Destinations All destinations for manager
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "name": "firstExpense",
+ *          "amount": "1000.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ *      {
+ *          "_id": "aas-;s-39;x-s9-3la-fwirw",
+ *          "name": "secondExpense",
+ *          "amount": "1500.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ * ]
  * 
  * @apiUse internalError
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:managerId/users/:userId', auth.checkManagerToken, controller.deleteUser);
+router.get('/:managerId/destinations/other', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerIdNot);
+
+/**
+ * @api {get} /{managerId}/destinations/{destinationId}
+ * Find Destination By Id
+ * @apiVersion 1.0.0
+ * @apiName Find Destination By Id
+ * @apiGroup Manager
+ * @apiDescription Manager find destination by id - find destination by specific id
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Expenses All expenses for vehicle
+ * {
+ *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *     "name": "firstExpense",
+ *     "amount": "1000.00",
+ *     "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *     "date": "2018-03-01"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/destinations/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationById);
+
+/**
+ * @api {post} /{managerId}/destinations
+ * Add Destination
+ * @apiVersion 1.0.0
+ * @apiName Add Destination
+ * @apiGroup Manager
+ * @apiDescription Manager add destination - add destination
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiParam (body){Object} startLocation Destination start location
+ * @apiParam (body){Object} endLocation Destination end location
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Destination Created destination
+ * {
+ *     "startLocation" : {
+ *          "lat": "45.30",
+ *          "lng": "45.30"
+ *      },
+ *      "endLocation": {
+ *          "lat": "45.31",
+ *          "lng": "45.31"
+ *      },
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.post('/:managerId/destinations', auth.checkManagerToken, auth.checkManagerId, controller.addDestination);
+
+/**
+ * @api {put} /{managerId}/destinations/{destinationId}
+ * Update Destination
+ * @apiVersion 1.0.0
+ * @apiName Update Destination
+ * @apiGroup Manager
+ * @apiDescription Manager update destination - update destination
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiParam (body){String} destinationManagerId Manager id for destination
+ * @apiParam (body){String} [startLocation] Expense name
+ * @apiParam (body){String} [endLocation] Expense amount
+ * @apiParam (body){String} [startDate] Expense name
+ * @apiParam (body){String} [endDate] Expense amount
+ * @apiParam (body){String} [driversPay] Expense name
+ * @apiParam (body){String} [numberOfKms] Expense amount
+ * @apiParam (body){String} [fuelExpenses] Expense name
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Destination Updated destination
+ * {
+ *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *     "name": "firstExpense",
+ *     "amount": "1000.00",
+ *     "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *     "date": "2018-03-01"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinations/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.updateDestination);
+
+/**
+ * @api {delete} /{managerId}/destinations/{destinationId}
+ * Delete Destination
+ * @apiVersion 1.0.0
+ * @apiName Delete Destination
+ * @apiGroup Manager
+ * @apiDescription Manager delete destination - delete destination
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiParam (body){String} destinationManagerId Manager id for destination
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.delete('/:managerId/destinations/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.deleteDestination);
+
+/**
+ * @api {put} /{managerId}/destinations/{destinationId}/setVehicle
+ * Set Destination Vehicle
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Vehicle
+ * @apiGroup Manager
+ * @apiDescription Manager set destination vehicle - set destination vehicle
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiParam (body){String} vehicleId Vehicle id for vehicle setting
+ * @apiParam (body){String} destinationManagerId Manager id for destination
+ * @apiParam (body){Date} startDate Destination startDate
+ * @apiParam (body){Date} endDate Destination endDate
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Destination Updated destination
+ * {
+ *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *     "name": "firstExpense",
+ *     "amount": "1000.00",
+ *     "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *     "date": "2018-03-01"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinations/:destinationId/setVehicle', auth.checkManagerToken, auth.checkManagerId, controller.setDestinationVehicle);
+
+/**
+ * @api {put} /{managerId}/destinations/{destinationId}/setDrivers
+ * Set Destination Drivers
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Drivers
+ * @apiGroup Manager
+ * @apiDescription Manager set destination drivers - set destination drivers
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiParam (body){Array} drivers Drivers for destination
+ * @apiParam (body){String} destinationManagerId Manager id for destination
+ * @apiParam (body){Date} startDate Destination startDate
+ * @apiParam (body){Date} endDate Destination endDate
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Destination Updated destination
+ * {
+ *     "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *     "name": "firstExpense",
+ *     "amount": "1000.00",
+ *     "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *     "date": "2018-03-01"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinations/:destinationId/setDrivers', auth.checkManagerToken, auth.checkManagerId, controller.setDestinationDrivers);
 
 logger.info('loaded MANAGER routes');
 

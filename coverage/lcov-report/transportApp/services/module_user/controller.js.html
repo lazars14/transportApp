@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">12.82% </span>
+        <span class="strong">19.23% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/78</span>
+        <span class='fraction'>15/78</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">9.38% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/32</span>
+        <span class='fraction'>3/32</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">9.09% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/22</span>
+        <span class='fraction'>2/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.16% </span>
+        <span class="strong">19.74% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/76</span>
+        <span class='fraction'>15/76</span>
       </div>
     </div>
   </div>
@@ -232,23 +232,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,24 +405,24 @@ var logger = require('../../lib/logger');
  * @param res
  * @param next
  */
-exports.registerUser = <span class="fstat-no" title="function not covered" >function(req, res, next){</span>
-<span class="cstat-no" title="statement not covered" >    if(!req.body.email){</span>
+exports.registerUser = function(req, res, next){
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!req.body.email){
 <span class="cstat-no" title="statement not covered" >        logger.error('Error - Register user - Email can\'t be empty');</span>
 <span class="cstat-no" title="statement not covered" >        return next(error("BAD_REQUEST"));</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if(!isEmail(req.body.email)){</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!isEmail(req.body.email)){
 <span class="cstat-no" title="statement not covered" >        logger.error('Error - Register user - Wrong email format');</span>
 <span class="cstat-no" title="statement not covered" >        return next(error("BAD_REQUEST"));</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if(!req.body.password){</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!req.body.password){
 <span class="cstat-no" title="statement not covered" >        logger.error('Error - Register user - Password can\'t be empty');</span>
 <span class="cstat-no" title="statement not covered" >        return next(error("BAD_REQUEST"));</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    userModel.register(req.body).then(<span class="fstat-no" title="function not covered" >function(user){</span></span>
-<span class="cstat-no" title="statement not covered" >        res.json(user);</span>
+    userModel.register(req.body).then(function(user){
+        res.json(user);
     }).fail(<span class="fstat-no" title="function not covered" >function(err){</span>
 <span class="cstat-no" title="statement not covered" >        return next(err);</span>
     });
@@ -571,7 +571,7 @@ exports.changeEmail = <span class="fstat-no" title="function not covered" >funct
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 10:06:41 GMT+0100 (Central Europe Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 16:47:55 GMT+0100 (Central Europe Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

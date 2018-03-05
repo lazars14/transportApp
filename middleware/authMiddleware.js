@@ -93,7 +93,7 @@ var Auth = {
   checkClientId: function(req, res, next){
     clientModel.findById(req.params.clientId).then(function(client){
       if(!client) return next(error('NOT_FOUND'));
-      return next();
+      next();
     }).fail(function(err){
       return next(err);
     });
@@ -102,7 +102,7 @@ var Auth = {
   checkManagerId: function(req, res, next){
     managerModel.findById(req.params.managerId).then(function(manager){
       if(!manager) return next(error('NOT_FOUND'));
-      return next();
+      next();
     }).fail(function(err){
       return next(err);
     });
@@ -111,7 +111,7 @@ var Auth = {
   checkUserId: function(req, res, next){
     userModel.findById(req.params.userId).then(function(user){
       if(!user) return next(error('NOT_FOUND'));
-      return next();
+      next();
     }).fail(function(err){
       return next(err);
     });

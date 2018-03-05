@@ -197,6 +197,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -311,6 +316,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -378,11 +388,6 @@ define({ "api": [
         {
           "title": "Internal server error:",
           "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
-          "type": "json"
-        },
-        {
-          "title": "Not Found:",
-          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         },
         {
@@ -638,6 +643,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -766,6 +776,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -821,6 +836,11 @@ define({ "api": [
         {
           "title": "Internal server error:",
           "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         },
         {
@@ -1401,20 +1421,6 @@ define({ "api": [
             "group": "body",
             "type": "String",
             "optional": true,
-            "field": "licensePlate",
-            "description": "<p>Vehicle license plate</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": true,
-            "field": "licenseExpireDate",
-            "description": "<p>Vehicle license expire date</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": true,
             "field": "numberOfSeats",
             "description": "<p>Vehicle number of seats</p>"
           },
@@ -1493,6 +1499,90 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/{managerId}/destinations",
+    "title": "Add Destination",
+    "version": "1.0.0",
+    "name": "Add_Destination",
+    "group": "Manager",
+    "description": "<p>Manager add destination - add destination</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "Object",
+            "optional": false,
+            "field": "startLocation",
+            "description": "<p>Destination start location</p>"
+          },
+          {
+            "group": "body",
+            "type": "Object",
+            "optional": false,
+            "field": "endLocation",
+            "description": "<p>Destination end location</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Destination",
+            "description": "<p>Created destination { &quot;startLocation&quot; : { &quot;lat&quot;: &quot;45.30&quot;, &quot;lng&quot;: &quot;45.30&quot; }, &quot;endLocation&quot;: { &quot;lat&quot;: &quot;45.31&quot;, &quot;lng&quot;: &quot;45.31&quot; }, }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
     "url": "/{managerId}/vehicles/{vehicleId}/expenses",
     "title": "Add Expense For Vehicle",
     "version": "1.0.0",
@@ -1547,7 +1637,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
             "field": "Expense",
             "description": "<p>Created expense { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
@@ -1567,6 +1657,88 @@ define({ "api": [
         {
           "title": "Bad request:",
           "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "delete",
+    "url": "/{managerId}/destinations/{destinationId}",
+    "title": "Delete Destination",
+    "version": "1.0.0",
+    "name": "Delete_Destination",
+    "group": "Manager",
+    "description": "<p>Manager delete destination - delete destination</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "destinationManagerId",
+            "description": "<p>Manager id for destination</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
           "type": "json"
         },
         {
@@ -1608,6 +1780,69 @@ define({ "api": [
             "optional": false,
             "field": "vehicleExpenseId",
             "description": "<p>Expense id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "delete",
+    "url": "/{managerId}/users/{userId}",
+    "title": "Delete User",
+    "version": "1.0.0",
+    "name": "Delete_User",
+    "group": "Manager",
+    "description": "<p>Manager delete user - delete user</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>User id</p>"
           }
         ]
       }
@@ -1733,6 +1968,202 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/{managerId}/destinations/{destinationId}",
+    "title": "Find Destination By Id",
+    "version": "1.0.0",
+    "name": "Find_Destination_By_Id",
+    "group": "Manager",
+    "description": "<p>Manager find destination by id - find destination by specific id</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Expenses",
+            "description": "<p>All expenses for vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/{managerId}/destinations/{destinationId}",
+    "title": "Get All Destinations For Manager",
+    "version": "1.0.0",
+    "name": "Get_All_Destinations_For_Manager",
+    "group": "Manager",
+    "description": "<p>Manager get all destinations - get all destinations for manager with specific id</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Destinations",
+            "description": "<p>All destinations for manager [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, { &quot;_id&quot;: &quot;aas-;s-39;x-s9-3la-fwirw&quot;, &quot;name&quot;: &quot;secondExpense&quot;, &quot;amount&quot;: &quot;1500.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/{managerId}/destinations/{destinationId}/other",
+    "title": "Get All Destinations Not Handled By Manager",
+    "version": "1.0.0",
+    "name": "Get_All_Destinations_Not_Handled_By_Manager",
+    "group": "Manager",
+    "description": "<p>Manager get all destinations - get all destinations not handled by manager with specific id</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Destinations",
+            "description": "<p>All destinations for manager [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, { &quot;_id&quot;: &quot;aas-;s-39;x-s9-3la-fwirw&quot;, &quot;name&quot;: &quot;secondExpense&quot;, &quot;amount&quot;: &quot;1500.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
     "url": "/{managerId}/vehicles/{vehicleId}/expenses",
     "title": "Get All Expenses For Vehicle",
     "version": "1.0.0",
@@ -1775,6 +2206,69 @@ define({ "api": [
             "optional": false,
             "field": "Expenses",
             "description": "<p>All expenses for vehicle [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, { &quot;_id&quot;: &quot;aas-;s-39;x-s9-3la-fwirw&quot;, &quot;name&quot;: &quot;secondExpense&quot;, &quot;amount&quot;: &quot;1500.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/{managerId}/users",
+    "title": "Get All Users",
+    "version": "1.0.0",
+    "name": "Get_All_Users",
+    "group": "Manager",
+    "description": "<p>Manager get all users - get all users</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Users",
+            "description": "<p>All users [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/123456&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-s,;kfga=dg&quot; }, { &quot;_id&quot;: &quot;aasdfse-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Johna&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/234567&quot;, &quot;email&quot;: &quot;johnadoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-asdfxjd=-s,;kfga=dg&quot; } ]</p>"
           }
         ]
       }
@@ -1852,6 +2346,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -1906,10 +2405,10 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
-            "field": "Expenses",
-            "description": "<p>All expenses for vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
+            "field": "Expense",
+            "description": "<p>Object expense { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
           }
         ]
       }
@@ -1994,6 +2493,106 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Invalid username/password:",
+          "content": "HTTP/1.1 409 Invalid username/password\n {\n   \"error\": {\n     \"code\": \"409\",\n     \"message\": \"Invalid username/password\"\n   }\n }",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
+    "url": "/{managerId}/destinations/{destinationId}/setDrivers",
+    "title": "Set Destination Drivers",
+    "version": "1.0.0",
+    "name": "Set_Destination_Drivers",
+    "group": "Manager",
+    "description": "<p>Manager set destination drivers - set destination drivers</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "Array",
+            "optional": false,
+            "field": "drivers",
+            "description": "<p>Drivers for destination</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "destinationManagerId",
+            "description": "<p>Manager id for destination</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>Destination startDate</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>Destination endDate</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Destination",
+            "description": "<p>Updated destination { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
           "title": "Not Found:",
           "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
@@ -2004,8 +2603,261 @@ define({ "api": [
           "type": "json"
         },
         {
-          "title": "Invalid username/password:",
-          "content": "HTTP/1.1 409 Invalid username/password\n {\n   \"error\": {\n     \"code\": \"409\",\n     \"message\": \"Invalid username/password\"\n   }\n }",
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
+    "url": "/{managerId}/destinations/{destinationId}/setVehicle",
+    "title": "Set Destination Vehicle",
+    "version": "1.0.0",
+    "name": "Set_Destination_Vehicle",
+    "group": "Manager",
+    "description": "<p>Manager set destination vehicle - set destination vehicle</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "vehicleId",
+            "description": "<p>Vehicle id for vehicle setting</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "destinationManagerId",
+            "description": "<p>Manager id for destination</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>Destination startDate</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>Destination endDate</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Destination",
+            "description": "<p>Updated destination { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
+    "url": "/{managerId}/destinations/{destinationId}",
+    "title": "Update Destination",
+    "version": "1.0.0",
+    "name": "Update_Destination",
+    "group": "Manager",
+    "description": "<p>Manager update destination - update destination</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "destinationManagerId",
+            "description": "<p>Manager id for destination</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "startLocation",
+            "description": "<p>Expense name</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "endLocation",
+            "description": "<p>Expense amount</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "startDate",
+            "description": "<p>Expense name</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "endDate",
+            "description": "<p>Expense amount</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "driversPay",
+            "description": "<p>Expense name</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "numberOfKms",
+            "description": "<p>Expense amount</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "fuelExpenses",
+            "description": "<p>Expense name</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Destination",
+            "description": "<p>Updated destination { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
         }
       ]
@@ -2074,7 +2926,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
             "field": "Expense",
             "description": "<p>Updated expense { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }</p>"
@@ -2269,6 +3121,11 @@ define({ "api": [
         {
           "title": "Bad request:",
           "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         },
         {
@@ -2505,11 +3362,6 @@ define({ "api": [
         {
           "title": "Internal server error:",
           "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
-          "type": "json"
-        },
-        {
-          "title": "Not Found:",
-          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         },
         {

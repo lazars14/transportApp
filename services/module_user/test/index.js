@@ -11,10 +11,10 @@ describe("User tests", function () {
     var user;
     var destinationRequest;
 
-    var userIdDummy = '5a1e98c67ecb023338a3cac3';
+    var dummyId = '5a1e98c67ecb023338a3cac3';
     var dummyToken = jwt.sign({
         email: "user@gmail.com",
-        userId: userIdDummy
+        userId: dummyId
     }, config.token.secret, {
         expiresIn: 1440 // expires in 24 hours
     });
@@ -170,7 +170,7 @@ describe("User tests", function () {
             }
         };
 
-        return request(app).post('/user/' + userIdDummy + '/requests')
+        return request(app).post('/user/' + dummyId + '/requests')
             .set('x-access-token', dummyToken)
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -210,7 +210,7 @@ describe("User tests", function () {
     });
 
     it("user get requests - fail - not found", function (done){
-        return request(app).get('/user/' + userIdDummy + '/requests')
+        return request(app).get('/user/' + dummyId + '/requests')
         .set('x-access-token', dummyToken)
         .type('application/json').end(function (err, res){
             res.should.have.property("status", 404);
@@ -248,7 +248,7 @@ describe("User tests", function () {
             newPassword: "newPassword",
             repeatPassword: "newPassword"
         });
-        return request(app).put('/user/' + userIdDummy + '/changePassword')
+        return request(app).put('/user/' + dummyId + '/changePassword')
         .set('x-access-token', dummyToken)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -346,7 +346,7 @@ describe("User tests", function () {
             oldEmail: "user@gmail.com",
             newEmail: "test123@gmail.com"
         });
-        return request(app).put('/user/' + userIdDummy + '/changeEmail')
+        return request(app).put('/user/' + dummyId + '/changeEmail')
         .set('x-access-token', dummyToken)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);

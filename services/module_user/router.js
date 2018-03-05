@@ -53,7 +53,6 @@ router.post('/register', controller.registerUser);
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
@@ -91,9 +90,10 @@ router.post('/login', controller.loginUser);
  * 
  * @apiUse internalError
  * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.post('/:userId/requests', auth.checkUserToken, controller.addRequest);
+router.post('/:userId/requests', auth.checkUserToken, auth.checkUserId, controller.addRequest);
 
 /**
  * @api {get} /{userId}/requests
@@ -142,7 +142,7 @@ router.post('/:userId/requests', auth.checkUserToken, controller.addRequest);
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:userId/requests', auth.checkUserToken, controller.userRequests);
+router.get('/:userId/requests', auth.checkUserToken, auth.checkUserId, controller.userRequests);
 
 /**
  * @api {put} /{userId}/changePassword
@@ -166,7 +166,7 @@ router.get('/:userId/requests', auth.checkUserToken, controller.userRequests);
  * @apiUse notAllowed
  * @apiUse notFound
  */
-router.put('/:userId/changePassword', auth.checkUserToken, controller.changePassword);
+router.put('/:userId/changePassword', auth.checkUserToken, auth.checkUserId, controller.changePassword);
 
 /**
  * @api {put} /{userId}/changeEmail
@@ -189,7 +189,7 @@ router.put('/:userId/changePassword', auth.checkUserToken, controller.changePass
  * @apiUse notAllowed
  * @apiUse notFound
  */
-router.put('/:userId/changeEmail', auth.checkUserToken, controller.changeEmail);
+router.put('/:userId/changeEmail', auth.checkUserToken, auth.checkUserId, controller.changeEmail);
 
 logger.info('loaded USER routes');
 

@@ -5,6 +5,7 @@ logger = require('../lib/logger');
 
 var should = require('should'),
   exec = require('child_process').exec;
+  
 var bcrypt = require('bcryptjs');
 
 describe('main', function () {

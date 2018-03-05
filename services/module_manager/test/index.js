@@ -11,6 +11,8 @@ describe("Manager tests", function () {
     var manager;
     var vehicleId;
     var expense;
+    var userId;
+    var destination;
 
     var dummyId = '5a1e98c67ecb023338a3cac3';
     var managerDummyToken = jwt.sign({
@@ -82,6 +84,15 @@ describe("Manager tests", function () {
             });
     });
 
+    it("all vehicles - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/vehicles')
+            .set('x-access-token', managerDummyToken)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
     it("all vehicles - success - valid data", function (done) {
         return request(app).get('/manager/' + manager._id + '/vehicles')
             .set('x-access-token', token)
@@ -106,13 +117,40 @@ describe("Manager tests", function () {
             });
     });
 
+    // it("new expense - fail - bad request", function (done) {
+    //     var data;
+    //     data = {
+    //         name: "someExpense"
+    //     };
+    //     return request(app).post('/manager/' + manager._id + '/vehicles/' + vehicleId + '/expenses')
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 400);
+    //             return done();
+    //         });
+    // });
+
     it("new expense - fail - not found", function (done) {
         var data;
         data = ({
             name: "someExpense",
             amount: 1352.00
         });
-        return request(app).post('/manager/' +manager._id + '/vehicles/' + dummyId + '/expenses')
+        return request(app).post('/manager/' + dummyId + '/vehicles/' + vehicleId + '/expenses')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("new expense - fail - not found", function (done) {
+        var data;
+        data = ({
+            name: "someExpense",
+            amount: 1352.00
+        });
+        return request(app).post('/manager/' + manager._id + '/vehicles/' + dummyId + '/expenses')
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
@@ -139,6 +177,15 @@ describe("Manager tests", function () {
         return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicleId + '/expenses/' + expense._id)
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("find expense by id - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/vehicles/' + vehicleId + '/expenses/' + expense._id)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
                 return done();
             });
     });
@@ -179,6 +226,20 @@ describe("Manager tests", function () {
         return request(app).put('/manager/' + manager._id + '/vehicles/'+ vehicleId + '/expenses/' + expense._id)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("update expense - fail - not found", function (done) {
+        var data;
+        data = ({
+            name: "updatedExpense",
+            amount: 1372.00
+        });
+        return request(app).put('/manager/' + dummyId + '/vehicles/' + vehicleId + '/expenses/' + expense._id)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
                 return done();
             });
     });
@@ -234,6 +295,15 @@ describe("Manager tests", function () {
     // });
 
     // it("delete expense - fail - not found", function (done) {
+    //     return request(app).delete('/manager/' + dummyId + '/vehicles/' + vehicleId + '/expenses/' + expense._id)
+    //     .set('x-access-token', managerDummyToken)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete expense - fail - not found", function (done) {
     //     return request(app).delete('/manager/' + manager._id + '/vehicles/' + dummyId + '/expenses/' + expense._id)
     //     .set('x-access-token', token)
     //     .type('application/json').end(function (err, res) {
@@ -264,6 +334,15 @@ describe("Manager tests", function () {
         return request(app).get('/manager/' + manager._id + '/vehicles/'+ vehicleId + '/expenses/')
         .type('application/json').end(function (err, res) {
                 res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("find expenses for vehicle - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/vehicles/' + vehicleId + '/expenses/')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
                 return done();
             });
     });
@@ -306,6 +385,19 @@ describe("Manager tests", function () {
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("extend registration for vehicle - fail - not found", function (done) {
+        var data = {
+            licensePlate: "NS-233-SF",
+            licenseExpireDate: "2019-12-21"
+        };
+        return request(app).put('/manager/' + dummyId + '/vehicles/' + vehicleId + '/extendRegistration')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
                 return done();
             });
     });
@@ -361,5 +453,576 @@ describe("Manager tests", function () {
                 return done();
             });
     });
+
+    it("register user (for delete test) - success - valid data ", function (done) {
+        var data;
+        data = {
+            email: "user@gmail.com",
+            password: "test"
+        };
+
+        return request(app).post('/user/register')
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property('status', 200);
+                userId = res.body._id;
+                done();
+            });
+    });
+  
+    it("delete user - fail - missing token", function (done) {
+        return request(app).delete('/manager/' + manager._id + '/users/'+ userId)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("delete user - fail - not found", function (done) {
+        return request(app).delete('/manager/' + dummyId + '/users/'+ userId)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("delete user - fail - not found", function (done) {
+        return request(app).delete('/manager/' + manager._id + '/users/'+ dummyId)
+        .set('x-access-token', token)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("delete user - success - valid data", function (done) {
+        return request(app).delete('/manager/' + manager._id + '/users/'+ userId)
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("new destination - fail - missing token", function (done) {
+        var data;
+        data = ({
+            startLocation : {
+                "lat": "45.30",
+                "lng": "45.30"
+            },
+            endLocation : {
+            "lat": "45.31",
+            "lng": "45.31"
+            }
+        });
+        return request(app).post('/manager/' + manager._id + '/destinations')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("new destination - fail - bad request", function (done) {
+        var data;
+        data = ({
+            startLocation : {
+                "lat": "45.30",
+                "lng": "45.30"
+            }
+        });
+        return request(app).post('/manager/' + manager._id + '/destinations')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("new destination - fail - not found", function (done) {
+        var data;
+        data = ({
+            startLocation : {
+                "lat": "45.30",
+                "lng": "45.30"
+            },
+            endLocation : {
+                "lat": "45.31",
+                "lng": "45.31"
+            }
+        });
+        return request(app).post('/manager/' + dummyId + '/destinations')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("new destination - success - valid data", function (done) {
+        var data;
+        data = ({
+            startLocation : {
+                "lat": "45.30",
+                "lng": "45.30"
+            },
+            endLocation : {
+                "lat": "45.31",
+                "lng": "45.31"
+            }
+        });
+        return request(app).post('/manager/' + manager._id + '/destinations')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                destination = res.body;
+                return done();
+            });
+    });
+    
+    it("all destinations for manager - fail - missing token", function (done) {
+        return request(app).get('/manager/' +manager._id + '/destinations')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("all destinations for manager - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/destinations')
+            .set('x-access-token', managerDummyToken)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("all destinations for manager - success - valid data", function (done) {
+        return request(app).get('/manager/' + manager._id + '/destinations')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("all destinations not for manager - fail - missing token", function (done) {
+        return request(app).get('/manager/' +manager._id + '/destinations/other')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("all destinations not for manager - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/destinations/other')
+            .set('x-access-token', managerDummyToken)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("all destinations not for manager - success - valid data", function (done) {
+        return request(app).get('/manager/' + manager._id + '/destinations/other')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("find destination by id - fail - missing token", function (done) {
+        return request(app).get('/manager/' + manager._id + '/destinations/'+ destination._id)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("find destination by id - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/destinations/' + destination._id)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("find destination by id - fail - not found", function (done) {
+        return request(app).get('/manager/' + manager._id + '/destinations/' + dummyId)
+        .set('x-access-token', token)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("find destination by id - success - valid data", function (done) {
+        return request(app).get('/manager/' + manager._id + '/destinations/'+ destination._id)
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("update destination - fail - missing token", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            numberOfKms: 148.53
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("update destination - fail - bad request", function (done) {
+        var data;
+        data = ({
+            numberOfKms: 148.53
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("update destination - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            numberOfKms: 148.53
+        });
+        return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("update destination - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            numberOfKms: 148.53
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("update destination - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: dummyId,
+            numberOfKms: 148.53
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 405);
+                return done();
+            });
+    });
+
+    it("update destination - success - valid data", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            numberOfKms: 148.53,
+            startDate: "2018-03-05",
+            endDate: "2018-03-10"
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+    
+    // it("delete destination - fail - missing token", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId
+    //     });
+    //     return request(app).delete('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete destination - fail - bad request", function (done) {
+    //     var data;
+    //     data = {};
+    //     return request(app).delete('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 400);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete destination - fail - not found", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId
+    //     });
+    //     return request(app).delete('/manager/' + dummyId + '/destinations/'+ destination._id)
+    //     .set('x-access-token', managerDummyToken)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete destination - fail - not found", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId
+    //     });
+    //     return request(app).delete('/manager/' + manager._id + '/destinations/' + dummyId)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete destination - fail - not allowed", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: dummyId
+    //     });
+    //     return request(app).delete('/manager/' + manager._id + '/destinations/' + destination._id)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 405);
+    //             return done();
+    //         });
+    // });
+
+    // it("delete expense - success - valid data", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId
+    //     });
+    //     return request(app).delete('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //         .set('x-access-token', token)
+    //         .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+
+
+
+
+
+
+
+    // it("set destination drivers - fail - missing token", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId,
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - fail - bad request", function (done) {
+    //     var data;
+    //     data = ({
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 400);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - fail - not found", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId,
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id)
+    //     .set('x-access-token', managerDummyToken)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - fail - not found", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId,
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - fail - not allowed", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: dummyId,
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id)
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 405);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - success - valid data", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId,
+    //         numberOfKms: 148.53
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //         .set('x-access-token', token)
+    //         .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+
+    it("set destination vehicle - fail - missing token", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "",
+            endDate: "",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setVehicle')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - fail - bad request", function (done) {
+        var data;
+        data = ({
+            startDate: "",
+            endDate: "",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setVehicle')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id + '/setVehicle')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId + '/setVehicle')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - success - valid data", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-10",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setVehicle')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: dummyId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-10",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 405);
+                return done();
+            });
+    });
+
+    it("set destination vehicle - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-10",
+            vehicleId: vehicleId
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 405);
+                return done();
+            });
+    });
+
 
 });

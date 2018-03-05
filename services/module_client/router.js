@@ -22,7 +22,6 @@ var router = express.Router();
  * }
  * 
  * @apiUse internalError
- * @apiUse notFound
  * @apiUse badRequest
  * @apiUse invalidCredentials
  */
@@ -60,7 +59,7 @@ router.post('/login', controller.loginClient);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/:clientId', auth.checkClientToken, controller.updateClient);
+router.put('/:clientId', auth.checkClientToken, auth.checkClientId, controller.updateClient);
 
 /**
  * @api {get} /{clientId}/managers
@@ -94,9 +93,10 @@ router.put('/:clientId', auth.checkClientToken, controller.updateClient);
  * ]
  * 
  * @apiUse internalError
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/managers', auth.checkClientToken, controller.findAllManagers);
+router.get('/:clientId/managers', auth.checkClientToken, auth.checkClientId, controller.findAllManagers);
 
 /**
  * @api {get} /{clientId}/managers/{managerId}
@@ -124,7 +124,7 @@ router.get('/:clientId/managers', auth.checkClientToken, controller.findAllManag
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/managers/:managerId', auth.checkClientToken, controller.findManagerById);
+router.get('/:clientId/managers/:managerId', auth.checkClientToken, auth.checkClientId, controller.findManagerById);
 
 /**
  * @api {post} /{clientId}/managers
@@ -155,9 +155,10 @@ router.get('/:clientId/managers/:managerId', auth.checkClientToken, controller.f
  * 
  * @apiUse internalError
  * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.post('/:clientId/managers', auth.checkClientToken, controller.registerManager);
+router.post('/:clientId/managers', auth.checkClientToken, auth.checkClientId, controller.registerManager);
 
 /**
  * @api {put} /{clientId}/managers/{managerId}
@@ -192,7 +193,7 @@ router.post('/:clientId/managers', auth.checkClientToken, controller.registerMan
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/:clientId/managers/:managerId', auth.checkClientToken, controller.updateManager);
+router.put('/:clientId/managers/:managerId', auth.checkClientToken, auth.checkClientId, controller.updateManager);
 
 /**
  * @api {delete} /{clientId}/managers/{managerId}
@@ -211,7 +212,7 @@ router.put('/:clientId/managers/:managerId', auth.checkClientToken, controller.u
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:clientId/managers/:managerId', auth.checkClientToken, controller.deleteManager);
+router.delete('/:clientId/managers/:managerId', auth.checkClientToken, auth.checkClientId, controller.deleteManager);
 
 /**
  * @api {get} /{clientId}/vehicles
@@ -249,9 +250,10 @@ router.delete('/:clientId/managers/:managerId', auth.checkClientToken, controlle
  * ]
  * 
  * @apiUse internalError
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/vehicles', auth.checkClientToken, controller.findAllVehicles);
+router.get('/:clientId/vehicles', auth.checkClientToken, auth.checkClientId, controller.findAllVehicles);
 
 /**
  * @api {get} /{clientId}/vehicles/{vehicleId}
@@ -281,7 +283,7 @@ router.get('/:clientId/vehicles', auth.checkClientToken, controller.findAllVehic
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.findVehicleById);
+router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, auth.checkClientId, controller.findVehicleById);
 
 /**
  * @api {post} /{clientId}/vehicles
@@ -316,10 +318,11 @@ router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.f
  * 
  * @apiUse internalError
  * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  * @apiUse alreadyRegistered
  */
-router.post('/:clientId/vehicles', auth.checkClientToken, controller.addVehicle);
+router.post('/:clientId/vehicles', auth.checkClientToken, auth.checkClientId, controller.addVehicle);
 
 /**
  * @api {put} /{clientId}/vehicles/{vehicleId}
@@ -332,8 +335,6 @@ router.post('/:clientId/vehicles', auth.checkClientToken, controller.addVehicle)
  * @apiParam (path){String} clientId Client id
  * @apiParam (path){String} vehicleId Vehicle id
  * 
- * @apiParam (body){String} [licensePlate] Vehicle license plate
- * @apiParam (body){String} [licenseExpireDate] Vehicle license expire date
  * @apiParam (body){String} [numberOfSeats] Vehicle number of seats
  * @apiParam (body){String} [name] Vehicle name
  * @apiParam (body){String} [model] Vehicle model
@@ -355,7 +356,7 @@ router.post('/:clientId/vehicles', auth.checkClientToken, controller.addVehicle)
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.put('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.updateVehicle);
+router.put('/:clientId/vehicles/:vehicleId', auth.checkClientToken, auth.checkClientId, controller.updateVehicle);
 
 /**
  * @api {delete} /{clientId}/vehicles/{vehicleId}
@@ -374,7 +375,7 @@ router.put('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.u
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controller.deleteVehicle);
+router.delete('/:clientId/vehicles/:vehicleId', auth.checkClientToken, auth.checkClientId, controller.deleteVehicle);
 
 /**
  * @api {get} /{clientId}/vehicles/{vehicleId}/expenses
@@ -410,7 +411,7 @@ router.delete('/:clientId/vehicles/:vehicleId', auth.checkClientToken, controlle
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/vehicles/:vehicleId/expenses', auth.checkClientToken, controller.getExpensesForVehicle);
+router.get('/:clientId/vehicles/:vehicleId/expenses', auth.checkClientToken, auth.checkClientId, controller.getExpensesForVehicle);
 
 /**
  * @api {get} /{clientId}/drivers
@@ -444,9 +445,10 @@ router.get('/:clientId/vehicles/:vehicleId/expenses', auth.checkClientToken, con
  * ]
  * 
  * @apiUse internalError
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/drivers', auth.checkClientToken, controller.findAllDrivers);
+router.get('/:clientId/drivers', auth.checkClientToken, auth.checkClientId, controller.findAllDrivers);
 
 /**
  * @api {get} /{clientId}/drivers/{driverId}
@@ -474,7 +476,7 @@ router.get('/:clientId/drivers', auth.checkClientToken, controller.findAllDriver
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:clientId/drivers/:driverId', auth.checkClientToken, controller.findDriverById);
+router.get('/:clientId/drivers/:driverId', auth.checkClientToken, auth.checkClientId, controller.findDriverById);
 
 /**
  * @api {post} /{clientId}/drivers
@@ -508,7 +510,7 @@ router.get('/:clientId/drivers/:driverId', auth.checkClientToken, controller.fin
  * @apiUse notAuthorized
  * @apiUse alreadyRegistered
  */
-router.post('/:clientId/drivers', auth.checkClientToken, controller.addDriver);
+router.post('/:clientId/drivers', auth.checkClientToken, auth.checkClientId, controller.addDriver);
 
 /**
  * @api {put} /{clientId}/drivers/{driverId}
@@ -543,7 +545,7 @@ router.post('/:clientId/drivers', auth.checkClientToken, controller.addDriver);
  * @apiUse badRequest
  * @apiUse notAuthorized
  */
-router.put('/:clientId/drivers/:driverId', auth.checkClientToken, controller.updateDriver);
+router.put('/:clientId/drivers/:driverId', auth.checkClientToken, auth.checkClientId, controller.updateDriver);
 
 /**
  * @api {delete} /{clientId}/drivers/{driverId}
@@ -562,7 +564,7 @@ router.put('/:clientId/drivers/:driverId', auth.checkClientToken, controller.upd
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.delete('/:clientId/drivers/:driverId', auth.checkClientToken, controller.deleteDriver);
+router.delete('/:clientId/drivers/:driverId', auth.checkClientToken, auth.checkClientId, controller.deleteDriver);
 
 logger.info('loaded CLIENT routes');
 

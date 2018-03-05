@@ -42,6 +42,25 @@ function _findByManagerId(managerId){
 }
 
 /**
+ * find destinations by manager id
+ * @param managerId
+ * @returns {*}
+ */
+function _findByManagerIdNot(managerId){
+    var deffered = Q.defer();
+
+    model.find({managerId: {'$ne': managerId }}, function(err, destinations){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destinations not for manager id ' + managerId);
+            return deffered.reject(error("MONGO_ERROR"));
+        };
+        deffered.resolve(destinations);
+    });
+
+    return deffered.promise;
+}
+
+/**
  * find destinations by vehicle id
  * @param vehicleId
  * @returns {*}
@@ -70,12 +89,21 @@ DestinationSchema.statics.findById = function(id){
 }
 
 /**
- * Find destination by manager id
+ * Find destinations by manager id
  * @param managerId
  * @returns {*}
  */
 DestinationSchema.statics.findByManagerId = function(managerId){
     return _findByManagerId(managerId);
+}
+
+/**
+ * Find destinations by not manager id
+ * @param managerId
+ * @returns {*}
+ */
+DestinationSchema.statics.findByManagerIdNot = function(managerId){
+    return _findByManagerIdNot(managerId);
 }
 
 /**
@@ -107,13 +135,15 @@ DestinationSchema.statics.findAll = function(){
 
 /**
  * Add destination
+ * @param managerId
  * @param destination
  * @returns {*}
  */
-DestinationSchema.statics.add = function(destination){
+DestinationSchema.statics.add = function(managerId, destination){
     var deffered = Q.defer();
 
     destination = new model(destination);
+    destination.managerId = managerId;
 
     destination.save(function(err, data){
         if(err){
@@ -145,9 +175,6 @@ DestinationSchema.statics.update = function(id, data){
         if(data.driversPay) found.driversPay = data.driversPay;
         if(data.numberOfKms) found.numberOfKms = data.numberOfKms;
         if(data.fuelExpenses) found.fuelExpenses = data.fuelExpenses;
-        if(data.vehicleId) found.vehicleId = data.vehicleId;
-        if(data.managerId) found.managerId = data.managerId;
-        if(data.drivers) found.drivers = data.drivers;
 
         found.save(function(err, destination){
             if(err){
@@ -167,7 +194,7 @@ DestinationSchema.statics.update = function(id, data){
 /**
  * Delete destination
  * @param id
- * @return {*}
+ * @returns {*}
  */
 DestinationSchema.statics.delete = function(id){
     var deffered = Q.defer();
@@ -181,6 +208,96 @@ DestinationSchema.statics.delete = function(id){
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve();
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Set destination drivers
+ * @param id
+ * @param drivers
+ * @returns {*}
+ */
+DestinationSchema.statics.setDrivers = function(id, drivers){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        found.drivers = drivers;
+
+        found.save(function(err, destination){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination drivers with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destination);
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * check if vehicle is available
+ * @param vehicleId
+ * @param startDate
+ * @param endDate
+ * @returns {*}
+ */
+function _checkDestinationsForVehicle(vehicleId, startDate, endDate){
+    var deffered = Q.defer();
+
+    model.find({vehicleId : vehicleId, startDate : { '$gte' : startDate}, endDate : { '$lte' : endDate}}, function(err, destination){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicleId);
+            return deffered.reject(error('MONGO_ERROR'));
+        }
+        return deffered.resolve(destination);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Check if vehicle is available
+ * @param vehicleId
+ * @param startDate
+ * @param endDate
+ * @returns {*}
+ */
+DestinationSchema.statics.checkDestinationsForVehicle = function(vehicleId, startDate, endDate){
+    return _checkDestinationsForVehicle(vehicleId, startDate, endDate);
+}
+
+/**
+ * Set destination vehicle
+ * @param id
+ * @param vehicleId
+ * @returns {*}
+ */
+DestinationSchema.statics.setVehicle = function(id, vehicleId){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        found.vehicleId = vehicleId;
+
+        found.save(function(err, destination){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination vehicle with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destination);
         });
 
     }).fail(function(err){

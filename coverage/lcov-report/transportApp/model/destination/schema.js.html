@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for transportApp\model\driver\schema.js</title>
+    <title>Code coverage report for transportApp\model\destination\schema.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -16,7 +16,7 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../index.html">all files</a> / <a href="index.html">transportApp/model/driver/</a> schema.js
+      <a href="../../../index.html">all files</a> / <a href="index.html">transportApp/model/destination/</a> schema.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
@@ -85,7 +85,36 @@
 40
 41
 42
-43</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -126,50 +155,108 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var mongoose = require('mongoose');
 &nbsp;
 module.exports = (function () {
-  var DriverSchema = new mongoose.Schema({
+  var DestinationSchema = new mongoose.Schema({
     /**
-     * Driver first name
+     * Destination start location
      */
-    firstName: {
-      type: String,
+    startLocation: {
+      type: Object,
       required: true
     },
     /**
-     * Driver last name
+     * Destination end location
      */
-    lastName: {
-      type: String,
+    endLocation: {
+      type: Object,
       required: true
     },
     /**
-     * Driver email address
+     * Destination start date
      */
-    email: {
-        type: String,
-        unique: true,
-        required: true
-      },
-    /**
-     * Driver phone
-     */
-    phone: {
-      type: String,
-      required: true
+    startDate: {
+      type: Date
     },
     /**
-     * Driver address
+     * Destination end date
      */
-    address: {
+    endDate: {
+      type: Date
+    },
+    /**
+     * Destination driver's pay (per 100km)
+     */
+    driversPay: {
+      type: Number
+    },
+    /**
+     * Destination number of km's
+     */
+    numberOfKms: {
+      type: Number
+    },
+    /**
+     * Destination fuelExpenses (per 100km)
+     */
+    fuelExpenses: {
+      type: Number
+    },
+    /**
+     * Destination vehicle id
+     */
+    vehicleId: {
       type: String
+    },
+    /**
+     * Destination drivers
+     */
+    drivers: {
+        type: Array
+    },
+    /**
+     * Destination manager id
+     */
+    managerId: {
+        type: String,
+        required: true
     }
   });
 &nbsp;
-  return DriverSchema;
-})();</pre></td></tr>
+  return DestinationSchema;
+})();
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
