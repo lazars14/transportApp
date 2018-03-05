@@ -237,6 +237,60 @@ router.delete('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth
  */
 router.put('/:managerId/vehicles/:vehicleId/extendRegistration', auth.checkManagerToken, controller.extendVehicleRegistration);
 
+/**
+ * @api {get} /{managerId}/users
+ * Get All Users
+ * @apiVersion 1.0.0
+ * @apiName Get All Users
+ * @apiGroup Manager
+ * @apiDescription Manager get all users - get all users
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Users All users
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "name": "firstExpense",
+ *          "amount": "1000.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ *      {
+ *          "_id": "aas-;s-39;x-s9-3la-fwirw",
+ *          "name": "secondExpense",
+ *          "amount": "1500.00",
+ *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
+ *          "date": "2018-03-01"
+ *      },
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/users', auth.checkManagerToken, controller.findAllUsers);
+
+/**
+ * @api {delete} /{managerId}/users/{userId}
+ * Delete User
+ * @apiVersion 1.0.0
+ * @apiName Delete User
+ * @apiGroup Manager
+ * @apiDescription Manager delete user - delete user 
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.delete('/:managerId/users/:userId', auth.checkManagerToken, controller.deleteUser);
+
 logger.info('loaded MANAGER routes');
 
 module.exports = router;

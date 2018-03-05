@@ -1,6 +1,7 @@
 var expenseModel = require('../../model/vehicleExpense/model');
 var vehicleModel = require('../../model/vehicle/model');
 var managerModel = require('../../model/manager/model');
+var userModel = require('../../model/user/model');
 
 var isEmail = require('validator/lib/isEmail');
 
@@ -178,4 +179,31 @@ exports.extendVehicleRegistration = function(req, res, next){
     });
 }
 
+/**
+ * Get all users
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.findAllUsers = function(req, res, next){
+    userModel.findAll().then(function(users){
+        res.json();
+    }).fail(function(err){
+        return next(err);
+    })
+}
+
+/**
+ * Delete user by id
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.deleteUser = function(req, res, next){
+    userModel.delete(req.paramas.userId).then(function(){
+        res.json();
+    }).fail(function(err){
+        return next(err);
+    });
+}
 

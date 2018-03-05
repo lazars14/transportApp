@@ -336,4 +336,30 @@ describe("Manager tests", function () {
             });
     });
 
+    it("find all users - fail - missing token", function (done) {
+        return request(app).get('/manager/' + manager._id + '/users')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("find all users - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/users')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("find expenses for vehicle - success - valid data", function (done) {
+        return request(app).get('/manager/' + manager._id + '/users')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
 });

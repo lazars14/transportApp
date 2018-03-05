@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">12.7% </span>
+        <span class="strong">16.54% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/126</span>
+        <span class='fraction'>21/127</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">2.27% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/44</span>
+        <span class='fraction'>1/44</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">6.06% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/33</span>
+        <span class='fraction'>2/33</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">14.29% </span>
+        <span class="strong">18.58% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>16/112</span>
+        <span class='fraction'>21/113</span>
       </div>
     </div>
   </div>
@@ -312,7 +312,8 @@
 267
 268
 269
-270</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+270
+271</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -389,17 +390,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -500,6 +501,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -657,18 +659,18 @@ UserSchema.statics.findByEmail = <span class="fstat-no" title="function not cove
  * Find all users
  * @returns {*}
  */
-UserSchema.statics.findAll = <span class="fstat-no" title="function not covered" >function(){</span>
-<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+UserSchema.statics.findAll = function(){
+    var deffered = Q.defer();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.find({}, <span class="fstat-no" title="function not covered" >function(err, users){</span></span>
-<span class="cstat-no" title="statement not covered" >        if(err){</span>
+    model.find({}, function(err, users){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
 <span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find all users');</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
         };
-<span class="cstat-no" title="statement not covered" >        return deffered.resolve(users);</span>
+        return deffered.resolve(users);
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+    return deffered.promise;
 }
 &nbsp;
 /**
@@ -772,6 +774,7 @@ UserSchema.statics.delete = <span class="fstat-no" title="function not covered" 
 <span class="cstat-no" title="statement not covered" >        model.remove({"_id" : mongoose.Types.ObjectId(id)}, <span class="fstat-no" title="function not covered" >function(err){</span></span>
 <span class="cstat-no" title="statement not covered" >            if(err){</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to delete user with id ' + id);</span>
+<span class="cstat-no" title="statement not covered" >                return deffered.reject(error('MONGO_ERROR'));</span>
             };
 <span class="cstat-no" title="statement not covered" >            return deffered.resolve();</span>
         });
@@ -856,7 +859,7 @@ module.exports = model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 02 2018 15:14:10 GMT+0100 (Central Europe Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 05 2018 10:06:41 GMT+0100 (Central Europe Standard Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

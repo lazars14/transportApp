@@ -189,6 +189,7 @@ UserSchema.statics.delete = function(id){
         model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to delete user with id ' + id);
+                return deffered.reject(error('MONGO_ERROR'));
             };
             return deffered.resolve();
         });
