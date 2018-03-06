@@ -38,8 +38,8 @@ module.exports = (function () {
      * DestinationRequest status [0 - submitted, 1 - waiting for confirmation (should wait at least 1 day before rejecting), 2 - accepted, 3 - rejected]
      */
     status: {
-      type: String,
-      default: "submitted"
+      type: Number,
+      default: 0
     },
     /**
      * DestinationRequest destination id

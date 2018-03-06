@@ -552,6 +552,179 @@ router.put('/:managerId/destinations/:destinationId/setVehicle', auth.checkManag
  */
 router.put('/:managerId/destinations/:destinationId/setDrivers', auth.checkManagerToken, auth.checkManagerId, controller.setDestinationDrivers);
 
+/**
+ * @api {get} /{managerId}/destinationRequests/submitted
+ * Find All Submitted Requests
+ * @apiVersion 1.0.0
+ * @apiName Find All Submitted Requests
+ * @apiGroup Manager
+ * @apiDescription Manager find all submitted requests - find all submitted requests
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Requests Submitted requests
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      },
+ *      {
+ *          "_id": "aasdfse-39;x-s9-3la-fl2",
+ *          "firstName": "Johna",
+ *          "lastName": "Doe",
+ *          "phone": "060/234567",
+ *          "email": "johnadoe@gmail.com",
+ *          "password": "a3-asdfxjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/destinationRequests/submitted', auth.checkManagerToken, auth.checkManagerId, controller.findAllRequestsSubmitted);
+
+/**
+ * @api {get} /{managerId}/destinationRequests/{destinationId}
+ * Get All Requests For Destination
+ * @apiVersion 1.0.0
+ * @apiName Get All Requests For Destination
+ * @apiGroup Manager
+ * @apiDescription Manager get all requests for destination - get all requests for destination
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Requests Requests for destination
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      },
+ *      {
+ *          "_id": "aasdfse-39;x-s9-3la-fl2",
+ *          "firstName": "Johna",
+ *          "lastName": "Doe",
+ *          "phone": "060/234567",
+ *          "email": "johnadoe@gmail.com",
+ *          "password": "a3-asdfxjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/destinationRequests/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.findAllRequestsByDestination);
+
+/**
+ * @api {put} /{managerId}/destinationRequests/{destinationRequestId}/setAwaiting
+ * Set Destination Request To Awating Confirmation
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Request To Awating Confirmation
+ * @apiGroup Manager
+ * @apiDescription Manager set request to awaiting confirmation - set request to awaiting confirmation
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationRequestId Destination request id
+ * 
+ * @apiParam (path){String} startDate Request start date
+ * @apiParam (path){String} endDate Request end date
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Request DestinationRequest
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinationRequests/:destinationRequestId/setAwaiting', auth.checkManagerToken, auth.checkManagerId, controller.requestSetAwaiting);
+
+/**
+ * @api {put} /{managerId}/destinationRequests/{destinationRequestId}/setAccepted
+ * Set Destination Request To Accepted
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Request To Accepted
+ * @apiGroup Manager
+ * @apiDescription Manager set request to accepted - set request to accepted
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationRequestId Destination request id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Request DestinationRequest
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAllowed
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinationRequests/:destinationRequestId/setAccepted', auth.checkManagerToken, auth.checkManagerId, controller.requestSetAccepted);
+
+/**
+ * @api {put} /{managerId}/destinationRequests/{destinationRequestId}/setRejected
+ * Set Destination Request To Rejected
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Request To Rejected
+ * @apiGroup Manager
+ * @apiDescription Manager set request to rejected - set request to rejected
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationRequestId Destination request id
+ * 
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Request DestinationRequest
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinationRequests/:destinationRequestId/setRejected', auth.checkManagerToken, auth.checkManagerId, controller.requestSetRejected);
+
 logger.info('loaded MANAGER routes');
 
 module.exports = router;

@@ -1,7 +1,8 @@
 var
   Q             = require("q"),
   DestinationRequestSchema = require('./schema.js'),
-  mongoose      = require('mongoose');
+  mongoose      = require('mongoose'),
+  constants = require('../../lib/constants');
 
 /**
  * find by id
@@ -134,6 +135,32 @@ DestinationRequestSchema.statics.findAll = function(){
 }
 
 /**
+ * find all submitted
+ * @returns {*}
+ */
+function _findAllSubmitted(){
+    var deffered = Q.defer();
+
+    model.findOne({status : constants.status.SUBMITTED}, function(err, data){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with user id ' + userId);
+            return deffered.reject(error("MONGO_ERROR"));
+        };
+        deffered.resolve(data);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Find all submitted
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.findAllSubmitted = function(){
+    return _findAllSubmitted();
+}
+
+/**
  * DestinationRequest add
  * @param userId
  * @param destinationRequest
@@ -211,6 +238,98 @@ DestinationRequestSchema.statics.delete = function(id){
                 return deffered.reject(error("MONGO_ERROR"));
             }
             return deffered.resolve();
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * DestinationRequest set to awaiting confirmation
+ * @param id
+ * @param data
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.changeToAwaiting = function(id, data){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+ 
+        if(found.status != constants.status.SUBMITTED) return deffered.reject(error('NOT_ALLOWED'));
+
+        found.status = constants.status.WAITING_FOR_CONFIRMATION;
+        found.startDate = data.startDate;
+        found.endDate = data.endDate;
+        found.destinationId = data.destinationId;
+
+        found.save(function(err, destinationRequest){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination request with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destinationRequest);
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * DestinationRequest set to accepted
+ * @param id
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.changeToAccepted = function(id){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        if(found.status != constants.status.WAITING_FOR_CONFIRMATION) return deffered.reject(error('NOT_ALLOWED'));
+
+        found.status = constants.status.ACCEPTED;
+
+        found.save(function(err, destinationRequest){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination request with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destinationRequest);
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * DestinationRequest set to rejected
+ * @param id
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.changeToRejected = function(id){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+ 
+        found.status = constants.status.REJECTED;
+
+        found.save(function(err, destinationRequest){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination request with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destinationRequest);
         });
 
     }).fail(function(err){

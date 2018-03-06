@@ -3,6 +3,7 @@ var vehicleModel = require('../../model/vehicle/model');
 var managerModel = require('../../model/manager/model');
 var userModel = require('../../model/user/model');
 var destinationModel = require('../../model/destination/model');
+var requestModel = require('../../model/destinationRequest/model');
 
 var isEmail = require('validator/lib/isEmail');
 
@@ -400,17 +401,124 @@ exports.setDestinationDrivers = function(req, res, next){
         return next(error('BAD_REQUEST'));
     }
 
-    // check if the drivers are available
-    // if not return not allowed
+    // there has to be 2 drivers for every destination
+    if(!req.body.drivers[1]) return next(error('NOT_ALLOWED'));
 
-    destinationModel.setDrivers(req.params.managerId, req.body.drivers).then(function(destination){
-        res.json(destination);
+    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function(destinationOne){
+        console.log('pre pronadjene prve destinacije');
+        console.log(destinationOne);
+        if(destinationOne._id) return next(error('NOT_ALLOWED'));
+        console.log('posle pronadjene prve destinacije');
+
+        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function(destinationTwo){
+            console.log('pre pronadjene druge destinacije');
+            console.log(destinationTwo);
+            if(destinationTwo._id) return next(error('NOT_ALLOWED'));
+            console.log('posle pronadjene druge destinacije');
+    
+            destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function(destination){
+                res.json(destination);
+            }).fail(function(err){
+                return next(err);
+            });
+        }).fail(function(err){
+            return next(err);
+        })  
     }).fail(function(err){
         return next(err);
-    });
+    })
 }
 
+/**
+ * Find all submitted requests
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.findAllRequestsSubmitted = function(req, res, next){
+    requestModel.findAllSubmitted().then(function(requests){
+        res.json(requests);
+    }).fail(function(err){
+        return next(err);
+    })
+}
 
+/**
+ * Find all requests for destination
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.findAllRequestsByDestination = function(req, res, next){
+    destinationModel.findById(req.params.destinationId).then(function(destination){
+        if(!destination) return next(error('NOT_FOUND'));
+
+        requestModel.findByDestinationId(req.params.destinationId).then(function(requests){
+            res.json(requests);
+        }).fail(function(err){
+            return next(err);
+        })
+    }).fail(function(err){
+        return next(err);
+    })
+}
+
+/**
+ * Set request status to awaiting
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestSetAwaiting = function(req, res, next){
+    if(!req.body.destinationId){
+        logger.error('Error - Set request to awaiting - Destination id can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.startDate){
+        logger.error('Error - Set request to awaiting - StartDate id can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.endDate){
+        logger.error('Error - Set request to awaiting - EndDate id can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(function(awaitedRequest){
+        res.json(awaitedRequest);
+    }).fail(function(err){
+        return next(err);
+    })
+}
+
+/**
+ * Set request status to accepted
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestSetAccepted = function(req, res, next){
+    requestModel.changeToAccepted(req.params.destinationRequestId).then(function(awaitedRequest){
+        res.json(awaitedRequest);
+    }).fail(function(err){
+        return next(err);
+    })
+}
+
+/**
+ * Set request status to awaiting
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestSetRejected = function(req, res, next){
+    requestModel.changeToRejected(req.params.destinationRequestId).then(function(awaitedRequest){
+        res.json(awaitedRequest);
+    }).fail(function(err){
+        return next(err);
+    })
+}
 
 
 

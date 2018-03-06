@@ -13,6 +13,8 @@ describe("Manager tests", function () {
     var expense;
     var userId;
     var destination;
+    var driver1;
+    var driver2;
 
     var dummyId = '5a1e98c67ecb023338a3cac3';
     var managerDummyToken = jwt.sign({
@@ -72,6 +74,8 @@ describe("Manager tests", function () {
             // data for further tests
             token = res.body.token;
             manager = res.body.manager;
+            global.manager1token = res.body.token;
+            global.manager1 = res.body.manager;
             return done();
         });
     });
@@ -576,6 +580,7 @@ describe("Manager tests", function () {
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
                 destination = res.body;
+                global.destination1test = res.body;
                 return done();
             });
     });
@@ -828,17 +833,15 @@ describe("Manager tests", function () {
 
 
 
-
-
-
-
     // it("set destination drivers - fail - missing token", function (done) {
     //     var data;
     //     data = ({
     //         destinationManagerId: destination.managerId,
-    //         numberOfKms: 148.53
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05",
+    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
     //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
     //     .type('application/json').send(data).end(function (err, res) {
     //             res.should.have.property("status", 401);
     //             return done();
@@ -848,9 +851,11 @@ describe("Manager tests", function () {
     // it("set destination drivers - fail - bad request", function (done) {
     //     var data;
     //     data = ({
-    //         numberOfKms: 148.53
+    //         destinationManagerId: destination.managerId,
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05"
     //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
     //     .set('x-access-token', token)
     //     .type('application/json').send(data).end(function (err, res) {
     //             res.should.have.property("status", 400);
@@ -862,9 +867,11 @@ describe("Manager tests", function () {
     //     var data;
     //     data = ({
     //         destinationManagerId: destination.managerId,
-    //         numberOfKms: 148.53
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05",
+    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
     //     });
-    //     return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id)
+    //     return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id + '/setDrivers')
     //     .set('x-access-token', managerDummyToken)
     //     .type('application/json').send(data).end(function (err, res) {
     //             res.should.have.property("status", 404);
@@ -876,26 +883,14 @@ describe("Manager tests", function () {
     //     var data;
     //     data = ({
     //         destinationManagerId: destination.managerId,
-    //         numberOfKms: 148.53
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05",
+    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
     //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId)
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId + '/setDrivers')
     //     .set('x-access-token', token)
     //     .type('application/json').send(data).end(function (err, res) {
     //             res.should.have.property("status", 404);
-    //             return done();
-    //         });
-    // });
-
-    // it("set destination drivers - fail - not allowed", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: dummyId,
-    //         numberOfKms: 148.53
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id)
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 405);
     //             return done();
     //         });
     // });
@@ -904,12 +899,30 @@ describe("Manager tests", function () {
     //     var data;
     //     data = ({
     //         destinationManagerId: destination.managerId,
-    //         numberOfKms: 148.53
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05",
+    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
     //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
+    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
     //         .set('x-access-token', token)
     //         .type('application/json').send(data).end(function (err, res) {
     //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination drivers - fail - not allowed", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: destination.managerId,
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-05",
+    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setDrivers')
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 405);
     //             return done();
     //         });
     // });
@@ -1023,6 +1036,10 @@ describe("Manager tests", function () {
                 return done();
             });
     });
+
+
+
+
 
 
 });

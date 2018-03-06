@@ -469,6 +469,25 @@ describe("Client tests", function () {
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
                 driver = res.body;
+                global.driver1test = res.body;
+                return done();
+            });
+    });
+
+    it("new driver - success - valid data", function (done) {
+        var data;
+        data = ({
+            firstName: "First",
+            lastName: "Driver",
+            email: "driver2@gmail.com",
+            phone: "060987654",
+            address: "St. John's Boulevard 12"
+        });
+        return request(app).post('/client/' +client._id + '/drivers')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                global.driver2test = res.body;
                 return done();
             });
     });

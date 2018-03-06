@@ -194,8 +194,8 @@ describe("User tests", function () {
             .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 200);
 
-                destinationRequest = res.body.request;
-                // or request.body, check in debugger
+                destinationRequest = res.body;
+                global.destinationRequest1test = res.body;
 
                 return done();
             });

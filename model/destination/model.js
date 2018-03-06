@@ -218,6 +218,38 @@ DestinationSchema.statics.delete = function(id){
 }
 
 /**
+ * check if driver is available
+ * @param driverId
+ * @param startDate
+ * @param endDate
+ * @returns {*}
+ */
+function _checkDestinationsForDriver(driverId, startDate, endDate){
+    var deffered = Q.defer();
+
+    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDate}, endDate : { '$lte' : endDate}}, function(err, destinations){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check driver for destinations, driver id is ' + driverId);
+            return deffered.reject(error('MONGO_ERROR'));
+        }
+        return deffered.resolve(destinations);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Check if driver is available
+ * @param driverId
+ * @param startDate
+ * @param endDate
+ * @returns {*}
+ */
+DestinationSchema.statics.checkDestinationsForDriver = function(driverId, startDate, endDate){
+    return _checkDestinationsForDriver(driverId, startDate, endDate);
+}
+
+/**
  * Set destination drivers
  * @param id
  * @param drivers
