@@ -638,9 +638,10 @@ router.get('/:managerId/destinationRequests/:destinationId', auth.checkManagerTo
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} destinationRequestId Destination request id
  * 
- * @apiParam (path){String} startDate Request start date
- * @apiParam (path){String} endDate Request end date
- * @apiParam (path){String} destinationId Destination id
+ * @apiParam (body){String} startDate Request start date
+ * @apiParam (body){String} endDate Request end date
+ * @apiParam (body){String} destinationId Destination id
+ * @apiParam (body){String} destinationOrder Order of request in destination route
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Request DestinationRequest

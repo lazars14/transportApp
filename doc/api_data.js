@@ -2847,27 +2847,36 @@ define({ "api": [
             "optional": false,
             "field": "destinationRequestId",
             "description": "<p>Destination request id</p>"
-          },
+          }
+        ],
+        "body": [
           {
-            "group": "path",
+            "group": "body",
             "type": "String",
             "optional": false,
             "field": "startDate",
             "description": "<p>Request start date</p>"
           },
           {
-            "group": "path",
+            "group": "body",
             "type": "String",
             "optional": false,
             "field": "endDate",
             "description": "<p>Request end date</p>"
           },
           {
-            "group": "path",
+            "group": "body",
             "type": "String",
             "optional": false,
             "field": "destinationId",
             "description": "<p>Destination id</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "destinationOrder",
+            "description": "<p>Order of request in destination route</p>"
           }
         ]
       }

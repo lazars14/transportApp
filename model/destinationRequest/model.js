@@ -205,6 +205,7 @@ DestinationRequestSchema.statics.update = function(id, data){
         if(data.submissionDate) found.submissionDate = data.submissionDate;
         if(data.confirmationRequestDate) found.confirmationRequestDate = data.confirmationRequestDate;
         if(data.userId) found.userId = data.userId;
+        if(data.destinationOrder) found.destinationOrder = data.destinationOrder;
 
         found.save(function(err, destinationRequest){
             if(err){

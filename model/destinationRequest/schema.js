@@ -66,6 +66,13 @@ module.exports = (function () {
     userId: {
       type: String,
       required: true
+    },
+    /**
+     * DestinationRequest destination order
+     */
+    destinationOrder: {
+      type: Number,
+      default: -1
     }
   });
 

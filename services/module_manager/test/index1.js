@@ -94,7 +94,8 @@ describe("Manager tests for manipulating requests", function () {
         data = ({
             destinationId: destination._id,
             startDate: "2018-03-15",
-            endDate: "2018-03-20"
+            endDate: "2018-03-20",
+            destinationOrder: 1
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
         .type('application/json').send(data).end(function (err, res) {
@@ -122,7 +123,8 @@ describe("Manager tests for manipulating requests", function () {
         data = ({
             destinationId: destination._id,
             startDate: "2018-03-15",
-            endDate: "2018-03-20"
+            endDate: "2018-03-20",
+            destinationOrder: 1
         });
         return request(app).put('/manager/' + dummyId + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
         .set('x-access-token', managerDummyToken)
@@ -137,7 +139,8 @@ describe("Manager tests for manipulating requests", function () {
         data = ({
             destinationId: destination._id,
             startDate: "2018-03-15",
-            endDate: "2018-03-20"
+            endDate: "2018-03-20",
+            destinationOrder: 1
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ dummyId + '/setAwaiting')
         .set('x-access-token', token)
@@ -152,7 +155,8 @@ describe("Manager tests for manipulating requests", function () {
         data = ({
             destinationId: destination._id,
             startDate: "2018-03-15",
-            endDate: "2018-03-20"
+            endDate: "2018-03-20",
+            destinationOrder: 1
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
             .set('x-access-token', token)
@@ -167,7 +171,8 @@ describe("Manager tests for manipulating requests", function () {
         data = ({
             destinationId: destination._id,
             startDate: "2018-03-15",
-            endDate: "2018-03-20"
+            endDate: "2018-03-20",
+            destinationOrder: 1
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
         .set('x-access-token', token)
