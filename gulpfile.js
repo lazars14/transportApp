@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   apidoc = require('gulp-apidoc'),
+  bower = require('gulp-bower'),
   mocha = require('gulp-mocha');
 
 var root = "";
@@ -15,6 +16,12 @@ gulp.task('apidoc', function(done) {
     dest: "doc/",
     includeFilters: ["apiconst.js", "router.js"]
   }, done);
+});
+
+gulp.task('bower', function () {
+  return bower({
+    cwd: './public'
+  })
 });
 
 gulp.task("test", function () {
