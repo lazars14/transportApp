@@ -6,8 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-    //    { path: '', redirectTo: '', pathMatch: 'full' },
-    { path: '', component: HomeComponent }
+    // { path: '', component: HomeComponent }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes, { useHash: true });
