@@ -25,9 +25,9 @@ export class SessionService {
   }
 
   /**
-   * Client logout
+   * Destroy client object in local storage
    */
-  clientLogout() {
+  destroyClient() {
     localStorage.removeItem('client');
   }
 
@@ -51,6 +51,16 @@ export class SessionService {
     return client.token;
   }
 
+  /**
+   * Get logged client email
+   */
+  getClientEmail() {
+    const data = localStorage.getItem('client');
+    if (!data) { return null; }
+    const client = JSON.parse(data);
+    return client.client.email;
+  }
+
 
   /* Manager */
 
@@ -72,9 +82,9 @@ export class SessionService {
   }
 
   /**
-   * Manager logout
+   * Destroy manager object in local storage
    */
-  managerLogout() {
+  destroyManager() {
     localStorage.removeItem('manager');
   }
 
@@ -96,6 +106,16 @@ export class SessionService {
     if (!data) { return null; }
     const manager = JSON.parse(data);
     return manager.token;
+  }
+
+  /**
+   * Get logged manager email
+   */
+  getManagerEmail() {
+    const data = localStorage.getItem('manager');
+    if (!data) { return null; }
+    const manager = JSON.parse(data);
+    return manager.manager.email;
   }
 
 }
