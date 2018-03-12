@@ -25,6 +25,7 @@
     "path": "^0.12.7",
     "q": "^1.5.1",
     "request-validator": "^0.3.3",
+    "run-sequence": "^2.2.1",
     "serve-index": "^1.9.1",
     "should": "^13.2.1",
     "supertest": "^3.0.0",

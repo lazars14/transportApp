@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
   apidoc = require('gulp-apidoc'),
   bower = require('gulp-bower'),
+  runSequence = require('run-sequence'),
   mocha = require('gulp-mocha');
 
 var root = "";
