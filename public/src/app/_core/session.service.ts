@@ -61,6 +61,16 @@ export class SessionService {
     return client.client.email;
   }
 
+  /**
+   * Get logged client id
+   */
+  getClientId() {
+    const data = localStorage.getItem('client');
+    if (!data) { return null; }
+    const client = JSON.parse(data);
+    return client.client._id;
+  }
+
 
   /* Manager */
 
@@ -116,6 +126,16 @@ export class SessionService {
     if (!data) { return null; }
     const manager = JSON.parse(data);
     return manager.manager.email;
+  }
+
+  /**
+   * Get logged manager id
+   */
+  getManagerId() {
+    const data = localStorage.getItem('manager');
+    if (!data) { return null; }
+    const manager = JSON.parse(data);
+    return manager.manager._id;
   }
 
 }
