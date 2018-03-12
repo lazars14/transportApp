@@ -61,4 +61,28 @@ export class HttpService extends Http {
     });
   }
 
+  // request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+
+  //   if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
+  //     if (!options) {
+  //       // let's make option object
+  //       options = { headers: new Headers() };
+  //     }
+  //     options.headers.set('x-access-token', this.sessionService.getClientToken());
+  //     options.headers.set('from', this.sessionService.getClientEmail());
+  //   } else {
+
+  //     // we have to add the token to the url object
+  //     url.headers.set('x-access-token', this.sessionService.getClientToken());
+  //     url.headers.set('from', this.sessionService.getClientEmail());
+  //   }
+  //   return super.request(url, options).catch((error: Response) => {
+  //     if (error.status === 401 || error.status === 403) {
+  //       this.sessionService.destroyClient();
+  //     }
+
+  //     return Observable.throw(error);
+  //   });
+  // }
+
 }
