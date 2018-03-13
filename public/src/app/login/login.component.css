@@ -112,20 +112,33 @@ img {
 }
 
 .container {
-  background: grey;
+  background: #12BBAD;
   width: 33%;
   vertical-align: middle;
+  border-radius: 25px;
 }
 
-@media (max-width:768px) {
+@media (min-width:300px) {
+  .container {
+    width: 75%;
+  }
+}
+
+@media (min-width:500px) {
   .container {
     width: 60%;
   }
 }
 
-@media (min-width:769) and (max-width:992px) {
+@media (min-width:600px) {
   .container {
     width: 45%;
+  }
+}
+
+@media (min-width:769) {
+  .container {
+    width: 40%;
   }
 }
 
@@ -139,4 +152,14 @@ img {
   .container {
     width: 25%;
   }
+}
+
+@media (min-width:1500px) {
+  .container {
+    width: 18%;
+  }
+}
+
+.form-signin-heading {
+  color: #fff;
 }

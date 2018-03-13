@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateManagerComponent } from './update-manager.component';
+import { UpdateCmInfoComponent } from './update-cm-info.component';
 
-describe('UpdateManagerComponent', () => {
-  let component: UpdateManagerComponent;
-  let fixture: ComponentFixture<UpdateManagerComponent>;
+describe('UpdateCmInfoComponent', () => {
+  let component: UpdateCmInfoComponent;
+  let fixture: ComponentFixture<UpdateCmInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateManagerComponent ]
+      declarations: [ UpdateCmInfoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateManagerComponent);
+    fixture = TestBed.createComponent(UpdateCmInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,9 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { ManagersComponent } from './managers/managers.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { DriversComponent } from './drivers/drivers.component';
-import { UpdateClientComponent } from './update-client/update-client.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
-import { UpdateManagerComponent } from './update-manager/update-manager.component';
 import { ClientService,
          DestinationRequestService,
          DestinationService,
@@ -27,6 +25,8 @@ import { ClientService,
          AuthService } from './_services/index';
 import { SessionService, HttpService, ClientGuard, ManagerGuard } from './_core/index';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
+import { UsersComponent } from './users/users.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -40,10 +40,10 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ManagersComponent,
     VehiclesComponent,
     DriversComponent,
-    UpdateClientComponent,
     VehicleDetailsComponent,
-    UpdateManagerComponent,
-    DashboardComponent
+    DashboardComponent,
+    UpdateCmInfoComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

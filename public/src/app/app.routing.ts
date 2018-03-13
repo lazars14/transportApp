@@ -10,9 +10,9 @@ import { ManagerGuard } from './_core/index';
 import { ManagersComponent } from './managers/managers.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { DriversComponent } from './drivers/drivers.component';
-import { UpdateClientComponent } from './update-client/update-client.component';
-import { UpdateManagerComponent } from './update-manager/update-manager.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
+import { UsersComponent } from './users/users.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -22,6 +22,7 @@ const appRoutes: Routes = [
         path: 'client/dashboard', component: DashboardComponent, canActivate: [ClientGuard],
         children: [
             {
+                // moze ovde neka komponenta za default, neka statistika
                 path: '',
                 canActivateChild: [ClientGuard],
                 children: [
@@ -35,10 +36,6 @@ const appRoutes: Routes = [
                         path: 'managers',
                         component: ManagersComponent
                     },
-                    // {
-                    //     path: 'managers/:id',
-                    //     component: LoginComponent,
-                    // },
                     {
                         path: 'vehicles',
                         component: VehiclesComponent,
@@ -51,13 +48,9 @@ const appRoutes: Routes = [
                         path: 'drivers',
                         component: DriversComponent,
                     },
-                    // {
-                    //     path: 'drivers/:id',
-                    //     component: LoginComponent,
-                    // },
                     {
                         path: 'updateInfo',
-                        component: UpdateClientComponent,
+                        component: UpdateCmInfoComponent,
                     }
                 ]
 
@@ -80,10 +73,10 @@ const appRoutes: Routes = [
                         path: 'vehicles',
                         component: VehiclesComponent
                     },
-                    // {
-                    //     path: 'vehicleExpenses/:id',
-                    //     component: LoginComponent,
-                    // },
+                    {
+                        path: 'vehicles/:id',
+                        component: LoginComponent,
+                    },
                     {
                         path: 'destinations',
                         component: LoginComponent,
@@ -102,7 +95,11 @@ const appRoutes: Routes = [
                     // },
                     {
                         path: 'updateInfo',
-                        component: UpdateManagerComponent,
+                        component: UpdateCmInfoComponent,
+                    },
+                    {
+                        path: 'users',
+                        component: UsersComponent,
                     }
                 ]
 
