@@ -38,7 +38,7 @@
   },
   "scripts": {
     "prestart": "gulp deploy",
-    "start": "supervisor server",
+    "start": "node server",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- ./test/main.js -R spec"
   },
   "repository": {

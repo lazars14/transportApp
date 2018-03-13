@@ -26,7 +26,7 @@ gulp.task('bower', function () {
 });
 
 gulp.task("test", function () {
-  return gulp.src('./services/*/test/*.js', {
+  return gulp.src('./test', {
       read: false
     })
     .pipe(mocha({
