@@ -1,0 +1,28 @@
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal fade defaultModal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{ action }} Driver</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body.. {{ driver }}
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" (click)="ok()">Ok</button>
+          <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>

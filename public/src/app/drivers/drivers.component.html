@@ -1,7 +1,9 @@
+<app-driver-modal [driver]="driver" [action]="action" (modalAddUpdate)="modalAddUpdate()"></app-driver-modal>
+<app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h2>Drivers
-      <button class="btn btn-primary btn-lg" (click)="add()">Add</button>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" (click)="setAction(true)">Add</button>
     </h2>
   </div>
 
@@ -16,7 +18,7 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
-            <th class="text-center">Functions</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -28,10 +30,10 @@
             <td>New York</td>
             <td>USA</td>
             <td data-title="Edit" class="btn-group-small text-right">
-              <button class="btn btn-lg btn-info " (click)="update(driver)" title="Edit">
+              <button class="btn btn-lg btn-info " (click)="setAction(false)" data-toggle="modal" data-target="#myModal" title="Edit">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-lg btn-danger " (click)="delete(driver)" title="Delete">
+              <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
             </td>
@@ -39,5 +41,9 @@
         </tbody>
       </table>
     </div>
+
+    
+
+
   </div>
 </div>

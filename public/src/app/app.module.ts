@@ -28,6 +28,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
 import { UsersComponent } from './users/users.component';
 import { DestinationsComponent } from './destinations/destinations.component';
+import { DriverModalComponent } from './driver-modal/driver-modal.component';
+import { ManagerModalComponent } from './manager-modal/manager-modal.component';
+import { VehicleModalComponent } from './vehicle-modal/vehicle-modal.component';
+import { UserModalComponent } from './user-modal/user-modal.component';
+import { DestinationModalComponent } from './destination-modal/destination-modal.component';
+import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -45,7 +52,14 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     DashboardComponent,
     UpdateCmInfoComponent,
     UsersComponent,
-    DestinationsComponent
+    DestinationsComponent,
+    DriverModalComponent,
+    ManagerModalComponent,
+    VehicleModalComponent,
+    UserModalComponent,
+    DestinationModalComponent,
+    ExpenseModalComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,6 @@
 export const constants = {
     client: 'Client',
-    manager: 'Manager'
+    manager: 'Manager',
+    add: 'Add',
+    update: 'Update',
 };
