@@ -12,10 +12,10 @@ export class ManagerGuard implements CanActivate, CanActivateChild {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      if (!this.sessionService.isManagerLoggedIn()) {
-        this._router.navigate(['/']);
-        return false;
-      }
+      // if (!this.sessionService.isManagerLoggedIn()) {
+      //   this._router.navigate(['/']);
+      //   return false;
+      // }
 
     return true;
   }
@@ -24,10 +24,10 @@ export class ManagerGuard implements CanActivate, CanActivateChild {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      if (!this.sessionService.isManagerLoggedIn()) {
-        this._router.navigate(['/manager/login']);
-        return false;
-      }
+      // if (!this.sessionService.isManagerLoggedIn()) {
+      //   this._router.navigate(['/manager/login']);
+      //   return false;
+      // }
 
     return true;
   }

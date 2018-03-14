@@ -27,6 +27,7 @@ import { SessionService, HttpService, ClientGuard, ManagerGuard } from './_core/
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
 import { UsersComponent } from './users/users.component';
+import { DestinationsComponent } from './destinations/destinations.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -43,7 +44,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     VehicleDetailsComponent,
     DashboardComponent,
     UpdateCmInfoComponent,
-    UsersComponent
+    UsersComponent,
+    DestinationsComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import { DriversComponent } from './drivers/drivers.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
 import { UsersComponent } from './users/users.component';
+import { DestinationsComponent } from './destinations/destinations.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -58,7 +59,7 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'manager/dashboard', component: LoginComponent, canActivate: [ManagerGuard],
+        path: 'manager/dashboard', component: DashboardComponent, canActivate: [ManagerGuard],
         children: [
             {
                 path: '',
@@ -70,16 +71,16 @@ const appRoutes: Routes = [
                         canActivateChild: [ManagerGuard],
                     },
                     {
-                        path: 'vehicles',
+                        path: 'vehicleExpenses',
                         component: VehiclesComponent
                     },
                     {
-                        path: 'vehicles/:id',
+                        path: 'vehicleExpenses/:id',
                         component: LoginComponent,
                     },
                     {
                         path: 'destinations',
-                        component: LoginComponent,
+                        component: DestinationsComponent,
                     },
                     {
                         path: 'destinations/:id',

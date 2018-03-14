@@ -159,4 +159,12 @@
   width:calc(100% - 200px);
   padding: 15px;
 }
+
+.active-link {
+  color: #d19b3d !important;
+}
+
+.customTopBorder {
+  border-top: 1px solid #d19b3d;
+}
   

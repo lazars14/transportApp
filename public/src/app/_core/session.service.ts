@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SessionService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   /* Client */
 
@@ -136,6 +137,19 @@ export class SessionService {
     if (!data) { return null; }
     const manager = JSON.parse(data);
     return manager.manager._id;
+  }
+
+  /**
+   * Logout client or manager
+   */
+  logout(client: boolean) {
+    if (client) {
+      this.destroyClient();
+    } else {
+      this.destroyManager();
+    }
+
+    this.router.navigate(['']);
   }
 
 }

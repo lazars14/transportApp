@@ -3,51 +3,48 @@
   <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
   <div class="menu-list">
     <ul id="menu-content" class="menu-content collapse out">
-      <li>
-        <a routerLink="/">
+      <!-- <li>
+        <a routerLink="" routerLinkActive="active-link">
           <i class="fa fa-dashboard fa-lg"></i> Dashboard
         </a>
-      </li>
-      <li>
-        <a routerLink="client/dashboard/managers">
+      </li> -->
+      <li *ngIf="client">
+        <a routerLink="managers" routerLinkActive="active-link">
           <i class="fa fa-users fa-lg"></i> Managers
         </a>
       </li>
-      <li>
-        <a routerLink="client/dashboard/drivers">
+      <li *ngIf="client">
+        <a routerLink="drivers" routerLinkActive="active-link">
           <i class="fa fa-users fa-lg"></i> Drivers
         </a>
       </li>
-      <!-- if -->
-      <li>
-        <a routerLink="/dashboard/vehicles">
+      <li *ngIf="client">
+        <a routerLink="vehicles" routerLinkActive="active-link">
           <i class="fa fa-bus fa-lg"></i> Vehicles
         </a>
       </li>
-      <li>
-        <a routerLink="manager/dashboard/vehicleExpenses">
+      <li *ngIf="!client">
+        <a routerLink="vehicleExpenses" routerLinkActive="active-link">
           <i class="fa fa-money fa-lg"></i> Expenses
         </a>
       </li>
-      <li>
-        <a routerLink="manager/dashboard/users">
+      <li *ngIf="!client">
+        <a routerLink="users" routerLinkActive="active-link">
           <i class="fa fa-users fa-lg"></i> Users
         </a>
       </li>
-      <li>
-        <a routerLink="manager/dashboard/destinations">
+      <li *ngIf="!client">
+        <a routerLink="destinations" routerLinkActive="active-link">
           <i class="fa fa-location-arrow fa-lg"></i> Destinations
         </a>
       </li>
-      <!-- if -->
-      <li>
-        <a routerLink="/dashboard/updateInfo">
+      <li class="customTopBorder">
+        <a routerLink="updateInfo" routerLinkActive="active-link">
           <i class="fa fa-user fa-lg"></i> Update Info
         </a>
       </li>
-      <!-- if -->
       <li>
-        <a routerLink="/dashboard/signOut neki">
+        <a (click)="logout()">
           <i class="fa fa-sign-out fa-lg"></i> Logout
         </a>
       </li>
