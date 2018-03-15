@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ViewContainerRef } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpModule, RequestOptions, XHRBackend, BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
@@ -22,7 +23,7 @@ import { ClientService,
          UserService,
          VehicleExpenseService,
          VehicleService,
-         AuthService } from './_services/index';
+         AuthService} from './_services/index';
 import { SessionService, HttpService, ClientGuard, ManagerGuard } from './_core/index';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
@@ -35,6 +36,9 @@ import { UserModalComponent } from './user-modal/user-modal.component';
 import { DestinationModalComponent } from './destination-modal/destination-modal.component';
 import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+
+import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { NotificationComponent } from './notification/notification.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -59,14 +63,17 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     UserModalComponent,
     DestinationModalComponent,
     ExpenseModalComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     routing,
     HttpModule,
     NgProgressModule,
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    ToasterModule.forRoot()
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

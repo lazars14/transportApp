@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { constants } from './../utils/constants';
 import { Driver } from '../_model/index';
 import { DriverService } from './../_services/index';
-
+import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
   selector: 'app-drivers',
@@ -11,6 +11,8 @@ import { DriverService } from './../_services/index';
 })
 export class DriversComponent implements OnInit {
 
+  @ViewChild(NotificationComponent) notification: NotificationComponent;
+
   driver: Driver;
   action: string;
   driverId: string;
@@ -18,7 +20,8 @@ export class DriversComponent implements OnInit {
   deleteHeader = 'Delete Driver';
   deleteText = 'Are you sure you want to delete this driver?';
 
-  constructor() { }
+  constructor(private driverService: DriverService) {
+   }
 
   ngOnInit() {
   }
@@ -46,6 +49,7 @@ export class DriversComponent implements OnInit {
 
   add() {
     console.log('add in drivers component');
+    // this.notification.error('Failed to create new driver');
   }
 
   update() {
