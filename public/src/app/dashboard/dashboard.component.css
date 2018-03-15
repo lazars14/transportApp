@@ -91,6 +91,8 @@
     border-bottom: 1px solid #23282e;
   }
   .nav-side-menu li a {
+    display: list-item;
+    list-style-type: none;
     text-decoration: none;
     color: #e1ffff;
   }

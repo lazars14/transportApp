@@ -24,6 +24,11 @@
         </a>
       </li>
       <li *ngIf="!client">
+        <a routerLink="destinations" routerLinkActive="active-link">
+          <i class="fa fa-location-arrow fa-lg"></i> Destinations
+        </a>
+      </li>
+      <li *ngIf="!client">
         <a routerLink="vehicleExpenses" routerLinkActive="active-link">
           <i class="fa fa-money fa-lg"></i> Expenses
         </a>
@@ -31,11 +36,6 @@
       <li *ngIf="!client">
         <a routerLink="users" routerLinkActive="active-link">
           <i class="fa fa-users fa-lg"></i> Users
-        </a>
-      </li>
-      <li *ngIf="!client">
-        <a routerLink="destinations" routerLinkActive="active-link">
-          <i class="fa fa-location-arrow fa-lg"></i> Destinations
         </a>
       </li>
       <li class="customTopBorder">
