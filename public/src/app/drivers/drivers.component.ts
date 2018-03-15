@@ -13,7 +13,7 @@ export class DriversComponent implements OnInit {
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
-  driver: Driver;
+  driver: Driver = new Driver();
   action: string;
   driverId: string;
 
@@ -32,6 +32,10 @@ export class DriversComponent implements OnInit {
     } else {
       this.update();
     }
+  }
+
+  resetForm() {
+    this.driver = new Driver();
   }
 
   setAction(add: boolean) {
@@ -59,7 +63,5 @@ export class DriversComponent implements OnInit {
   delete() {
     console.log('delete in drivers component');
   }
-
-
 
 }

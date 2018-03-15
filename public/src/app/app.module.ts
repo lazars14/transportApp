@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ViewContainerRef } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+
 import { HttpModule, RequestOptions, XHRBackend, BrowserXhr } from '@angular/http';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 
@@ -73,7 +75,9 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     HttpModule,
     NgProgressModule,
     ScrollToModule.forRoot(),
-    ToasterModule.forRoot()
+    ToasterModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

@@ -89,10 +89,11 @@ footer ul li a:hover {
     text-decoration: none
 }
 
+
 /* Modals */
 
 .defaultModal {
-    padding-top: 50px;
+    padding-top: 125px;
     background-color:rgba(0, 0, 0, 0.7);
 }
 
@@ -101,6 +102,33 @@ footer ul li a:hover {
 }
 
 .modal-body {
-    font-size: 18px;
+    font-size: 16px;
 }
 
+.modal-body p {
+    font-weight: bold;
+}
+
+.red-text {
+    color: red;
+}
+
+.modal-body input {
+    font-size: 16px;
+}
+
+/* Entities */
+ 
+#entity-management h2 {
+    font-size: 30px;
+}
+
+#entity-management h2 button {
+    margin-top: 5px;
+    float: right;
+}
+
+#entity-management .table > tbody > tr > td {
+    vertical-align: middle;
+    font-size: 14px;
+}

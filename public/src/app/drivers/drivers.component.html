@@ -1,10 +1,10 @@
 <app-notification></app-notification>
-<app-driver-modal [driver]="driver" [action]="action" (modalAddUpdate)="modalAddUpdate()"></app-driver-modal>
+<app-driver-modal [driver]="driver" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-driver-modal>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
-<div class="panel panel-default">
+<div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Drivers
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" (click)="setAction(true)">Add</button>
+      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" (click)="setAction(true)">Add</button>
     </h2>
   </div>
 
@@ -30,8 +30,8 @@
             <td>35</td>
             <td>New York</td>
             <td>USA</td>
-            <td data-title="Edit" class="btn-group-small text-right">
-              <button class="btn btn-lg btn-info " (click)="setAction(false)" data-toggle="modal" data-target="#myModal" title="Edit">
+            <td class="btn-group-small text-right">
+              <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" title="Edit">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </button>
               <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
