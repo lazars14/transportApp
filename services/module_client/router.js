@@ -138,8 +138,8 @@ router.get('/:clientId/managers/:managerId', auth.checkClientToken, auth.checkCl
  * 
  * @apiParam (body){String} email Manager email
  * @apiParam (body){String} password Manager password
- * @apiParam (body){String} [firstName] Manager firstname
- * @apiParam (body){String} [lastName] Manager lastname
+ * @apiParam (body){String} firstName Manager firstname
+ * @apiParam (body){String} lastName Manager lastname
  * @apiParam (body){String} [phone] Manager phone
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok

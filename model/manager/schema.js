@@ -6,13 +6,15 @@ module.exports = (function() {
      * Manager first name
      */
     firstName: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Manager last name
      */
     lastName: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Manager email address

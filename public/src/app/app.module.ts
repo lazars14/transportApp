@@ -34,7 +34,6 @@ import { DestinationsComponent } from './destinations/destinations.component';
 import { DriverModalComponent } from './driver-modal/driver-modal.component';
 import { ManagerModalComponent } from './manager-modal/manager-modal.component';
 import { VehicleModalComponent } from './vehicle-modal/vehicle-modal.component';
-import { UserModalComponent } from './user-modal/user-modal.component';
 import { DestinationModalComponent } from './destination-modal/destination-modal.component';
 import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
@@ -62,7 +61,6 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     DriverModalComponent,
     ManagerModalComponent,
     VehicleModalComponent,
-    UserModalComponent,
     DestinationModalComponent,
     ExpenseModalComponent,
     ConfirmModalComponent,

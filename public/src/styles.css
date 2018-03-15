@@ -101,7 +101,7 @@ footer ul li a:hover {
     font-size: 26px;
 }
 
-.modal-body {
+/* .modal-body {
     font-size: 16px;
 }
 
@@ -109,12 +109,28 @@ footer ul li a:hover {
     font-weight: bold;
 }
 
+.modal-body input {
+    font-size: 16px;
+} */
+
+form {
+    font-size: 16px;
+}
+
+form p {
+    font-weight: bold;
+}
+
+form input {
+    font-size: 16px;
+}
+
 .red-text {
     color: red;
 }
 
-.modal-body input {
-    font-size: 16px;
+.background-white {
+    background: white !important;
 }
 
 /* Entities */

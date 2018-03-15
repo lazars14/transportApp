@@ -141,14 +141,14 @@ define({ "api": [
           {
             "group": "body",
             "type": "String",
-            "optional": true,
+            "optional": false,
             "field": "firstName",
             "description": "<p>Manager firstname</p>"
           },
           {
             "group": "body",
             "type": "String",
-            "optional": true,
+            "optional": false,
             "field": "lastName",
             "description": "<p>Manager lastname</p>"
           },
