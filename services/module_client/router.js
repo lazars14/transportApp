@@ -298,8 +298,8 @@ router.get('/:clientId/vehicles/:vehicleId', auth.checkClientToken, auth.checkCl
  * @apiParam (body){String} licensePlate Vehicle license plate
  * @apiParam (body){String} licenseExpireDate Vehicle license expire date
  * @apiParam (body){String} numberOfSeats Vehicle number of seats
- * @apiParam (body){String} [name] Vehicle name
- * @apiParam (body){String} [model] Vehicle model
+ * @apiParam (body){String} name Vehicle name
+ * @apiParam (body){String} model Vehicle model
  * @apiParam (body){String} [productionYear] Vehicle production year
  * @apiParam (body){String} [numberOfKmPassed] Vehicle numberOfKmPassed
  * 

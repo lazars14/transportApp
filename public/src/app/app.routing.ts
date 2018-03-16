@@ -75,10 +75,6 @@ const appRoutes: Routes = [
                         component: VehiclesComponent
                     },
                     {
-                        path: 'vehicleExpenses/:id',
-                        component: LoginComponent,
-                    },
-                    {
                         path: 'destinations',
                         component: DestinationsComponent,
                     },
@@ -90,10 +86,10 @@ const appRoutes: Routes = [
                         path: 'destinationRequests',
                         component: LoginComponent,
                     },
-                    // {
-                    //     path: 'destinationRequests/:id',
-                    //     component: LoginComponent,
-                    // },
+                    {
+                        path: 'destinationRequests/:id',
+                        component: LoginComponent,
+                    },
                     {
                         path: 'updateInfo',
                         component: UpdateCmInfoComponent,

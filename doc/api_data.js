@@ -253,14 +253,14 @@ define({ "api": [
           {
             "group": "body",
             "type": "String",
-            "optional": true,
+            "optional": false,
             "field": "name",
             "description": "<p>Vehicle name</p>"
           },
           {
             "group": "body",
             "type": "String",
-            "optional": true,
+            "optional": false,
             "field": "model",
             "description": "<p>Vehicle model</p>"
           },

@@ -6,13 +6,15 @@ module.exports = (function () {
      * Vehicle name
      */
     name: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Vehicle model
      */
     model: {
-      type: String
+      type: String,
+      required: true
     },
     /**
      * Vehicle license plate

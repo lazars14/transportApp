@@ -3,18 +3,16 @@ import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { constants } from './../utils/constants';
 
 @Component({
-  selector: 'app-vehicle-modal',
-  templateUrl: './vehicle-modal.component.html',
-  styleUrls: ['./vehicle-modal.component.css']
+  selector: 'app-vehicle-expense-modal',
+  templateUrl: './vehicle-expense-modal.component.html',
+  styleUrls: ['./vehicle-expense-modal.component.css']
 })
-export class VehicleModalComponent implements OnInit {
+export class VehicleExpenseModalComponent implements OnInit {
 
   @Input() action: string;
-  @Input() vehicle: object;
+  @Input() expense: object;
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
-
-  add = constants.add;
 
   constructor() { }
 

@@ -39,7 +39,9 @@ import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+
 import { NotificationComponent } from './notification/notification.component';
+import { VehicleExpenseModalComponent } from './vehicle-expense-modal/vehicle-expense-modal.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -64,7 +66,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     DestinationModalComponent,
     ExpenseModalComponent,
     ConfirmModalComponent,
-    NotificationComponent
+    NotificationComponent,
+    VehicleExpenseModalComponent
   ],
   imports: [
     BrowserModule,

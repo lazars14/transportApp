@@ -1,3 +1,76 @@
-<p>
-  vehicle-modal works!
-</p>
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal fade defaultModal" id="vehicleModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{ action }} Vehicle</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form #f="ngForm" name="form">
+            <div class="form-group">
+              <label for="name">
+                <span class="red-text">*</span>Name</label>
+              <input type="text" class="form-control" #name="ngModel" [(ngModel)]="vehicle.name" name="name" required>
+            </div>
+            <!-- <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">Firstname is required</div> -->
+
+            <div class="form-group">
+              <label for="model">
+                <span class="red-text">*</span>Model</label>
+              <input type="text" class="form-control" #model="ngModel" [(ngModel)]="vehicle.model" name="model" required>
+            </div>
+
+            <div *ngIf="action == add" class="form-group">
+              <label for="licensePlate">
+                <span class="red-text">*</span>License plate</label>
+              <input type="text" class="form-control" #licensePlate="ngModel" [(ngModel)]="vehicle.licensePlate" name="licensePlate" required>
+            </div>
+
+            <div *ngIf="action == add" class="form-group">
+              <label for="licenseExpireDate">
+                <span class="red-text">*</span>License expire date</label>
+              <input type="date" class="form-control" #licenseExpireDate="ngModel" [(ngModel)]="vehicle.licenseExpireDate" name="licenseExpireDate"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="numberOfSeats">
+                <span class="red-text">*</span>Number of seats</label>
+              <input type="number" min="1" class="form-control" #numberOfSeats="ngModel" [(ngModel)]="vehicle.numberOfSeats" name="numberOfSeats"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="productionYear">Production year</label>
+              <input type="number" min="1990" class="form-control" #productionYear="ngModel" [(ngModel)]="vehicle.productionYear" name="productionYear">
+            </div>
+
+            <div class="form-group">
+              <label for="numberOfKmPassed">Number of km passed</label>
+              <input type="number" min="1" class="form-control" #numberOfKmPassed="ngModel" [(ngModel)]="vehicle.numberOfKmPassed" name="numberOfKmPassed">
+            </div>
+
+            <p>
+              <span class="red-text">*</span> - mandatory fields</p>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="mx-auto">
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

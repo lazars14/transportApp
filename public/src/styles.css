@@ -101,18 +101,6 @@ footer ul li a:hover {
     font-size: 26px;
 }
 
-/* .modal-body {
-    font-size: 16px;
-}
-
-.modal-body p {
-    font-weight: bold;
-}
-
-.modal-body input {
-    font-size: 16px;
-} */
-
 form {
     font-size: 16px;
 }
@@ -133,6 +121,10 @@ form input {
     background: white !important;
 }
 
+#confirmModal {
+    font-size: 16px;
+}
+
 /* Entities */
  
 #entity-management h2 {
@@ -147,4 +139,13 @@ form input {
 #entity-management .table > tbody > tr > td {
     vertical-align: middle;
     font-size: 14px;
+}
+
+/* Vehicles */
+
+.vehicle-container {
+    background: #FAEBD7;
+    margin-bottom: 50px !important;
+    padding: 10px;
+    border-radius: 20px;
 }
