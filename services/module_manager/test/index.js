@@ -80,6 +80,73 @@ describe("Manager tests", function () {
         });
     });
 
+    it("update manager - fail - missing token", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "manager",
+            email: "manager@gmail.com",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/manager/' + manager._id)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("update manager - fail - wrong email format", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "manager",
+            email: "manager",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/manager/' + manager._id)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("update manager - fail - not found", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "manager",
+            email: "firstmanager@gmail.com",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/manager/' + dummyId)
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("update manager - success - valid data", function (done) {
+        var data;
+        data = ({
+            firstName: "UpdatedFirst",
+            lastName: "manager",
+            email: "firstmanager@gmail.com",
+            phone: "060987653",
+            address: "St. John's Boulevard 11"
+        });
+        return request(app).put('/manager/' + manager._id)
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
     it("all vehicles - fail - missing token", function (done) {
         return request(app).get('/manager/' +manager._id + '/vehicles')
         .type('application/json').end(function (err, res) {

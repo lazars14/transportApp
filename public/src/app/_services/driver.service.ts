@@ -26,8 +26,8 @@ export class DriverService {
     .map((res) => res.json());
   }
 
-  update(id: string, driver: Driver) {
-    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/drivers/' + id, driver)
+  update(driver: Driver) {
+    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/drivers/' + driver._id, driver)
     .map((res) => res.json());
   }
 

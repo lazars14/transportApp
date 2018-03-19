@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { constants } from './../utils/constants';
 import { AuthService } from './../_services/index';
 import { SessionService } from './../_core/index';
+import { NotificationComponent } from './../notification/notification.component';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { SessionService } from './../_core/index';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   userType: string;
   email: string;
@@ -36,6 +39,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.userType === constants.client) {
+      // true because in login() - true is check if user is client
       this.authService.login(this.email, this.password, true)
       .subscribe(
         data => {
@@ -44,9 +48,10 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.error = JSON.parse(error.body);
-          // display alert error
+          this.notification.error(error);
         });
     } else {
+      // false because in login() - true is check if user is client
       this.authService.login(this.email, this.password, false)
       .subscribe(
         data => {
@@ -55,7 +60,7 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.error = JSON.parse(error.body);
-          // display alert error
+          this.notification.error(error);
         });
     }
   }

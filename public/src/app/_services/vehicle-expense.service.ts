@@ -23,21 +23,21 @@ export class VehicleExpenseService {
     .map((res) => res.json());
   }
 
-  create(vehicleId: string, expense: VehicleExpense) {
+  create(expense: VehicleExpense) {
     return this.httpService.post(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/'
-    + vehicleId + '/vehicleExpenses', expense)
+    + expense.vehicleId + '/vehicleExpenses', expense)
     .map((res) => res.json());
   }
 
-  update(expenseId: string, vehicleId: string, expense: VehicleExpense) {
+  update(expense: VehicleExpense) {
     return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/'
-    + vehicleId + '/vehicleExpenses/' + expenseId, expense)
+    + expense.vehicleId + '/vehicleExpenses/' + expense._id, expense)
     .map((res) => res.json());
   }
 
-  delete(expenseId: string, vehicleId: string) {
+  delete(expenseid: string, vehicleid: string) {
     return this.httpService.delete(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/'
-    + vehicleId + '/vehicleExpenses/' + expenseId)
+    + vehicleid + '/vehicleExpenses/' + expenseid)
     .map((res) => res.json());
   }
 

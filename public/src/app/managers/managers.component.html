@@ -4,7 +4,7 @@
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Managers
-      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" (click)="setAction(true)">Add</button>
+      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" (click)="setAction(null)">Add</button>
     </h2>
   </div>
 
@@ -23,18 +23,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Anna</td>
-            <td>Pitt</td>
-            <td>35</td>
-            <td>New York</td>
-            <td>USA</td>
+          <tr *ngFor="let manager of managers; let i = index">
+            <td>{{ i }}</td>
+            <td>{{ manager.firstName }}</td>
+            <td>{{ manager.lastName }}</td>
+            <td>{{ manager.phone }}</td>
+            <td>{{ manager.email }}</td>
+            <td>{{ manager.password }}</td>
             <td class="btn-group-small text-center">
-              <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" title="Edit">
+              <button class="btn btn-lg btn-info " (click)="setAction(manager)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal" title="Edit">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
+              <button class="btn btn-lg btn-danger " (click)="setDeleteId(manager._id)" data-toggle="modal" data-target="#confirmModal" title="Delete">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
             </td>

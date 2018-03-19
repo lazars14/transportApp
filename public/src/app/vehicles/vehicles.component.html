@@ -11,7 +11,7 @@
 
   <div class="panel-body">
 
-    <div class="vehicle-container">
+    <div *ngFor="let vehicle of vehicles" class="vehicle-container">
             <br>
 
             <div class="table-responsive">
@@ -30,15 +30,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Anna</td>
-                    <td>Pitt</td>
-                    <td>35</td>
-                    <td>New York</td>
-                    <td>USA</td>
-                    <td>USA</td>
-                    <td>USA</td>
+                  <tr *ngFor="let vehicle of vehicles; let i = index">
+                    <td>{{ i }}</td>
+                    <td>{{ vehicle.name }}</td>
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.licensePlate }}</td>
+                    <td>{{ vehicle.licenseExpireDate }}</td>
+                    <td>{{ vehicle.numberOfSeats }}</td>
+                    <td>{{ vehicle.productionYear }}</td>
+                    <td>{{ vehicle.numberOfKmPassed }}</td>
                     <td *ngIf="client" class="btn-group-small text-center">
                       <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" title="Edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -72,11 +72,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Anna</td>
-                          <td>Pitt</td>
-                          <td>35</td>
+                        <tr *ngFor="let expense of vehicle.expenses; let ii = index">
+                          <td>{{ ii }}</td>
+                          <td>{{ expense.name }}</td>
+                          <td>{{ expense.amount }}</td>
+                          <td>{{ expense.date }}</td>
                           <td *ngIf="!client" class="btn-group-small text-center">
                             <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" title="Edit">
                               <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -93,89 +93,7 @@
                   <br>
     </div>
 
-    <!-- second vehicle -->
-
-    <div class="vehicle-container">
-            <br>
-
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Model</th>
-                    <th>License plate</th>
-                    <th>License expire date</th>
-                    <th>Number of seats</th>
-                    <th>Production year</th>
-                    <th>Km passed</th>
-                    <th class="text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Anna</td>
-                    <td>Pitt</td>
-                    <td>35</td>
-                    <td>New York</td>
-                    <td>USA</td>
-                    <td>USA</td>
-                    <td>USA</td>
-                    <td class="btn-group-small text-center">
-                      <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" title="Edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                      </button>
-                      <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-        
-            <br>
-        
-            <h2>Expenses
-                    <button *ngIf="!client" class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" (click)="setAction(true)">Add</button>
-                  </h2>
-        
-            <br>
-        
-            <div class="table-responsive">
-                    <table class="table table-bordered">
-                      <thead class="thead-dark">
-                        <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Amount</th>
-                          <th>Date</th>
-                          <th *ngIf="!client" class="text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Anna</td>
-                          <td>Pitt</td>
-                          <td>35</td>
-                          <td *ngIf="!client" class="btn-group-small text-center">
-                            <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" title="Edit">
-                              <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </button>
-                            <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
-                              <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-            <br>
-    </div>
+    
 
   </div>
 </div>

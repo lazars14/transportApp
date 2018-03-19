@@ -31,8 +31,13 @@ export class ManagerService {
     .map((res) => res.json());
   }
 
-  update(id: string, manager: Manager) {
-    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/managers/' + id, manager)
+  update(manager: Manager) {
+    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/managers/' + manager._id, manager)
+    .map((res) => res.json());
+  }
+
+  updateInfo(manager: Manager) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId(), manager)
     .map((res) => res.json());
   }
 

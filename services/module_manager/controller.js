@@ -38,6 +38,27 @@ exports.loginManager = function(req, res, next){
     });
 }
 
+/**
+ * Update manager
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.updateManager = function(req, res, next){
+    if(req.body.email){
+        if(!isEmail(req.body.email)){
+            logger.error('Error - Update manager - Wrong email format');
+            return next(error('BAD_REQUEST'));
+        }
+    }
+
+    managerModel.update(req.params.managerId, req.body).then(function(manager){
+        res.json(manager);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
 
 // Vehicle expenses functions
 

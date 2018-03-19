@@ -28,6 +28,40 @@ var router = express.Router();
 router.post('/login', controller.loginManager);
 
 /**
+ * @api {put} /{managerId}
+ * Update Manager Info
+ * @apiVersion 1.0.0
+ * @apiName Update Manager
+ * @apiGroup Manager
+ * @apiDescription Manager update data - update data
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiParam (body){String} [email] Manager email
+ * @apiParam (body){String} [password] Manager password
+ * @apiParam (body){String} [firstName] Manager firstname
+ * @apiParam (body){String} [lastName] Manager lastname
+ * @apiParam (body){String} [phone] Manager phone
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Manager Updated manager
+ * {
+ *    "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *    "firstName": "John",
+ *    "lastName": "Doe",
+ *    "phone": "060/123456",
+ *    "email": "johndoe@gmail.com",
+ *    "password": "a3-xjd=-s,;kfga=dg"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId', auth.checkManagerToken, auth.checkManagerId, controller.updateManager);
+
+/**
  * @api {get} /{managerId}/vehicles
  * Get All Vehicles
  * @apiVersion 1.0.0

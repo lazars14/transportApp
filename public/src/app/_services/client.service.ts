@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { HttpService, SessionService } from '../_core/index';
+import { HttpService } from '../_core/index';
 import { environment } from '../../environments/environment';
 import { Client } from '../_model/index';
 
 @Injectable()
 export class ClientService {
 
-  constructor(private httpService: HttpService, private sessionService: SessionService) {}
+  constructor(private httpService: HttpService) {}
 
   apiUrl: string = environment.apiUrl;
 
@@ -15,8 +14,8 @@ export class ClientService {
     return this.httpService.post(this.apiUrl + '/manager/login', {email, password}).map((res) => res.json());
   }
 
-  update(id: string, client: Client) {
-    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId(), client)
+  update(client: Client) {
+    return this.httpService.put(this.apiUrl + '/client/' + client._id, client)
     .map((res) => res.json());
   }
 

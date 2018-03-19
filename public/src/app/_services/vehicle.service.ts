@@ -26,8 +26,8 @@ export class VehicleService {
     .map((res) => res.json());
   }
 
-  update(id: string, vehicle: Vehicle) {
-    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/' + id, vehicle)
+  update(vehicle: Vehicle) {
+    return this.httpService.put(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/' + vehicle._id, vehicle)
     .map((res) => res.json());
   }
 

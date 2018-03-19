@@ -3350,6 +3350,111 @@ define({ "api": [
     }
   },
   {
+    "type": "put",
+    "url": "/{managerId}",
+    "title": "Update Manager Info",
+    "version": "1.0.0",
+    "name": "Update_Manager",
+    "group": "Manager",
+    "description": "<p>Manager update data - update data</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "email",
+            "description": "<p>Manager email</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "password",
+            "description": "<p>Manager password</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "firstName",
+            "description": "<p>Manager firstname</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "lastName",
+            "description": "<p>Manager lastname</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": true,
+            "field": "phone",
+            "description": "<p>Manager phone</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Manager",
+            "description": "<p>Updated manager { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/123456&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-s,;kfga=dg&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
     "type": "post",
     "url": "/register",
     "title": "Register user",

@@ -27,9 +27,9 @@ export class DestinationRequestService {
     .map((res) => res.json());
   }
 
-  update(id: string, destinationRequest: DestinationRequest) {
+  update(destinationRequest: DestinationRequest) {
     return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() +
-    '/destinationRequests/' + id, destinationRequest)
+    '/destinationRequests/' + destinationRequest._id, destinationRequest)
     .map((res) => res.json());
   }
 

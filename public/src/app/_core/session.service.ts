@@ -72,6 +72,14 @@ export class SessionService {
     return client.client._id;
   }
 
+  /**
+   * Set updated client
+   */
+  setUpdatedClient(updatedClient) {
+    const client = JSON.parse(localStorage.getItem('client'));
+    client.client = updatedClient;
+    localStorage.setItem('client', JSON.stringify(client));
+  }
 
   /* Manager */
 
@@ -140,16 +148,27 @@ export class SessionService {
   }
 
   /**
+   * Set updated manager
+   */
+  setUpdatedManager(updatedManager) {
+    const manager = JSON.parse(localStorage.getItem('manager'));
+    manager.manager = updatedManager;
+    localStorage.setItem('manager', JSON.stringify(manager));
+  }
+
+
+
+  /**
    * Logout client or manager
    */
   logout(client: boolean) {
     if (client) {
       this.destroyClient();
+      this.router.navigate(['/client']);
     } else {
       this.destroyManager();
+      this.router.navigate(['/manager']);
     }
-
-    this.router.navigate(['']);
   }
 
 }

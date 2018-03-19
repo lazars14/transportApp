@@ -1,3 +1,5 @@
+import { VehicleExpense } from './index';
+
 export class Vehicle {
     _id: string;
     name: string;
@@ -7,4 +9,5 @@ export class Vehicle {
     numberOfSeats: Number;
     productionYear: Number;
     numberOfKmPassed: Number;
+    expenses: Array<VehicleExpense>;
 }

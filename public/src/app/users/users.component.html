@@ -22,16 +22,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Anna</td>
-            <td>Pitt</td>
-            <td>35</td>
-            <td>New York</td>
-            <td>USA</td>
-            <td>USA</td>
+          <tr *ngFor="let user of users; let i = index">
+            <td>{{ i }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+            <td>{{ user.address }}</td>
             <td class="btn-group-small text-center">
-              <button class="btn btn-lg btn-danger" (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
+              <button class="btn btn-lg btn-danger" (click)="setDeleteId(user._id)" data-toggle="modal" data-target="#confirmModal" title="Delete">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
             </td>
