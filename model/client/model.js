@@ -95,10 +95,11 @@ ClientSchema.statics.login = function (client) {
     var deffered = Q.defer();
 
     _findByEmail(client.email).then(function (found) {
+        if(found === null) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
         if (!model.validatePassword(client.password, found.password)) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
 
         var token = jwt.sign({email: found.email, clientId: found._id}, config.token.secret, {
-            expiresIn: 1440 // expires in 24 hours
+            expiresInMinutes: 1440 // expires in 24 hours
         });
 
         found.password = undefined;

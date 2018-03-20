@@ -42,10 +42,6 @@ const appRoutes: Routes = [
                         component: VehiclesComponent,
                     },
                     {
-                        path: 'vehicles/:id',
-                        component: LoginComponent
-                    },
-                    {
                         path: 'drivers',
                         component: DriversComponent,
                     },
@@ -84,10 +80,6 @@ const appRoutes: Routes = [
                     },
                     {
                         path: 'destinationRequests',
-                        component: LoginComponent,
-                    },
-                    {
-                        path: 'destinationRequests/:id',
                         component: LoginComponent,
                     },
                     {

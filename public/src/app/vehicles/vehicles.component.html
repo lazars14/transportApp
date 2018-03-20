@@ -1,18 +1,22 @@
 <app-notification></app-notification>
+<app-extend-registration-modal [vehicle]="vehicle" (extendRegistration)="extendRegistration()" (resetForm)="resetForm()"></app-extend-registration-modal>
 <app-vehicle-modal [vehicle]="vehicle" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-vehicle-modal>
 <app-vehicle-expense-modal [expense]="expense" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-vehicle-expense-modal>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
+
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Vehicles
-      <button *ngIf="client" class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" (click)="setAction(true)">Add</button>
+      <button *ngIf="client" class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" (click)="setAction(true, null, null)">Add</button>
     </h2>
   </div>
 
   <div class="panel-body">
 
-    <div *ngFor="let vehicle of vehicles" class="vehicle-container">
+    <div *ngFor="let vehicle of vehicles; let i = index" class="vehicle-container">
             <br>
+
+          <h3>Info</h3>
 
             <div class="table-responsive">
               <table class="table table-bordered">
@@ -26,25 +30,28 @@
                     <th>Number of seats</th>
                     <th>Production year</th>
                     <th>Km passed</th>
-                    <th *ngIf="client" class="text-center">Actions</th>
+                    <th class="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let vehicle of vehicles; let i = index">
-                    <td>{{ i }}</td>
-                    <td>{{ vehicle.name }}</td>
-                    <td>{{ vehicle.model }}</td>
-                    <td>{{ vehicle.licensePlate }}</td>
-                    <td>{{ vehicle.licenseExpireDate }}</td>
-                    <td>{{ vehicle.numberOfSeats }}</td>
-                    <td>{{ vehicle.productionYear }}</td>
-                    <td>{{ vehicle.numberOfKmPassed }}</td>
-                    <td *ngIf="client" class="btn-group-small text-center">
-                      <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" title="Edit">
+                  <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ vehicles[i].name }}</td>
+                    <td>{{ vehicles[i].model }}</td>
+                    <td>{{ vehicles[i].licensePlate }}</td>
+                    <td>{{ vehicles[i].licenseExpireDate | date }}</td>
+                    <td>{{ vehicles[i].numberOfSeats }}</td>
+                    <td>{{ vehicles[i].productionYear }}</td>
+                    <td>{{ vehicles[i].numberOfKmPassed }}</td>
+                    <td class="btn-group-small text-center">
+                      <button *ngIf="client" class="btn btn-lg btn-info" (click)="setAction(true, vehicles[i], null)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal" title="Edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                       </button>
-                      <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
+                      <button *ngIf="client" class="btn btn-lg btn-danger" (click)="setDeleteId(vehicles[i]._id, null)" data-toggle="modal" data-target="#confirmModal" title="Delete">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </button>
+                      <button *ngIf="!client" class="btn btn-lg btn-warning" (click)="setRegistration(vehicles[i])" data-toggle="modal" data-target="#extendRegistrationModal" title="Extend Registration">
+                        <i class="fa fa-id-card" aria-hidden="true"></i>
                       </button>
                     </td>
                   </tr>
@@ -54,11 +61,9 @@
         
             <br>
         
-            <h2>Expenses
-                    <button *ngIf="!client" class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" (click)="setAction(true)">Add</button>
-                  </h2>
-        
-            <br>
+            <h3>Expenses
+                    <button *ngIf="!client" class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" (click)="setAction(false, null, vehicle._id)">Add</button>
+                  </h3>
         
             <div class="table-responsive">
                     <table class="table table-bordered">
@@ -72,16 +77,16 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let expense of vehicle.expenses; let ii = index">
-                          <td>{{ ii }}</td>
+                        <tr *ngFor="let expense of vehicles[i].expenses; let ii = index">
+                          <td>{{ ii + 1 }}</td>
                           <td>{{ expense.name }}</td>
                           <td>{{ expense.amount }}</td>
-                          <td>{{ expense.date }}</td>
+                          <td>{{ expense.date | date }}</td>
                           <td *ngIf="!client" class="btn-group-small text-center">
-                            <button class="btn btn-lg btn-info " (click)="setAction(false)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" title="Edit">
+                            <button class="btn btn-lg btn-info " (click)="setAction(false, expense, null)" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#expenseModal" title="Edit">
                               <i class="fa fa-pencil" aria-hidden="true"></i>
                             </button>
-                            <button class="btn btn-lg btn-danger " (click)="setDeleteId()" data-toggle="modal" data-target="#confirmModal" title="Delete">
+                            <button class="btn btn-lg btn-danger " (click)="setDeleteId(expense._id, vehicles[i]._id)" data-toggle="modal" data-target="#confirmModal" title="Delete">
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
                           </td>

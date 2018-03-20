@@ -115,7 +115,7 @@ describe("Client tests", function () {
             lastName: "Client",
             email: "client@gmail.com",
             phone: "060987653",
-            password: "test123"
+            password: "test"
         });
         return request(app).put('/client/' + client._id)
             .set('x-access-token', token)

@@ -1617,7 +1617,7 @@ define({ "api": [
           },
           {
             "group": "body",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "amount",
             "description": "<p>Expense amount</p>"

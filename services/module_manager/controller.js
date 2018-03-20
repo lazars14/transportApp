@@ -127,6 +127,7 @@ exports.addExpense = function(req, res, next){
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
+        console.log('usao u kontroler');
         expenseModel.add(req.params.vehicleId, req.body).then(function(expense){
             res.json(expense);
         }).fail(function(err){
@@ -168,8 +169,8 @@ exports.deleteExpense = function(req, res, next){
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
-        expenseModel.delete(req.params.vehicleExpenseId).then(function(){
-            res.json();
+        expenseModel.delete(req.params.vehicleExpenseId).then(function(expense){
+            res.json(expense);
         }).fail(function(err){
             return next(err);
         })
@@ -196,7 +197,7 @@ exports.extendVehicleRegistration = function(req, res, next){
     }
 
     vehicleModel.extendRegistration(req.params.vehicleId, req.body).then(function(vehicle){
-        res.json();
+        res.json(vehicle);
     }).fail(function(err){
         return next(err);
     });
@@ -210,7 +211,7 @@ exports.extendVehicleRegistration = function(req, res, next){
  */
 exports.findAllUsers = function(req, res, next){
     userModel.findAll().then(function(users){
-        res.json();
+        res.json(users);
     }).fail(function(err){
         return next(err);
     })
@@ -223,8 +224,8 @@ exports.findAllUsers = function(req, res, next){
  * @param next
  */
 exports.deleteUser = function(req, res, next){
-    userModel.delete(req.params.userId).then(function(){
-        res.json();
+    userModel.delete(req.params.userId).then(function(user){
+        res.json(user);
     }).fail(function(err){
         return next(err);
     });

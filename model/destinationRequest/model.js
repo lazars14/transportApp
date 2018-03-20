@@ -233,12 +233,12 @@ DestinationRequestSchema.statics.delete = function(id){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        model.remove(function(err){
+        model.remove({_id: mongoose.Types.ObjectId(id)}, function(err, request){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete destination request with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             }
-            return deffered.resolve();
+            return deffered.resolve(request);
         });
 
     }).fail(function(err){

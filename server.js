@@ -2,6 +2,7 @@
 config = require('./config/');
 logger = require('./lib/logger');
 error = require('./lib/error').error;
+cors = require('cors');
 
 // const all_routes = require('express-list-endpoints');
 
@@ -32,6 +33,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app
+ .use(cors())
+ .use(function (req, res, next) {
+   res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+   next();
+ })
 
 
 app.use(logRequest);

@@ -4,6 +4,7 @@ import { Manager } from '../_model/index';
 import { ManagerService } from './../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-managers',
@@ -18,7 +19,6 @@ export class ManagersComponent implements OnInit {
   manager: Manager = new Manager();
   action: string;
   managerId: string;
-  error: any;
 
   deleteHeader = 'Delete Manager';
   deleteText = 'Are you sure you want to delete this manager?';
@@ -33,6 +33,8 @@ export class ManagersComponent implements OnInit {
   refreshPage() {
     this.managerService.findAll().subscribe(data => {
       this.managers = data;
+    }, error => {
+      this.notification.error('Get Managers - Error ' + error.status + ' - ' + error.statusText);
     });
   }
 
@@ -53,7 +55,7 @@ export class ManagersComponent implements OnInit {
     if (manager === null) {
       this.action = constants.add;
     } else {
-      this.manager = manager;
+      this.manager = _.cloneDeep(manager);
       this.action = constants.update;
     }
   }
@@ -72,11 +74,7 @@ export class ManagersComponent implements OnInit {
         this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Add Manager - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 
@@ -89,11 +87,7 @@ export class ManagersComponent implements OnInit {
         this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Update Manager - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 
@@ -103,14 +97,9 @@ export class ManagersComponent implements OnInit {
       result => {
         this.notification.success('Manager deleted successfuly');
         this.refreshPage();
-        this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Delete Manager - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 

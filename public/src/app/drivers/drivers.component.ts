@@ -4,6 +4,7 @@ import { Driver } from '../_model/index';
 import { DriverService } from './../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-drivers',
@@ -18,7 +19,6 @@ export class DriversComponent implements OnInit {
   driver: Driver = new Driver();
   action: string;
   driverId: string;
-  error: any;
 
   deleteHeader = 'Delete Driver';
   deleteText = 'Are you sure you want to delete this driver?';
@@ -32,6 +32,8 @@ export class DriversComponent implements OnInit {
   refreshPage() {
     this.driverService.findAll().subscribe(data => {
       this.drivers = data;
+    }, error => {
+      this.notification.error('Get Drivers - Error ' + error.status + ' - ' + error.statusText);
     });
   }
 
@@ -51,7 +53,7 @@ export class DriversComponent implements OnInit {
     if (driver === null) {
       this.action = constants.add;
     } else {
-      this.driver = driver;
+      this.driver = _.cloneDeep(driver);
       this.action = constants.update;
     }
   }
@@ -70,11 +72,7 @@ export class DriversComponent implements OnInit {
         this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Add Driver - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 
@@ -87,28 +85,21 @@ export class DriversComponent implements OnInit {
         this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Update Driver - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 
   delete() {
-    console.log('delete in drivers component');
     this.driverService.delete(this.driverId).subscribe(
       result => {
+        console.log(result);
         this.notification.success('Driver deleted successfuly');
         this.refreshPage();
         this.resetForm();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        console.log('frontend error ' + error);
+        this.notification.error('Delete Driver - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 

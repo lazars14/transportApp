@@ -16,7 +16,6 @@ import { LoginComponent } from './login/login.component';
 import { ManagersComponent } from './managers/managers.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { DriversComponent } from './drivers/drivers.component';
-import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { ClientService,
          DestinationRequestService,
          DestinationService,
@@ -39,9 +38,11 @@ import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { DateValueAccessorModule } from 'angular-date-value-accessor';
 
 import { NotificationComponent } from './notification/notification.component';
 import { VehicleExpenseModalComponent } from './vehicle-expense-modal/vehicle-expense-modal.component';
+import { ExtendRegistrationModalComponent } from './extend-registration-modal/extend-registration-modal.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -55,7 +56,6 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ManagersComponent,
     VehiclesComponent,
     DriversComponent,
-    VehicleDetailsComponent,
     DashboardComponent,
     UpdateCmInfoComponent,
     UsersComponent,
@@ -67,7 +67,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ExpenseModalComponent,
     ConfirmModalComponent,
     NotificationComponent,
-    VehicleExpenseModalComponent
+    VehicleExpenseModalComponent,
+    ExtendRegistrationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +79,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ScrollToModule.forRoot(),
     ToasterModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DateValueAccessorModule
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

@@ -16,44 +16,44 @@
             <div class="form-group">
               <label for="name">
                 <span class="red-text">*</span>Name</label>
-              <input type="text" class="form-control" #name="ngModel" [(ngModel)]="vehicle.name" name="name" required>
+              <input type="text" class="form-control" [(ngModel)]="vehicle.name" name="name" required autofocus>
             </div>
             <!-- <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">Firstname is required</div> -->
 
             <div class="form-group">
               <label for="model">
                 <span class="red-text">*</span>Model</label>
-              <input type="text" class="form-control" #model="ngModel" [(ngModel)]="vehicle.model" name="model" required>
+              <input type="text" class="form-control" [(ngModel)]="vehicle.model" name="model" required>
             </div>
 
             <div *ngIf="action == add" class="form-group">
               <label for="licensePlate">
                 <span class="red-text">*</span>License plate</label>
-              <input type="text" class="form-control" #licensePlate="ngModel" [(ngModel)]="vehicle.licensePlate" name="licensePlate" required>
+              <input type="text" class="form-control" [(ngModel)]="vehicle.licensePlate" name="licensePlate" required>
             </div>
 
             <div *ngIf="action == add" class="form-group">
               <label for="licenseExpireDate">
                 <span class="red-text">*</span>License expire date</label>
-              <input type="date" class="form-control" #licenseExpireDate="ngModel" [(ngModel)]="vehicle.licenseExpireDate" name="licenseExpireDate"
+              <input type="date" class="form-control" [(ngModel)]="vehicle.licenseExpireDate" name="licenseExpireDate"
                 required>
             </div>
 
             <div class="form-group">
               <label for="numberOfSeats">
                 <span class="red-text">*</span>Number of seats</label>
-              <input type="number" min="1" class="form-control" #numberOfSeats="ngModel" [(ngModel)]="vehicle.numberOfSeats" name="numberOfSeats"
+              <input type="number" min="1" class="form-control" [(ngModel)]="vehicle.numberOfSeats" name="numberOfSeats"
                 required>
             </div>
 
             <div class="form-group">
               <label for="productionYear">Production year</label>
-              <input type="number" min="1990" class="form-control" #productionYear="ngModel" [(ngModel)]="vehicle.productionYear" name="productionYear">
+              <input type="number" min="1990" class="form-control" [(ngModel)]="vehicle.productionYear" name="productionYear">
             </div>
 
             <div class="form-group">
               <label for="numberOfKmPassed">Number of km passed</label>
-              <input type="number" min="1" class="form-control" #numberOfKmPassed="ngModel" [(ngModel)]="vehicle.numberOfKmPassed" name="numberOfKmPassed">
+              <input type="number" min="1" class="form-control" [(ngModel)]="vehicle.numberOfKmPassed" name="numberOfKmPassed">
             </div>
 
             <p>

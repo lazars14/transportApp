@@ -16,6 +16,11 @@ export class VehicleService {
     .map((res) => res.json());
   }
 
+  findAllManager() {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/vehicles')
+    .map((res) => res.json());
+  }
+
   findById(id: string) {
     return this.httpService.get(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/' + id)
     .map((res) => res.json());
@@ -33,6 +38,12 @@ export class VehicleService {
 
   delete(id: string) {
     return this.httpService.delete(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles/' + id)
+    .map((res) => res.json());
+  }
+
+  extendRegistration(vehicle: Vehicle) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/vehicles/' + vehicle._id +
+    '/extendRegistration', { licensePlate: vehicle.licensePlate, licenseExpireDate: vehicle.licenseExpireDate })
     .map((res) => res.json());
   }
 

@@ -1,10 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { constants } from './../utils/constants';
-import { Vehicle, VehicleExpense } from '../_model/index';
-import { VehicleService, VehicleExpenseService } from './../_services/index';
-import { NotificationComponent } from '../notification/notification.component';
-import { SessionService } from './../_core/index';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  Router
+} from '@angular/router';
+import {
+  constants
+} from './../utils/constants';
+import {
+  Vehicle,
+  VehicleExpense
+} from '../_model/index';
+import {
+  VehicleService,
+  VehicleExpenseService
+} from './../_services/index';
+import {
+  NotificationComponent
+} from '../notification/notification.component';
+import {
+  SessionService
+} from './../_core/index';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-vehicles',
@@ -17,7 +36,7 @@ export class VehiclesComponent implements OnInit {
 
   client: boolean;
 
-  vehicles: Array<Vehicle>;
+  vehicles: Array < Vehicle > ;
   vehicle: Vehicle = new Vehicle();
   expense: VehicleExpense = new VehicleExpense();
 
@@ -26,7 +45,6 @@ export class VehiclesComponent implements OnInit {
   // for vehicle and expense delete
   id: string;
   vehicleId: string;
-  error: any;
 
   deleteHeader: string;
   deleteText: string;
@@ -38,8 +56,7 @@ export class VehiclesComponent implements OnInit {
   deleteTextVehicleExpense = 'Are you sure you want to delete this expense?';
 
   constructor(private vehicleService: VehicleService, private vehicleExpenseService: VehicleExpenseService,
-    private router: Router, private sessionService: SessionService) {
-  }
+    private router: Router, private sessionService: SessionService) {}
 
   ngOnInit() {
     this.fillUserType();
@@ -47,14 +64,33 @@ export class VehiclesComponent implements OnInit {
   }
 
   refreshPage() {
-    this.vehicleService.findAll().subscribe(data => {
-      this.vehicles = data;
-      this.vehicles.forEach(element => {
-        this.vehicleExpenseService.findAllForVehicle(element._id).subscribe(expenses => {
-          element.expenses = expenses;
+    if (this.client) {
+      this.vehicleService.findAll().subscribe(data => {
+        this.vehicles = data;
+        this.vehicles.forEach(element => {
+          this.vehicleExpenseService.findAllForVehicle(element._id).subscribe(expenses => {
+            element.expenses = expenses;
+          }, error => {
+            this.notification.error('Get Expenses For Vehicle - Error ' + error.status + ' - ' + error.statusText);
+          });
         });
+      }, error => {
+        this.notification.error('Get Vehicles - Error ' + error.status + ' - ' + error.statusText);
       });
-    });
+    } else {
+      this.vehicleService.findAllManager().subscribe(data => {
+        this.vehicles = data;
+        this.vehicles.forEach(element => {
+          this.vehicleExpenseService.findAllForVehicleManager(element._id).subscribe(expenses => {
+            element.expenses = expenses;
+          }, error => {
+            this.notification.error('Get Expenses For Vehicle - Error ' + error.status + ' - ' + error.statusText);
+          });
+        });
+      }, error => {
+        this.notification.error('Get Vehicles - Error ' + error.status + ' - ' + error.statusText);
+      });
+    }
   }
 
   fillUserType() {
@@ -87,26 +123,62 @@ export class VehiclesComponent implements OnInit {
     }
   }
 
-  setAction(add: boolean) {
-    if (add) {
+  setAction(vehicle: boolean, obj: object, vehicleId: string) {
+    if (obj === null) {
+      if (!vehicle) {
+        this.expense.vehicleId = vehicleId;
+      }
       this.action = constants.add;
     } else {
+      this.setUpdateObject(obj, vehicle);
       this.action = constants.update;
     }
   }
 
-  setDeleteId() {
+  setRegistration(vehicle: Vehicle) {
+    this.vehicle = _.cloneDeep(vehicle);
+    this.vehicle.licenseExpireDate = new Date(this.vehicle.licenseExpireDate);
+  }
+
+  // method for converting obj to vehicle or vehicleExpense object
+  setUpdateObject(vehicleOrExpense: object, vehicle: boolean) {
+    let object2;
+
+    if (vehicle) {
+      object2 = new Vehicle();
+    } else {
+      object2 = new VehicleExpense();
+    }
+
+    for (const prop in vehicleOrExpense) {
+      if (vehicle) {
+        object2[prop] = vehicleOrExpense[prop];
+      } else {
+        object2[prop] = vehicleOrExpense[prop];
+      }
+    }
+
+    if (vehicle) {
+      this.vehicle = _.cloneDeep(object2);
+    } else {
+      this.expense = _.cloneDeep(object2);
+      this.expense.date = new Date(this.expense.date);
+    }
+  }
+
+  setDeleteId(id: string, vehicleId: string) {
     if (this.client) {
       this.deleteHeader = this.deleteHeaderVehicle;
       this.deleteText = this.deleteTextVehicle;
     } else {
+      this.vehicleId = vehicleId;
       this.deleteHeader = this.deleteHeaderVehicleExpense;
       this.deleteText = this.deleteTextVehicleExpense;
     }
-    console.log('setting id object');
-    // ovde uzimam id iz tabele i postavljam ga kao id
 
-    // onda uzimam isto vehicleId i postavljam ga
+    this.id = id;
+
+    console.log('setting id object');
   }
 
   add() {
@@ -119,11 +191,7 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Add Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
       console.log('add vehicleExpense in component');
@@ -134,11 +202,7 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Add Expense - Error ' + error.status + ' - ' + error.statusText);
         });
     }
 
@@ -154,14 +218,11 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Update Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
       console.log('update vehicleExpense in component');
+      console.log('updated expense date ', this.expense.date);
       this.vehicleExpenseService.update(this.expense).subscribe(
         result => {
           this.notification.success('Vehicle created successfuly');
@@ -169,11 +230,7 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Update Expense - Error ' + error.status + ' - ' + error.statusText);
         });
     }
 
@@ -189,11 +246,7 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Delete Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
       console.log('delete vehicleExpense in component');
@@ -204,14 +257,24 @@ export class VehiclesComponent implements OnInit {
           this.resetForm();
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (this.error.status === 401 || this.error === 403) {
-            this.sessionService.logout(true);
-          }
-          this.notification.error('Error ' + error.status);
+          this.notification.error('Delete Expense - Error ' + error.status + ' - ' + error.statusText);
         });
     }
 
+  }
+
+  extendRegistration() {
+    console.log('extend vehicle registration');
+    this.vehicleService.extendRegistration(this.vehicle).subscribe(
+      result => {
+        this.notification.success('Registration extended successfuly');
+        this.refreshPage();
+        this.resetForm();
+      },
+      error => {
+        this.notification.error('Extend Registration - Error ' + error.status + ' - ' + error.statusText);
+      }
+    );
   }
 
 }

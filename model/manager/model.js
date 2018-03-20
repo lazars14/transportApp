@@ -106,7 +106,7 @@ ManagerSchema.statics.login = function (manager) {
         return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
 
       var token = jwt.sign({email: found.email, managerId: found._id}, config.token.secret, {
-        expiresIn: 1440 // expires in 24 hours
+        expiresInMinutes: 1440 // expires in 24 hours
       });
 
       found.password = undefined;
@@ -173,13 +173,13 @@ ManagerSchema.statics.delete = function (id) {
 
   _findById(id).then(function (found) {
     if(!found) return deferred.reject(error("NOT_FOUND"));
-
-    model.remove({_id: mongoose.Types.ObjectId(id)}, function (err) {
+    
+    model.remove({_id: mongoose.Types.ObjectId(id)}, function (err, manager) {
       if (err) {
-        logger.error('Error deleting ' + name + ' manager for id ' + id, err);
+        logger.error('Error deleting manager with id ' + id, err);
         return deferred.reject(error('MONGO_ERROR'));
       }
-      deferred.resolve();
+      deferred.resolve(manager);
     });
   })
   .fail(function (err) {

@@ -2,15 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-expense-modal',
-  templateUrl: './expense-modal.component.html',
-  styleUrls: ['./expense-modal.component.css']
+  selector: 'app-extend-registration-modal',
+  templateUrl: './extend-registration-modal.component.html',
+  styleUrls: ['./extend-registration-modal.component.css']
 })
-export class ExpenseModalComponent implements OnInit {
+export class ExtendRegistrationModalComponent implements OnInit {
 
-  @Input() action: string;
-  @Input() expense: object;
-  @Output() modalAddUpdate = new EventEmitter();
+  @Input() vehicle: object;
+  @Output() extendRegistration = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 
   constructor() { }
@@ -19,7 +18,7 @@ export class ExpenseModalComponent implements OnInit {
   }
 
   ok() {
-    this.modalAddUpdate.emit();
+    this.extendRegistration.emit();
   }
 
   cancel(form: NgForm) {

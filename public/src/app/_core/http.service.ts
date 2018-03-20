@@ -9,80 +9,67 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class HttpService extends Http {
 
+  client: boolean;
+
   constructor(backend: XHRBackend, defaultOptions: RequestOptions, private sessionService: SessionService) {
     super(backend, defaultOptions);
   }
 
-  clientRequest(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+  isClient(url: string) {
+    const num = url.indexOf('client');
+    // here check if url contains 'client', if it doesn't it will return -1
+    if (num === -1) {
+      this.client = false;
+      return false;
+    } else {
+      this.client = true;
+      return true;
+    }
+  }
+
+  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
 
     if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
       if (!options) {
         // let's make option object
         options = { headers: new Headers() };
       }
-      options.headers.set('x-access-token', this.sessionService.getClientToken());
-      options.headers.set('from', this.sessionService.getClientEmail());
+
+      if (this.isClient(url)) {
+        options.headers.set('x-access-token', this.sessionService.getClientToken());
+        options.headers.set('from', this.sessionService.getClientEmail());
+      } else {
+        options.headers.set('x-access-token', this.sessionService.getManagerToken());
+        options.headers.set('from', this.sessionService.getManagerEmail());
+      }
+
     } else {
 
       // we have to add the token to the url object
-      url.headers.set('x-access-token', this.sessionService.getClientToken());
-      url.headers.set('from', this.sessionService.getClientEmail());
+      if (this.isClient(url.url)) {
+        url.headers.set('x-access-token', this.sessionService.getClientToken());
+        url.headers.set('from', this.sessionService.getClientEmail());
+      } else {
+        url.headers.set('x-access-token', this.sessionService.getManagerToken());
+        url.headers.set('from', this.sessionService.getManagerEmail());
+      }
     }
     return super.request(url, options).catch((error: Response) => {
       if (error.status === 401 || error.status === 403) {
-        this.sessionService.destroyClient();
+        // if (this.client) {
+        //   this.sessionService.logout(true);
+        // } else {
+        //   this.sessionService.logout(false);
+        // }
+        if (this.client === true) {
+          this.sessionService.destroyClient();
+        } else {
+          this.sessionService.destroyManager();
+        }
       }
 
       return Observable.throw(error);
     });
   }
-
-  managerRequest(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-
-    if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
-      if (!options) {
-        // let's make option object
-        options = { headers: new Headers() };
-      }
-      options.headers.set('x-access-token', this.sessionService.getManagerToken());
-      options.headers.set('from', this.sessionService.getManagerEmail());
-    } else {
-
-      // we have to add the token to the url object
-      url.headers.set('x-access-token', this.sessionService.getManagerToken());
-      url.headers.set('from', this.sessionService.getManagerEmail());
-    }
-    return super.request(url, options).catch((error: Response) => {
-      if (error.status === 401 || error.status === 403) {
-        this.sessionService.destroyManager();
-      }
-
-      return Observable.throw(error);
-    });
-  }
-
-  // request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-
-  //   if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
-  //     if (!options) {
-  //       // let's make option object
-  //       options = { headers: new Headers() };
-  //     }
-  //     options.headers.set('x-access-token', this.sessionService.getClientToken());
-  //     options.headers.set('from', this.sessionService.getClientEmail());
-  //   } else {
-
-  //     // we have to add the token to the url object
-  //     url.headers.set('x-access-token', this.sessionService.getClientToken());
-  //     url.headers.set('from', this.sessionService.getClientEmail());
-  //   }
-  //   return super.request(url, options).catch((error: Response) => {
-  //     if (error.status === 401 || error.status === 403) {
-  //       this.sessionService.destroyClient();
-  //     }
-
-  //     return Observable.throw(error);
-  //   });
-  // }
 
 }

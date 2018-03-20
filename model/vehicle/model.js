@@ -145,12 +145,12 @@ VehicleSchema.statics.delete = function(id){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
+        model.remove({_id : mongoose.Types.ObjectId(id)}, function(err, vehicle){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete vehicle with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
-            return deffered.resolve();
+            return deffered.resolve(vehicle);
         });
 
     }).fail(function(err){

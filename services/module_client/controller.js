@@ -142,8 +142,8 @@ exports.updateManager = function(req, res, next){
  * @param next
  */
 exports.deleteManager = function(req, res, next){
-    managerModel.delete(req.params.managerId).then(function(){
-        res.json();
+    managerModel.delete(req.params.managerId).then(function(manager){
+        res.json(manager);
     }).fail(function(err){
         return next(err);
     })
@@ -230,8 +230,8 @@ exports.updateVehicle = function(req, res, next){
  * @param next
  */
 exports.deleteVehicle = function(req, res, next){
-    vehicleModel.delete(req.params.vehicleId).then(function(){
-        res.json();
+    vehicleModel.delete(req.params.vehicleId).then(function(vehicle){
+        res.json(vehicle);
     }).fail(function(err){
         return next(err);
     });
@@ -372,8 +372,8 @@ exports.updateDriver = function(req, res, next){
  * @param next
  */
 exports.deleteDriver = function(req, res, next){
-    driverModel.delete(req.params.driverId).then(function(){
-        res.json();
+    driverModel.delete(req.params.driverId).then(function(driver){
+        res.json(driver);
     }).fail(function(err){
         return next(err);
     });

@@ -4,6 +4,7 @@ import { constants } from './../utils/constants';
 import { AuthService } from './../_services/index';
 import { SessionService } from './../_core/index';
 import { NotificationComponent } from './../notification/notification.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,6 @@ export class LoginComponent implements OnInit {
   userType: string;
   email: string;
   password: string;
-  error: any;
 
   constructor(private router: Router, private authService: AuthService, private sessionService: SessionService) { }
 
@@ -43,24 +43,23 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.email, this.password, true)
       .subscribe(
         data => {
+          console.log(data, ' response');
           this.sessionService.storeClient(data);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['client/dashboard']);
         },
         error => {
-          this.error = JSON.parse(error.body);
-          this.notification.error(error);
+          this.notification.error('Login Client - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
       // false because in login() - true is check if user is client
       this.authService.login(this.email, this.password, false)
       .subscribe(
         data => {
-          this.sessionService.storeClient(data);
-          this.router.navigate(['/dashboard']);
+          this.sessionService.storeManager(data);
+          this.router.navigate(['manager/dashboard']);
         },
         error => {
-          this.error = JSON.parse(error.body);
-          this.notification.error(error);
+          this.notification.error('Login Client - Error ' + error.status + ' - ' + error.statusText);
         });
     }
   }

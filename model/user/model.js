@@ -78,11 +78,14 @@ UserSchema.statics.findAll = function(){
     var deffered = Q.defer();
 
     model.find({}, function(err, users){
+        console.log('users ', users);
         if(err){
+            console.log('err ', err);
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find all users');
             return deffered.reject(error("MONGO_ERROR"));
         };
-        return deffered.resolve(users);
+        console.log('after err');
+        deffered.resolve(users);
     });
 
     return deffered.promise;
@@ -186,12 +189,12 @@ UserSchema.statics.delete = function(id){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
+        model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err, user){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to delete user with id ' + id);
                 return deffered.reject(error('MONGO_ERROR'));
             };
-            return deffered.resolve();
+            return deffered.resolve(user);
         });
 
     }).fail(function(err){

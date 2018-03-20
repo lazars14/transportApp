@@ -178,7 +178,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * @apiParam (path){String} vehicleId Vehicle id
  * 
  * @apiParam (body){String} name Expense name
- * @apiParam (body){String} amount Expense amount
+ * @apiParam (body){Number} amount Expense amount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Expense Created expense

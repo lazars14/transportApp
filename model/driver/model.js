@@ -143,23 +143,24 @@ DriverSchema.statics.update = function(id, data){
  * @returns {*}
  */
 DriverSchema.statics.delete = function(id){
-  var deffered = Q.defer();
+  var deferred = Q.defer();
 
-  _findById(id).then(function(found){
-    if(!found) return deffered.reject(error("NOT_FOUND"));
+  _findById(id).then(function (found) {
+    if (!found) return deferred.reject(error('NOT_FOUND'));
 
-    model.remove({"_id" : mongoose.Types.ObjectId(id)}, function(err){
-      if(err){
-        logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete driver with id ' + driverId);
-        return deffered.reject(error("MONGO_ERROR"));
-      };
-      return deffered.resolve();
+    model.remove({_id: mongoose.Types.ObjectId(id)}, function (err, driver) {
+      if (err) {
+        logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete driver with id ' + id);
+        return deferred.reject(error(err))
+      }
+      deferred.resolve(driver);
     });
-  }).fail(function(err){
-    deffered.reject(err);
+
+  }).fail(function (err) {
+    deferred.reject(err);
   });
 
-  return deffered.promise;
+  return deferred.promise;
 }
 
 

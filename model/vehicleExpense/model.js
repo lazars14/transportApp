@@ -92,6 +92,7 @@ VehicleExpenseSchema.statics.add = function (vehicleId, vehicleExpense) {
     vehicleExpense.vehicleId = vehicleId;
 
     vehicleExpense.save(function (err, expense) {
+        console.log('usao u save');
         if (err) {
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add expense');
             return deffered.reject(error("MONGO_ERROR"));
@@ -117,7 +118,8 @@ VehicleExpenseSchema.statics.update = function(id, data){
         //name, amount, vehicleId
         if(data.name) found.name = data.name;
         if(data.amount) found.amount = data.amount;
-        if(data.vehicleId) found.vehicleId = data.vehicleId; 
+        if(data.vehicleId) found.vehicleId = data.vehicleId;
+        if(data.date) found.date = data.date;
 
         found.save(function(err, expense){
             if(err){
@@ -145,12 +147,12 @@ VehicleExpenseSchema.statics.delete = function(id){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
-        model.remove(function(err){
+        model.remove(function(err, expense){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete expense with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
-            return deffered.resolve();
+            return deffered.resolve(expense);
         });
     }).fail(function(err){
         deffered.reject(err);

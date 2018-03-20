@@ -17,7 +17,6 @@ export class UpdateCmInfoComponent implements OnInit {
 
   userType: string;
   user: object;
-  error: object;
 
   constructor(private router: Router, private sessionService: SessionService,
       private clientService: ClientService, private managerService: ManagerService) { }
@@ -52,10 +51,9 @@ export class UpdateCmInfoComponent implements OnInit {
       obj = new Manager();
     }
 
+    // tslint:disable-next-line:forin
     for (const prop in this.user) {
-        if (obj.hasOwnProperty(prop)) {
-            obj[prop] = this.user[prop];
-        }
+      obj[prop] = this.user[prop];
     }
 
     return obj;
@@ -68,15 +66,9 @@ export class UpdateCmInfoComponent implements OnInit {
         data => {
           this.notification.success('Client updated successfuly');
           this.sessionService.setUpdatedClient(data);
-          this.user = null;
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (error.status === 401 || error.status === 403) {
-            this.sessionService.logout(true);
-          } else {
-            this.notification.error('Error ' + error.status);
-          }
+          this.notification.error('Update Client - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
       console.log('update manager info');
@@ -84,15 +76,9 @@ export class UpdateCmInfoComponent implements OnInit {
         data => {
           this.notification.success('Manager updated successfuly');
           this.sessionService.setUpdatedManager(data);
-          this.user = null;
         },
         error => {
-          this.error = JSON.parse(error._body);
-          if (error.status === 401 || error.status === 403) {
-            this.sessionService.logout(true);
-          } else {
-            this.notification.error('Error ' + error.status);
-          }
+          this.notification.error('Update Manager - Error ' + error.status + ' - ' + error.statusText);
         });
     }
   }

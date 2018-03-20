@@ -19,7 +19,7 @@ export class NotificationComponent implements OnInit {
     type: 'info',
     title: 'Here is a Toast Title',
     body: 'Here is a Toast Body',
-    timeout: 1000
+    timeout: 2000
   };
 
   constructor(private toasterService: ToasterService) {}

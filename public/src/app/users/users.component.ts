@@ -18,7 +18,6 @@ export class UsersComponent implements OnInit {
 
   action: string;
   userId: string;
-  error: any;
 
   deleteHeader = 'Delete User';
   deleteText = 'Are you sure you want to delete this user?';
@@ -33,6 +32,8 @@ export class UsersComponent implements OnInit {
   refreshPage() {
     this.userService.findAll().subscribe(data => {
       this.users = data;
+    }, error => {
+      this.notification.error('Get Users - Error ' + error.status + ' - ' + error.statusText);
     });
   }
 
@@ -49,11 +50,7 @@ export class UsersComponent implements OnInit {
         this.refreshPage();
       },
       error => {
-        this.error = JSON.parse(error._body);
-        if (this.error.status === 401 || this.error === 403) {
-          this.sessionService.logout(true);
-        }
-        this.notification.error('Error ' + error.status);
+        this.notification.error('Delete User - Error ' + error.status + ' - ' + error.statusText);
       });
   }
 

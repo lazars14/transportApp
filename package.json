@@ -4,10 +4,12 @@
   "description": "backend in node.js (mongo db) and frontend in angular 4",
   "main": "server.js",
   "dependencies": {
+    "angular-date-value-accessor": "0.0.2",
     "apidoc": "^0.17.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "child_process": "^1.0.2",
+    "cors": "^2.8.4",
     "crypto": "^1.0.1",
     "express": "^4.16.2",
     "express-list-endpoints": "^3.0.1",
