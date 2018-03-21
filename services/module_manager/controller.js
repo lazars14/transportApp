@@ -124,6 +124,16 @@ exports.getExpenseById = function(req, res, next){
  * @param next
  */
 exports.addExpense = function(req, res, next){
+    if(!req.body.name){
+        logger.error('Error - Add Expense - Name can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.amount){
+        logger.error('Error - Add Expense - Amount can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
     vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
         if(!vehicle) return next(error("NOT_FOUND"));
 
@@ -426,16 +436,22 @@ exports.setDestinationDrivers = function(req, res, next){
     // there has to be 2 drivers for every destination
     if(!req.body.drivers[1]) return next(error('NOT_ALLOWED'));
 
-    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function(destinationOne){
+    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function(destinationsOne){
+        console.log('driverId: ', req.body.drivers[0]._id);
+        console.log('start date: ', req.body.startDate);
+        req.body.startDate = new Date(req.body.startDate);
+        req.body.endDate = new Date(req.body.endDate);
+        console.log('start date posle cast-a: ', req.body.startDate);
         console.log('pre pronadjene prve destinacije');
-        console.log(destinationOne);
-        if(destinationOne._id) return next(error('NOT_ALLOWED'));
+        console.log(destinationsOne);
+        if(destinationsOne[0]) return next(error('NOT_ALLOWED'));
         console.log('posle pronadjene prve destinacije');
 
-        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function(destinationTwo){
+        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function(destinationsTwo){
+            console.log('driverId: ', req.body.drivers[1]._id);
             console.log('pre pronadjene druge destinacije');
-            console.log(destinationTwo);
-            if(destinationTwo._id) return next(error('NOT_ALLOWED'));
+            console.log(destinationsTwo);
+            if(destinationsTwo[0]._id) return next(error('NOT_ALLOWED'));
             console.log('posle pronadjene druge destinacije');
     
             destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function(destination){

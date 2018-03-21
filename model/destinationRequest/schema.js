@@ -71,8 +71,7 @@ module.exports = (function () {
      * DestinationRequest destination order
      */
     destinationOrder: {
-      type: Number,
-      default: -1
+      type: Number
     }
   });
 

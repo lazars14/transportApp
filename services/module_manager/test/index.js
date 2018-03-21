@@ -188,18 +188,18 @@ describe("Manager tests", function () {
             });
     });
 
-    // it("new expense - fail - bad request", function (done) {
-    //     var data;
-    //     data = {
-    //         name: "someExpense"
-    //     };
-    //     return request(app).post('/manager/' + manager._id + '/vehicles/' + vehicleId + '/expenses')
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 400);
-    //             return done();
-    //         });
-    // });
+    it("new expense - fail - bad request", function (done) {
+        var data;
+        data = {
+            name: "someExpense"
+        };
+        return request(app).post('/manager/' + manager._id + '/vehicles/' + vehicleId + '/expenses')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
 
     it("new expense - fail - not found", function (done) {
         var data;
@@ -900,99 +900,100 @@ describe("Manager tests", function () {
 
 
 
-    // it("set destination drivers - fail - missing token", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05",
-    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 401);
-    //             return done();
-    //         });
-    // });
+    it("set destination drivers - fail - missing token", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05",
+            drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
 
-    // it("set destination drivers - fail - bad request", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05"
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 400);
-    //             return done();
-    //         });
-    // });
+    it("set destination drivers - fail - bad request", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05"
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
 
-    // it("set destination drivers - fail - not found", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05",
-    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
-    //     });
-    //     return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id + '/setDrivers')
-    //     .set('x-access-token', managerDummyToken)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 404);
-    //             return done();
-    //         });
-    // });
+    it("set destination drivers - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05",
+            drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+        });
+        return request(app).put('/manager/' + dummyId + '/destinations/'+ destination._id + '/setDrivers')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
 
-    // it("set destination drivers - fail - not found", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05",
-    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId + '/setDrivers')
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 404);
-    //             return done();
-    //         });
-    // });
+    it("set destination drivers - fail - not found", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-05",
+            drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + dummyId + '/setDrivers')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
 
-    // it("set destination drivers - success - valid data", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05",
-    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
-    //         .set('x-access-token', token)
-    //         .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 200);
-    //             return done();
-    //         });
-    // });
+    it("set destination drivers - success - valid data", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-08",
+            drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setDrivers')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
 
-    // it("set destination drivers - fail - not allowed", function (done) {
-    //     var data;
-    //     data = ({
-    //         destinationManagerId: destination.managerId,
-    //         startDate: "2018-03-05",
-    //         endDate: "2018-03-05",
-    //         drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
-    //     });
-    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setDrivers')
-    //     .set('x-access-token', token)
-    //     .type('application/json').send(data).end(function (err, res) {
-    //             res.should.have.property("status", 405);
-    //             return done();
-    //         });
-    // });
+    // @here
+    it("set destination drivers - fail - not allowed", function (done) {
+        var data;
+        data = ({
+            destinationManagerId: destination.managerId,
+            startDate: "2018-03-05",
+            endDate: "2018-03-08",
+            drivers: [{'_id' : global.driver1test._id}, {'_id' : global.driver2test._id}]
+        });
+        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setDrivers')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 405);
+                return done();
+            });
+    });
 
     it("set destination vehicle - fail - missing token", function (done) {
         var data;

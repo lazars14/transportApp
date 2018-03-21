@@ -220,14 +220,14 @@ DestinationSchema.statics.delete = function(id){
 /**
  * check if driver is available
  * @param driverId
- * @param startDate
- * @param endDate
+ * @param startDateEntry
+ * @param endDateEntry
  * @returns {*}
  */
-function _checkDestinationsForDriver(driverId, startDate, endDate){
+function _checkDestinationsForDriver(driverId, startDateEntry, endDateEntry){
     var deffered = Q.defer();
 
-    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDate}, endDate : { '$lte' : endDate}}, function(err, destinations){
+    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destinations){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check driver for destinations, driver id is ' + driverId);
             return deffered.reject(error('MONGO_ERROR'));
@@ -281,14 +281,14 @@ DestinationSchema.statics.setDrivers = function(id, drivers){
 /**
  * check if vehicle is available
  * @param vehicleId
- * @param startDate
- * @param endDate
+ * @param startDateEntry
+ * @param endDateEntry
  * @returns {*}
  */
-function _checkDestinationsForVehicle(vehicleId, startDate, endDate){
+function _checkDestinationsForVehicle(vehicleId, startDateEntry, endDateEntry){
     var deffered = Q.defer();
 
-    model.find({vehicleId : vehicleId, startDate : { '$gte' : startDate}, endDate : { '$lte' : endDate}}, function(err, destination){
+    model.find({vehicleId : vehicleId, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destination){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicleId);
             return deffered.reject(error('MONGO_ERROR'));

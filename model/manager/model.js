@@ -156,7 +156,7 @@ ManagerSchema.statics.update = function (id, data) {
  */
 ManagerSchema.statics.findAll = function () {
   var deferred = Q.defer();
-  model.find({}, function (err, managers) {
+  model.find({}, { password: 0 }, function (err, managers) {
     if (err) return deferred.reject(err);
     return deferred.resolve(managers);
   });

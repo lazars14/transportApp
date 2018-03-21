@@ -15,7 +15,6 @@
             <th>Lastname</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Address</th>
             <!-- mozda da dodam imei i notification push token -->
             <th class="text-center">Actions</th>
@@ -28,7 +27,6 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.phone }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.password }}</td>
             <td>{{ user.address }}</td>
             <td class="btn-group-small text-center">
               <button class="btn btn-lg btn-danger" (click)="setDeleteId(user._id)" data-toggle="modal" data-target="#confirmModal" title="Delete">

@@ -77,7 +77,7 @@ UserSchema.statics.findByEmail = function(email){
 UserSchema.statics.findAll = function(){
     var deffered = Q.defer();
 
-    model.find({}, function(err, users){
+    model.find({}, { password: 0 }, function(err, users){
         console.log('users ', users);
         if(err){
             console.log('err ', err);

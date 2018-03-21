@@ -192,6 +192,7 @@ router.get('/:managerId/vehicles/:vehicleId/expenses/:vehicleExpenseId', auth.ch
  * 
  * @apiUse internalError
  * @apiUse badRequest
+ * @apiUse notFound
  * @apiUse notAuthorized
  */
 router.post('/:managerId/vehicles/:vehicleId/expenses', auth.checkManagerToken, auth.checkManagerId, controller.addExpense);
