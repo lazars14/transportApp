@@ -44,6 +44,9 @@ import { NotificationComponent } from './notification/notification.component';
 import { VehicleExpenseModalComponent } from './vehicle-expense-modal/vehicle-expense-modal.component';
 import { ExtendRegistrationModalComponent } from './extend-registration-modal/extend-registration-modal.component';
 
+import { AgmCoreModule } from '@agm/core';
+import { DestinationComponent } from './destination/destination.component';
+
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
 }
@@ -68,7 +71,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ConfirmModalComponent,
     NotificationComponent,
     VehicleExpenseModalComponent,
-    ExtendRegistrationModalComponent
+    ExtendRegistrationModalComponent,
+    DestinationComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +84,11 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     ToasterModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    DateValueAccessorModule
+    DateValueAccessorModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCwYwTnD6SsaPzmEwP1-CZ0Sv9MWexhDDQ',
+      libraries: ["places"]
+    }),
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

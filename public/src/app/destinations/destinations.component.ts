@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { } from 'googlemaps';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-destinations',

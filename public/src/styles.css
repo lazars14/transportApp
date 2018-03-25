@@ -158,3 +158,30 @@ form input {
     padding: 10px;
     border-radius: 20px;
 }
+
+/* Destinations */
+
+.destination-content {
+    background: #FAEBD7;
+    margin-bottom: 25px !important;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.destination-content button {
+    margin-top: 10px;
+}
+
+.destination-content-text {
+    padding: 15px;
+    color: #fff;
+    background: blue;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.destinations-map {
+    height: 200px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
