@@ -1,3 +1,15 @@
-<p>
-  destination works!
-</p>
+<div class="panel panel-default" id="entity-management">
+  <div class="panel-heading">
+    <h2>Destination Details
+      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal"
+        (click)="add()">Add</button>
+    </h2>
+  </div>
+
+  <div class="panel-body">
+    <agm-map class="destination-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
+
+    
+
+  </div>
+</div>

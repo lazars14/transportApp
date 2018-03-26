@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
 import { UsersComponent } from './users/users.component';
 import { DestinationsComponent } from './destinations/destinations.component';
+import { DestinationComponent } from './destination/destination.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -76,7 +77,7 @@ const appRoutes: Routes = [
                     },
                     {
                         path: 'destinations/:id',
-                        component: LoginComponent
+                        component: DestinationComponent
                     },
                     {
                         path: 'destinationRequests',
