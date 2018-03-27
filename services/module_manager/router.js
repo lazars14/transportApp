@@ -329,7 +329,7 @@ router.get('/:managerId/users', auth.checkManagerToken, auth.checkManagerId, con
 router.delete('/:managerId/users/:userId', auth.checkManagerToken, auth.checkManagerId, controller.deleteUser);
 
 /**
- * @api {get} /{managerId}/destinations/{destinationId}
+ * @api {get} /{managerId}/destinations/
  * Get All Destinations For Manager
  * @apiVersion 1.0.0
  * @apiName Get All Destinations For Manager
@@ -364,7 +364,7 @@ router.delete('/:managerId/users/:userId', auth.checkManagerToken, auth.checkMan
 router.get('/:managerId/destinations', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerId);
 
 /**
- * @api {get} /{managerId}/destinations/{destinationId}/other
+ * @api {get} /{managerId}/destinations/other
  * Get All Destinations Not Handled By Manager
  * @apiVersion 1.0.0
  * @apiName Get All Destinations Not Handled By Manager
@@ -437,6 +437,8 @@ router.get('/:managerId/destinations/:destinationId', auth.checkManagerToken, au
  * 
  * @apiParam (body){Object} startLocation Destination start location
  * @apiParam (body){Object} endLocation Destination end location
+ * @apiParam (body){Date} startDate Destination start date
+ * @apiParam (body){Date} endDate Destination end date
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Destination Created destination

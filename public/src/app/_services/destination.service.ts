@@ -11,7 +11,7 @@ export class DestinationService {
 
   apiUrl: string = environment.apiUrl;
 
-  findAll() {
+  findAllForManager() {
     return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations')
     .map((res) => res.json());
   }

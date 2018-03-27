@@ -620,7 +620,9 @@ describe("Manager tests", function () {
             endLocation : {
                 "lat": "45.31",
                 "lng": "45.31"
-            }
+            },
+            startDate: new Date(),
+            endDate: new Date()
         });
         return request(app).post('/manager/' + dummyId + '/destinations')
         .set('x-access-token', managerDummyToken)
@@ -640,7 +642,9 @@ describe("Manager tests", function () {
             endLocation : {
                 "lat": "45.31",
                 "lng": "45.31"
-            }
+            },
+            startDate: new Date(),
+            endDate: new Date()
         });
         return request(app).post('/manager/' + manager._id + '/destinations')
         .set('x-access-token', token)

@@ -1,54 +1,43 @@
+<app-notification></app-notification>
+<app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
+<app-destination-modal [destination]="destination" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-destination-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Open
-      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal"
-        (click)="add()">Add</button>
+      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal"
+        (click)="setAction(null)">Add</button>
     </h2>
   </div>
 
   <div class="panel-body">
 
     <div class="container-fluid">
-      <div class="row">
+      <p *ngIf="openDestinations.length == 0">Nothing to show</p>
+      <div *ngIf="openDestinations.length > 0" class="row">
         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
           <div class="destination-content">
-            <agm-map class="destinations-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
+            <agm-map class="destinations-map" [latitude]="dest.startLocation.lat" [longitude]="dest.startLocation.lng"></agm-map>
             <div class="destination-content-text">
-              <p>Start Date: 21-03-2018</p>
-              <p>
-                <span class="text-left">Start Date:</span>
-                <span class="text-right">21-03-2018</span>
-              </p>
-              <button type="button" class="btn btn-success btn-lg">Details</button>
+              <p>Start Date: {{ dest.startDate | date }}</p>
+              <p>End Date: {{ dest.endDate | date }}</p>
+
+              <a routerLink="{{destination._id}}">
+                <button class="btn btn-success btn-lg">
+                  <i class="fa fa-info" aria-hidden="true"></i>
+                </button>
+              </a>
+              <button class="btn btn-lg btn-info " (click)="setAction(dest)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#myModal" title="Edit">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-lg btn-danger " (click)="setDeleteId(dest._id)" data-toggle="modal" data-target="#confirmModal"
+                title="Delete">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
         </div>
-        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <div class="destination-content">
-            <agm-map class="destinations-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
-            <div class="destination-content-text">
-                    <p>Start Date: 21-03-2018</p>
-                    <p>
-                      <span class="text-left">Start Date:</span>
-                      <span class="text-right">21-03-2018</span>
-                    </p>
-                    <button type="button" class="btn btn-success btn-lg">Details</button>
-                  </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <div class="destination-content">
-            <agm-map class="destinations-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
-            <div class="destination-content-text">
-                    <p>Start Date: 21-03-2018</p>
-                    <p>
-                      <span class="text-left">Start Date:</span>
-                      <span class="text-right">21-03-2018</span>
-                    </p>
-                    <button type="button" class="btn btn-success btn-lg">Details</button>
-                  </div>
-          </div>
-        </div>
+
       </div>
     </div>
 
@@ -62,7 +51,35 @@
 
   <div class="panel-body">
 
+    <div class="container-fluid">
+      <p *ngIf="inProgressDestinations.length == 0">Nothing to show</p>
+      <div *ngIf="inProgressDestinations.length > 0" class="row">
+        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <div class="destination-content">
+            <agm-map class="destinations-map" [latitude]="dest.startLocation.lat" [longitude]="dest.startLocation.lng"></agm-map>
+            <div class="destination-content-text">
+              <p>Start Date: {{ dest.startDate | date }}</p>
+              <p>End Date: {{ dest.endDate | date }}</p>
 
+              <a routerLink="{{destination._id}}">
+                <button class="btn btn-success btn-lg">
+                  <i class="fa fa-info" aria-hidden="true"></i>
+                </button>
+              </a>
+              <button class="btn btn-lg btn-info " (click)="setAction(destination)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#myModal" title="Edit">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-lg btn-danger " (click)="setDeleteId(destination._id)" data-toggle="modal" data-target="#confirmModal"
+                title="Delete">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </div>
 </div>
@@ -74,7 +91,34 @@
 
   <div class="panel-body">
 
+    <div class="container-fluid">
+      <p *ngIf="finishedDestinations.length == 0">Nothing to show</p>
+      <div *ngIf="finishedDestinations.length > 0" class="row">
+        <div *ngFor="let dest of finishedDestinations" class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <div class="destination-content">
+            <agm-map class="destinations-map" [latitude]="45.30" [longitude]="45.30"></agm-map>
+            <div class="destination-content-text">
+              <p>Start Date: {{ dest.startDate | date }}</p>
+              <p>End Date: {{ dest.endDate | date }}</p>
 
+              <a routerLink="{{dest._id}}">
+                <button class="btn btn-success btn-lg">
+                  <i class="fa fa-info" aria-hidden="true"></i>
+                </button>
+              </a>
+              <button class="btn btn-lg btn-info " (click)="setAction(dest)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#myModal" title="Edit">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-lg btn-danger " (click)="setDeleteId(dest._id)" data-toggle="modal" data-target="#confirmModal" title="Delete">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </div>
 </div>

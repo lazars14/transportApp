@@ -20,13 +20,15 @@ module.exports = (function () {
      * Destination start date
      */
     startDate: {
-      type: Date
+      type: Date,
+      required: true
     },
     /**
      * Destination end date
      */
     endDate: {
-      type: Date
+      type: Date,
+      required: true
     },
     /**
      * Destination driver's pay (per 100km)

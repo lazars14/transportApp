@@ -1,15 +1,83 @@
+<app-notification></app-notification>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
-    <h2>Destination Details
-      <button class="btn btn-primary btn-lg" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#vehicleModal"
-        (click)="add()">Add</button>
-    </h2>
+    <h2>Destination Details</h2>
   </div>
 
   <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Vehicle</th>
+            <th>Drivers</th>
+            <th *ngIf="!destinationFinished" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ destination.startDate | date }}</td>
+            <td>{{ destination.endDate | date}}</td>
+            <td>{{ destination.vehicle }}</td>
+            <td>{{ destination.drivers }}</td>
+            <td *ngIf="!destinationFinished" class="btn-group-small text-center">
+              <button class="btn btn-lg btn-primary" (click)="setAction(driver)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#myModal" title="Set Vehicle">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-lg btn-success" (click)="setDeleteId(driver._id)" data-toggle="modal" data-target="#confirmModal"
+                title="Set Drivers">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+
     <agm-map class="destination-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
 
-    
+    <br>
+
+    <div class="container-fluid  destination-projected">
+      <h3>Projected Expenses</h3>
+
+      <br>
+
+      <div class="row">
+
+        <div class="col-lg-4">
+          <p>Number of Km's:
+            <span class="red-text">{{ destination.numberOfKms }}</span>
+          </p>
+        </div>
+
+        <div class="col-lg-4">
+          <p>Fuel Expenses (per 100km):
+            <span class="red-text">{{ destination.fuelExpenses }}</span>
+          </p>
+        </div>
+
+        <div class="col-lg-4">
+          <p>Driver's Pay (per 100km):
+            <span class="red-text">{{ destination.driversPay }}</span>
+          </p>
+        </div>
+
+        <!-- formula {{ destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay) }} -->
+
+        <div class="col-lg-4">
+            <p>Sum:
+              <span class="red-text">Izracunato</span>
+            </p>
+          </div>
+
+      </div>
+    </div>
 
   </div>
 </div>

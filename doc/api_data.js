@@ -1530,6 +1530,20 @@ define({ "api": [
             "optional": false,
             "field": "endLocation",
             "description": "<p>Destination end location</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>Destination start date</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>Destination end date</p>"
           }
         ]
       }
@@ -2106,7 +2120,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/{managerId}/destinations/{destinationId}",
+    "url": "/{managerId}/destinations/",
     "title": "Get All Destinations For Manager",
     "version": "1.0.0",
     "name": "Get_All_Destinations_For_Manager",
@@ -2169,7 +2183,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/{managerId}/destinations/{destinationId}/other",
+    "url": "/{managerId}/destinations/other",
     "title": "Get All Destinations Not Handled By Manager",
     "version": "1.0.0",
     "name": "Get_All_Destinations_Not_Handled_By_Manager",

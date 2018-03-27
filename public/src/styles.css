@@ -187,3 +187,14 @@ form input {
 .destination-map {
     height: 500px;
 }
+
+.destination-projected {
+    background: #FAEBD7;
+    margin-bottom: 50px !important;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.destination-projected p {
+    font-weight: 500;
+}

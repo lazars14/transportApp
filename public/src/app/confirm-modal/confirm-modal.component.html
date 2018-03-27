@@ -3,26 +3,28 @@
   <div class="modal fade defaultModal" id="confirmModal">
     <div class="modal-dialog">
       <div class="modal-content">
-      
+
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">{{ header }}</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        
+
         <!-- Modal body -->
         <div class="modal-body">
           {{ text }}
         </div>
-        
+
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" (click)="ok()">Ok</button>
-          <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</button>
+          <div class="mx-auto">
+            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" (click)="ok()">Ok</button>
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cancel</button>
+          </div>
         </div>
-        
+
       </div>
     </div>
   </div>
-  
+
 </div>
