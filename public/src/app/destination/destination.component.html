@@ -13,7 +13,7 @@
             <th>End Date</th>
             <th>Vehicle</th>
             <th>Drivers</th>
-            <th *ngIf="!destinationFinished" class="text-center">Actions</th>
+            <th *ngIf="destinationOpen" class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <td>{{ destination.endDate | date}}</td>
             <td>{{ destination.vehicle }}</td>
             <td>{{ destination.drivers }}</td>
-            <td *ngIf="!destinationFinished" class="btn-group-small text-center">
+            <td *ngIf="destinationOpen" class="btn-group-small text-center">
               <button class="btn btn-lg btn-primary" (click)="setAction(driver)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                 data-target="#myModal" title="Set Vehicle">
                 <i class="fa fa-bus" aria-hidden="true"></i>
@@ -44,7 +44,7 @@
     <br>
 
     <div class="container-fluid  destination-projected">
-      <h3>Projected Expenses</h3>
+      <h3>Projected Destination Result</h3>
 
       <br>
 
@@ -63,18 +63,29 @@
         </div>
 
         <div class="col-lg-4">
-          <p>Driver's Pay (per 100km):
+          <p>Drivers Pay (each per 100km):
             <span class="red-text">{{ destination.driversPay }}</span>
           </p>
         </div>
 
+        <div class="col-lg-4">
+          <p>Tickets income:
+            <span class="red-text">{{ ticketsIncome }}</span>
+          </p>
+        </div>
+
         <!-- formula {{ destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay) }} -->
+        <div class="col-lg-4">
+          <p>Total Cost:
+            <span class="red-text">Izracunato</span>
+          </p>
+        </div>
 
         <div class="col-lg-4">
-            <p>Sum:
-              <span class="red-text">Izracunato</span>
-            </p>
-          </div>
+          <p>Total:
+            <span class="red-text">ticketsIncome - totalCost</span>
+          </p>
+        </div>
 
       </div>
     </div>

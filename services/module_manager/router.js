@@ -421,6 +421,7 @@ router.get('/:managerId/destinations/other', auth.checkManagerToken, auth.checkM
  * 
  * @apiUse internalError
  * @apiUse notFound
+ * @apiUse notAllowed
  * @apiUse notAuthorized
  */
 router.get('/:managerId/destinations/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationById);

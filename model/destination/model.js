@@ -5,17 +5,23 @@ var
 
 /**
  * find destination by id
- * @param id
+ * @param destinationId
+ * @param managerId
  * @returns {*}
  */
-function _findById(id){
+function _findById(destinationId, managerId){
     var deffered = Q.defer();
 
-    model.findOne({"_id" : mongoose.Types.ObjectId(id)}, function(err, destination){
+    model.findOne({"_id" : mongoose.Types.ObjectId(destinationId)}, function(err, destination){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);
             return deffered.reject(error("MONGO_ERROR"));
         };
+        console.log('this is the manager id ', managerId);
+        console.log('this is the destination manager id ', destination.managerId);
+        if(destination.managerId !== managerId){
+            return deffered.reject(error("NOT_ALLOWED"));
+        }
         deffered.resolve(destination);
     });
 
@@ -81,11 +87,12 @@ function _findByVehicleId(vehicleId){
 
 /**
  * Find destination by id
- * @param id
+ * @param destinationId
+ * @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.findById = function(id){
-    return _findById(id);
+DestinationSchema.statics.findById = function(destinationId, managerId){
+    return _findById(destinationId, managerId);
 }
 
 /**

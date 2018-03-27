@@ -277,7 +277,7 @@ exports.findDestinationsByManagerIdNot = function(req, res, next){
  */
 
 exports.findDestinationById = function(req, res, next){
-    destinationModel.findById(req.params.destinationId).then(function(destination){
+    destinationModel.findById(req.params.destinationId, req.params.managerId).then(function(destination){
         if(!destination) return next(error('NOT_FOUND'));
         res.json(destination);
     }).fail(function(err){

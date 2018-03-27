@@ -22,7 +22,10 @@ export class DestinationComponent implements OnInit {
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   destination = new Destination();
-  destinationFinished: boolean;
+  destinationOpen: boolean;
+
+  ticketsIncome: Number;
+  // ili da ga dobijem iz html-a - kao zbir svih cena iz request-ova
 
   ngOnInit() {
     this.refreshPage();
@@ -34,9 +37,9 @@ export class DestinationComponent implements OnInit {
     const id = urlArray[urlArray.length - 1];
     this.destinationService.findById(id).subscribe(data => {
       this.destination = data;
-      const endDate = new Date(this.destination.endDate);
-      if (endDate.getTime() < new Date().getTime()) {
-        this.destinationFinished = true;
+      const startDate = new Date(this.destination.startDate);
+      if (startDate.getTime() > new Date().getTime()) {
+        this.destinationOpen = true;
       }
     }, error => {
       this.notification.error('Get Destinations - Error ' + error.status + ' - ' + error.statusText);
