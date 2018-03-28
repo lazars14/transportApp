@@ -41,7 +41,15 @@
 
     <br>
 
-    <agm-map class="destination-map" [latitude]="51.00" [longitude]="20.00"></agm-map>
+    <agm-map #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
+    [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
+      <agm-polyline [editable]="false" [strokeColor]="'#ff0000'">
+          <agm-polyline-point *ngFor="let point of points"
+              [latitude]="point.lat"
+              [longitude]="point.lng">
+          </agm-polyline-point>
+      </agm-polyline>
+  </agm-map>
 
     <br>
 

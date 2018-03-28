@@ -473,8 +473,8 @@ router.post('/:managerId/destinations', auth.checkManagerToken, auth.checkManage
  * @apiParam (path){String} destinationId Destination id
  * 
  * @apiParam (body){String} destinationManagerId Manager id for destination
- * @apiParam (body){String} [startLocation] Expense name
- * @apiParam (body){String} [endLocation] Expense amount
+ * @apiParam (body){Object} [startLocation] Expense name
+ * @apiParam (body){Object} [endLocation] Expense amount
  * @apiParam (body){String} [startDate] Expense name
  * @apiParam (body){String} [endDate] Expense amount
  * @apiParam (body){String} [driversPay] Expense name

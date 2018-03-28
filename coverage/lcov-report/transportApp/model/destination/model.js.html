@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.62% </span>
+        <span class="strong">54.48% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>85/145</span>
+        <span class='fraction'>79/145</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.3% </span>
+        <span class="strong">39.13% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>19/46</span>
+        <span class='fraction'>18/46</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.53% </span>
+        <span class="strong">52.63% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>23/38</span>
+        <span class='fraction'>20/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.7% </span>
+        <span class="strong">55.22% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>80/134</span>
+        <span class='fraction'>74/134</span>
       </div>
     </div>
   </div>
@@ -386,7 +386,9 @@
 341
 342
 343
-344</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+344
+345</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -613,17 +615,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -634,7 +636,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -736,13 +738,14 @@
 &nbsp;
 /**
  * find destination by id
- * @param id
+ * @param destinationId
+ * @param managerId
  * @returns {*}
  */
-function _findById(id){
+function _findById(destinationId, managerId){
     var deffered = Q.defer();
 &nbsp;
-    model.findOne({"_id" : mongoose.Types.ObjectId(id)}, function(err, destination){
+    model.findOne({"_id" : mongoose.Types.ObjectId(destinationId)}, function(err, destination){
         <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
 <span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
@@ -812,11 +815,11 @@ function _findByManagerIdNot(managerId){
 &nbsp;
 /**
  * Find destination by id
- * @param id
+ * @param destinationId
  * @returns {*}
  */
-DestinationSchema.statics.findById = function(id){
-    return _findById(id);
+DestinationSchema.statics.findById = function(destinationId){
+    return _findById(destinationId);
 }
 &nbsp;
 /**
@@ -955,18 +958,18 @@ DestinationSchema.statics.delete = <span class="fstat-no" title="function not co
  * @param endDateEntry
  * @returns {*}
  */
-function _checkDestinationsForDriver(driverId, startDateEntry, endDateEntry){
-    var deffered = Q.defer();
+<span class="fstat-no" title="function not covered" >function _checkDestinationsForDriver(driverId, startDateEntry, endDateEntry){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
 &nbsp;
-    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destinations){
-        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
+<span class="cstat-no" title="statement not covered" >    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, <span class="fstat-no" title="function not covered" >function(err, destinations){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
 <span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check driver for destinations, driver id is ' + driverId);</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject(error('MONGO_ERROR'));</span>
         }
-        return deffered.resolve(destinations);
+<span class="cstat-no" title="statement not covered" >        return deffered.resolve(destinations);</span>
     });
 &nbsp;
-    return deffered.promise;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
 }
 &nbsp;
 /**
@@ -976,8 +979,8 @@ function _checkDestinationsForDriver(driverId, startDateEntry, endDateEntry){
  * @param endDate
  * @returns {*}
  */
-DestinationSchema.statics.checkDestinationsForDriver = function(driverId, startDate, endDate){
-    return _checkDestinationsForDriver(driverId, startDate, endDate);
+DestinationSchema.statics.checkDestinationsForDriver = <span class="fstat-no" title="function not covered" >function(driverId, startDate, endDate){</span>
+<span class="cstat-no" title="statement not covered" >    return _checkDestinationsForDriver(driverId, startDate, endDate);</span>
 }
 &nbsp;
 /**
@@ -1078,7 +1081,7 @@ module.exports = model;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 27 2018 12:26:17 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 28 2018 15:47:41 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -1,7 +1,9 @@
+import { Location } from './index';
+
 export class Destination {
     _id: string;
-    startLocation: Object;
-    endLocation: Object;
+    startLocation: Location;
+    endLocation: Location;
     startDate: Date;
     endDate: Date;
     driversPay: Number;

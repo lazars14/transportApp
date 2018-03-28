@@ -1,8 +1,23 @@
-import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  EventEmitter,
+  AfterContentChecked
+} from '@angular/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  NgForm
+} from '@angular/forms';
 
-import { } from 'googlemaps';
-import { AgmMap } from '@agm/core';
+import {} from 'googlemaps';
+import {
+  AgmMap,
+  MapsAPILoader
+} from '@agm/core';
 
 @Component({
   selector: 'app-destination-modal',
@@ -15,7 +30,11 @@ export class DestinationModalComponent implements OnInit {
   toMarker: any;
   markertsCount = 0;
 
-  constructor() { }
+  isVisible = false;
+
+  @ViewChild(AgmMap) agmMap: AgmMap;
+
+  constructor() {}
 
   @Input() action: string;
   @Input() destination: object;
@@ -23,6 +42,11 @@ export class DestinationModalComponent implements OnInit {
   @Output() resetForm = new EventEmitter();
 
   ngOnInit() {
+    this.agmMap.triggerResize(true);
+    this.agmMap.latitude = 12;
+    this.agmMap.longitude = 12;
+    console.log(this.agmMap.latitude, 'is latitude');
+    console.log(this.agmMap.longitude, 'is longitude');
   }
 
   ok() {

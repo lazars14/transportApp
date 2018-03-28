@@ -2111,6 +2111,11 @@ define({ "api": [
           "type": "json"
         },
         {
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
+          "type": "json"
+        },
+        {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
@@ -3168,14 +3173,14 @@ define({ "api": [
           },
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": true,
             "field": "startLocation",
             "description": "<p>Expense name</p>"
           },
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": true,
             "field": "endLocation",
             "description": "<p>Expense amount</p>"
@@ -3586,14 +3591,14 @@ define({ "api": [
         "body": [
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": false,
             "field": "startLocation",
             "description": "<p>Vehicle license plate</p>"
           },
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": false,
             "field": "endLocation",
             "description": "<p>Vehicle license expire date</p>"
@@ -3616,7 +3621,7 @@ define({ "api": [
             "type": "Object",
             "optional": false,
             "field": "DestinationRequest",
-            "description": "<p>Created request { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;lat&quot;: &quot;45.30&quot;, &quot;lng&quot;: &quot;45.30&quot; }, &quot;endLocation&quot;: { &quot;lat&quot;: &quot;45.31&quot;, &quot;lng&quot;: &quot;45.31&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; }</p>"
+            "description": "<p>Created request { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;latitude&quot;: &quot;45.30&quot;, &quot;longitude&quot;: &quot;45.30&quot; }, &quot;endLocation&quot;: { &quot;latitude&quot;: &quot;45.31&quot;, &quot;longitude&quot;: &quot;45.31&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; }</p>"
           }
         ]
       }
@@ -3925,7 +3930,7 @@ define({ "api": [
             "type": "Array",
             "optional": false,
             "field": "DestinationRequests",
-            "description": "<p>Requests for user [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;lat&quot;: &quot;45.30&quot;, &quot;lng&quot;: &quot;45.30&quot; }, &quot;endLocation&quot;: { &quot;lat&quot;: &quot;45.31&quot;, &quot;lng&quot;: &quot;45.31&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; }, { &quot;_id&quot;: &quot;add.x-;s-39;x-s9-3la-ab3&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;lat&quot;: &quot;45.32&quot;, &quot;lng&quot;: &quot;45.32&quot; }, &quot;endLocation&quot;: { &quot;lat&quot;: &quot;45.33&quot;, &quot;lng&quot;: &quot;45.33&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; } ]</p>"
+            "description": "<p>Requests for user [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;latitude&quot;: &quot;45.30&quot;, &quot;longitude&quot;: &quot;45.30&quot; }, &quot;endLocation&quot;: { &quot;latitude&quot;: &quot;45.31&quot;, &quot;longitude&quot;: &quot;45.31&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; }, { &quot;_id&quot;: &quot;add.x-;s-39;x-s9-3la-ab3&quot;, &quot;status&quot;: &quot;submitted&quot;, &quot;submissionDate&quot;: &quot;2018-03-01&quot;, &quot;startLocation&quot; : { &quot;latitude&quot;: &quot;45.32&quot;, &quot;longitude&quot;: &quot;45.32&quot; }, &quot;endLocation&quot;: { &quot;latitude&quot;: &quot;45.33&quot;, &quot;longitude&quot;: &quot;45.33&quot; }, &quot;userId&quot;: &quot;asdf32-sdfa032-asdfsa&quot; } ]</p>"
           }
         ]
       }

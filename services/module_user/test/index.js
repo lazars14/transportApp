@@ -128,12 +128,12 @@ describe("User tests", function () {
     it("user add request - fail - missing token", function (done){
         var data = {
             "startLocation": {
-                "lat": "45.32",
-                "lng": "45.32"
+                "lat": 45.32,
+                "lng": 45.32
             },
             "endLocation": {
-                "lat": "45.33",
-                "lng": "45.33"
+                "lat": 45.33,
+                "lng": 45.33
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
@@ -146,8 +146,8 @@ describe("User tests", function () {
     it("user add request - fail - missing data", function (done){
         var data = {
             "startLocation": {
-                "lat": "45.32",
-                "lng": "45.32"
+                "lat": 45.32,
+                "lng": 45.32
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
@@ -161,12 +161,12 @@ describe("User tests", function () {
     it("user add request - fail - not found", function (done){
         var data = {
             "startLocation": {
-                "lat": "45.32",
-                "lng": "45.32"
+                "lat": 45.32,
+                "lng": 45.32
             },
             "endLocation": {
-                "lat": "45.33",
-                "lng": "45.33"
+                "lat": 45.33,
+                "lng": 45.33
             }
         };
 
@@ -181,12 +181,12 @@ describe("User tests", function () {
     it("user add request - success - valid data", function (done){
         var data = {
             "startLocation": {
-                "lat": "45.32",
-                "lng": "45.32"
+                "lat": 45.32,
+                "lng": 45.32
             },
             "endLocation": {
-                "lat": "45.33",
-                "lng": "45.33"
+                "lat": 45.33,
+                "lng": 45.33
             }
         };
         return request(app).post('/user/' + user._id + '/requests')

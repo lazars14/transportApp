@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import { constants } from './../utils/constants';
 
 import { } from 'googlemaps';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, AgmMap } from '@agm/core';
 
 @Component({
   selector: 'app-destinations',
@@ -37,6 +37,7 @@ export class DestinationsComponent implements OnInit {
 
   refreshPage() {
     this.destinationService.findAllForManager().subscribe(data => {
+      console.log(data);
       const today = new Date();
       _.forEach(data, (destination) => {
         const startDate = new Date(destination.startDate);

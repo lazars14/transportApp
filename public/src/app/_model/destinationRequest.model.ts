@@ -1,7 +1,9 @@
+import { Location } from './index';
+
 export class DestinationRequest {
     _id: string;
-    startLocation: Object;
-    endLocation: Object;
+    startLocation: Location;
+    endLocation: Location;
     startDate: Date;
     endDate: Date;
     price: Number;

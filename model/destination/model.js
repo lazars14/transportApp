@@ -17,9 +17,6 @@ function _findById(destinationId, managerId){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);
             return deffered.reject(error("MONGO_ERROR"));
         };
-        if(destination.managerId !== managerId){
-            return deffered.reject(error("NOT_ALLOWED"));
-        }
         deffered.resolve(destination);
     });
 
@@ -86,11 +83,10 @@ function _findByVehicleId(vehicleId){
 /**
  * Find destination by id
  * @param destinationId
- * @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.findById = function(destinationId, managerId){
-    return _findById(destinationId, managerId);
+DestinationSchema.statics.findById = function(destinationId){
+    return _findById(destinationId);
 }
 
 /**
