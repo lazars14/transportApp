@@ -190,11 +190,21 @@ form input {
 
 .destination-projected {
     background: #FAEBD7;
-    margin-bottom: 50px !important;
+    margin-bottom: 25px !important;
     padding: 15px;
     border-radius: 20px;
 }
 
 .destination-projected p {
     font-weight: 500;
+}
+
+.custom-padding-15 {
+    padding: 15px;
+}
+
+/* Location Modal */
+
+#locationModal {
+    padding-top: 175px;
 }

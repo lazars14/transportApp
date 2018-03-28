@@ -17,8 +17,6 @@ function _findById(destinationId, managerId){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);
             return deffered.reject(error("MONGO_ERROR"));
         };
-        console.log('this is the manager id ', managerId);
-        console.log('this is the destination manager id ', destination.managerId);
         if(destination.managerId !== managerId){
             return deffered.reject(error("NOT_ALLOWED"));
         }

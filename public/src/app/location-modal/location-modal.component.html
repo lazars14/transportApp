@@ -1,0 +1,36 @@
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal fade defaultModal" id="locationModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Request Location</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form #f="ngForm" name="form">
+
+              <div class="form-group">
+                  <agm-map class="destination-map" [latitude]="45.30" [longitude]="45.30"></agm-map>
+                </div>
+
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="mx-auto">
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Dismiss</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+

@@ -46,6 +46,7 @@ import { ExtendRegistrationModalComponent } from './extend-registration-modal/ex
 
 import { AgmCoreModule } from '@agm/core';
 import { DestinationComponent } from './destination/destination.component';
+import { LocationModalComponent } from './location-modal/location-modal.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -72,7 +73,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     NotificationComponent,
     VehicleExpenseModalComponent,
     ExtendRegistrationModalComponent,
-    DestinationComponent
+    DestinationComponent,
+    LocationModalComponent
   ],
   imports: [
     BrowserModule,
