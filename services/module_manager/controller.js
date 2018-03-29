@@ -340,16 +340,6 @@ exports.updateDestination = function(req, res, next){
  * @param next
  */
 exports.deleteDestination = function(req, res, next){
-    if(!req.body.destinationManagerId){
-        logger.error('Error - Delete destination - DestinationManagerId can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-    
-    if(req.params.managerId != req.body.destinationManagerId){
-        logger.error('Error - Delete destination - Can\'t delete destination from another manager');
-        return next(error('NOT_ALLOWED'));
-    }
-
     destinationModel.delete(req.params.destinationId).then(function(destination){
         res.json(destination);
     }).fail(function(err){

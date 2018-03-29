@@ -36,8 +36,8 @@ export class DestinationsComponent implements OnInit {
   }
 
   refreshPage() {
+    this.resetLists();
     this.destinationService.findAllForManager().subscribe(data => {
-      console.log(data);
       const today = new Date();
       _.forEach(data, (destination) => {
         const startDate = new Date(destination.startDate);
@@ -54,6 +54,12 @@ export class DestinationsComponent implements OnInit {
     }, error => {
       this.notification.error('Get Destinations - Error ' + error.status + ' - ' + error.statusText);
     });
+  }
+
+  resetLists() {
+    this.openDestinations = [];
+    this.inProgressDestinations = [];
+    this.finishedDestinations = [];
   }
 
   modalAddUpdate() {
@@ -113,7 +119,6 @@ export class DestinationsComponent implements OnInit {
   delete() {
     this.destinationService.delete(this.destinationId).subscribe(
       result => {
-        console.log(result);
         this.notification.success('Destination deleted successfuly');
         this.refreshPage();
       },

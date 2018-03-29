@@ -4,11 +4,12 @@ import { Destination, DestinationRequest } from '../_model/index';
 import { DestinationService } from '../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
+import { DestinationRequestService } from './../_services/index';
 import * as _ from 'lodash';
 import { constants } from './../utils/constants';
 
 import { } from 'googlemaps';
-import { MapsAPILoader, AgmMap } from '@agm/core';
+import { MapsAPILoader, AgmMap, GoogleMapsAPIWrapper } from '@agm/core';
 
 @Component({
   selector: 'app-destination',
@@ -17,7 +18,8 @@ import { MapsAPILoader, AgmMap } from '@agm/core';
 })
 export class DestinationComponent implements OnInit {
 
-  constructor(private destinationService: DestinationService, private sessionService: SessionService, private router: Router) { }
+  constructor(private destinationService: DestinationService, private sessionService: SessionService,
+    private router: Router, private destinationRequestService: DestinationRequestService) { }
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
@@ -38,7 +40,7 @@ export class DestinationComponent implements OnInit {
   lat = 0;
   lng = 0;
 
-  points = new Array<Object>();
+  waypoints = [];
 
   deleteHeader = 'Reject Request';
   deleteText = 'Are you sure you want to reject this request?';
@@ -61,7 +63,7 @@ export class DestinationComponent implements OnInit {
     };
     this.destination.endLocation = {
       lat: 10, lng: 10
-    }
+    };
   }
 
   refreshPage() {
@@ -70,7 +72,6 @@ export class DestinationComponent implements OnInit {
     const id = urlArray[urlArray.length - 1];
     this.destinationService.findById(id).subscribe(data => {
       this.destination = data;
-      this.setMapInitLocation();
       const startDate = new Date(this.destination.startDate);
       if (startDate.getTime() > new Date().getTime()) {
         this.destinationOpen = true;
@@ -80,13 +81,6 @@ export class DestinationComponent implements OnInit {
     }, error => {
       this.notification.error('Get Destinations - Error ' + error.status + ' - ' + error.statusText);
     });
-  }
-
-  setMapInitLocation() {
-    this.points.push(this.destination.startLocation);
-    this.points.push(this.destination.endLocation);
-
-    console.log(this.points);
   }
 
   setLocation(destinationRequest: DestinationRequest) {
@@ -101,7 +95,10 @@ export class DestinationComponent implements OnInit {
   addToDestination(destinationRequest: DestinationRequest) {
     console.log('adding to destination');
     // add to destinationRequests
+    this.destinationRequests.push(destinationRequest);
     // remove from open requests
+    const index = this.openRequests.indexOf(destinationRequest);
+    this.openRequests.splice(index, 1);
   }
 
   calculate() {
@@ -115,7 +112,7 @@ export class DestinationComponent implements OnInit {
     // if one fails, all fail
   }
 
-  setDeleteId(id: string, remove: boolean) {
+  setDeleteId(destinationRequest: DestinationRequest, remove: boolean) {
     if (remove) {
       this.deleteHeader = this.deleteHeaderRemove;
       this.deleteText = this.deleteTextRemove;
@@ -126,7 +123,8 @@ export class DestinationComponent implements OnInit {
       this.remove = false;
     }
 
-    this.destinationRequestId = id;
+    this.destinationRequest = destinationRequest;
+
   }
 
   delete() {
@@ -139,31 +137,45 @@ export class DestinationComponent implements OnInit {
 
   removeRequest() {
     console.log('removing request');
-    // remove request from destinationRequests
+    // add request to open destinationRequests
+    this.openRequests.push(this.destinationRequest);
+    // remove from destinationRequests
+    const index = this.destinationRequests.indexOf(this.destinationRequest);
+    this.destinationRequests.splice(index, 1);
   }
 
   rejectRequest() {
     console.log('rejecting request');
-    // reject request and remove it from view
-  }
-
-  drawPolyline() {
-    console.log('this should draw a polylyne');
-
-    const polylines = [
-      {
-        latitude:  39.8282,
-        longitude: -98.5795,
-        speed: 50
-    },
-     {
-        latitude:  38.8282,
-        longitude: -108.5795,
-        speed: 50
-    }
-    ];
-
+    this.destinationRequestService.reject(this.destination._id).subscribe(
+      result => {
+        this.notification.success('DestinationRequest rejected successfuly');
+        // remove it from view
+        const index = this.openRequests.indexOf(this.destinationRequest);
+        this.openRequests.splice(index, 1);
+      },
+      error => {
+        this.notification.error('Reject DestinationRequest - Error ' + error.status + ' - ' + error.statusText);
+      });
 
   }
+
+  // drawPolyline() {
+  //   console.log('this should draw a polylyne');
+
+  //   const polylines = [
+  //     {
+  //       latitude:  39.8282,
+  //       longitude: -98.5795,
+  //       speed: 50
+  //   },
+  //    {
+  //       latitude:  38.8282,
+  //       longitude: -108.5795,
+  //       speed: 50
+  //   }
+  //   ];
+
+
+  // }
 
 }

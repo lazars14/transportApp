@@ -18,8 +18,8 @@
           <div class="destination-content">
             <agm-map class="destinations-map" [latitude]="dest.startLocation.lat" [longitude]="dest.startLocation.lng"></agm-map>
             <div class="destination-content-text">
-              <p>Start Date: {{ dest.startDate | date }}</p>
-              <p>End Date: {{ dest.endDate | date }}</p>
+              <p>Start Date: {{ dest.startDate | date:'short' }}</p>
+              <p>End Date: {{ dest.endDate | date:'short' }}</p>
 
               <a routerLink="{{destination._id}}">
                 <button class="btn btn-success btn-lg">
@@ -57,8 +57,8 @@
           <div class="destination-content">
             <agm-map #agmMap class="destinations-map" [latitude]="dest.startLocation.lat" [longitude]="dest.startLocation.lng"></agm-map>
             <div class="destination-content-text">
-              <p>Start Date: {{ dest.startDate | date }}</p>
-              <p>End Date: {{ dest.endDate | date }}</p>
+              <p>Start Date: {{ dest.startDate | date:'short' }}</p>
+              <p>End Date: {{ dest.endDate | date:'short' }}</p>
 
               <a routerLink="{{destination._id}}">
                 <button class="btn btn-success btn-lg">
@@ -95,7 +95,7 @@
       <div *ngIf="finishedDestinations.length > 0" class="row">
         <div *ngFor="let dest of finishedDestinations" class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
           <div class="destination-content">
-            <agm-map class="destinations-map" [zoom]="6" [latitude]="(dest.startLocation.lat + dest.endLocation.lat) / 2" [longitude]="(dest.startLocation.lng + dest.endLocation.lng) / 2">
+            <!-- <agm-map class="destinations-map" [zoom]="6" [latitude]="(dest.startLocation.lat + dest.endLocation.lat) / 2" [longitude]="(dest.startLocation.lng + dest.endLocation.lng) / 2">
                 <agm-polyline [editable]="false" [strokeColor]="'#ff0000'">
                     <agm-polyline-point 
                         [latitude]="dest.startLocation.lat"
@@ -106,10 +106,14 @@
                         [longitude]="dest.endLocation.lng">
                     </agm-polyline-point>
                 </agm-polyline>
+            </agm-map> -->
+            <agm-map class="destinations-map" [zoom]="6" [latitude]="(dest.startLocation.lat + dest.endLocation.lat) / 2"
+              [longitude]="(dest.startLocation.lng + dest.endLocation.lng) / 2">
+              <direction [origin]="dest.startLocation" [destination]="dest.endLocation"></direction>
             </agm-map>
             <div class="destination-content-text">
-              <p>Start Date: {{ dest.startDate | date }}</p>
-              <p>End Date: {{ dest.endDate | date }}</p>
+              <p>Start Date: {{ dest.startDate | date:'short' }}</p>
+              <p>End Date: {{ dest.endDate | date:'short' }}</p>
 
               <a routerLink="{{dest._id}}">
                 <button class="btn btn-success btn-lg">

@@ -44,9 +44,10 @@ import { NotificationComponent } from './notification/notification.component';
 import { VehicleExpenseModalComponent } from './vehicle-expense-modal/vehicle-expense-modal.component';
 import { ExtendRegistrationModalComponent } from './extend-registration-modal/extend-registration-modal.component';
 
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { DestinationComponent } from './destination/destination.component';
 import { LocationModalComponent } from './location-modal/location-modal.component';
+import { DirectionDirective } from './_directives/direction.directive';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -74,7 +75,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     VehicleExpenseModalComponent,
     ExtendRegistrationModalComponent,
     DestinationComponent,
-    LocationModalComponent
+    LocationModalComponent,
+    DirectionDirective
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,7 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     DateValueAccessorModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCwYwTnD6SsaPzmEwP1-CZ0Sv9MWexhDDQ',
-      libraries: ["places"]
+      libraries: ['places']
     }),
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
@@ -100,7 +102,7 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
       provide: HttpService,
       useFactory: httpServiceFactory,
       deps: [XHRBackend, RequestOptions, SessionService]
-    }
+    }, GoogleMapsAPIWrapper
   ],
   bootstrap: [AppComponent]
 })

@@ -41,7 +41,7 @@
 
     <br>
 
-    <agm-map #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
+    <!-- <agm-map #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
     [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
       <agm-polyline [editable]="false" [strokeColor]="'#ff0000'">
           <agm-polyline-point *ngFor="let point of points"
@@ -49,6 +49,11 @@
               [longitude]="point.lng">
           </agm-polyline-point>
       </agm-polyline>
+  </agm-map> -->
+
+  <agm-map #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
+    [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
+    <direction [origin]="destination.startLocation" [destination]="destination.endLocation"></direction>
   </agm-map>
 
     <br>
@@ -143,7 +148,7 @@
                 <td>Peric</td>
                 <!-- short -->
                 <td *ngIf="destinationOpen" class="btn-group-small text-center">
-                  <button class="btn btn-lg btn-danger " (click)="setDeleteId(idKojiMitreba, true)" data-toggle="modal" data-target="#confirmModal"
+                  <button class="btn btn-lg btn-danger " (click)="setDeleteId(destinationRequest, true)" data-toggle="modal" data-target="#confirmModal"
                     title="Remove">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                   </button>
@@ -184,7 +189,7 @@
                   data-target="#myModal" title="Add">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-lg btn-danger " (click)="setDeleteId(idKojiMiTreba, false)" data-toggle="modal" data-target="#confirmModal"
+                <button class="btn btn-lg btn-danger " (click)="setDeleteId(destination, false)" data-toggle="modal" data-target="#confirmModal"
                   title="Reject">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>

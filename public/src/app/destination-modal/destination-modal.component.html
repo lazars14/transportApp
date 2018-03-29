@@ -1,47 +1,57 @@
 <div class="container">
-    <!-- The Modal -->
-    <div class="modal fade defaultModal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-  
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">{{ action }} Destination</h4>
-            <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
-          </div>
-  
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form #f="ngForm" name="form">
-              <div class="form-group">
-                <label for="startDate"><span class="red-text">*</span>Start Date</label>
-                <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startDate" required>
-              </div>
-  
-              <div class="form-group">
-                  <label for="endDate"><span class="red-text">*</span>End Date</label>
-                  <input type="date" class="form-control" [(ngModel)]="destination.endDate" useValueAsDate name="endDate" required>
-                </div>
+  <!-- The Modal -->
+  <!-- <div class="modal fade defaultModal" id="myModal"> -->
+  <div>
+    <div class="modal-dialog">
+      <div class="modal-content">
 
-                <div class="form-group">
-                    <agm-map #agmMap class="destinations-map" [latitude]="45.30" [longitude]="45.30"></agm-map>
-                  </div>
-
-              <p><span class="red-text">*</span> - mandatory fields</p>
-            </form>
-          </div>
-  
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <div class="mx-auto">
-              <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
-              <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
-            </div>
-          </div>
-  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{ action }} Destination</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
         </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form #f="ngForm" name="form">
+            <div class="form-group">
+              <label for="startDate">
+                <span class="red-text">*</span>Start Date</label>
+              <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="endDate">
+                <span class="red-text">*</span>End Date</label>
+              <input type="date" class="form-control" [(ngModel)]="destination.endDate" useValueAsDate name="endDate" required>
+            </div>
+
+            <div class="form-group">
+              <agm-map #agmMap class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)">
+                  <direction *ngIf="endMarker.lat != null" [origin]="startMarker" [destination]="endMarker"></direction>
+                <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
+              </agm-map>
+              
+              <div class="mx-auto">
+                  <button class="btn btn-danger btn-lg" data-dismiss="modal" (click)="resetMap()">Reset map</button>
+              </div>
+            </div>
+
+            <p>
+              <span class="red-text">*</span> - mandatory fields</p>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="mx-auto">
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
+          </div>
+        </div>
+
       </div>
     </div>
-  
   </div>
-  
+
+</div>

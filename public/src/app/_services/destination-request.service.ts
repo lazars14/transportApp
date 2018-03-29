@@ -38,4 +38,22 @@ export class DestinationRequestService {
     .map((res) => res.json());
   }
 
+  await(id: string) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' + id +
+     '/setAwaiting', null)
+    .map((res) => res.json());
+  }
+
+  accept(id: string) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' + id +
+     '/setAccepted', null)
+    .map((res) => res.json());
+  }
+
+  reject(id: string) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' + id +
+     '/setRejected', null)
+    .map((res) => res.json());
+  }
+
 }
