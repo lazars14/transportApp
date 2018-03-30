@@ -40,6 +40,8 @@ export class DestinationComponent implements OnInit {
   lat = 0;
   lng = 0;
 
+  visible = false;
+
   waypoints = [];
 
   deleteHeader = 'Reject Request';
@@ -52,18 +54,7 @@ export class DestinationComponent implements OnInit {
   deleteTextRemove = 'Are you sure you want to remove the request?';
 
   ngOnInit() {
-    this.setDummyLocation();
     this.refreshPage();
-  }
-
-  setDummyLocation() {
-    // To prevent error, because destination is binded to map
-    this.destination.startLocation = {
-      lat: 0, lng: 0
-    };
-    this.destination.endLocation = {
-      lat: 10, lng: 10
-    };
   }
 
   refreshPage() {
@@ -72,8 +63,10 @@ export class DestinationComponent implements OnInit {
     const id = urlArray[urlArray.length - 1];
     this.destinationService.findById(id).subscribe(data => {
       this.destination = data;
+      this.visible = true;
+      const today = new Date();
       const startDate = new Date(this.destination.startDate);
-      if (startDate.getTime() > new Date().getTime()) {
+      if (startDate.getTime() > today.getTime()) {
         this.destinationOpen = true;
       }
 

@@ -302,6 +302,11 @@ exports.addDestination = function(req, res, next){
         return next(error('BAD_REQUEST'));
     }
 
+    if(!req.body.startDate){
+        logger.error('Error - Add destination - Start date can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
     destinationModel.add(req.params.managerId, req.body).then(function(destination){
         res.json(destination);
     }).fail(function(err){
@@ -316,16 +321,6 @@ exports.addDestination = function(req, res, next){
  * @param next
  */
 exports.updateDestination = function(req, res, next){
-    if(!req.body.destinationManagerId){
-        logger.error('Error - Update destination - DestinationManagerId can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-    
-    if(req.params.managerId != req.body.destinationManagerId){
-        logger.error('Error - Update destination - Can\'t update destination from another manager');
-        return next(error('NOT_ALLOWED'));
-    }
-
     destinationModel.update(req.params.destinationId, req.body).then(function(destination){
         res.json(destination);
     }).fail(function(err){
@@ -505,11 +500,6 @@ exports.requestSetAwaiting = function(req, res, next){
 
     if(!req.body.startDate){
         logger.error('Error - Set request to awaiting - StartDate id can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    if(!req.body.endDate){
-        logger.error('Error - Set request to awaiting - EndDate id can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 

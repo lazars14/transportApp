@@ -1537,13 +1537,6 @@ define({ "api": [
             "optional": false,
             "field": "startDate",
             "description": "<p>Destination start date</p>"
-          },
-          {
-            "group": "body",
-            "type": "Date",
-            "optional": false,
-            "field": "endDate",
-            "description": "<p>Destination end date</p>"
           }
         ]
       }
@@ -3164,13 +3157,6 @@ define({ "api": [
           }
         ],
         "body": [
-          {
-            "group": "body",
-            "type": "String",
-            "optional": false,
-            "field": "destinationManagerId",
-            "description": "<p>Manager id for destination</p>"
-          },
           {
             "group": "body",
             "type": "Object",

@@ -1,5 +1,5 @@
 import { GoogleMapsAPIWrapper } from '@agm/core';
-import { Directive, Input, OnInit, OnChanges } from '@angular/core';
+import { Directive, Input, OnInit } from '@angular/core';
 declare var google: any;
 
 @Directive({
@@ -10,9 +10,6 @@ export class DirectionDirective implements OnInit {
 
   @Input() origin;
   @Input() destination;
-  @Input() waypoints;
-  @Input() visible;
-  @Input() drawing;
 
   constructor(private gmapsApi: GoogleMapsAPIWrapper) {}
 
@@ -34,7 +31,7 @@ export class DirectionDirective implements OnInit {
           lat: this.destination.lat,
           lng: this.destination.lng
         },
-        waypoints: this.waypoints, // [],
+        waypoints: [],
         optimizeWaypoints: true,
         travelMode: 'DRIVING'
       }, function (response, status) {
@@ -46,13 +43,6 @@ export class DirectionDirective implements OnInit {
       });
 
     });
-  }
-
-  removeDirection() {
-    console.log();
-    // this.directionsDisplay.setPanel(null);
-    // this.directionsDisplay.setMap(null);
-    // this.directionsDisplay = undefined;
   }
 
 }

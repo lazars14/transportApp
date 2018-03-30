@@ -14,21 +14,21 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form #f="ngForm" name="form">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="startDate">
                 <span class="red-text">*</span>Start Date</label>
               <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startDate" required>
-            </div>
+            </div> -->
 
             <div class="form-group">
-              <label for="endDate">
-                <span class="red-text">*</span>End Date</label>
-              <input type="date" class="form-control" [(ngModel)]="destination.endDate" useValueAsDate name="endDate" required>
+              <label for="startTime">
+                <span class="red-text">*</span>Start Time</label>
+              <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startTime" required>
             </div>
 
             <div class="form-group">
               <agm-map #agmMap class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)">
-                  <direction *ngIf="endMarker.lat != null" [origin]="startMarker" [destination]="endMarker"></direction>
+                  <app-direction #direction [markersCount]="markersCount"></app-direction>
                 <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
               </agm-map>
               

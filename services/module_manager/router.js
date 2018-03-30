@@ -439,7 +439,6 @@ router.get('/:managerId/destinations/:destinationId', auth.checkManagerToken, au
  * @apiParam (body){Object} startLocation Destination start location
  * @apiParam (body){Object} endLocation Destination end location
  * @apiParam (body){Date} startDate Destination start date
- * @apiParam (body){Date} endDate Destination end date
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Destination Created destination
@@ -472,7 +471,6 @@ router.post('/:managerId/destinations', auth.checkManagerToken, auth.checkManage
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} destinationId Destination id
  * 
- * @apiParam (body){String} destinationManagerId Manager id for destination
  * @apiParam (body){Object} [startLocation] Expense name
  * @apiParam (body){Object} [endLocation] Expense amount
  * @apiParam (body){String} [startDate] Expense name

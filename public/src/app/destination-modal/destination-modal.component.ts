@@ -18,7 +18,8 @@ import {
   AgmMap,
   MapsAPILoader
 } from '@agm/core';
-import { DirectionDirective } from '../_directives/index';
+import { DirectionComponent } from '../direction/direction.component';
+import { Destination } from './../_model/index';
 
 @Component({
   selector: 'app-destination-modal',
@@ -27,31 +28,26 @@ import { DirectionDirective } from '../_directives/index';
 })
 export class DestinationModalComponent implements OnInit {
 
-  dummyMarker = {
-    lat: 0, lng: 0
-  };
-
   markers = [];
-
   startMarker = {};
   endMarker = {};
-  markertsCount = 0;
-
-  isVisible = false;
+  markersCount = 0;
 
   @ViewChild(AgmMap) agmMap: AgmMap;
-  @ViewChild(DirectionDirective) direction: DirectionDirective;
+  @ViewChild(DirectionComponent) direction;
 
   constructor() {}
 
   @Input() action: string;
-  @Input() destination: object;
+  @Input() destination: Destination;
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 
   ngOnInit() {}
 
   ok() {
+    this.destination.startLocation = this.startMarker;
+    this.destination.endLocation = this.endMarker;
     this.modalAddUpdate.emit();
   }
 
@@ -62,7 +58,8 @@ export class DestinationModalComponent implements OnInit {
 
   mapClicked($event) {
     console.log('clicked');
-    if (this.markertsCount === 0) {
+    console.log('markers count ', this.markersCount);
+    if (this.markersCount === 0) {
       this.markers.push({
         lat: $event.coords.lat,
         lng: $event.coords.lng,
@@ -70,8 +67,9 @@ export class DestinationModalComponent implements OnInit {
         title: 'title'
       });
       this.startMarker = $event.coords;
-      this.markertsCount++;
-    } else if (this.markertsCount === 1) {
+      this.markersCount++;
+      console.log('first click');
+    } else if (this.markersCount === 1) {
       this.markers.push({
         lat: $event.coords.lat,
         lng: $event.coords.lng,
@@ -79,8 +77,9 @@ export class DestinationModalComponent implements OnInit {
         title: 'title'
       });
       this.endMarker = $event.coords;
-      this.markertsCount++;
-      // this.direction.drawDirection();
+      this.markersCount++;
+      console.log('second click');
+      this.direction.drawDirection(this.startMarker, this.endMarker);
       // reset markers to display only A to B
       this.markers = [];
     }
@@ -88,18 +87,8 @@ export class DestinationModalComponent implements OnInit {
 
   resetMap() {
     console.log('reseting map');
-    this.startMarker = {};
-    this.endMarker = {};
+    this.direction.removeDirection();
     // this.direction.removeDirection();
   }
-
-  // markerDragEnd(m, $event) {
-  //   console.log('markers before change: ', this.markers);
-  //   const index = this.markers.indexOf(m);
-  //   // this.markers[index].lat = $event.coords.lat;
-  //   // this.markers[index].lng = $event.coords.lng;
-  //   this.markers[index].label = 'c';
-  //   console.log('markers after change: ', this.markers);
-  // }
 
 }
