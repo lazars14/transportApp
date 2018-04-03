@@ -45,6 +45,8 @@ import { VehicleExpenseModalComponent } from './vehicle-expense-modal/vehicle-ex
 import { ExtendRegistrationModalComponent } from './extend-registration-modal/extend-registration-modal.component';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+
 import { DestinationComponent } from './destination/destination.component';
 import { LocationModalComponent } from './location-modal/location-modal.component';
 import { DirectionDirective } from './_directives/direction.directive';
@@ -95,6 +97,7 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
       apiKey: 'AIzaSyCwYwTnD6SsaPzmEwP1-CZ0Sv9MWexhDDQ',
       libraries: ['places']
     }),
+    AgmDirectionModule
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

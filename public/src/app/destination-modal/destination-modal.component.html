@@ -1,7 +1,6 @@
 <div class="container">
   <!-- The Modal -->
-  <!-- <div class="modal fade defaultModal" id="myModal"> -->
-  <div>
+  <div class="modal fade defaultModal" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -14,38 +13,46 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form #f="ngForm" name="form">
-            <!-- <div class="form-group">
+
+            <div class="form-group">
               <label for="startDate">
                 <span class="red-text">*</span>Start Date</label>
               <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startDate" required>
-            </div> -->
+            </div>
 
             <div class="form-group">
               <label for="startTime">
                 <span class="red-text">*</span>Start Time</label>
-              <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startTime" required>
+              <input type="time" #startTime class="form-control" [value]="time" name="startTime" required>
+            </div>
+
+            <div [hidden]="!showMap" class="form-group">
+              <agm-map id="agmMap" class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)" [zoom]="zoom">
+                <!-- <app-direction #direction [markersCount]="markersCount"></app-direction> -->
+                <agm-direction *ngIf="endMarker.lat" [origin]="startMarker" [destination]="endMarker" [visible]="visible"></agm-direction>
+                <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
+              </agm-map>
+
             </div>
 
             <div class="form-group">
-              <agm-map #agmMap class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)">
-                  <app-direction #direction [markersCount]="markersCount"></app-direction>
-                <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
-              </agm-map>
-              
-              <div class="mx-auto">
-                  <button class="btn btn-danger btn-lg" data-dismiss="modal" (click)="resetMap()">Reset map</button>
-              </div>
+              <button class="btn btn-danger btn-lg" (click)="resetMap()">Reset Map</button>
+            </div>
+
+            <div class="form-group">
+              <button id="showMapButton" class="btn btn-success btn-lg" (click)="showMap = true; agmMap.triggerResize()">Show Map</button>
             </div>
 
             <p>
               <span class="red-text">*</span> - mandatory fields</p>
+
           </form>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
           <div class="mx-auto">
-            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!startTime.value && !visible" (click)="ok(startTime.value)">Ok</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
           </div>
         </div>

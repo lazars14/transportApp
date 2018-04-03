@@ -5,7 +5,8 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  AfterContentChecked
+  AfterContentChecked,
+  AfterViewInit
 } from '@angular/core';
 import {
   FormsModule,
@@ -18,23 +19,33 @@ import {
   AgmMap,
   MapsAPILoader
 } from '@agm/core';
-import { DirectionComponent } from '../direction/direction.component';
-import { Destination } from './../_model/index';
+import {
+  DirectionComponent
+} from '../direction/direction.component';
+import {
+  Destination
+} from './../_model/index';
+declare var $: any;
 
 @Component({
   selector: 'app-destination-modal',
   templateUrl: './destination-modal.component.html',
   styleUrls: ['./destination-modal.component.css']
 })
-export class DestinationModalComponent implements OnInit {
+export class DestinationModalComponent implements OnInit, AfterViewInit {
 
   markers = [];
   startMarker = {};
   endMarker = {};
   markersCount = 0;
 
+  visible = false;
+  zoom = 10;
+  showMap = false;
+
+  element: HTMLElement = document.getElementById('showMapButton') as HTMLElement;
+
   @ViewChild(AgmMap) agmMap: AgmMap;
-  @ViewChild(DirectionComponent) direction;
 
   constructor() {}
 
@@ -43,11 +54,53 @@ export class DestinationModalComponent implements OnInit {
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.destination.startDate = new Date();
+  }
 
-  ok() {
+  ngAfterViewInit() {
+    console.log('ovo je mapa ', this.agmMap);
+    // $('#myModal').on('show.bs.modal', function() {
+      // this.showMap = true;
+      // this.agmMap.triggerResize();
+      // console.log('shown');
+      // this.element.click();
+    // });
+  }
+
+  get time() {
+    if (this.destination.startDate) {
+
+      const hour = this.destination.startDate.getHours();
+      const minutes = this.destination.startDate.getMinutes();
+
+      let hourStr, minStr;
+
+      if (hour < 10) {
+        hourStr = '0' + hour;
+      } else {
+        hourStr = hour.toString();
+      }
+
+      if (minutes < 10) {
+        minStr = '0' + minutes;
+      } else {
+        hourStr = hour.toString();
+      }
+
+      return hourStr + ':' + minStr;
+    }
+  }
+
+  ok(time) {
+    console.log(this.visible);
     this.destination.startLocation = this.startMarker;
     this.destination.endLocation = this.endMarker;
+    const month = this.destination.startDate.getMonth() + 1,
+  day = this.destination.startDate.getDate(),
+  year = this.destination.startDate.getFullYear();
+  this.destination.startDate = new Date(month + '-' + day + '-' + year + ' ' + time);
+    // console.log('novi datum: ', this.destination.startDate);
     this.modalAddUpdate.emit();
   }
 
@@ -79,16 +132,35 @@ export class DestinationModalComponent implements OnInit {
       this.endMarker = $event.coords;
       this.markersCount++;
       console.log('second click');
-      this.direction.drawDirection(this.startMarker, this.endMarker);
+      this.visible = true;
+      // this.direction.drawDirection(this.startMarker, this.endMarker);
       // reset markers to display only A to B
       this.markers = [];
     }
   }
 
-  resetMap() {
+  resetMap(date) {
     console.log('reseting map');
-    this.direction.removeDirection();
-    // this.direction.removeDirection();
+    this.visible = false;
+    this.markersCount = 0;
+
+    // testing
+    console.log('datum posle dodavanja ', this.destination.startDate);
+    console.log(date);
+
+    // this.startMarker = {};
+    // this.endMarker = {};
   }
+
+  setMapForEdit(destination: Destination) {
+    this.destination = destination;
+    this.startMarker = destination.startLocation;
+    this.endMarker = destination.endLocation;
+    this.visible = true;
+  }
+
+  // showMap() {
+  //   this.agmMap.triggerResize();
+  // }
 
 }

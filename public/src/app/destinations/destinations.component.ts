@@ -8,6 +8,7 @@ import { constants } from './../utils/constants';
 
 import { } from 'googlemaps';
 import { MapsAPILoader, AgmMap } from '@agm/core';
+import { DestinationModalComponent } from '../destination-modal/destination-modal.component';
 
 @Component({
   selector: 'app-destinations',
@@ -17,6 +18,7 @@ import { MapsAPILoader, AgmMap } from '@agm/core';
 export class DestinationsComponent implements OnInit {
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
+  @ViewChild(DestinationModalComponent) destinationModal: DestinationModalComponent;
 
   openDestinations = [];
   inProgressDestinations = [];
@@ -72,6 +74,7 @@ export class DestinationsComponent implements OnInit {
 
   resetForm() {
     this.destination = new Destination();
+    this.destination.startDate = new Date();
   }
 
   setAction(destination: Destination) {
@@ -81,6 +84,7 @@ export class DestinationsComponent implements OnInit {
       this.destination = _.cloneDeep(destination);
       this.destination.startDate = new Date(this.destination.startDate);
       this.destination.endDate = new Date(this.destination.endDate);
+      this.destinationModal.setMapForEdit(this.destination);
       this.action = constants.update;
     }
   }

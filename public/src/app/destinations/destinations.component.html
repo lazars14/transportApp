@@ -1,6 +1,6 @@
 <app-notification></app-notification>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
-<app-destination-modal [destination]="destination" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-destination-modal>
+<app-destination-modal #destinationModal [destination]="destination" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-destination-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Open
