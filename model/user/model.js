@@ -78,13 +78,10 @@ UserSchema.statics.findAll = function(){
     var deffered = Q.defer();
 
     model.find({}, { password: 0 }, function(err, users){
-        console.log('users ', users);
         if(err){
-            console.log('err ', err);
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find all users');
             return deffered.reject(error("MONGO_ERROR"));
         };
-        console.log('after err');
         deffered.resolve(users);
     });
 

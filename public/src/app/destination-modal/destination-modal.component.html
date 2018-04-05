@@ -1,7 +1,7 @@
 <div class="container">
   <!-- The Modal -->
   <div class="modal fade defaultModal" id="myModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -26,9 +26,18 @@
               <input type="time" #startTime class="form-control" [value]="time" name="startTime" required>
             </div>
 
+            <div class="form-group">
+                <label for="fuelExpenses">Fuel Expenses (per 100km)</label>
+                <input type="number" class="form-control" [(ngModel)]="destination.fuelExpenses" name="fuelExpenses" min="0">
+              </div>
+
+              <div class="form-group">
+                  <label for="driversPay">Driver's Pay (each per 100km)</label>
+                  <input type="number" class="form-control" [(ngModel)]="destination.driversPay" name="driversPay" min="0">
+                </div>
+
             <div [hidden]="!showMap" class="form-group">
               <agm-map id="agmMap" class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)" [zoom]="zoom">
-                <!-- <app-direction #direction [markersCount]="markersCount"></app-direction> -->
                 <agm-direction *ngIf="endMarker.lat" [origin]="startMarker" [destination]="endMarker" [visible]="visible"></agm-direction>
                 <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
               </agm-map>

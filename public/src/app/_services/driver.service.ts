@@ -11,6 +11,11 @@ export class DriverService {
 
   apiUrl: string = environment.apiUrl;
 
+  findAllManager() {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/drivers')
+    .map((res) => res.json());
+  }
+
   findAll() {
     return this.httpService.get(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/drivers')
     .map((res) => res.json());

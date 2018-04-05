@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Destination, DestinationRequest } from '../_model/index';
+import { Destination, DestinationRequest, Vehicle } from '../_model/index';
 import { DestinationService } from '../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
-import { DestinationRequestService } from './../_services/index';
+import { DestinationRequestService, VehicleService } from './../_services/index';
 import * as _ from 'lodash';
 import { constants } from './../utils/constants';
 
@@ -19,22 +19,26 @@ import { MapsAPILoader, AgmMap, GoogleMapsAPIWrapper } from '@agm/core';
 export class DestinationComponent implements OnInit {
 
   constructor(private destinationService: DestinationService, private sessionService: SessionService,
-    private router: Router, private destinationRequestService: DestinationRequestService) { }
+    private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService) { }
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   destination = new Destination();
   destinationRequest = new DestinationRequest();
 
-  destinationRequests = new Array<DestinationRequest>();
-  preChangeDestinationRequests: Array<DestinationRequest>;
-  openRequests = new Array<DestinationRequest>();
+  destinationRequests = [];
+  preChangeDestinationRequests = [];
+  openRequests = [];
 
   destinationOpen: boolean;
   remove: boolean;
   destinationRequestId: String;
 
-  ticketsIncome: Number;
+  vehicle: Vehicle;
+  vehicleInfo: string;
+
+  totalCost = 0;
+  ticketsIncome = 0;
   // ili da ga dobijem iz html-a - kao zbir svih cena iz request-ova
 
   lat = 0;
@@ -63,6 +67,7 @@ export class DestinationComponent implements OnInit {
     const id = urlArray[urlArray.length - 1];
     this.destinationService.findById(id).subscribe(data => {
       this.destination = data;
+      this.totalCost = data.numberOfKms / 100 * (data.fuelExpenses + 2 * data.driversPay);
       this.visible = true;
       const today = new Date();
       const startDate = new Date(this.destination.startDate);
@@ -70,9 +75,31 @@ export class DestinationComponent implements OnInit {
         this.destinationOpen = true;
       }
 
-      // load current requests and save to preChange and destinationRequests
+      this.destinationRequestService.findByDestination(id).subscribe(currentRequests => {
+        this.destinationRequests = currentRequests;
+        this.preChangeDestinationRequests = currentRequests;
+      }, error => {
+        this.notification.error('Get Destination Requests - Error ' + error.status + ' - ' + error.statusText);
+      });
+
+      this.destinationRequestService.findAllOpen().subscribe(openRequests => {
+        this.openRequests = openRequests;
+      }, error => {
+        this.notification.error('Get Open Requests - Error ' + error.status + ' - ' + error.statusText);
+      });
+
+      if (this.destination.vehicleId) {
+        this.vehicleService.findById(this.destination.vehicleId).subscribe(vehicle => {
+          this.vehicleInfo = vehicle.name;
+          this.vehicle = vehicle;
+        }, error => {
+          this.notification.error('Get Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+        });
+      }
+
+
     }, error => {
-      this.notification.error('Get Destinations - Error ' + error.status + ' - ' + error.statusText);
+      this.notification.error('Get Destination - Error ' + error.status + ' - ' + error.statusText);
     });
   }
 
@@ -117,7 +144,6 @@ export class DestinationComponent implements OnInit {
     }
 
     this.destinationRequest = destinationRequest;
-
   }
 
   delete() {
@@ -139,7 +165,7 @@ export class DestinationComponent implements OnInit {
 
   rejectRequest() {
     console.log('rejecting request');
-    this.destinationRequestService.reject(this.destination._id).subscribe(
+    this.destinationRequestService.reject(this.destinationRequest._id).subscribe(
       result => {
         this.notification.success('DestinationRequest rejected successfuly');
         // remove it from view

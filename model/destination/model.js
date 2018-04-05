@@ -291,7 +291,7 @@ function _checkDestinationsForVehicle(vehicleId, startDateEntry, endDateEntry){
 
     model.find({vehicleId : vehicleId, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destination){
         if(err){
-            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicleId);
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicle._id);
             return deffered.reject(error('MONGO_ERROR'));
         }
         return deffered.resolve(destination);

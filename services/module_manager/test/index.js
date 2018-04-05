@@ -10,6 +10,7 @@ describe("Manager tests", function () {
     var token;
     var manager;
     var vehicleId;
+    var vehicle;
     var expense;
     var userId;
     var destination;
@@ -171,6 +172,7 @@ describe("Manager tests", function () {
                 res.should.have.property("status", 200);
                 var vehicleArray = res.body;
                 vehicleId = vehicleArray[0]._id;
+                vehicle = vehicleArray[0];
                 return done();
             });
     });
@@ -756,19 +758,6 @@ describe("Manager tests", function () {
             });
     });
 
-    it("update destination - fail - bad request", function (done) {
-        var data;
-        data = ({
-            numberOfKms: 148.53
-        });
-        return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id)
-        .set('x-access-token', token)
-        .type('application/json').send(data).end(function (err, res) {
-                res.should.have.property("status", 400);
-                return done();
-            });
-    });
-
     it("update destination - fail - not found", function (done) {
         var data;
         data = ({
@@ -793,20 +782,6 @@ describe("Manager tests", function () {
         .set('x-access-token', token)
         .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 404);
-                return done();
-            });
-    });
-
-    it("update destination - fail - not allowed", function (done) {
-        var data;
-        data = ({
-            destinationManagerId: dummyId,
-            numberOfKms: 148.53
-        });
-        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id)
-        .set('x-access-token', token)
-        .type('application/json').send(data).end(function (err, res) {
-                res.should.have.property("status", 405);
                 return done();
             });
     });
@@ -1002,7 +977,6 @@ describe("Manager tests", function () {
     it("set destination vehicle - fail - missing token", function (done) {
         var data;
         data = ({
-            destinationManagerId: destination.managerId,
             startDate: "",
             endDate: "",
             vehicleId: vehicleId
@@ -1018,8 +992,7 @@ describe("Manager tests", function () {
         var data;
         data = ({
             startDate: "",
-            endDate: "",
-            vehicleId: vehicleId
+            endDate: ""
         });
         return request(app).put('/manager/' + manager._id + '/destinations/'+ destination._id + '/setVehicle')
         .set('x-access-token', token)
@@ -1032,7 +1005,6 @@ describe("Manager tests", function () {
     it("set destination vehicle - fail - not found", function (done) {
         var data;
         data = ({
-            destinationManagerId: destination.managerId,
             startDate: "2018-03-05",
             endDate: "2018-03-05",
             vehicleId: vehicleId
@@ -1048,7 +1020,6 @@ describe("Manager tests", function () {
     it("set destination vehicle - fail - not found", function (done) {
         var data;
         data = ({
-            destinationManagerId: destination.managerId,
             startDate: "2018-03-05",
             endDate: "2018-03-05",
             vehicleId: vehicleId
@@ -1064,7 +1035,6 @@ describe("Manager tests", function () {
     it("set destination vehicle - success - valid data", function (done) {
         var data;
         data = ({
-            destinationManagerId: destination.managerId,
             startDate: "2018-03-05",
             endDate: "2018-03-10",
             vehicleId: vehicleId
@@ -1077,40 +1047,62 @@ describe("Manager tests", function () {
             });
     });
 
-    it("set destination vehicle - fail - not allowed", function (done) {
-        var data;
-        data = ({
-            destinationManagerId: dummyId,
-            startDate: "2018-03-05",
-            endDate: "2018-03-10",
-            vehicleId: vehicleId
-        });
-        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
-        .set('x-access-token', token)
-        .type('application/json').send(data).end(function (err, res) {
-                res.should.have.property("status", 405);
+    // it("set destination vehicle - fail - not allowed", function (done) {
+    //     var data;
+    //     data = ({
+    //         destinationManagerId: dummyId,
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-10",
+    //         vehicleId: vehicleId
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 405);
+    //             return done();
+    //         });
+    // });
+
+    // it("set destination vehicle - fail - not allowed", function (done) {
+    //     var data;
+    //     data = ({
+    //         startDate: "2018-03-05",
+    //         endDate: "2018-03-10",
+    //         vehicleId: vehicleId
+    //     });
+    //     return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
+    //     .set('x-access-token', token)
+    //     .type('application/json').send(data).end(function (err, res) {
+    //             res.should.have.property("status", 405);
+    //             return done();
+    //         });
+    // });
+
+    it("find all drivers - fail - missing token", function (done) {
+        return request(app).get('/manager/' + manager._id + '/drivers')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
                 return done();
             });
     });
 
-    it("set destination vehicle - fail - not allowed", function (done) {
-        var data;
-        data = ({
-            destinationManagerId: destination.managerId,
-            startDate: "2018-03-05",
-            endDate: "2018-03-10",
-            vehicleId: vehicleId
-        });
-        return request(app).put('/manager/' + manager._id + '/destinations/' + destination._id + '/setVehicle')
-        .set('x-access-token', token)
-        .type('application/json').send(data).end(function (err, res) {
-                res.should.have.property("status", 405);
+    it("find all drivers - fail - not found", function (done) {
+        return request(app).get('/manager/' + dummyId + '/drivers')
+            .set('x-access-token', managerDummyToken)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
                 return done();
             });
     });
 
-
-
+    it("find all drivers - success - valid data", function (done) {
+        return request(app).get('/manager/' + manager._id + '/drivers')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
 
 
 

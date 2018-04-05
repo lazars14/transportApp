@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { DestinationRequest } from '../_model/index';
+import { AgmMap } from '@agm/core';
 
 @Component({
   selector: 'app-location-modal',
@@ -14,11 +15,15 @@ export class LocationModalComponent implements OnInit {
   @Input() destinationRequest: DestinationRequest;
   @Output() resetLocation = new EventEmitter();
 
+  @ViewChild(AgmMap) agmMap: AgmMap;
+
+  showMap = false;
+
   ngOnInit() {
   }
 
   cancel(form: NgForm) {
-    form.reset();
+    this.showMap = false;
     this.resetLocation.emit();
   }
 

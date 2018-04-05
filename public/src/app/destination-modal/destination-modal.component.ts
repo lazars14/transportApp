@@ -20,9 +20,6 @@ import {
   MapsAPILoader
 } from '@agm/core';
 import {
-  DirectionComponent
-} from '../direction/direction.component';
-import {
   Destination
 } from './../_model/index';
 declare var $: any;

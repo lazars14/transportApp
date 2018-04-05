@@ -50,7 +50,8 @@ import { AgmDirectionModule } from 'agm-direction';
 import { DestinationComponent } from './destination/destination.component';
 import { LocationModalComponent } from './location-modal/location-modal.component';
 import { DirectionDirective } from './_directives/direction.directive';
-import { DirectionComponent } from './direction/direction.component';
+import { SetVehicleModalComponent } from './set-vehicle-modal/set-vehicle-modal.component';
+import { SetDriversModalComponent } from './set-drivers-modal/set-drivers-modal.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -80,7 +81,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     DestinationComponent,
     LocationModalComponent,
     DirectionDirective,
-    DirectionComponent
+    SetVehicleModalComponent,
+    SetDriversModalComponent
   ],
   imports: [
     BrowserModule,

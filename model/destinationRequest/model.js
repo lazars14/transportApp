@@ -50,7 +50,7 @@ function _findByStatus(status){
 function _findByDestinationId(destinationId){
     var deffered = Q.defer();
 
-    model.findOne({destinationId : destinationId}, function(err, data){
+    model.find({destinationId : destinationId}, function(err, data){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with destination id ' + destinationId);
             return deffered.reject(error("MONGO_ERROR"));
@@ -141,7 +141,7 @@ DestinationRequestSchema.statics.findAll = function(){
 function _findAllSubmitted(){
     var deffered = Q.defer();
 
-    model.findOne({status : constants.status.SUBMITTED}, function(err, data){
+    model.find({status : constants.status.SUBMITTED}, function(err, data){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination request with user id ' + userId);
             return deffered.reject(error("MONGO_ERROR"));
@@ -322,7 +322,7 @@ DestinationRequestSchema.statics.changeToRejected = function(id){
 
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
- 
+
         found.status = constants.status.REJECTED;
 
         found.save(function(err, destinationRequest){

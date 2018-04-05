@@ -491,7 +491,6 @@ router.post('/:managerId/destinations', auth.checkManagerToken, auth.checkManage
  * 
  * @apiUse internalError
  * @apiUse notFound
- * @apiUse badRequest
  * @apiUse notAllowed
  * @apiUse notAuthorized
  */
@@ -531,7 +530,7 @@ router.delete('/:managerId/destinations/:destinationId', auth.checkManagerToken,
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} destinationId Destination id
  * 
- * @apiParam (body){String} vehicleId Vehicle id for vehicle setting
+ * @apiParam (body){String} vehicleId Vehicle id for setting 
  * @apiParam (body){String} destinationManagerId Manager id for destination
  * @apiParam (body){Date} startDate Destination startDate
  * @apiParam (body){Date} endDate Destination endDate
@@ -761,6 +760,76 @@ router.put('/:managerId/destinationRequests/:destinationRequestId/setAccepted', 
  * @apiUse notAuthorized
  */
 router.put('/:managerId/destinationRequests/:destinationRequestId/setRejected', auth.checkManagerToken, auth.checkManagerId, controller.requestSetRejected);
+
+/**
+ * @api {get} /{managerId}/drivers
+ * Get All Drivers
+ * @apiVersion 1.0.0
+ * @apiName Get All Drivers
+ * @apiGroup Manager
+ * @apiDescription Manager drivers - view all drivers
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Drivers Drivers array
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        },
+ *        {
+ *           "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *           "firstName": "Driver",
+ *           "lastName": "Two",
+ *           "email" : "drivertwo@gmail.com",
+ *           "phone": "0600234567",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/drivers', auth.checkManagerToken, auth.checkManagerId, controller.findAllDrivers);
+
+/**
+ * @api {post} /{managerId}/vehicles/{vehicleId}/available
+ * Check If Vehicle Available
+ * @apiVersion 1.0.0
+ * @apiName Check If Vehicle Available
+ * @apiGroup Manager
+ * @apiDescription Manager check if vehicle available - check if vehicle is free for some period
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiParam (body){Date} startDate Start date of period
+ * @apiParam (body){Date} endDate End date of period
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} vehicle Vehicle object
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfVehicleAvailable);
 
 logger.info('loaded MANAGER routes');
 

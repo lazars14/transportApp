@@ -3049,10 +3049,10 @@
         "body": [
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": false,
-            "field": "vehicleId",
-            "description": "<p>Vehicle id for vehicle setting</p>"
+            "field": "vehicle",
+            "description": "<p>Vehicle</p>"
           },
           {
             "group": "body",
@@ -3241,11 +3241,6 @@
         {
           "title": "Not Found:",
           "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
-          "type": "json"
-        },
-        {
-          "title": "Bad request:",
-          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
           "type": "json"
         },
         {

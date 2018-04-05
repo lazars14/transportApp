@@ -21,6 +21,16 @@ export class DestinationRequestService {
     .map((res) => res.json());
   }
 
+  findByDestination(destinationId: string) {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' + destinationId)
+    .map((res) => res.json());
+  }
+
+  findAllOpen() {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/submitted')
+    .map((res) => res.json());
+  }
+
   create(destinationRequest: DestinationRequest) {
     return this.httpService.post(this.apiUrl + '/manager/' + this.sessionService.getManagerId() +
     '/destinationRequests', destinationRequest)

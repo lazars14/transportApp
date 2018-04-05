@@ -14,9 +14,11 @@
         <div class="modal-body">
           <form #f="ngForm" name="form">
 
-              <div class="form-group">
-                  <agm-map class="destination-map" [latitude]="45.30" [longitude]="45.30"></agm-map>
-                </div>
+            <div [hidden]="!showMap" class="form-group">
+              <agm-map #agmMap class="destination-map" [latitude]="45.30" [longitude]="45.30">
+                  <agm-direction *ngIf="showMap" [origin]="destinationRequest.startLocation" [destination]="destinationRequest.endLocation"></agm-direction>
+              </agm-map>
+            </div>
 
           </form>
         </div>
@@ -24,6 +26,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <div class="mx-auto">
+            <button type="button" class="btn btn-success btn-lg" (click)="showMap = true; agmMap.triggerResize()">Show</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Dismiss</button>
           </div>
         </div>
@@ -33,4 +36,3 @@
   </div>
 
 </div>
-

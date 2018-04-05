@@ -1,0 +1,67 @@
+<app-notification></app-notification>
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal fade defaultModal" id="setDriversModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Set Destination Vehicle</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h2>Available Drivers</h2>
+          <form #f="ngForm" name="form">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let driver of drivers; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ driver.firstName }}</td>
+                    <td>{{ driver.lastName }}</td>
+                    <td>{{ driver.email }}</td>
+                    <td>{{ driver.phone }}</td>
+                    <td>{{ driver.address }}</td>
+                    <td class="btn-group-small text-center">
+                        <button class="btn btn-lg btn-success" title="Set">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                          </button>
+                          <button class="btn btn-lg btn-danger" title="Remove">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                          </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="mx-auto">
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

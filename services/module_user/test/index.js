@@ -200,6 +200,25 @@ describe("User tests", function () {
                 return done();
             });
     });
+
+    it("user add request - success - valid data - for testing in frontend", function (done){
+        var data = {
+            "startLocation": {
+                "lat": 45.32,
+                "lng": 45.32
+            },
+            "endLocation": {
+                "lat": 45.33,
+                "lng": 45.33
+            }
+        };
+        return request(app).post('/user/' + user._id + '/requests')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
     
     it("user get requests - fail - missing token", function (done) {
         return request(app).get('/user/' + user._id + '/requests')

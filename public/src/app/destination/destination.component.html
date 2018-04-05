@@ -1,6 +1,8 @@
 <app-notification></app-notification>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
 <app-location-modal [destinationRequest]="destinationRequest" (resetLocation)="resetLocation()"></app-location-modal>
+<app-set-vehicle-modal [destination]="destination"></app-set-vehicle-modal>
+<app-set-drivers-modal></app-set-drivers-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Destination Details</h2>
@@ -20,16 +22,24 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{ destination.startDate | date }}</td>
-            <td>{{ destination.endDate | date}}</td>
-            <td>{{ destination.vehicle }}</td>
+            <td>{{ destination.startDate | date:'short' }}</td>
+            <td>{{ destination.endDate | date:'short' }}</td>
+            <td>{{ vehicleInfo }}</td>
             <td>{{ destination.drivers }}</td>
             <td *ngIf="destinationOpen" class="btn-group-small text-center">
-              <button class="btn btn-lg btn-primary" (click)="setAction(driver)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                data-target="#myModal" title="Set Vehicle">
+              <!-- <button [disabled]="!destination.endDate" class="btn btn-lg btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#setVehicleModal" title="Set Vehicle">
                 <i class="fa fa-bus" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-lg btn-success" (click)="setDeleteId(driver._id)" data-toggle="modal" data-target="#confirmModal"
+              <button [disabled]="!destination.endDate" class="btn btn-lg btn-success" data-toggle="modal" data-target="#setDriversModal"
+                title="Set Drivers">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </button> -->
+              <button class="btn btn-lg btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                data-target="#setVehicleModal" title="Set Vehicle">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#setDriversModal"
                 title="Set Drivers">
                 <i class="fa fa-users" aria-hidden="true"></i>
               </button>
@@ -51,10 +61,10 @@
       </agm-polyline>
   </agm-map> -->
 
-  <agm-map *ngIf="visible" #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
-    [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
-    <direction [origin]="destination.startLocation" [destination]="destination.endLocation"></direction>
-  </agm-map>
+    <agm-map *ngIf="visible" #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
+      [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
+      <direction [origin]="destination.startLocation" [destination]="destination.endLocation"></direction>
+    </agm-map>
 
     <br>
 
@@ -92,13 +102,13 @@
         <!-- formula {{ destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay) }} -->
         <div class="col-lg-4">
           <p>Total Cost:
-            <span class="red-text">Izracunato</span>
+            <span class="red-text">{{ totalCost }}</span>
           </p>
         </div>
 
         <div class="col-lg-4">
           <p>Total:
-            <span class="red-text">ticketsIncome - totalCost</span>
+            <span class="red-text">{{ ticketsIncome - totalCost }}</span>
           </p>
         </div>
 
@@ -128,27 +138,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Pera</td>
-                <!-- short -->
-                <td>Peric</td>
-                <!-- short -->
+              <tr *ngFor="let request of destinationRequests">
+                <td>{{ request.destinationOrder }}</td>
+                <td>{{ request.startDate | date:'short' }}</td>
+                <td>{{ request.endDate | date:'short' }}</td>
                 <td class="text-center">
-                  <!-- umesto null postavljam ceo request -->
-                  <button class="btn btn-lg btn-info" (click)="setLocation(null)" data-backdrop="static" data-keyboard="false"
-                    data-toggle="modal" data-target="#locationModal" title="Location">
+                  <button class="btn btn-lg btn-info" (click)="setLocation(request)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                    data-target="#locationModal" title="Location">
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                   </button>
                 </td>
-                <td>021123456</td>
-                <td>Pere Perica 1</td>
-                <td>Pera</td>
-                <!-- short -->
-                <td>Peric</td>
-                <!-- short -->
+                <td>{{ request.price }}</td>
+                <td>{{ request.status }}</td>
+                <td>{{ request.submissionDate | date:'short' }}</td>
+                <td>{{ request.confirmationRequestDate | date:'short' }}</td>
                 <td *ngIf="destinationOpen" class="btn-group-small text-center">
-                  <button class="btn btn-lg btn-danger " (click)="setDeleteId(destinationRequest, true)" data-toggle="modal" data-target="#confirmModal"
+                  <button class="btn btn-lg btn-danger " (click)="setDeleteId(request, true)" data-toggle="modal" data-target="#confirmModal"
                     title="Remove">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                   </button>
@@ -161,7 +166,7 @@
 
           <div *ngIf="destinationOpen" class="text-center">
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" [disabled]="destinationRequests.length == 0" (click)="calculate()">Calculate</button>
-            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" (click)="save()">Save</button>
+            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="destinationRequests.length == 0" (click)="save()">Save</button>
           </div>
 
         </div>
@@ -176,27 +181,29 @@
       <br>
 
       <div class="container-fluid">
-        <!-- <p>Nothing to show</p> -->
+        <p *ngIf="openRequests.length == 0">Nothing to show</p>
         <div class="row">
-          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <div *ngFor="let request of openRequests" class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <div class="destination-content">
-              <agm-map class="destinations-map" [latitude]="20" [longitude]="20"></agm-map>
+              <agm-map class="destinations-map" [latitude]="20" [longitude]="20">
+                <direction [origin]="request.startLocation" [destination]="request.endLocation"></direction>
+              </agm-map>
               <div class="destination-content-text">
-                <p>Submission Date: 21.01.2018 09:00 </p> <!-- {{ dest.startDate | short }} -->
-  
-                <!-- ovde umesto null stavljam objekat ceo -->
-                <button class="btn btn-lg btn-success " (click)="addToDestination(null)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                  data-target="#myModal" title="Add">
+                <p>Submission Date: {{ request.submissionDate | date:'short' }}</p>
+                <!-- {{ dest.startDate | short }} -->
+
+                <button class="btn btn-lg btn-success " (click)="addToDestination(request)" data-backdrop="static" data-keyboard="false"
+                  data-toggle="modal" data-target="#myModal" title="Add">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-lg btn-danger " (click)="setDeleteId(destination, false)" data-toggle="modal" data-target="#confirmModal"
+                <button class="btn btn-lg btn-danger " (click)="setDeleteId(request, false)" data-toggle="modal" data-target="#confirmModal"
                   title="Reject">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
           </div>
-  
+
         </div>
       </div>
 

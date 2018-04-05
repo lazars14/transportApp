@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DirectionComponent } from './direction.component';
+import { SetDriversModalComponent } from './set-drivers-modal.component';
 
-describe('DirectionComponent', () => {
-  let component: DirectionComponent;
-  let fixture: ComponentFixture<DirectionComponent>;
+describe('SetDriversModalComponent', () => {
+  let component: SetDriversModalComponent;
+  let fixture: ComponentFixture<SetDriversModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DirectionComponent ]
+      declarations: [ SetDriversModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DirectionComponent);
+    fixture = TestBed.createComponent(SetDriversModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

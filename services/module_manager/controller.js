@@ -4,6 +4,7 @@ var managerModel = require('../../model/manager/model');
 var userModel = require('../../model/user/model');
 var destinationModel = require('../../model/destination/model');
 var requestModel = require('../../model/destinationRequest/model');
+var driverModel = require('../../model/driver/model');
 
 var isEmail = require('validator/lib/isEmail');
 
@@ -343,21 +344,74 @@ exports.deleteDestination = function(req, res, next){
 }
 
 /**
+ * Check if vehicle is available
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.checkIfVehicleAvailable = function(req, res, next) {
+    if(!req.body.vehicleId){
+        logger.error('Error - Check if vehicle available - VehicleId can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.startDate){
+        logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.endDate){
+        logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    destinationModel.checkDestinationsForVehicle(req.body.vehicle._id, req.body.startDate, req.body.endDate).then(function(destinations){
+        console.log('destinations result: ', destinations);
+        if(destinations[0]) return next(error('NOT_ALLOWED'));
+
+        return res.json(req.body.vehicle);
+    })
+}
+
+/**
+ * Check if vehicle is available for required period
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+exports.checkIfVehicleAvailable = function(req, res, next){
+    if(!req.body.startDate){
+        logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.endDate){
+        logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+
+    destinationModel.checkDestinationsForVehicle
+
+
+}
+
+/**
  * Set destination vehicle
  * @param req
  * @param res
  * @param next
  */
 exports.setDestinationVehicle = function(req, res, next){
-    if(!req.body.destinationManagerId){
-        logger.error('Error - Set destination vehicle - DestinationManagerId can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
+    // if(!req.body.destinationManagerId){
+    //     logger.error('Error - Set destination vehicle - DestinationManagerId can\'t be empty');
+    //     return next(error('BAD_REQUEST'));
+    // }
     
-    if(req.params.managerId != req.body.destinationManagerId){
-        logger.error('Error - Set destination vehicle - Can\'t update destination from another manager');
-        return next(error('NOT_ALLOWED'));
-    }
+    // if(req.params.managerId != req.body.destinationManagerId){
+    //     logger.error('Error - Set destination vehicle - Can\'t update destination from another manager');
+    //     return next(error('NOT_ALLOWED'));
+    // }
 
     if(!req.body.vehicleId){
         logger.error('Error - Set destination vehicle - VehicleId can\'t be empty');
@@ -375,7 +429,12 @@ exports.setDestinationVehicle = function(req, res, next){
     }
 
     destinationModel.checkDestinationsForVehicle(req.body.vehicleId, req.body.startDate, req.body.endDate).then(function(destinations){
-        if(destinations[0]) return next(error('NOT_ALLOWED'));
+        if(destinations.length > 0) {
+            destinations.forEach(element => {
+                // if id-s are equal, that vehicle is set to that destination
+                if (element._id != req.params.destinationId) return next(error('NOT_ALLOWED'));
+            });
+        }
 
         destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId).then(function(destination){
             res.json(destination);
@@ -384,6 +443,20 @@ exports.setDestinationVehicle = function(req, res, next){
         });
     })
 
+}
+
+/**
+ * Find all drivers
+ * @param req
+ * @param res
+ * @param next 
+ */
+exports.findAllDrivers = function(req, res, next){
+    driverModel.findAll().then(function(drivers){
+        res.json(drivers);
+    }).fail(function(err){
+        return next(err);
+    });
 }
 
 /**
