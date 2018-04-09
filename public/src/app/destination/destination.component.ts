@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Destination, DestinationRequest, Vehicle } from '../_model/index';
+import { Destination, DestinationRequest, Vehicle, Driver } from '../_model/index';
 import { DestinationService } from '../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
@@ -10,6 +10,8 @@ import { constants } from './../utils/constants';
 
 import { } from 'googlemaps';
 import { MapsAPILoader, AgmMap, GoogleMapsAPIWrapper } from '@agm/core';
+import { SetVehicleModalComponent } from '../set-vehicle-modal/set-vehicle-modal.component';
+import { SetDriversModalComponent } from '../set-drivers-modal/set-drivers-modal.component';
 
 @Component({
   selector: 'app-destination',
@@ -22,6 +24,8 @@ export class DestinationComponent implements OnInit {
     private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService) { }
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
+  @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
+  @ViewChild(SetDriversModalComponent) setDriversModal: SetDriversModalComponent;
 
   destination = new Destination();
   destinationRequest = new DestinationRequest();
@@ -101,6 +105,23 @@ export class DestinationComponent implements OnInit {
     }, error => {
       this.notification.error('Get Destination - Error ' + error.status + ' - ' + error.statusText);
     });
+  }
+
+  loadDataForSetting(vehicle: boolean) {
+    if (vehicle) {
+      this.setVehicleModal.loadData();
+    } else {
+      this.setDriversModal.loadData();
+    }
+  }
+
+  setVehicle(vehicle: Vehicle) {
+    this.destination.vehicleId = vehicle._id;
+    this.vehicleInfo = vehicle.name;
+  }
+
+  setDrivers(drivers: Array<Driver>) {
+    // to do
   }
 
   setLocation(destinationRequest: DestinationRequest) {

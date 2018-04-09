@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { VehicleService, DestinationService } from './../_services/index';
 import { NotificationComponent } from './../notification/notification.component';
-import { Destination } from './../_model/index';
+import { Destination, Vehicle } from './../_model/index';
 
 @Component({
   selector: 'app-set-vehicle-modal',
@@ -13,27 +13,27 @@ export class SetVehicleModalComponent implements OnInit {
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   @Input() destination: Destination;
+  @Output() setVehicle = new EventEmitter(this.vehicle);
 
   vehicles = [];
+  vehicleId;
+  vehicle: Vehicle;
 
   constructor(private vehicleService: VehicleService, private destinationService: DestinationService) { }
 
-  ngOnInit() {
-    this.loadData();
-  }
-
-  /**
-   * namestiti load data da se poziva iz parent komponente, na klik dugmeta - ne na ngOnInit (posto ne treba uvek da se ocita,
-   * to se podesi samo jednom)
-   */
+  ngOnInit() {}
 
   loadData() {
     this.vehicleService.findAllManager().subscribe(data => {
-      this.vehicles = data;
-      this.vehicles.forEach(element => {
+      data.forEach(element => {
         this.destinationService.checkIfVehicleAvailable(element._id, this.destination.startDate, this.destination.endDate)
-        .subscribe(vehicle => {
-          // to do
+        .subscribe(vehicleId => {
+          console.log(vehicleId);
+          this.vehicleService.findById(vehicleId).subscribe(vehicle => {
+            this.vehicles.push(vehicle);
+          }, error => {
+            this.notification.error('Find Vehicle By Id - Error ' + error.status + ' - ' + error.statusText);
+          });
         }, error => {
           this.notification.error('Check If Vehicle Available - Error ' + error.status + ' - ' + error.statusText);
         });
@@ -44,7 +44,11 @@ export class SetVehicleModalComponent implements OnInit {
   }
 
   ok() {
-    // to do
+    this.destinationService.setVehicle(this.destination._id, this.vehicleId).subscribe(destination => {
+      this.
+    }, error => {
+      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+    });
   }
 
 

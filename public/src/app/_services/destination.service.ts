@@ -42,4 +42,16 @@ export class DestinationService {
     .map((res) => res.json());
   }
 
+  setVehicle(destinationId: string, vehicleId: string) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations/' +
+     destinationId + '/setVehicle', vehicleId)
+    .map((res) => res.json());
+  }
+
+  setDrivers(destinationId: string, drivers: Array<string>) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations/' +
+     destinationId + '/setDrivers', drivers)
+    .map((res) => res.json());
+  }
+
 }

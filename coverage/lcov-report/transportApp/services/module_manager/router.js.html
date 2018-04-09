@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for transportApp\services\module_manager\router.js</title>
+    <title>Code coverage report for transportApp/services/module_manager/router.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>31/31</span>
+        <span class='fraction'>32/32</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>31/31</span>
+        <span class='fraction'>32/32</span>
       </div>
     </div>
   </div>
@@ -846,7 +846,40 @@
 801
 802
 803
-804</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1612,6 +1645,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2449,6 +2515,39 @@ router.put('/:managerId/destinationRequests/:destinationRequestId/setRejected', 
  */
 router.get('/:managerId/drivers', auth.checkManagerToken, auth.checkManagerId, controller.findAllDrivers);
 &nbsp;
+/**
+ * @api {post} /{managerId}/vehicles/{vehicleId}/available
+ * Check If Vehicle Available
+ * @apiVersion 1.0.0
+ * @apiName Check If Vehicle Available
+ * @apiGroup Manager
+ * @apiDescription Manager check if vehicle available - check if vehicle is free for some period
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiParam (body){Date} startDate Start date of period
+ * @apiParam (body){Date} endDate End date of period
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} vehicle Vehicle object
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfVehicleAvailable);
+&nbsp;
 logger.info('loaded MANAGER routes');
 &nbsp;
 module.exports = router;
@@ -2458,7 +2557,7 @@ module.exports = router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 04 2018 16:18:55 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 07 2018 18:05:41 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

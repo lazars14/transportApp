@@ -1,8 +1,8 @@
 <app-notification></app-notification>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
 <app-location-modal [destinationRequest]="destinationRequest" (resetLocation)="resetLocation()"></app-location-modal>
-<app-set-vehicle-modal [destination]="destination"></app-set-vehicle-modal>
-<app-set-drivers-modal></app-set-drivers-modal>
+<app-set-vehicle-modal #setVehicleModal [destination]="destination" (setVehicle)="setVehicle"></app-set-vehicle-modal>
+<app-set-drivers-modal #setDriversModal [destination]="destination" (setDrivers)="setDrivers"></app-set-drivers-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Destination Details</h2>
@@ -36,11 +36,11 @@
                 <i class="fa fa-users" aria-hidden="true"></i>
               </button> -->
               <button class="btn btn-lg btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                data-target="#setVehicleModal" title="Set Vehicle">
+                data-target="#setVehicleModal" (click)="loadDataForSetting(true)" title="Set Vehicle">
                 <i class="fa fa-bus" aria-hidden="true"></i>
               </button>
               <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#setDriversModal"
-                title="Set Drivers">
+              (click)="loadDataForSetting(false)" title="Set Drivers">
                 <i class="fa fa-users" aria-hidden="true"></i>
               </button>
             </td>

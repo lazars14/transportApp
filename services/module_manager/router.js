@@ -530,10 +530,7 @@ router.delete('/:managerId/destinations/:destinationId', auth.checkManagerToken,
  * @apiParam (path){String} managerId Manager id
  * @apiParam (path){String} destinationId Destination id
  * 
- * @apiParam (body){String} vehicleId Vehicle id for setting 
- * @apiParam (body){String} destinationManagerId Manager id for destination
- * @apiParam (body){Date} startDate Destination startDate
- * @apiParam (body){Date} endDate Destination endDate
+ * @apiParam (body){String} vehicleId Vehicle id for setting
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Destination Updated destination
@@ -565,9 +562,6 @@ router.put('/:managerId/destinations/:destinationId/setVehicle', auth.checkManag
  * @apiParam (path){String} destinationId Destination id
  * 
  * @apiParam (body){Array} drivers Drivers for destination
- * @apiParam (body){String} destinationManagerId Manager id for destination
- * @apiParam (body){Date} startDate Destination startDate
- * @apiParam (body){Date} endDate Destination endDate
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Destination Updated destination
