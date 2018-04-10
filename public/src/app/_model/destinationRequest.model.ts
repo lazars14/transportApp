@@ -5,6 +5,7 @@ export class DestinationRequest {
     startDate: Date;
     endDate: Date;
     price: Number;
+    discount: Number;
     status: Number;
     destinationId: string;
     submissionDate: Date;

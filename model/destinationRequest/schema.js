@@ -35,6 +35,12 @@ module.exports = (function () {
       type: Number
     },
     /**
+     * DestinationRequest price discount
+     */
+    discount: {
+      type: Number
+    },
+    /**
      * DestinationRequest status [0 - submitted, 1 - waiting for confirmation (should wait at least 1 day before rejecting), 2 - accepted, 3 - rejected]
      */
     status: {

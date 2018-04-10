@@ -391,8 +391,37 @@ exports.checkIfVehicleAvailable = function(req, res, next){
     }
 
 
-    destinationModel.checkDestinationsForVehicle
+    destinationModel.checkDestinationsForVehicle(req.params.vehicleId, req.body.startDate, req.body.endDate).then(function(destination){
+        res.json(destination);
+    }).fail(function(err){
+        return next(err);
+    });
 
+
+}
+
+/**
+ * Check if vehicle is available for required period
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+exports.checkIfDriverAvailable = function(req, res, next){
+    if(!req.body.startDate){
+        logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if(!req.body.endDate){
+        logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    destinationModel.checkDestinationsForDriver(req.params.driverId, req.body.startDate, req.body.endDate).then(function(destination){
+        res.json(destination);
+    }).fail(function(err){
+        return next(err);
+    });
 
 }
 

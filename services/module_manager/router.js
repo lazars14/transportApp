@@ -825,6 +825,39 @@ router.get('/:managerId/drivers', auth.checkManagerToken, auth.checkManagerId, c
  */
 router.get('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfVehicleAvailable);
 
+/**
+ * @api {post} /{managerId}/drivers/{driverId}/available
+ * Check If Driver Available
+ * @apiVersion 1.0.0
+ * @apiName Check If Driver Available
+ * @apiGroup Manager
+ * @apiDescription Manager check if driver available - check if driver is free for some period
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} driverId Driver id
+ * 
+ * @apiParam (body){Date} startDate Start date of period
+ * @apiParam (body){Date} endDate End date of period
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} driver Driver object
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/drivers/:driverId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfDriverAvailable);
+
 logger.info('loaded MANAGER routes');
 
 module.exports = router;

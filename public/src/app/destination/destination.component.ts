@@ -228,23 +228,8 @@ export class DestinationComponent implements OnInit {
 
   }
 
-  // drawPolyline() {
-  //   console.log('this should draw a polylyne');
-
-  //   const polylines = [
-  //     {
-  //       latitude:  39.8282,
-  //       longitude: -98.5795,
-  //       speed: 50
-  //   },
-  //    {
-  //       latitude:  38.8282,
-  //       longitude: -108.5795,
-  //       speed: 50
-  //   }
-  //   ];
-
-
-  // }
+  reloadData() {
+    window.location.reload();
+  }
 
 }
