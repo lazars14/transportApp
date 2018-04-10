@@ -13,11 +13,10 @@ export class SetVehicleModalComponent implements OnInit {
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   @Input() destination: Destination;
-  @Output() setVehicle = new EventEmitter(this.vehicle);
+  @Input() vehicle: Vehicle;
+  @Output() setVehicle = new EventEmitter();
 
   vehicles = [];
-  vehicleId;
-  vehicle: Vehicle;
 
   constructor(private vehicleService: VehicleService, private destinationService: DestinationService) { }
 
@@ -43,15 +42,16 @@ export class SetVehicleModalComponent implements OnInit {
     });
   }
 
-  ok() {
-    this.destinationService.setVehicle(this.destination._id, this.vehicleId).subscribe(destination => {
-      this.
-    }, error => {
-      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
-    });
+  setCurrentVehicle(vehicle: Vehicle) {
+    this.vehicle = vehicle;
   }
 
+  ok() {
+    this.setVehicle.emit();
+  }
 
-
+  cancel() {
+    this.vehicles = [];
+  }
 
 }

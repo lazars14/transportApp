@@ -8,7 +8,7 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Set Destination Vehicle</h4>
-          <button type="button" class="close" data-dismiss="modal" (click)="cancel(f)">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
         </div>
 
         <!-- Modal body -->
@@ -29,7 +29,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let driver of drivers; let i = index">
+                  <tr *ngFor="let driver of drivers; let i = index" [style.background-color]="checkDriver(driver[i]._id)">
                     <td>{{ i + 1 }}</td>
                     <td>{{ driver.firstName }}</td>
                     <td>{{ driver.lastName }}</td>
@@ -56,7 +56,7 @@
         <div class="modal-footer">
           <div class="mx-auto">
             <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
-            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
+            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel()">Cancel</button>
           </div>
         </div>
 

@@ -4,7 +4,7 @@ import { Destination, DestinationRequest, Vehicle, Driver } from '../_model/inde
 import { DestinationService } from '../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
-import { DestinationRequestService, VehicleService } from './../_services/index';
+import { DestinationRequestService, VehicleService, DriverService } from './../_services/index';
 import * as _ from 'lodash';
 import { constants } from './../utils/constants';
 
@@ -21,7 +21,8 @@ import { SetDriversModalComponent } from '../set-drivers-modal/set-drivers-modal
 export class DestinationComponent implements OnInit {
 
   constructor(private destinationService: DestinationService, private sessionService: SessionService,
-    private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService) { }
+    private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService,
+    private driverService: DriverService) { }
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
   @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
@@ -40,6 +41,9 @@ export class DestinationComponent implements OnInit {
 
   vehicle: Vehicle;
   vehicleInfo: string;
+
+  drivers = [];
+  driversInfo = '';
 
   totalCost = 0;
   ticketsIncome = 0;
@@ -79,6 +83,19 @@ export class DestinationComponent implements OnInit {
         this.destinationOpen = true;
       }
 
+      if (this.destination.drivers.length > 0) {
+        for (let i = 0; i < 2; i++) {
+          this.driverService.findById(this.destination.drivers[i]).subscribe(driver => {
+            this.driversInfo += driver.firstName + ' ' + driver.lastName;
+            if (i === 0) {
+              this.driversInfo += ', ';
+            }
+          }, error => {
+            this.notification.error('Get Destination Drivers - Error ' + error.status + ' - ' + error.statusText);
+          });
+        }
+      }
+
       this.destinationRequestService.findByDestination(id).subscribe(currentRequests => {
         this.destinationRequests = currentRequests;
         this.preChangeDestinationRequests = currentRequests;
@@ -116,12 +133,24 @@ export class DestinationComponent implements OnInit {
   }
 
   setVehicle(vehicle: Vehicle) {
-    this.destination.vehicleId = vehicle._id;
-    this.vehicleInfo = vehicle.name;
+    this.destinationService.setVehicle(this.destination._id, this.vehicle._id).subscribe(destination => {
+      this.destination.vehicleId = vehicle._id;
+      this.vehicleInfo = vehicle.name;
+    }, error => {
+      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+    });
   }
 
   setDrivers(drivers: Array<Driver>) {
-    // to do
+    this.destinationService.setDrivers(this.destination._id, this.drivers).subscribe(destination => {
+      const driver1 = this.drivers[0];
+      const driver2 = this.drivers[1];
+      this.destination.drivers.push(driver1._id);
+      this.destination.drivers.push(driver2._id);
+      this.driversInfo = driver1.firstName + ' ' + driver1.lastName + ', ' + driver2.firstName + ' ' + driver2.lastName;
+    }, error => {
+      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+    });
   }
 
   setLocation(destinationRequest: DestinationRequest) {
@@ -148,7 +177,7 @@ export class DestinationComponent implements OnInit {
 
   save() {
     console.log('saving changes');
-    // go thround preChanged and destinationRequests
+    // go through preChanged and destinationRequests
     // compare them, and save the changes (change statuses, add/delete neccessary, send push notifications)
     // if one fails, all fail
   }

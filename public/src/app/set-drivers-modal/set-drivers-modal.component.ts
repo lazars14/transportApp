@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { DriverService, DestinationService } from './../_services/index';
 import { NotificationComponent } from './../notification/notification.component';
+import { Destination } from './../_model/index';
 
 @Component({
   selector: 'app-set-drivers-modal',
@@ -10,6 +11,8 @@ import { NotificationComponent } from './../notification/notification.component'
 export class SetDriversModalComponent implements OnInit {
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
+
+  @Input() destination: Destination;
 
   drivers = [];
 
@@ -29,6 +32,16 @@ export class SetDriversModalComponent implements OnInit {
     }, error => {
       this.notification.error('Get All Drivers - Error ' + error.status + ' - ' + error.statusText);
     });
+  }
+
+  checkDriver(driverId: string) {
+    if (this.destination.drivers[0] === driverId || this.destination.drivers[1] === driverId) {
+      return 'yellow';
+    }
+  }
+
+  cancel() {
+    this.drivers = [];
   }
 
 }
