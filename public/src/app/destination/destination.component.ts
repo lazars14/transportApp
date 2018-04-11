@@ -42,10 +42,11 @@ export class DestinationComponent implements OnInit {
   remove: boolean;
   destinationRequestId: String;
 
-  vehicle: Vehicle;
+  vehicle = new Vehicle();
+  drivers = [];
+
   vehicleInfo: string;
 
-  drivers = [];
   driversInfo = '';
 
   totalCost = 0;
@@ -87,8 +88,9 @@ export class DestinationComponent implements OnInit {
 
       if (this.destination.drivers.length > 0) {
         for (let i = 0; i < 2; i++) {
-          this.driverService.findById(this.destination.drivers[i]).subscribe(driver => {
+          this.driverService.findByIdManager(this.destination.drivers[i]).subscribe(driver => {
             this.driversInfo += driver.firstName + ' ' + driver.lastName;
+            this.drivers.push(driver);
             if (i === 0) {
               this.driversInfo += ', ';
             }
@@ -135,7 +137,8 @@ export class DestinationComponent implements OnInit {
   }
 
   setVehicle($event) {
-    this.destinationService.setVehicle(this.destination._id, $event._id, this.destination.startDate, new Date()).subscribe(destination => {
+    this.destinationService.setVehicle(this.destination._id, $event._id, this.destination.startDate, this.destination.endDate)
+    .subscribe(destination => {
       this.destination.vehicleId = $event._id;
       this.vehicleInfo = $event.name;
       this.notification.success('Destination vehicle set succesfully');
@@ -144,13 +147,12 @@ export class DestinationComponent implements OnInit {
     });
   }
 
-  setDrivers(drivers: Array<Driver>) {
-    this.destinationService.setDrivers(this.destination._id, this.drivers).subscribe(destination => {
-      const driver1 = this.drivers[0];
-      const driver2 = this.drivers[1];
-      this.destination.drivers.push(driver1._id);
-      this.destination.drivers.push(driver2._id);
-      this.driversInfo = driver1.firstName + ' ' + driver1.lastName + ', ' + driver2.firstName + ' ' + driver2.lastName;
+  setDrivers($event) {
+    const driversArray = [ $event[0]._id, $event[1]._id ];
+    this.destinationService.setDrivers(this.destination._id, driversArray, this.destination.startDate, this.destination.endDate
+    ).subscribe(destination => {
+      this.destination.drivers = driversArray;
+      this.driversInfo = $event[0].firstName + ' ' + $event[0].lastName + ', ' + $event[1].firstName + ' ' + $event[1].lastName;
       this.notification.success('Destination vehicle set succesfully');
     }, error => {
       this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);

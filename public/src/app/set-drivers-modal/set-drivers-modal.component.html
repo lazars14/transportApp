@@ -29,7 +29,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let driver of drivers; let i = index">
+                  <tr *ngFor="let driver of driversToPick; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ driver.firstName }}</td>
                     <td>{{ driver.lastName }}</td>
@@ -37,12 +37,12 @@
                     <td>{{ driver.phone }}</td>
                     <td>{{ driver.address }}</td>
                     <td class="btn-group-small text-center">
-                        <button class="btn btn-lg btn-success" title="Set" [disabled]="isSelected" (click)="set(driver)">
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                          </button>
-                          <button class="btn btn-lg btn-danger" title="Remove" [disabled]="!isSelected" (click)="remove(driver)">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                          </button>
+                      <button class="btn btn-lg btn-success" title="Set" [disabled]="isSelected(driver._id)" (click)="set(driver)">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                      </button>
+                      <button class="btn btn-lg btn-danger" title="Remove" [disabled]="!isSelected(driver._id)" (click)="remove(driver)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -55,7 +55,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <div class="mx-auto">
-            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="currentDrivers.length != 2" (click)="ok()">Ok</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel()">Cancel</button>
           </div>
         </div>

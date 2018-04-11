@@ -228,7 +228,7 @@ DestinationSchema.statics.delete = function(id){
 function _checkDestinationsForDriver(driverId, startDateEntry, endDateEntry){
     var deffered = Q.defer();
 
-    model.find({drivers : {'$elemMatch' : {'_id' : driverId}}, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destinations){
+    model.find({drivers : driverId, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destinations){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check driver for destinations, driver id is ' + driverId);
             return deffered.reject(error('MONGO_ERROR'));
@@ -259,6 +259,8 @@ DestinationSchema.statics.checkDestinationsForDriver = function(driverId, startD
 DestinationSchema.statics.setDrivers = function(id, drivers){
     var deffered = Q.defer();
 
+    console.log('posle defer');
+
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
@@ -266,7 +268,7 @@ DestinationSchema.statics.setDrivers = function(id, drivers){
 
         found.save(function(err, destination){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination drivers with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination drivers with destination id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve(destination);
@@ -289,7 +291,8 @@ DestinationSchema.statics.setDrivers = function(id, drivers){
 function _checkDestinationsForVehicle(vehicleId, startDateEntry, endDateEntry){
     var deffered = Q.defer();
 
-    model.find({vehicleId : vehicleId, startDate : { '$gte' : startDateEntry}, endDate : { '$lte' : endDateEntry}}, function(err, destination){
+    console.log('pre find-a');
+    model.find({vehicleId : vehicleId, startDate : { "$gte" : startDateEntry}, endDate : { "$lte" : endDateEntry}}, function(err, destination){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicleId);
             return deffered.reject(error('MONGO_ERROR'));

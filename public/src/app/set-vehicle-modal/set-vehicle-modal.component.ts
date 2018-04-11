@@ -21,27 +21,29 @@ export class SetVehicleModalComponent implements OnInit {
   constructor(private vehicleService: VehicleService, private destinationService: DestinationService) { }
 
   ngOnInit() {
-    this.vehicle = new Vehicle();
-    this.vehicle._id = '';
+    this.resetData();
+    if (!this.vehicle._id) {
+      this.vehicle = new Vehicle();
+      this.vehicle._id = '';
+    }
   }
 
   loadData() {
     if (this.destination.vehicleId) {
       this.vehicle._id = this.destination.vehicleId;
+      this.vehicles.push(this.vehicle);
     }
     this.vehicleService.findAllManager().subscribe(data => {
       data.forEach(element => {
-        // just for testing
-        this.destination.endDate = new Date();
         this.destinationService.checkIfVehicleAvailable(element._id, this.destination.startDate, this.destination.endDate)
         .subscribe(vehicleId => {
-          this.vehicleService.findByIdManager(vehicleId).subscribe(foundVehicle => {
-            this.vehicles.push(foundVehicle);
-          }, error => {
-            this.notification.error('Find Vehicle By Id - Error ' + error.status + ' - ' + error.statusText);
-          });
+          if (vehicleId !== '') {
+            this.vehicles.push(element);
+          }
         }, error => {
-          this.notification.error('Check If Vehicle Available - Error ' + error.status + ' - ' + error.statusText);
+          if (error.status !== 405) {
+            this.notification.error('Check If Vehicle Available - Error ' + error.status + ' - ' + error.statusText);
+          }
         });
       }, error => {
         this.notification.error('Get All Vehicles - Error ' + error.status + ' - ' + error.statusText);
@@ -54,10 +56,15 @@ export class SetVehicleModalComponent implements OnInit {
   }
 
   ok() {
+    this.resetData();
     this.setVehicle.emit(this.vehicle);
   }
 
   cancel() {
+    this.resetData();
+  }
+
+  resetData() {
     this.vehicles = [];
   }
 

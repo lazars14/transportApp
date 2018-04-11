@@ -26,6 +26,11 @@ export class DriverService {
     .map((res) => res.json());
   }
 
+  findByIdManager(id: string) {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/drivers/' + id)
+    .map((res) => res.json());
+  }
+
   create(driver: Driver) {
     return this.httpService.post(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/drivers', driver)
     .map((res) => res.json());

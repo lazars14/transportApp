@@ -849,6 +849,34 @@ router.put('/:managerId/destinationRequests/:destinationRequestId/setRejected', 
 router.get('/:managerId/drivers', auth.checkManagerToken, auth.checkManagerId, controller.findAllDrivers);
 
 /**
+ * @api {get} /{managerId}/drivers/{driverId}
+ * Get Driver By Id
+ * @apiVersion 1.0.0
+ * @apiName Get Driver By Id
+ * @apiGroup Manager
+ * @apiDescription Manager get driver - get driver by id
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} driverId Driver id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Driver Found driver
+ * {
+ *      "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *      "firstName": "Driver",
+ *      "lastName": "One",
+ *      "email" : "driverone@gmail.com",
+ *      "phone": "0600123456",
+ *      "address": "St. Joseph's Boulevard 50"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/drivers/:driverId', auth.checkManagerToken, auth.checkManagerId, controller.findDriverById);
+
+/**
  * @api {post} /{managerId}/vehicles/{vehicleId}/available
  * Check If Vehicle Available
  * @apiVersion 1.0.0

@@ -54,9 +54,9 @@ export class DestinationService {
     .map((res) => res.json());
   }
 
-  setDrivers(destinationId: string, drivers: Array<string>) {
+  setDrivers(destinationId: string, drivers: Array<string>, startDate: Date, endDate: Date) {
     return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations/' +
-     destinationId + '/setDrivers', drivers)
+     destinationId + '/setDrivers', { drivers, startDate, endDate })
     .map((res) => res.json());
   }
 

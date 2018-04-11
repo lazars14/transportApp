@@ -13,22 +13,31 @@ export class SetDriversModalComponent implements OnInit {
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   @Input() destination: Destination;
+  @Input() drivers: Array<Driver>;
   @Output() setDrivers = new EventEmitter<Array<Driver>>();
 
-  drivers = [];
+  driversToPick = [];
+  currentDrivers = [];
 
-  constructor(private driverService: DriverService) { }
+  constructor(private driverService: DriverService, private destinationService: DestinationService) { }
 
   ngOnInit() {}
 
   loadData() {
+    if (this.drivers.length > 0) {
+      this.currentDrivers = this.drivers.map(x => Object.assign({}, x));
+      this.driversToPick = this.drivers.map(x => Object.assign({}, x));
+    }
     this.driverService.findAllManager().subscribe(data => {
-      this.drivers = data;
-      console.log(data);
-
-      console.log('ovo su vozaci', this.destination.drivers);
-      this.drivers.forEach(element => {
-        console.log(element);
+      data.forEach(element => {
+        this.destinationService.checkIfDriverAvailable(element._id, this.destination.startDate, this.destination.endDate)
+        .subscribe(dest => {
+          if (dest.length === 0) {
+            this.driversToPick.push(element);
+          }
+        }, error => {
+          this.notification.error('Check If Driver Available - Error ' + error.status + ' - ' + error.statusText);
+        });
       });
     }, error => {
       this.notification.error('Get All Drivers - Error ' + error.status + ' - ' + error.statusText);
@@ -36,7 +45,9 @@ export class SetDriversModalComponent implements OnInit {
   }
 
   isSelected(driverId: string) {
-    if (this.destination.drivers[0] === driverId || this.destination.drivers[1] === driverId) {
+    const found = this.currentDrivers.find(i => i._id === driverId);
+
+    if (found) {
       return true;
     }
 
@@ -44,21 +55,21 @@ export class SetDriversModalComponent implements OnInit {
   }
 
   set(driver: Driver) {
-    // to do
-    console.log('setting driver', driver);
+    this.currentDrivers.push(driver);
   }
 
   remove(driver: Driver) {
-    // to do
-    console.log('removing driver', driver);
+    const index = this.currentDrivers.indexOf(driver);
+    this.currentDrivers.splice(index, 1);
   }
 
   ok() {
-    this.setDrivers.emit(this.drivers);
+    this.setDrivers.emit(this.currentDrivers);
   }
 
   cancel() {
-    this.drivers = [];
+    this.driversToPick = [];
+    this.currentDrivers = [];
   }
 
 }

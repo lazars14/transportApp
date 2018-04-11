@@ -377,8 +377,7 @@ exports.checkIfVehicleAvailable = function (req, res, next) {
     }
 
     destinationModel.checkDestinationsForVehicle(req.params.vehicleId, req.body.startDate, req.body.endDate).then(function (destinations) {
-        console.log('destinations result: ', destinations);
-        if (destinations[0]) return next(error('NOT_ALLOWED'));
+        if (destinations[0]) return res.json('');
 
         return res.json(req.params.vehicleId);
     })
@@ -465,22 +464,28 @@ exports.findAllDrivers = function (req, res, next) {
 }
 
 /**
+ * Find driver by id
+ * @param req
+ * @param res
+ * @param next 
+ */
+exports.findDriverById = function (req, res, next) {
+    driverModel.findById(req.params.driverId).then(function (driver) {
+        if(!driver) return next(error('NOT_FOUND'));
+
+        res.json(driver);
+    }).fail(function (err) {
+        return next(err);
+    });
+}
+
+/**
  * Set destination drivers
  * @param req
  * @param res
  * @param next
  */
 exports.setDestinationDrivers = function (req, res, next) {
-    if (!req.body.destinationManagerId) {
-        logger.error('Error - Set destination vehicle - DestinationManagerId can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    if (req.params.managerId != req.body.destinationManagerId) {
-        logger.error('Error - Set destination drivers - Can\'t update destination from another manager');
-        return next(error('NOT_ALLOWED'));
-    }
-
     if (!req.body.drivers) {
         logger.error('Error - Set destination drivers - Drivers can\'t be empty');
         return next(error('BAD_REQUEST'));
@@ -499,23 +504,15 @@ exports.setDestinationDrivers = function (req, res, next) {
     // there has to be 2 drivers for every destination
     if (!req.body.drivers[1]) return next(error('NOT_ALLOWED'));
 
-    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function (destinationsOne) {
-        console.log('driverId: ', req.body.drivers[0]._id);
-        console.log('start date: ', req.body.startDate);
-        req.body.startDate = new Date(req.body.startDate);
-        req.body.endDate = new Date(req.body.endDate);
-        console.log('start date posle cast-a: ', req.body.startDate);
-        console.log('pre pronadjene prve destinacije');
-        console.log(destinationsOne);
-        if (destinationsOne[0]) return next(error('NOT_ALLOWED'));
-        console.log('posle pronadjene prve destinacije');
+    destinationModel.checkDestinationsForDriver(req.body.drivers[0], req.body.startDate, req.body.endDate).then(function (destinationsOne) {
+        if (destinationsOne.length > 0) {
+            if (destinationsOne[0]._id != req.params.destinationId) return next(error('NOT_ALLOWED'));
+        }
 
-        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function (destinationsTwo) {
-            console.log('driverId: ', req.body.drivers[1]._id);
-            console.log('pre pronadjene druge destinacije');
-            console.log(destinationsTwo);
-            if (destinationsTwo[0]._id) return next(error('NOT_ALLOWED'));
-            console.log('posle pronadjene druge destinacije');
+        destinationModel.checkDestinationsForDriver(req.body.drivers[1], req.body.startDate, req.body.endDate).then(function (destinationsTwo) {
+            if (destinationsTwo.length > 0) {
+                if (destinationsTwo[0]._id != req.params.destinationId) return next(error('NOT_ALLOWED'));
+            }
 
             destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function (destination) {
                 res.json(destination);
