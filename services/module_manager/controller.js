@@ -16,25 +16,25 @@ var isEmail = require('validator/lib/isEmail');
  * @param res
  * @param next
  */
-exports.loginManager = function(req, res, next){
-    if(!req.body.email){
+exports.loginManager = function (req, res, next) {
+    if (!req.body.email) {
         logger.error('Error - Manager login - Email can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    if(!isEmail(req.body.email)){
+    if (!isEmail(req.body.email)) {
         logger.error('Error - Manager login - Wrong email format');
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.body.password){
+    if (!req.body.password) {
         logger.error('Error - Manager login - Password can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    managerModel.login(req.body).then(function(data){
+    managerModel.login(req.body).then(function (data) {
         res.json(data);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -45,17 +45,17 @@ exports.loginManager = function(req, res, next){
  * @param res
  * @param next
  */
-exports.updateManager = function(req, res, next){
-    if(req.body.email){
-        if(!isEmail(req.body.email)){
+exports.updateManager = function (req, res, next) {
+    if (req.body.email) {
+        if (!isEmail(req.body.email)) {
             logger.error('Error - Update manager - Wrong email format');
             return next(error('BAD_REQUEST'));
         }
     }
 
-    managerModel.update(req.params.managerId, req.body).then(function(manager){
+    managerModel.update(req.params.managerId, req.body).then(function (manager) {
         res.json(manager);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -69,30 +69,10 @@ exports.updateManager = function(req, res, next){
  * @param res
  * @param next
  */
-exports.getAllVehicles = function(req, res, next){
-    vehicleModel.findAll().then(function(vehicles){
+exports.getAllVehicles = function (req, res, next) {
+    vehicleModel.findAll().then(function (vehicles) {
         res.json(vehicles);
-    }).fail(function(err){
-        return next(err);
-    });
-}
-
-/**
- * Find all expenses for vehicle
- * @param req
- * @param res
- * @param next
- */
-exports.getExpensesForVehicle = function(req, res, next){
-        vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-            if (!vehicle) return next(error("NOT_FOUND"));
-
-            expenseModel.findExpensesForVehicle(req.params.vehicleId).then(function (expenses) {
-                res.json(expenses);
-            }).fail(function (err) {
-                return next(err);
-            });
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -103,89 +83,125 @@ exports.getExpensesForVehicle = function(req, res, next){
  * @param res
  * @param next
  */
-exports.getExpenseById = function(req, res, next){
-    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-        if(!vehicle) return next(error("NOT_FOUND"));
+exports.getVehicleById = function (req, res, next) {
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
 
-        expenseModel.findById(req.params.vehicleExpenseId).then(function(expense){
-            if(!expense) return next(error("NOT_FOUND"));
-            res.json(expense);
-        }).fail(function(err){
-            return next(err);
-        })
-    }).fail(function(err){
+        res.json(vehicle);
+    }).fail(function (err) {
         return next(err);
     });
 }
 
- /**
+/**
+ * Find all expenses for vehicle
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getExpensesForVehicle = function (req, res, next) {
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
+
+        expenseModel.findExpensesForVehicle(req.params.vehicleId).then(function (expenses) {
+            res.json(expenses);
+        }).fail(function (err) {
+            return next(err);
+        });
+    }).fail(function (err) {
+        return next(err);
+    });
+}
+
+/**
+ * Find expense by id
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getExpenseById = function (req, res, next) {
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
+
+        expenseModel.findById(req.params.vehicleExpenseId).then(function (expense) {
+            if (!expense) return next(error("NOT_FOUND"));
+            res.json(expense);
+        }).fail(function (err) {
+            return next(err);
+        })
+    }).fail(function (err) {
+        return next(err);
+    });
+}
+
+/**
  * Add expense
  * @param req
  * @param res
  * @param next
  */
-exports.addExpense = function(req, res, next){
-    if(!req.body.name){
+exports.addExpense = function (req, res, next) {
+    if (!req.body.name) {
         logger.error('Error - Add Expense - Name can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.body.amount){
+    if (!req.body.amount) {
         logger.error('Error - Add Expense - Amount can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-        if(!vehicle) return next(error("NOT_FOUND"));
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
 
         console.log('usao u kontroler');
-        expenseModel.add(req.params.vehicleId, req.body).then(function(expense){
+        expenseModel.add(req.params.vehicleId, req.body).then(function (expense) {
             res.json(expense);
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
         })
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
 
- /**
+/**
  * Update expense
  * @param req
  * @param res
  * @param next
  */
-exports.updateExpense = function(req, res, next){
-    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-        if(!vehicle) return next(error("NOT_FOUND"));
+exports.updateExpense = function (req, res, next) {
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
 
-        expenseModel.update(req.params.vehicleExpenseId, req.body).then(function(expense){
-            if(!expense) return next(error("NOT_FOUND"));
+        expenseModel.update(req.params.vehicleExpenseId, req.body).then(function (expense) {
+            if (!expense) return next(error("NOT_FOUND"));
             res.json(expense);
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
         })
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
 
- /**
+/**
  * Delete expense
  * @param req
  * @param res
  * @param next
  */
-exports.deleteExpense = function(req, res, next){
-    vehicleModel.findById(req.params.vehicleId).then(function(vehicle){
-        if(!vehicle) return next(error("NOT_FOUND"));
+exports.deleteExpense = function (req, res, next) {
+    vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
+        if (!vehicle) return next(error("NOT_FOUND"));
 
-        expenseModel.delete(req.params.vehicleExpenseId).then(function(expense){
+        expenseModel.delete(req.params.vehicleExpenseId).then(function (expense) {
             res.json(expense);
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
         })
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -196,20 +212,20 @@ exports.deleteExpense = function(req, res, next){
  * @param res
  * @param next
  */
-exports.extendVehicleRegistration = function(req, res, next){
-    if(!req.body.licensePlate){
+exports.extendVehicleRegistration = function (req, res, next) {
+    if (!req.body.licensePlate) {
         logger.error('Error - Extend vehicle registration - License plate can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    if(!req.body.licenseExpireDate){
+    if (!req.body.licenseExpireDate) {
         logger.error('Error - Extend vehicle registration - License expire date can\'t be empty');
         return next(error("BAD_REQUEST"));
     }
 
-    vehicleModel.extendRegistration(req.params.vehicleId, req.body).then(function(vehicle){
+    vehicleModel.extendRegistration(req.params.vehicleId, req.body).then(function (vehicle) {
         res.json(vehicle);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -220,10 +236,10 @@ exports.extendVehicleRegistration = function(req, res, next){
  * @param res
  * @param next
  */
-exports.findAllUsers = function(req, res, next){
-    userModel.findAll().then(function(users){
+exports.findAllUsers = function (req, res, next) {
+    userModel.findAll().then(function (users) {
         res.json(users);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -234,10 +250,10 @@ exports.findAllUsers = function(req, res, next){
  * @param res
  * @param next
  */
-exports.deleteUser = function(req, res, next){
-    userModel.delete(req.params.userId).then(function(user){
+exports.deleteUser = function (req, res, next) {
+    userModel.delete(req.params.userId).then(function (user) {
         res.json(user);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -248,10 +264,10 @@ exports.deleteUser = function(req, res, next){
  * @param res
  * @param next
  */
-exports.findDestinationsByManagerId = function(req, res, next){
-    destinationModel.findByManagerId(req.params.managerId).then(function(destinations){
+exports.findDestinationsByManagerId = function (req, res, next) {
+    destinationModel.findByManagerId(req.params.managerId).then(function (destinations) {
         res.json(destinations);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -262,10 +278,10 @@ exports.findDestinationsByManagerId = function(req, res, next){
  * @param res
  * @param next
  */
-exports.findDestinationsByManagerIdNot = function(req, res, next){
-    destinationModel.findByManagerIdNot(req.params.managerId).then(function(destinations){
+exports.findDestinationsByManagerIdNot = function (req, res, next) {
+    destinationModel.findByManagerIdNot(req.params.managerId).then(function (destinations) {
         res.json(destinations);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -277,11 +293,11 @@ exports.findDestinationsByManagerIdNot = function(req, res, next){
  * @param next
  */
 
-exports.findDestinationById = function(req, res, next){
-    destinationModel.findById(req.params.destinationId).then(function(destination){
-        if(!destination) return next(error('NOT_FOUND'));
+exports.findDestinationById = function (req, res, next) {
+    destinationModel.findById(req.params.destinationId).then(function (destination) {
+        if (!destination) return next(error('NOT_FOUND'));
         res.json(destination);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -292,25 +308,25 @@ exports.findDestinationById = function(req, res, next){
  * @param res
  * @param next
  */
-exports.addDestination = function(req, res, next){
-    if(!req.body.startLocation){
+exports.addDestination = function (req, res, next) {
+    if (!req.body.startLocation) {
         logger.error('Error - Add destination - Start location can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.endLocation){
+    if (!req.body.endLocation) {
         logger.error('Error - Add destination - End location can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.startDate){
+    if (!req.body.startDate) {
         logger.error('Error - Add destination - Start date can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    destinationModel.add(req.params.managerId, req.body).then(function(destination){
+    destinationModel.add(req.params.managerId, req.body).then(function (destination) {
         res.json(destination);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -321,10 +337,10 @@ exports.addDestination = function(req, res, next){
  * @param res
  * @param next
  */
-exports.updateDestination = function(req, res, next){
-    destinationModel.update(req.params.destinationId, req.body).then(function(destination){
+exports.updateDestination = function (req, res, next) {
+    destinationModel.update(req.params.destinationId, req.body).then(function (destination) {
         res.json(destination);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -335,10 +351,10 @@ exports.updateDestination = function(req, res, next){
  * @param res
  * @param next
  */
-exports.deleteDestination = function(req, res, next){
-    destinationModel.delete(req.params.destinationId).then(function(destination){
+exports.deleteDestination = function (req, res, next) {
+    destinationModel.delete(req.params.destinationId).then(function (destination) {
         res.json(destination);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -349,81 +365,51 @@ exports.deleteDestination = function(req, res, next){
  * @param res
  * @param next
  */
-exports.checkIfVehicleAvailable = function(req, res, next) {
-    if(!req.body.vehicleId){
-        logger.error('Error - Check if vehicle available - VehicleId can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    if(!req.body.startDate){
+exports.checkIfVehicleAvailable = function (req, res, next) {
+    if (!req.body.startDate) {
         logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.endDate){
+    if (!req.body.endDate) {
         logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    destinationModel.checkDestinationsForVehicle(req.body.vehicle._id, req.body.startDate, req.body.endDate).then(function(destinations){
+    destinationModel.checkDestinationsForVehicle(req.params.vehicleId, req.body.startDate, req.body.endDate).then(function (destinations) {
         console.log('destinations result: ', destinations);
-        if(destinations[0]) return next(error('NOT_ALLOWED'));
+        if (destinations[0]) return next(error('NOT_ALLOWED'));
 
-        return res.json(req.body.vehicle);
+        return res.json(req.params.vehicleId);
     })
 }
 
 /**
- * Check if vehicle is available for required period
+ * Check if driver is available for required period
  * @param req 
  * @param res 
  * @param next 
  */
-exports.checkIfVehicleAvailable = function(req, res, next){
-    if(!req.body.startDate){
-        logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
+exports.checkIfDriverAvailable = function (req, res, next) {
+    if (!req.body.startDate) {
+        logger.error('Error - Check if driver available - StartDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.endDate){
-        logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
+    if (!req.body.endDate) {
+        logger.error('Error - Check if driver available - EndDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-
-    destinationModel.checkDestinationsForVehicle(req.params.vehicleId, req.body.startDate, req.body.endDate).then(function(destination){
+    destinationModel.checkDestinationsForDriver(req.params.driverId, req.body.startDate, req.body.endDate).then(function (destination) {
         res.json(destination);
-    }).fail(function(err){
-        return next(err);
-    });
-
-
-}
-
-/**
- * Check if vehicle is available for required period
- * @param req 
- * @param res 
- * @param next 
- */
-exports.checkIfDriverAvailable = function(req, res, next){
-    if(!req.body.startDate){
-        logger.error('Error - Check if vehicle available - StartDate can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    if(!req.body.endDate){
-        logger.error('Error - Check if vehicle available - EndDate can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    destinationModel.checkDestinationsForDriver(req.params.driverId, req.body.startDate, req.body.endDate).then(function(destination){
-        res.json(destination);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 
 }
+
+
 
 /**
  * Set destination vehicle
@@ -431,43 +417,33 @@ exports.checkIfDriverAvailable = function(req, res, next){
  * @param res
  * @param next
  */
-exports.setDestinationVehicle = function(req, res, next){
-    // if(!req.body.destinationManagerId){
-    //     logger.error('Error - Set destination vehicle - DestinationManagerId can\'t be empty');
-    //     return next(error('BAD_REQUEST'));
-    // }
-    
-    // if(req.params.managerId != req.body.destinationManagerId){
-    //     logger.error('Error - Set destination vehicle - Can\'t update destination from another manager');
-    //     return next(error('NOT_ALLOWED'));
-    // }
-
-    if(!req.body.vehicleId){
+exports.setDestinationVehicle = function (req, res, next) {
+    if (!req.body.vehicleId) {
         logger.error('Error - Set destination vehicle - VehicleId can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.startDate){
+    if (!req.body.startDate) {
         logger.error('Error - Set destination vehicle - StartDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.endDate){
+    if (!req.body.endDate) {
         logger.error('Error - Set destination vehicle - EndDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    destinationModel.checkDestinationsForVehicle(req.body.vehicleId, req.body.startDate, req.body.endDate).then(function(destinations){
-        if(destinations.length > 0) {
+    destinationModel.checkDestinationsForVehicle(req.body.vehicleId, req.body.startDate, req.body.endDate).then(function (destinations) {
+        if (destinations.length > 0) {
             destinations.forEach(element => {
                 // if id-s are equal, that vehicle is set to that destination
                 if (element._id != req.params.destinationId) return next(error('NOT_ALLOWED'));
             });
         }
 
-        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId).then(function(destination){
+        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId).then(function (destination) {
             res.json(destination);
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
         });
     })
@@ -480,10 +456,10 @@ exports.setDestinationVehicle = function(req, res, next){
  * @param res
  * @param next 
  */
-exports.findAllDrivers = function(req, res, next){
-    driverModel.findAll().then(function(drivers){
+exports.findAllDrivers = function (req, res, next) {
+    driverModel.findAll().then(function (drivers) {
         res.json(drivers);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     });
 }
@@ -494,36 +470,36 @@ exports.findAllDrivers = function(req, res, next){
  * @param res
  * @param next
  */
-exports.setDestinationDrivers = function(req, res, next){
-    if(!req.body.destinationManagerId){
+exports.setDestinationDrivers = function (req, res, next) {
+    if (!req.body.destinationManagerId) {
         logger.error('Error - Set destination vehicle - DestinationManagerId can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(req.params.managerId != req.body.destinationManagerId){
+    if (req.params.managerId != req.body.destinationManagerId) {
         logger.error('Error - Set destination drivers - Can\'t update destination from another manager');
         return next(error('NOT_ALLOWED'));
     }
 
-    if(!req.body.drivers){
+    if (!req.body.drivers) {
         logger.error('Error - Set destination drivers - Drivers can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.startDate){
+    if (!req.body.startDate) {
         logger.error('Error - Set destination drivers - StartDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.endDate){
+    if (!req.body.endDate) {
         logger.error('Error - Set destination drivers - EndDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
     // there has to be 2 drivers for every destination
-    if(!req.body.drivers[1]) return next(error('NOT_ALLOWED'));
+    if (!req.body.drivers[1]) return next(error('NOT_ALLOWED'));
 
-    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function(destinationsOne){
+    destinationModel.checkDestinationsForDriver(req.body.drivers[0]._id, req.body.startDate, req.body.endDate).then(function (destinationsOne) {
         console.log('driverId: ', req.body.drivers[0]._id);
         console.log('start date: ', req.body.startDate);
         req.body.startDate = new Date(req.body.startDate);
@@ -531,25 +507,25 @@ exports.setDestinationDrivers = function(req, res, next){
         console.log('start date posle cast-a: ', req.body.startDate);
         console.log('pre pronadjene prve destinacije');
         console.log(destinationsOne);
-        if(destinationsOne[0]) return next(error('NOT_ALLOWED'));
+        if (destinationsOne[0]) return next(error('NOT_ALLOWED'));
         console.log('posle pronadjene prve destinacije');
 
-        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function(destinationsTwo){
+        destinationModel.checkDestinationsForDriver(req.body.drivers[1]._id, req.body.startDate, req.body.endDate).then(function (destinationsTwo) {
             console.log('driverId: ', req.body.drivers[1]._id);
             console.log('pre pronadjene druge destinacije');
             console.log(destinationsTwo);
-            if(destinationsTwo[0]._id) return next(error('NOT_ALLOWED'));
+            if (destinationsTwo[0]._id) return next(error('NOT_ALLOWED'));
             console.log('posle pronadjene druge destinacije');
-    
-            destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function(destination){
+
+            destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function (destination) {
                 res.json(destination);
-            }).fail(function(err){
+            }).fail(function (err) {
                 return next(err);
             });
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
-        })  
-    }).fail(function(err){
+        })
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -560,10 +536,10 @@ exports.setDestinationDrivers = function(req, res, next){
  * @param res
  * @param next
  */
-exports.findAllRequestsSubmitted = function(req, res, next){
-    requestModel.findAllSubmitted().then(function(requests){
+exports.findAllRequestsSubmitted = function (req, res, next) {
+    requestModel.findAllSubmitted().then(function (requests) {
         res.json(requests);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -574,16 +550,30 @@ exports.findAllRequestsSubmitted = function(req, res, next){
  * @param res
  * @param next
  */
-exports.findAllRequestsByDestination = function(req, res, next){
-    destinationModel.findById(req.params.destinationId).then(function(destination){
-        if(!destination) return next(error('NOT_FOUND'));
+exports.findAllRequestsByDestination = function (req, res, next) {
+    destinationModel.findById(req.params.destinationId).then(function (destination) {
+        if (!destination) return next(error('NOT_FOUND'));
 
-        requestModel.findByDestinationId(req.params.destinationId).then(function(requests){
+        requestModel.findByDestinationId(req.params.destinationId).then(function (requests) {
             res.json(requests);
-        }).fail(function(err){
+        }).fail(function (err) {
             return next(err);
         })
-    }).fail(function(err){
+    }).fail(function (err) {
+        return next(err);
+    })
+}
+
+/**
+ * Set request status to submitted
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestSetSubmitted = function (req, res, next) {
+    requestModel.changeToSubmitted(req.params.destinationRequestId).then(function (submittedRequest) {
+        res.json(submittedRequest);
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -594,20 +584,15 @@ exports.findAllRequestsByDestination = function(req, res, next){
  * @param res
  * @param next
  */
-exports.requestSetAwaiting = function(req, res, next){
-    if(!req.body.destinationId){
-        logger.error('Error - Set request to awaiting - Destination id can\'t be empty');
+exports.requestSetAwaiting = function (req, res, next) {
+    if (!req.body.destinationRequest) {
+        logger.error('Error - Set request to awaiting - DestinationRequest id can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    if(!req.body.startDate){
-        logger.error('Error - Set request to awaiting - StartDate id can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
-    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(function(awaitedRequest){
+    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body.destinationRequest).then(function (awaitedRequest) {
         res.json(awaitedRequest);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -618,10 +603,10 @@ exports.requestSetAwaiting = function(req, res, next){
  * @param res
  * @param next
  */
-exports.requestSetAccepted = function(req, res, next){
-    requestModel.changeToAccepted(req.params.destinationRequestId).then(function(awaitedRequest){
+exports.requestSetAccepted = function (req, res, next) {
+    requestModel.changeToAccepted(req.params.destinationRequestId).then(function (awaitedRequest) {
         res.json(awaitedRequest);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
@@ -632,21 +617,10 @@ exports.requestSetAccepted = function(req, res, next){
  * @param res
  * @param next
  */
-exports.requestSetRejected = function(req, res, next){
-    requestModel.changeToRejected(req.params.destinationRequestId).then(function(awaitedRequest){
+exports.requestSetRejected = function (req, res, next) {
+    requestModel.changeToRejected(req.params.destinationRequestId).then(function (awaitedRequest) {
         res.json(awaitedRequest);
-    }).fail(function(err){
+    }).fail(function (err) {
         return next(err);
     })
 }
-
-
-
-
-
-
-
-
-
-
-

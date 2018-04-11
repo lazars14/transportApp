@@ -31,17 +31,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let vehicle of vehicles; let i = index" [style.background-color]="vehicles[i]._id == destination.vehicle._id ? 'yellow' : 'blue'">
+                      <tr *ngFor="let v of vehicles; let i = index">
                         <td>{{ i + 1 }}</td>
-                        <td>{{ vehicles[i].name }}</td>
-                        <td>{{ vehicles[i].model }}</td>
-                        <td>{{ vehicles[i].licensePlate }}</td>
-                        <td>{{ vehicles[i].licenseExpireDate | date }}</td>
-                        <td>{{ vehicles[i].numberOfSeats }}</td>
-                        <td>{{ vehicles[i].productionYear }}</td>
-                        <td>{{ vehicles[i].numberOfKmPassed }}</td>
+                        <td>{{ v.name }}</td>
+                        <td>{{ v.model }}</td>
+                        <td>{{ v.licensePlate }}</td>
+                        <td>{{ v.licenseExpireDate | date }}</td>
+                        <td>{{ v.numberOfSeats }}</td>
+                        <td>{{ v.productionYear }}</td>
+                        <td>{{ v.numberOfKmPassed }}</td>
                         <td class="btn-group-small text-center">
-                          <button class="btn btn-lg btn-success" (click)="setCurrentVehicle(vehicles[i])" title="Set">
+                          <button class="btn btn-lg btn-success" (click)="setCurrentVehicle(v)" title="Set" [disabled]="v._id == vehicle._id">
                             <i class="fa fa-check" aria-hidden="true"></i>
                           </button>
                         </td>
@@ -55,7 +55,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <div class="mx-auto">
-            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!f.valid" (click)="ok()">Ok</button>
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="vehicle._id == ''" (click)="ok()">Ok</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel()">Cancel</button>
           </div>
         </div>

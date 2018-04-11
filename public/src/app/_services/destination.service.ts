@@ -42,9 +42,15 @@ export class DestinationService {
     .map((res) => res.json());
   }
 
-  setVehicle(destinationId: string, vehicleId: string) {
+  checkIfDriverAvailable(driverId: string, startDate: Date, endDate: Date) {
+    return this.httpService.post(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/drivers/' + driverId + '/available',
+    { startDate: startDate, endDate: endDate })
+    .map((res) => res.json());
+  }
+
+  setVehicle(destinationId: string, vehicleId: string, startDate: Date, endDate: Date) {
     return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations/' +
-     destinationId + '/setVehicle', vehicleId)
+     destinationId + '/setVehicle', { vehicleId: vehicleId, startDate: startDate, endDate: endDate })
     .map((res) => res.json());
   }
 

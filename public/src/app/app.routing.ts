@@ -24,16 +24,9 @@ const appRoutes: Routes = [
         path: 'client/dashboard', component: DashboardComponent, canActivate: [ClientGuard],
         children: [
             {
-                // moze ovde neka komponenta za default, neka statistika
                 path: '',
                 canActivateChild: [ClientGuard],
                 children: [
-                    {
-                        path: '',
-                        component: LoginComponent,
-                        canActivateChild: [ClientGuard],
-
-                    },
                     {
                         path: 'managers',
                         component: ManagersComponent
@@ -63,11 +56,6 @@ const appRoutes: Routes = [
                 canActivateChild: [ManagerGuard],
                 children: [
                     {
-                        path: '',
-                        component: LoginComponent,
-                        canActivateChild: [ManagerGuard],
-                    },
-                    {
                         path: 'vehicleExpenses',
                         component: VehiclesComponent
                     },
@@ -95,7 +83,8 @@ const appRoutes: Routes = [
 
             }
         ]
-    }
+    },
+    { path: '**', redirectTo: '' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes, { useHash: true });

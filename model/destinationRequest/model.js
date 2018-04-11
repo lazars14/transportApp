@@ -200,6 +200,7 @@ DestinationRequestSchema.statics.update = function(id, data){
         if(data.startDate) found.startDate = data.startDate;
         if(data.endDate) found.endDate = data.endDate;
         if(data.price) found.price = data.price;
+        if(data.discount) found.discount = data.discount;
         if(data.status) found.status = data.status;
         if(data.destinationId) found.destinationId = data.destinationId;
         if(data.submissionDate) found.submissionDate = data.submissionDate;
@@ -249,6 +250,39 @@ DestinationRequestSchema.statics.delete = function(id){
 }
 
 /**
+ * DestinationRequest set to submitted
+ * @param id
+ * @returns {*}
+ */
+DestinationRequestSchema.statics.changeToSubmitted = function(id){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+ 
+        found.status = constants.status.SUBMITTED;
+        found.startDate = null;
+        found.endDate = null;
+        found.price = 0;
+        found.destinationOrder = null;
+        found.discount = 0;
+
+        found.save(function(err, destinationRequest){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination request with id ' + id);
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve(destinationRequest);
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
  * DestinationRequest set to awaiting confirmation
  * @param id
  * @param data
@@ -260,12 +294,14 @@ DestinationRequestSchema.statics.changeToAwaiting = function(id, data){
     _findById(id).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
  
-        if(found.status != constants.status.SUBMITTED) return deffered.reject(error('NOT_ALLOWED'));
+        if(found.status == constants.status.REJECTED) return deffered.reject(error('NOT_ALLOWED'));
 
         found.status = constants.status.WAITING_FOR_CONFIRMATION;
         found.startDate = data.startDate;
         found.endDate = data.endDate;
-        found.destinationId = data.destinationId;
+        found.price = data.price;
+        found.destinationOrder = data.destinationOrder;
+        if(data.discount) found.discount = data.discount;
 
         found.save(function(err, destinationRequest){
             if(err){

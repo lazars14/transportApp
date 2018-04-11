@@ -103,6 +103,36 @@ router.put('/:managerId', auth.checkManagerToken, auth.checkManagerId, controlle
 router.get('/:managerId/vehicles', auth.checkManagerToken, auth.checkManagerId, controller.getAllVehicles);
 
 /**
+ * @api {get} /{managerId}/vehicles/{vehicleId}
+ * Find Vehicle By Id
+ * @apiVersion 1.0.0
+ * @apiName Find Vehicle By Id
+ * @apiGroup Manager
+ * @apiDescription Manager find vehicle - find vehicle by id
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} vehicleId Vehicle id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Vehicle Found vehicle
+ * {
+ *      "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *      "name": "First bus",
+ *      "model": "Mercedes-Benz do Brasil",
+ *      "licensePlate" : "NS-123-AD",
+ *      "licenseExpireDate": "2019-10-21",
+ *      "numberOfSeats": "50",
+ *      "productionYear": "2015",
+ *      "numberOfKmPassed": "50000"
+ * }
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:managerId/vehicles/:vehicleId', auth.checkManagerToken, auth.checkManagerId, controller.getVehicleById);
+
+/**
  * @api {get} /{managerId}/vehicles/{vehicleId}/expenses
  * Get All Expenses For Vehicle
  * @apiVersion 1.0.0
@@ -657,6 +687,36 @@ router.get('/:managerId/destinationRequests/submitted', auth.checkManagerToken, 
 router.get('/:managerId/destinationRequests/:destinationId', auth.checkManagerToken, auth.checkManagerId, controller.findAllRequestsByDestination);
 
 /**
+ * @api {put} /{managerId}/destinationRequests/{destinationRequestId}/setSubmitted
+ * Set Destination Request To Submitted
+ * @apiVersion 1.0.0
+ * @apiName Set Destination Request To Submitted
+ * @apiGroup Manager
+ * @apiDescription Manager set request to submitted - set request to submitted
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationRequestId DestinationRequestId for setting submitted
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} Request DestinationRequest
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.put('/:managerId/destinationRequests/:destinationRequestId/setSubmitted', auth.checkManagerToken, auth.checkManagerId, controller.requestSetSubmitted);
+
+/**
  * @api {put} /{managerId}/destinationRequests/{destinationRequestId}/setAwaiting
  * Set Destination Request To Awating Confirmation
  * @apiVersion 1.0.0
@@ -665,12 +725,8 @@ router.get('/:managerId/destinationRequests/:destinationId', auth.checkManagerTo
  * @apiDescription Manager set request to awaiting confirmation - set request to awaiting confirmation
  * 
  * @apiParam (path){String} managerId Manager id
- * @apiParam (path){String} destinationRequestId Destination request id
  * 
- * @apiParam (body){String} startDate Request start date
- * @apiParam (body){String} endDate Request end date
- * @apiParam (body){String} destinationId Destination id
- * @apiParam (body){String} destinationOrder Order of request in destination route
+ * @apiParam (body){Object} destinationRequest DestinationRequest for await
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Request DestinationRequest
@@ -823,7 +879,7 @@ router.get('/:managerId/drivers', auth.checkManagerToken, auth.checkManagerId, c
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfVehicleAvailable);
+router.post('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfVehicleAvailable);
 
 /**
  * @api {post} /{managerId}/drivers/{driverId}/available
@@ -856,7 +912,7 @@ router.get('/:managerId/vehicles/:vehicleId/available', auth.checkManagerToken, 
  * @apiUse notFound
  * @apiUse notAuthorized
  */
-router.get('/:managerId/drivers/:driverId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfDriverAvailable);
+router.post('/:managerId/drivers/:driverId/available', auth.checkManagerToken, auth.checkManagerId, controller.checkIfDriverAvailable);
 
 logger.info('loaded MANAGER routes');
 

@@ -14,22 +14,29 @@ export class SetVehicleModalComponent implements OnInit {
 
   @Input() destination: Destination;
   @Input() vehicle: Vehicle;
-  @Output() setVehicle = new EventEmitter();
+  @Output() setVehicle = new EventEmitter<Vehicle>();
 
   vehicles = [];
 
   constructor(private vehicleService: VehicleService, private destinationService: DestinationService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.vehicle = new Vehicle();
+    this.vehicle._id = '';
+  }
 
   loadData() {
+    if (this.destination.vehicleId) {
+      this.vehicle._id = this.destination.vehicleId;
+    }
     this.vehicleService.findAllManager().subscribe(data => {
       data.forEach(element => {
+        // just for testing
+        this.destination.endDate = new Date();
         this.destinationService.checkIfVehicleAvailable(element._id, this.destination.startDate, this.destination.endDate)
         .subscribe(vehicleId => {
-          console.log(vehicleId);
-          this.vehicleService.findById(vehicleId).subscribe(vehicle => {
-            this.vehicles.push(vehicle);
+          this.vehicleService.findByIdManager(vehicleId).subscribe(foundVehicle => {
+            this.vehicles.push(foundVehicle);
           }, error => {
             this.notification.error('Find Vehicle By Id - Error ' + error.status + ' - ' + error.statusText);
           });
@@ -47,7 +54,7 @@ export class SetVehicleModalComponent implements OnInit {
   }
 
   ok() {
-    this.setVehicle.emit();
+    this.setVehicle.emit(this.vehicle);
   }
 
   cancel() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpService, SessionService } from '../_core/index';
 import { environment } from '../../environments/environment';
-import { DestinationRequest } from '../_model/index';
+import { DestinationRequest, Destination } from '../_model/index';
 
 @Injectable()
 export class DestinationRequestService {
@@ -48,9 +48,15 @@ export class DestinationRequestService {
     .map((res) => res.json());
   }
 
-  await(id: string) {
-    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' + id +
-     '/setAwaiting', null)
+  submit(id: string) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' +
+    id + '/setSubmitted', null)
+    .map((res) => res.json());
+  }
+
+  await(destinationRequest: DestinationRequest) {
+    return this.httpService.put(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinationRequests/' +
+    destinationRequest._id + '/setAwaiting', destinationRequest)
     .map((res) => res.json());
   }
 

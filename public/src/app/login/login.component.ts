@@ -43,9 +43,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.email, this.password, true)
       .subscribe(
         data => {
-          console.log(data, ' response');
           this.sessionService.storeClient(data);
-          this.router.navigate(['client/dashboard']);
+          this.router.navigate(['client/dashboard/drivers']);
         },
         error => {
           this.notification.error('Login Client - Error ' + error.status + ' - ' + error.statusText);
@@ -56,7 +55,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.sessionService.storeManager(data);
-          this.router.navigate(['manager/dashboard']);
+          this.router.navigate(['manager/dashboard/destinations']);
         },
         error => {
           this.notification.error('Login Client - Error ' + error.status + ' - ' + error.statusText);

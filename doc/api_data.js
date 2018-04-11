@@ -1680,6 +1680,178 @@ define({ "api": [
     }
   },
   {
+    "type": "post",
+    "url": "/{managerId}/drivers/{driverId}/available",
+    "title": "Check If Driver Available",
+    "version": "1.0.0",
+    "name": "Check_If_Driver_Available",
+    "group": "Manager",
+    "description": "<p>Manager check if driver available - check if driver is free for some period</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "driverId",
+            "description": "<p>Driver id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>Start date of period</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>End date of period</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "driver",
+            "description": "<p>Driver object [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
+    "url": "/{managerId}/vehicles/{vehicleId}/available",
+    "title": "Check If Vehicle Available",
+    "version": "1.0.0",
+    "name": "Check_If_Vehicle_Available",
+    "group": "Manager",
+    "description": "<p>Manager check if vehicle available - check if vehicle is free for some period</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "vehicleId",
+            "description": "<p>Vehicle id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "startDate",
+            "description": "<p>Start date of period</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>End date of period</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "vehicle",
+            "description": "<p>Vehicle object [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
     "type": "delete",
     "url": "/{managerId}/destinations/{destinationId}",
     "title": "Delete Destination",
@@ -2244,6 +2416,69 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/{managerId}/drivers",
+    "title": "Get All Drivers",
+    "version": "1.0.0",
+    "name": "Get_All_Drivers",
+    "group": "Manager",
+    "description": "<p>Manager drivers - view all drivers</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Drivers",
+            "description": "<p>Drivers array [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; }, { &quot;_id&quot;: &quot;a-d.x-;flow1-s9-3la-aswsq&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;Two&quot;, &quot;email&quot; : &quot;drivertwo@gmail.com&quot;, &quot;phone&quot;: &quot;0600234567&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
     "url": "/{managerId}/vehicles/{vehicleId}/expenses",
     "title": "Get All Expenses For Vehicle",
     "version": "1.0.0",
@@ -2688,27 +2923,6 @@ define({ "api": [
             "optional": false,
             "field": "drivers",
             "description": "<p>Drivers for destination</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": false,
-            "field": "destinationManagerId",
-            "description": "<p>Manager id for destination</p>"
-          },
-          {
-            "group": "body",
-            "type": "Date",
-            "optional": false,
-            "field": "startDate",
-            "description": "<p>Destination startDate</p>"
-          },
-          {
-            "group": "body",
-            "type": "Date",
-            "optional": false,
-            "field": "endDate",
-            "description": "<p>Destination endDate</p>"
           }
         ]
       }
@@ -2857,43 +3071,15 @@ define({ "api": [
             "optional": false,
             "field": "managerId",
             "description": "<p>Manager id</p>"
-          },
-          {
-            "group": "path",
-            "type": "String",
-            "optional": false,
-            "field": "destinationRequestId",
-            "description": "<p>Destination request id</p>"
           }
         ],
         "body": [
           {
             "group": "body",
-            "type": "String",
+            "type": "Object",
             "optional": false,
-            "field": "startDate",
-            "description": "<p>Request start date</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": false,
-            "field": "endDate",
-            "description": "<p>Request end date</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": false,
-            "field": "destinationId",
-            "description": "<p>Destination id</p>"
-          },
-          {
-            "group": "body",
-            "type": "String",
-            "optional": false,
-            "field": "destinationOrder",
-            "description": "<p>Order of request in destination route</p>"
+            "field": "destinationRequest",
+            "description": "<p>DestinationRequest for await</p>"
           }
         ]
       }
@@ -3022,6 +3208,76 @@ define({ "api": [
   },
   {
     "type": "put",
+    "url": "/{managerId}/destinationRequests/{destinationRequestId}/setSubmitted",
+    "title": "Set Destination Request To Submitted",
+    "version": "1.0.0",
+    "name": "Set_Destination_Request_To_Submitted",
+    "group": "Manager",
+    "description": "<p>Manager set request to submitted - set request to submitted</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationRequestId",
+            "description": "<p>DestinationRequestId for setting submitted</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "Request",
+            "description": "<p>DestinationRequest [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/123456&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-s,;kfga=dg&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
     "url": "/{managerId}/destinations/{destinationId}/setVehicle",
     "title": "Set Destination Vehicle",
     "version": "1.0.0",
@@ -3049,31 +3305,10 @@ define({ "api": [
         "body": [
           {
             "group": "body",
-            "type": "Object",
-            "optional": false,
-            "field": "vehicle",
-            "description": "<p>Vehicle</p>"
-          },
-          {
-            "group": "body",
             "type": "String",
             "optional": false,
-            "field": "destinationManagerId",
-            "description": "<p>Manager id for destination</p>"
-          },
-          {
-            "group": "body",
-            "type": "Date",
-            "optional": false,
-            "field": "startDate",
-            "description": "<p>Destination startDate</p>"
-          },
-          {
-            "group": "body",
-            "type": "Date",
-            "optional": false,
-            "field": "endDate",
-            "description": "<p>Destination endDate</p>"
+            "field": "vehicleId",
+            "description": "<p>Vehicle id for setting</p>"
           }
         ]
       }

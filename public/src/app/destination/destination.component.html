@@ -1,8 +1,8 @@
 <app-notification></app-notification>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
 <app-location-modal [destinationRequest]="destinationRequest" (resetLocation)="resetLocation()"></app-location-modal>
-<app-set-vehicle-modal #setVehicleModal [destination]="destination" [vehicle]="vehicle" (setVehicle)="setVehicle"></app-set-vehicle-modal>
-<app-set-drivers-modal #setDriversModal [destination]="destination" [drivers]="drivers" (setDrivers)="setDrivers"></app-set-drivers-modal>
+<app-set-vehicle-modal #setVehicleModal [destination]="destination" (setVehicle)="setVehicle($event)"></app-set-vehicle-modal>
+<app-set-drivers-modal #setDriversModal [destination]="destination" (setDrivers)="setDrivers($event)"></app-set-drivers-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
     <h2>Destination Details</h2>
@@ -27,14 +27,6 @@
             <td>{{ vehicleInfo }}</td>
             <td>{{ driversInfo }}</td>
             <td *ngIf="destinationOpen" class="btn-group-small text-center">
-              <!-- <button [disabled]="!destination.endDate" class="btn btn-lg btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                data-target="#setVehicleModal" title="Set Vehicle">
-                <i class="fa fa-bus" aria-hidden="true"></i>
-              </button>
-              <button [disabled]="!destination.endDate" class="btn btn-lg btn-success" data-toggle="modal" data-target="#setDriversModal"
-                title="Set Drivers">
-                <i class="fa fa-users" aria-hidden="true"></i>
-              </button> -->
               <button class="btn btn-lg btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                 data-target="#setVehicleModal" (click)="loadDataForSetting(true)" title="Set Vehicle">
                 <i class="fa fa-bus" aria-hidden="true"></i>

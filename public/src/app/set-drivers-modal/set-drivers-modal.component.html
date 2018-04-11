@@ -7,7 +7,7 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Set Destination Vehicle</h4>
+          <h4 class="modal-title">Set Destination Drivers</h4>
           <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
         </div>
 
@@ -29,7 +29,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let driver of drivers; let i = index" [style.background-color]="checkDriver(driver[i]._id)">
+                  <tr *ngFor="let driver of drivers; let i = index">
                     <td>{{ i + 1 }}</td>
                     <td>{{ driver.firstName }}</td>
                     <td>{{ driver.lastName }}</td>
@@ -37,10 +37,10 @@
                     <td>{{ driver.phone }}</td>
                     <td>{{ driver.address }}</td>
                     <td class="btn-group-small text-center">
-                        <button class="btn btn-lg btn-success" title="Set">
+                        <button class="btn btn-lg btn-success" title="Set" [disabled]="isSelected" (click)="set(driver)">
                             <i class="fa fa-check" aria-hidden="true"></i>
                           </button>
-                          <button class="btn btn-lg btn-danger" title="Remove">
+                          <button class="btn btn-lg btn-danger" title="Remove" [disabled]="!isSelected" (click)="remove(driver)">
                             <i class="fa fa-times" aria-hidden="true"></i>
                           </button>
                     </td>

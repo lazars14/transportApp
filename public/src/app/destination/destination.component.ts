@@ -5,7 +5,7 @@ import { DestinationService } from '../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
 import { SessionService } from './../_core/index';
 import { DestinationRequestService, VehicleService, DriverService } from './../_services/index';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { constants } from './../utils/constants';
 
 import { } from 'googlemaps';
@@ -28,12 +28,15 @@ export class DestinationComponent implements OnInit {
   @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
   @ViewChild(SetDriversModalComponent) setDriversModal: SetDriversModalComponent;
 
+  loading = true;
+
   destination = new Destination();
   destinationRequest = new DestinationRequest();
 
   destinationRequests = [];
-  preChangeDestinationRequests = [];
   openRequests = [];
+
+  preChangeDestinationRequests = [];
 
   destinationOpen: boolean;
   remove: boolean;
@@ -47,7 +50,6 @@ export class DestinationComponent implements OnInit {
 
   totalCost = 0;
   ticketsIncome = 0;
-  // ili da ga dobijem iz html-a - kao zbir svih cena iz request-ova
 
   lat = 0;
   lng = 0;
@@ -110,7 +112,7 @@ export class DestinationComponent implements OnInit {
       });
 
       if (this.destination.vehicleId) {
-        this.vehicleService.findById(this.destination.vehicleId).subscribe(vehicle => {
+        this.vehicleService.findByIdManager(this.destination.vehicleId).subscribe(vehicle => {
           this.vehicleInfo = vehicle.name;
           this.vehicle = vehicle;
         }, error => {
@@ -132,10 +134,11 @@ export class DestinationComponent implements OnInit {
     }
   }
 
-  setVehicle(vehicle: Vehicle) {
-    this.destinationService.setVehicle(this.destination._id, this.vehicle._id).subscribe(destination => {
-      this.destination.vehicleId = vehicle._id;
-      this.vehicleInfo = vehicle.name;
+  setVehicle($event) {
+    this.destinationService.setVehicle(this.destination._id, $event._id, this.destination.startDate, new Date()).subscribe(destination => {
+      this.destination.vehicleId = $event._id;
+      this.vehicleInfo = $event.name;
+      this.notification.success('Destination vehicle set succesfully');
     }, error => {
       this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
     });
@@ -148,6 +151,7 @@ export class DestinationComponent implements OnInit {
       this.destination.drivers.push(driver1._id);
       this.destination.drivers.push(driver2._id);
       this.driversInfo = driver1.firstName + ' ' + driver1.lastName + ', ' + driver2.firstName + ' ' + driver2.lastName;
+      this.notification.success('Destination vehicle set succesfully');
     }, error => {
       this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
     });
@@ -173,12 +177,55 @@ export class DestinationComponent implements OnInit {
 
   calculate() {
     console.log('calculating');
+    this.waypoints = [];
+    this.destinationRequests.forEach(request => {
+      // to do
+    });
   }
 
   save() {
     console.log('saving changes');
+
     // go through preChanged and destinationRequests
-    // compare them, and save the changes (change statuses, add/delete neccessary, send push notifications)
+    _.this.preChangeDestinationRequests.forEach(request => {
+      const destinationRequest = _.find(this.destinationRequests, {_id : request._id});
+
+      // request removed from destination, now will set status to submitted
+      if (destinationRequest == null) {
+        this.destinationRequestService.submit(destinationRequest._id).subscribe(destRequest => {
+          // add request to open requests
+          this.openRequests.push(destRequest);
+          // remove request from current requests
+          const index = this.destinationRequests.indexOf(this.destinationRequest);
+          this.destinationRequests.splice(index, 1);
+
+          // push notification?
+        }, error => {
+          this.notification.error('Set Destination Request Submitted - Error ' + error.status + ' - ' + error.statusText);
+        });
+      } else {
+        // found request
+
+        // status: Accepted
+        if (destinationRequest.status === constants.status.ACCEPTED) {
+          if (!destinationRequest.discount) {
+            destinationRequest.discount = 5;
+          } else {
+            destinationRequest.discount += 5;
+          }
+        }
+
+        this.destinationRequestService.await(destinationRequest).subscribe(req => {
+          // send push notification
+        }, error => {
+          this.notification.error('Set Destination Request Await - Error ' + error.status + ' - ' + error.statusText);
+        });
+      }
+
+
+    });
+
+    // atomicity in mongo - procedure?
     // if one fails, all fail
   }
 

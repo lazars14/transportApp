@@ -26,6 +26,11 @@ export class VehicleService {
     .map((res) => res.json());
   }
 
+  findByIdManager(id: string) {
+    return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/vehicles/' + id)
+    .map((res) => res.json());
+  }
+
   create(vehicle: Vehicle) {
     return this.httpService.post(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/vehicles', vehicle)
     .map((res) => res.json());
