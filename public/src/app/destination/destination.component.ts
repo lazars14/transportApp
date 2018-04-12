@@ -45,6 +45,8 @@ import {
   SetDriversModalComponent
 } from '../set-drivers-modal/set-drivers-modal.component';
 import { DirectionDirective } from '../_directives/index';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 declare var google: any;
 
 @Component({
@@ -93,6 +95,7 @@ export class DestinationComponent implements OnInit {
   visible = false;
 
   waypoints = [];
+  waypointsPlaceIds = [];
 
   deleteHeader = 'Reject Request';
   deleteText = 'Are you sure you want to reject this request?';
@@ -214,24 +217,80 @@ export class DestinationComponent implements OnInit {
 
   calculate() {
     console.log('calculating');
+
+    // this.setupWaypoints();
+    // console.log('place id-s', this.waypointsPlaceIds);
+
+    // this.directionDirective.calculateBestRoute(this.waypoints);
+  }
+
+  setupWaypoints()  {
     this.waypoints = [];
+    let startId, endId;
+    // let done = false;
+
+    // const observableFor = Observable.do {
+
+    // } while (condition);
+    // do {
+
+    // } while (done === false);
+
     this.destinationRequests.forEach(request => {
+      // let startLocation =
       this.waypoints.push({
         location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
         stopover: true
       });
 
-      this.waypoints.push({
-        location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
-        stopover: true
+      this.reverseGeocode(request.startLocation.lat, request.startLocation.lng).subscribe(startPlaceId => {
+        console.log('start place id ', startPlaceId);
+        startId = startPlaceId;
+
+        this.waypoints.push({
+          location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+          stopover: true
+        });
+
+        this.reverseGeocode(request.endLocation.lat, request.endLocation.lng).subscribe(endPlaceId => {
+          console.log('end place id ', endPlaceId);
+          endId = endPlaceId;
+          this.waypointsPlaceIds.push({ start: startId, end: endId, requestId: request._id });
+        });
+
       });
     });
 
-    this.directionDirective.drawDirection(this.waypoints);
+  }
+
+  reverseGeocode(lat: Number, lng: Number): Observable<any> {
+    const geocoder = new google.maps.Geocoder;
+
+    const subject = new Subject<string>();
+
+    geocoder.geocode({'location': new google.maps.LatLng(lat, lng)}, (results, status) => {
+      if (status === 'OK') {
+        console.log(results[0]);
+        subject.next(results[0].place_id);
+      }
+    });
+
+    return subject.asObservable();
   }
 
   calculateDistancesAndTimes($event) {
     console.log('passed event ', $event);
+
+    this.destination.numberOfKms = $event[0];
+
+    // find which request has been cut out and remove it from requests
+    // update requests
+
+    // set tickets income from requests
+    // set totalCost
+
+    // draw map
+    this.directionDirective.drawDirection($event[1]);
   }
 
   save() {
