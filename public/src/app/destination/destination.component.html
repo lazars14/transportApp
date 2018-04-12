@@ -55,7 +55,8 @@
 
     <agm-map *ngIf="visible" #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
       [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
-      <direction [origin]="destination.startLocation" [destination]="destination.endLocation"></direction>
+      <direction #directionDirective [origin]="destination.startLocation" [destination]="destination.endLocation" [waypoints]="waypoints" 
+        (calculate)="calculateDistancesAndTimes($event)"></direction>
     </agm-map>
 
     <br>

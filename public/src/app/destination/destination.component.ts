@@ -1,17 +1,51 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { Destination, DestinationRequest, Vehicle, Driver } from '../_model/index';
-import { DestinationService } from '../_services/index';
-import { NotificationComponent } from '../notification/notification.component';
-import { SessionService } from './../_core/index';
-import { DestinationRequestService, VehicleService, DriverService } from './../_services/index';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  Router
+} from '@angular/router';
+import {
+  Destination,
+  DestinationRequest,
+  Vehicle,
+  Driver
+} from '../_model/index';
+import {
+  DestinationService
+} from '../_services/index';
+import {
+  NotificationComponent
+} from '../notification/notification.component';
+import {
+  SessionService
+} from './../_core/index';
+import {
+  DestinationRequestService,
+  VehicleService,
+  DriverService
+} from './../_services/index';
 import _ from 'lodash';
-import { constants } from './../utils/constants';
+import {
+  constants
+} from './../utils/constants';
 
-import { } from 'googlemaps';
-import { MapsAPILoader, AgmMap, GoogleMapsAPIWrapper } from '@agm/core';
-import { SetVehicleModalComponent } from '../set-vehicle-modal/set-vehicle-modal.component';
-import { SetDriversModalComponent } from '../set-drivers-modal/set-drivers-modal.component';
+import {} from 'googlemaps';
+import {
+  MapsAPILoader,
+  AgmMap,
+  GoogleMapsAPIWrapper,
+  LatLng
+} from '@agm/core';
+import {
+  SetVehicleModalComponent
+} from '../set-vehicle-modal/set-vehicle-modal.component';
+import {
+  SetDriversModalComponent
+} from '../set-drivers-modal/set-drivers-modal.component';
+import { DirectionDirective } from '../_directives/index';
+declare var google: any;
 
 @Component({
   selector: 'app-destination',
@@ -22,11 +56,12 @@ export class DestinationComponent implements OnInit {
 
   constructor(private destinationService: DestinationService, private sessionService: SessionService,
     private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService,
-    private driverService: DriverService) { }
+    private driverService: DriverService) {}
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
   @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
   @ViewChild(SetDriversModalComponent) setDriversModal: SetDriversModalComponent;
+  @ViewChild(DirectionDirective) directionDirective: DirectionDirective;
 
   loading = true;
 
@@ -138,19 +173,19 @@ export class DestinationComponent implements OnInit {
 
   setVehicle($event) {
     this.destinationService.setVehicle(this.destination._id, $event._id, this.destination.startDate, this.destination.endDate)
-    .subscribe(destination => {
-      this.destination.vehicleId = $event._id;
-      this.vehicleInfo = $event.name;
-      this.notification.success('Destination vehicle set succesfully');
-    }, error => {
-      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
-    });
+      .subscribe(destination => {
+        this.destination.vehicleId = $event._id;
+        this.vehicleInfo = $event.name;
+        this.notification.success('Destination vehicle set succesfully');
+      }, error => {
+        this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+      });
   }
 
   setDrivers($event) {
-    const driversArray = [ $event[0]._id, $event[1]._id ];
-    this.destinationService.setDrivers(this.destination._id, driversArray, this.destination.startDate, this.destination.endDate
-    ).subscribe(destination => {
+    const driversArray = [$event[0]._id, $event[1]._id];
+    this.destinationService.setDrivers(this.destination._id, driversArray, this.destination.startDate, this.destination.endDate)
+    .subscribe(destination => {
       this.destination.drivers = driversArray;
       this.driversInfo = $event[0].firstName + ' ' + $event[0].lastName + ', ' + $event[1].firstName + ' ' + $event[1].lastName;
       this.notification.success('Destination vehicle set succesfully');
@@ -181,8 +216,22 @@ export class DestinationComponent implements OnInit {
     console.log('calculating');
     this.waypoints = [];
     this.destinationRequests.forEach(request => {
-      // to do
+      this.waypoints.push({
+        location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
+        stopover: true
+      });
+
+      this.waypoints.push({
+        location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+        stopover: true
+      });
     });
+
+    this.directionDirective.drawDirection(this.waypoints);
+  }
+
+  calculateDistancesAndTimes($event) {
+    console.log('passed event ', $event);
   }
 
   save() {
@@ -190,7 +239,9 @@ export class DestinationComponent implements OnInit {
 
     // go through preChanged and destinationRequests
     _.this.preChangeDestinationRequests.forEach(request => {
-      const destinationRequest = _.find(this.destinationRequests, {_id : request._id});
+      const destinationRequest = _.find(this.destinationRequests, {
+        _id: request._id
+      });
 
       // request removed from destination, now will set status to submitted
       if (destinationRequest == null) {
