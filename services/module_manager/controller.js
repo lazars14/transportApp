@@ -582,12 +582,32 @@ exports.requestSetSubmitted = function (req, res, next) {
  * @param next
  */
 exports.requestSetAwaiting = function (req, res, next) {
-    if (!req.body.destinationRequest) {
-        logger.error('Error - Set request to awaiting - DestinationRequest id can\'t be empty');
+    if (!req.body.startDate) {
+        logger.error('Error - Set request to awaiting - StartDate can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
 
-    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body.destinationRequest).then(function (awaitedRequest) {
+    if (!req.body.startDate) {
+        logger.error('Error - Set request to awaiting - EndDate can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if (!req.body.price) {
+        logger.error('Error - Set request to awaiting - Price can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if (!req.body.destinationOrder) {
+        logger.error('Error - Set request to awaiting - DestinationOrder can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if (!req.body.destinationId) {
+        logger.error('Error - Set request to awaiting - DestinationId can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(function (awaitedRequest) {
         res.json(awaitedRequest);
     }).fail(function (err) {
         return next(err);

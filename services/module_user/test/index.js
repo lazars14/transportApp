@@ -203,13 +203,74 @@ describe("User tests", function () {
 
     it("user add request - success - valid data - for testing in frontend", function (done){
         var data = {
+            // Novi Sad - Subotica
             "startLocation": {
-                "lat": 45.32,
-                "lng": 45.32
+                "lat": 45.267136,
+                "lng": 19.833549
             },
             "endLocation": {
-                "lat": 45.33,
-                "lng": 45.33
+                "lat": 46.100376,
+                "lng": 19.667587
+            }
+        };
+        return request(app).post('/user/' + user._id + '/requests')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("user add request - success - valid data - for testing in frontend", function (done){
+        var data = {
+            // Backa Palanka - Subotica
+            "startLocation": {
+                "lat": 45.249728,
+                "lng": 19.39677
+            },
+            "endLocation": {
+                "lat": 46.100376,
+                "lng": 19.667587
+            }
+        };
+        return request(app).post('/user/' + user._id + '/requests')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("user add request - success - valid data - for testing in frontend", function (done){
+        var data = {
+            // Vrbas - Subotica
+            "startLocation": {
+                "lat": 45.570153,
+                "lng": 19.644968
+            },
+            "endLocation": {
+                "lat": 46.100376,
+                "lng": 19.667587
+            }
+        };
+        return request(app).post('/user/' + user._id + '/requests')
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    it("user add request - success - valid data - for testing in frontend", function (done){
+        var data = {
+            // Kikinda - Subotica
+            "startLocation": {
+                "lat": 45.827284,
+                "lng": 20.461517
+            },
+            "endLocation": {
+                "lat": 46.100376,
+                "lng": 19.667587
             }
         };
         return request(app).post('/user/' + user._id + '/requests')

@@ -657,6 +657,28 @@ describe("Manager tests", function () {
                 return done();
             });
     });
+
+    it("new destination - success - dummy data for testing front", function (done) {
+        var data;
+        data = ({
+            // Beograd - Subotica
+            startLocation : {
+                "lat": 44.786568,
+                "lng": 20.4489216
+            },
+            "endLocation": {
+                "lat": 46.100376,
+                "lng": 19.667587
+            },
+            startDate: new Date("2018-04-29")
+        });
+        return request(app).post('/manager/' + manager._id + '/destinations')
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
     
     it("all destinations for manager - fail - missing token", function (done) {
         return request(app).get('/manager/' +manager._id + '/destinations')

@@ -2290,6 +2290,76 @@
   },
   {
     "type": "get",
+    "url": "/{managerId}/vehicles/{vehicleId}",
+    "title": "Find Vehicle By Id",
+    "version": "1.0.0",
+    "name": "Find_Vehicle_By_Id",
+    "group": "Manager",
+    "description": "<p>Manager find vehicle - find vehicle by id</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "vehicleId",
+            "description": "<p>Vehicle id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Vehicle",
+            "description": "<p>Found vehicle { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;First bus&quot;, &quot;model&quot;: &quot;Mercedes-Benz do Brasil&quot;, &quot;licensePlate&quot; : &quot;NS-123-AD&quot;, &quot;licenseExpireDate&quot;: &quot;2019-10-21&quot;, &quot;numberOfSeats&quot;: &quot;50&quot;, &quot;productionYear&quot;: &quot;2015&quot;, &quot;numberOfKmPassed&quot;: &quot;50000&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
     "url": "/{managerId}/destinations/",
     "title": "Get All Destinations For Manager",
     "version": "1.0.0",
@@ -2745,6 +2815,76 @@
   },
   {
     "type": "get",
+    "url": "/{managerId}/drivers/{driverId}",
+    "title": "Get Driver By Id",
+    "version": "1.0.0",
+    "name": "Get_Driver_By_Id",
+    "group": "Manager",
+    "description": "<p>Manager get driver - get driver by id</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "driverId",
+            "description": "<p>Driver id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Driver",
+            "description": "<p>Found driver { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; }</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
     "url": "/{managerId}/vehicles/{vehicleId}/expenses/{vehicleExpenseId}",
     "title": "Get Expense By Id",
     "version": "1.0.0",
@@ -3076,10 +3216,38 @@
         "body": [
           {
             "group": "body",
-            "type": "Object",
+            "type": "Date",
             "optional": false,
-            "field": "destinationRequest",
-            "description": "<p>DestinationRequest for await</p>"
+            "field": "startDate",
+            "description": "<p>DestinationRequest start date</p>"
+          },
+          {
+            "group": "body",
+            "type": "Date",
+            "optional": false,
+            "field": "endDate",
+            "description": "<p>DestinationRequest end date</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>DestinationRequest price</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
+            "optional": false,
+            "field": "destinationOrder",
+            "description": "<p>DestinationRequest destinationOrder</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
+            "optional": true,
+            "field": "discount",
+            "description": "<p>DestinationRequest price discount</p>"
           }
         ]
       }

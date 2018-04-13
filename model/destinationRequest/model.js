@@ -301,6 +301,7 @@ DestinationRequestSchema.statics.changeToAwaiting = function(id, data){
         found.endDate = data.endDate;
         found.price = data.price;
         found.destinationOrder = data.destinationOrder;
+        found.destinationId = data.destinationId;
         if(data.discount) found.discount = data.discount;
 
         found.save(function(err, destinationRequest){
@@ -332,6 +333,7 @@ DestinationRequestSchema.statics.changeToAccepted = function(id){
         if(found.status != constants.status.WAITING_FOR_CONFIRMATION) return deffered.reject(error('NOT_ALLOWED'));
 
         found.status = constants.status.ACCEPTED;
+        found.confirmationRequestDate = new Date();
 
         found.save(function(err, destinationRequest){
             if(err){

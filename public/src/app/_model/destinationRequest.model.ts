@@ -4,12 +4,12 @@ export class DestinationRequest {
     endLocation: Object;
     startDate: Date;
     endDate: Date;
-    price: Number;
-    discount: Number;
-    status: Number;
+    price: number;
+    discount: number;
+    status: number;
     destinationId: string;
     submissionDate: Date;
     confirmationRequestDate: Date;
     userId: string;
-    destinationOrder: Number;
+    destinationOrder: number;
 }

@@ -726,7 +726,12 @@ router.put('/:managerId/destinationRequests/:destinationRequestId/setSubmitted',
  * 
  * @apiParam (path){String} managerId Manager id
  * 
- * @apiParam (body){Object} destinationRequest DestinationRequest for await
+ * @apiParam (body){Date} startDate DestinationRequest start date
+ * @apiParam (body){Date} endDate DestinationRequest end date
+ * @apiParam (body){Number} price DestinationRequest price
+ * @apiParam (body){Number} destinationOrder DestinationRequest destinationOrder
+ * @apiParam (body){Number} destinationId DestinationRequest destinationId
+ * @apiParam (body){Number} [discount] DestinationRequest price discount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Request DestinationRequest

@@ -106,9 +106,14 @@ describe("Manager tests for manipulating requests", function () {
 
     it("set request status awaiting - fail - bad request", function (done) {
         var data;
+        data = ({
+            startDate: "2018-03-15",
+            endDate: "2018-03-20",
+            destinationOrder: 1
+        });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
         .set('x-access-token', token)
-        .type('application/json').end(function (err, res) {
+        .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 400);
                 return done();
             });
@@ -181,41 +186,6 @@ describe("Manager tests for manipulating requests", function () {
     //         });
     // });
 
-    it("set request status submitted - fail - missing token", function (done) {
-        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 401);
-                return done();
-            });
-    });
-
-    it("set request status submitted - fail - not found", function (done) {
-        return request(app).put('/manager/' + dummyId + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
-        .set('x-access-token', managerDummyToken)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
-
-    it("set request status submitted - fail - not found", function (done) {
-        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ dummyId + '/setSubmitted')
-        .set('x-access-token', token)
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
-
-    it("set request status submitted - success - valid data", function (done) {
-        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
-            .set('x-access-token', token)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 200);
-                return done();
-            });
-    });
-
     it("set request status accepted - fail - missing token", function (done) {
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAccepted')
         .type('application/json').end(function (err, res) {
@@ -260,6 +230,40 @@ describe("Manager tests for manipulating requests", function () {
             });
     });
 
+    it("set request status submitted - fail - missing token", function (done) {
+        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("set request status submitted - fail - not found", function (done) {
+        return request(app).put('/manager/' + dummyId + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
+        .set('x-access-token', managerDummyToken)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("set request status submitted - fail - not found", function (done) {
+        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ dummyId + '/setSubmitted')
+        .set('x-access-token', token)
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("set request status submitted - success - valid data", function (done) {
+        return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setSubmitted')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
 
     it("set request status rejected - fail - missing token", function (done) {
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setRejected')
@@ -302,11 +306,12 @@ describe("Manager tests for manipulating requests", function () {
             destinationId: destination._id,
             startDate: "2018-03-15",
             endDate: "2018-03-20",
-            destinationOrder: 1
+            destinationOrder: 1,
+            price: 1234
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
-        .set('x-access-token', token)
-        .type('application/json').send(data).end(function (err, res) {
+            .set('x-access-token', token)
+            .type('application/json').send(data).end(function (err, res) {
                 res.should.have.property("status", 405);
                 return done();
             });

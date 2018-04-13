@@ -4,9 +4,9 @@ export class Destination {
     endLocation: Object;
     startDate: Date;
     endDate: Date;
-    driversPay: Number;
-    numberOfKms: Number;
-    fuelExpenses: Number;
+    driversPay: number;
+    numberOfKms: number;
+    fuelExpenses: number;
     vehicleId: string;
     drivers: Array<string>;
     managerId: string;

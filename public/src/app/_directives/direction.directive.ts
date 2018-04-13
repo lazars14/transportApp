@@ -11,7 +11,7 @@ export class DirectionDirective implements OnInit {
   @Input() origin;
   @Input() destination;
   @Input() waypoints;
-  @Output() calculate = new EventEmitter<Array<Object>>();
+  @Output() calculate = new EventEmitter<Object>();
 
   constructor(private gmapsApi: GoogleMapsAPIWrapper) {}
 
@@ -39,6 +39,7 @@ export class DirectionDirective implements OnInit {
         // for not losing scope (response, status) => ; if it was function (response, status) this object wouldn't be visible
       }, (response, status) => {
         if (status === 'OK') {
+          console.log(response);
           directionsDisplay.setDirections(response);
         } else {
           window.alert('Bad Direction Request');
@@ -52,6 +53,8 @@ export class DirectionDirective implements OnInit {
     // const waypointsDeep = this.waypoints.map(x => Object.assign({}, x));
     let shortestRoute;
     let shortestWaypoints = [];
+    let waypointsIndexToCut;
+    let legs;
 
     for (let index = 0; index < waypoints.length; index++) {
       const waypointsDeep = this.waypoints.map(x => Object.assign({}, x));
@@ -79,6 +82,8 @@ export class DirectionDirective implements OnInit {
             if (routeDistance < shortestRoute) {
               shortestRoute = routeDistance;
               shortestWaypoints = waypointsDeep;
+              waypointsIndexToCut = index;
+              legs = response.routes[0].legs;
             }
           } else {
             window.alert('Bad Direction Request');
@@ -87,7 +92,7 @@ export class DirectionDirective implements OnInit {
       });
     }
 
-    this.calculate.emit([shortestRoute, shortestWaypoints]);
+    this.calculate.emit({ distance: shortestRoute, waypoints: shortestWaypoints, indexToSlice: waypointsIndexToCut, legs: legs });
   }
 
   calculateRouteDistance(response) {

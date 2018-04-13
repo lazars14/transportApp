@@ -47,6 +47,7 @@ import {
 import { DirectionDirective } from '../_directives/index';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/forkJoin';
 declare var google: any;
 
 @Component({
@@ -218,26 +219,21 @@ export class DestinationComponent implements OnInit {
   calculate() {
     console.log('calculating');
 
-    // this.setupWaypoints();
-    // console.log('place id-s', this.waypointsPlaceIds);
+    this.setupWaypoints();
 
     // this.directionDirective.calculateBestRoute(this.waypoints);
+    this.directionDirective.drawDirection([{location: new google.maps.LatLng(this.destinationRequests[0].startLocation.lat,
+       this.destinationRequests[0].startLocation.lng),
+      stopover: true}]);
   }
 
-  setupWaypoints()  {
+  setupWaypoints() {
     this.waypoints = [];
     let startId, endId;
-    // let done = false;
 
-    // const observableFor = Observable.do {
-
-    // } while (condition);
-    // do {
-
-    // } while (done === false);
+    const observables = [];
 
     this.destinationRequests.forEach(request => {
-      // let startLocation =
       this.waypoints.push({
         location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
         stopover: true
@@ -256,10 +252,18 @@ export class DestinationComponent implements OnInit {
           console.log('end place id ', endPlaceId);
           endId = endPlaceId;
           this.waypointsPlaceIds.push({ start: startId, end: endId, requestId: request._id });
+          observables.push({ start: startId, end: endId, requestId: request._id });
         });
 
       });
+
     });
+
+    Observable.forkJoin(observables)
+    .subscribe(dataArray => {
+        // All observables in `observables` array have resolved and `dataArray` is an array of result of each observable
+        console.log('this is the data array ', dataArray);
+      });
 
   }
 
@@ -278,19 +282,44 @@ export class DestinationComponent implements OnInit {
     return subject.asObservable();
   }
 
+  geocodeFromPlaceId(placeId: string): Observable<any> {
+    const geocoder = new google.maps.Geocoder;
+
+    const subject = new Subject<string>();
+
+    geocoder.geocode({'placeId': placeId}, function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          subject.next(results[0].geometry.location);
+        }
+      }
+    });
+
+    return subject.asObservable();
+  }
+
   calculateDistancesAndTimes($event) {
     console.log('passed event ', $event);
 
-    this.destination.numberOfKms = $event[0];
+    this.destination.numberOfKms = $event.distance;
 
-    // find which request has been cut out and remove it from requests
+    this.destinationRequest = this.destinationRequests[$event.indexToSlice];
+    this.removeRequest();
+
     // update requests
+    this.destinationRequests.forEach(element => {
+      //
+    });
 
-    // set tickets income from requests
-    // set totalCost
+    this.ticketsIncome = 0;
+    this.destinationRequests.forEach(request => {
+      this.ticketsIncome += request.price;
+    });
+
+    this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
 
     // draw map
-    this.directionDirective.drawDirection($event[1]);
+    this.directionDirective.drawDirection($event.waypoints);
   }
 
   save() {
