@@ -26,7 +26,7 @@ import {
   VehicleService,
   DriverService
 } from './../_services/index';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import {
   constants
 } from './../utils/constants';
@@ -44,9 +44,15 @@ import {
 import {
   SetDriversModalComponent
 } from '../set-drivers-modal/set-drivers-modal.component';
-import { DirectionDirective } from '../_directives/index';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import {
+  DirectionDirective
+} from '../_directives/index';
+import {
+  Observable
+} from 'rxjs/Observable';
+import {
+  Subject
+} from 'rxjs/Subject';
 import 'rxjs/add/observable/forkJoin';
 declare var google: any;
 
@@ -89,6 +95,7 @@ export class DestinationComponent implements OnInit {
 
   totalCost = 0;
   ticketsIncome = 0;
+  total = 0;
 
   lat = 0;
   lng = 0;
@@ -96,7 +103,6 @@ export class DestinationComponent implements OnInit {
   visible = false;
 
   waypoints = [];
-  waypointsPlaceIds = [];
 
   deleteHeader = 'Reject Request';
   deleteText = 'Are you sure you want to reject this request?';
@@ -189,13 +195,13 @@ export class DestinationComponent implements OnInit {
   setDrivers($event) {
     const driversArray = [$event[0]._id, $event[1]._id];
     this.destinationService.setDrivers(this.destination._id, driversArray, this.destination.startDate, this.destination.endDate)
-    .subscribe(destination => {
-      this.destination.drivers = driversArray;
-      this.driversInfo = $event[0].firstName + ' ' + $event[0].lastName + ', ' + $event[1].firstName + ' ' + $event[1].lastName;
-      this.notification.success('Destination vehicle set succesfully');
-    }, error => {
-      this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
-    });
+      .subscribe(destination => {
+        this.destination.drivers = driversArray;
+        this.driversInfo = $event[0].firstName + ' ' + $event[0].lastName + ', ' + $event[1].firstName + ' ' + $event[1].lastName;
+        this.notification.success('Destination vehicle set succesfully');
+      }, error => {
+        this.notification.error('Set Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
+      });
   }
 
   setLocation(destinationRequest: DestinationRequest) {
@@ -219,107 +225,125 @@ export class DestinationComponent implements OnInit {
   calculate() {
     console.log('calculating');
 
-    this.setupWaypoints();
-
-    // this.directionDirective.calculateBestRoute(this.waypoints);
-    this.directionDirective.drawDirection([{location: new google.maps.LatLng(this.destinationRequests[0].startLocation.lat,
-       this.destinationRequests[0].startLocation.lng),
-      stopover: true}]);
-  }
-
-  setupWaypoints() {
-    this.waypoints = [];
-    let startId, endId;
-
-    const observables = [];
-
     this.destinationRequests.forEach(request => {
+
+      console.log('item');
+      console.log('request ', request);
       this.waypoints.push({
         location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
         stopover: true
+        // destinationRequestId: request._id
       });
+      console.log('start location lat: ' + request.startLocation.lat);
+      console.log('start location lng: ' + request.startLocation.lng);
 
-      this.reverseGeocode(request.startLocation.lat, request.startLocation.lng).subscribe(startPlaceId => {
-        console.log('start place id ', startPlaceId);
-        startId = startPlaceId;
-
-        this.waypoints.push({
-          location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
-          stopover: true
-        });
-
-        this.reverseGeocode(request.endLocation.lat, request.endLocation.lng).subscribe(endPlaceId => {
-          console.log('end place id ', endPlaceId);
-          endId = endPlaceId;
-          this.waypointsPlaceIds.push({ start: startId, end: endId, requestId: request._id });
-          observables.push({ start: startId, end: endId, requestId: request._id });
-        });
-
+      this.waypoints.push({
+        location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+        stopover: true
+        // destinationRequestId: request._id
       });
+      console.log('end location lat: ' + request.endLocation.lat);
+      console.log('end location lng: ' + request.endLocation.lng);
 
     });
 
-    Observable.forkJoin(observables)
-    .subscribe(dataArray => {
-        // All observables in `observables` array have resolved and `dataArray` is an array of result of each observable
-        console.log('this is the data array ', dataArray);
-      });
+    console.log('waypoints ', this.waypoints);
+    // this.directionDirective.calculateBestRoute(this.waypoints).then(data => console.log('This is data from rpomises: ', data));
+    this.directionDirective.calculateBestRoute(this.waypoints);
 
-  }
+    // let promise = new Promise((resolve, reject) => {
+    //   console.log('do something');
+    // });
 
-  reverseGeocode(lat: Number, lng: Number): Observable<any> {
-    const geocoder = new google.maps.Geocoder;
-
-    const subject = new Subject<string>();
-
-    geocoder.geocode({'location': new google.maps.LatLng(lat, lng)}, (results, status) => {
-      if (status === 'OK') {
-        console.log(results[0]);
-        subject.next(results[0].place_id);
-      }
-    });
-
-    return subject.asObservable();
-  }
-
-  geocodeFromPlaceId(placeId: string): Observable<any> {
-    const geocoder = new google.maps.Geocoder;
-
-    const subject = new Subject<string>();
-
-    geocoder.geocode({'placeId': placeId}, function(results, status) {
-      if (status === 'OK') {
-        if (results[0]) {
-          subject.next(results[0].geometry.location);
-        }
-      }
-    });
-
-    return subject.asObservable();
+    // // works
+    // for (let i = 0, p = Promise.resolve({}); i < 10; i++) {
+    //   p = p.then(() => new Promise(resolve =>
+    //     setTimeout(function () {
+    //       console.log(1);
+    //       resolve();
+    //   }, 1000)
+    //   ));
+    // }
   }
 
   calculateDistancesAndTimes($event) {
     console.log('passed event ', $event);
 
     this.destination.numberOfKms = $event.distance;
+    // duration is $event.duration (in seconds)
 
-    this.destinationRequest = this.destinationRequests[$event.indexToSlice];
-    this.removeRequest();
+    // remove from current requests
+    const requestToRemove = $event.requestToRemove;
+    const fixedRequest = {startLocation: { lat: requestToRemove.startLocation.location.lat(),
+       lng: requestToRemove.startLocation.location.lng()},
+    endLocation: { lat: requestToRemove.endLocation.location.lat(), lng: requestToRemove.endLocation.location.lng()} };
+    fixedRequest.startLocation.lat = parseFloat(fixedRequest.startLocation.lat.toFixed(4));
+    fixedRequest.startLocation.lng = parseFloat(fixedRequest.startLocation.lng.toFixed(4));
+    fixedRequest.endLocation.lat = parseFloat(fixedRequest.endLocation.lat.toFixed(4));
+    fixedRequest.endLocation.lng = parseFloat(fixedRequest.endLocation.lng.toFixed(4));
+    console.log('fixed request ', fixedRequest);
+    console.log('last request ', this.destinationRequests[3]);
+    const found = this.destinationRequests.find( x => _.isEqual(x.startLocation, fixedRequest.startLocation) &&
+    _.isEqual(x.endLocation, fixedRequest.endLocation) );
+      console.log('this is found before deletion ', found);
+    const index = this.destinationRequests.indexOf(found);
+    this.destinationRequests.splice(index, 1);
+
+    console.log('this is found ', found);
+
+    // add to open
+    this.openRequests.push(found);
+
+
+    const legs = $event.legs.routes[0].legs;
+    console.log('legs in destination ', legs);
+
+    this.destinationRequests.forEach(req => {
+      console.log('request start location lat ', req.startLocation.lat);
+      console.log('request start location lng ', req.startLocation.lng);
+
+      console.log('request end location lat ', req.endLocation.lat);
+      console.log('request end location lng ', req.endLocation.lng);
+    });
+
+    legs.forEach(leg => {
+      console.log('leg start location lat ', parseFloat(leg.start_location.lat().toFixed(4)));
+      console.log('leg start location lng ', parseFloat(leg.start_location.lng().toFixed(4)));
+
+      const obj = {lat: parseFloat(leg.start_location.lat().toFixed(4)), lng: parseFloat(leg.start_location.lng().toFixed(4))};
+
+      console.log('found leg start location ', this.destinationRequests.find(x => _.isEqual(x.startLocation, obj)));
+
+      console.log('leg end location lat ', parseFloat(leg.end_location.lat().toFixed(4)));
+      console.log('leg end location lng ', parseFloat(leg.end_location.lng().toFixed(4)));
+    });
 
     // update requests
     this.destinationRequests.forEach(element => {
-      //
+      // set all to awaiting (if not accepted and start date or end date have changed)
     });
 
     this.ticketsIncome = 0;
     this.destinationRequests.forEach(request => {
-      this.ticketsIncome += request.price;
+      if (request.status === constants.status.ACCEPTED) {
+        const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
+        if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
+          request.discount += 5;
+        }
+      }
+      this.ticketsIncome += request.price * (1 - request.discount / 100);
     });
 
     this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
+    this.total = this.ticketsIncome - this.totalCost;
 
     // draw map
     this.directionDirective.drawDirection($event.waypoints);
+  }
+
+  placeMarker($event) {
+    console.log($event.coords.lat);
+    console.log($event.coords.lng);
   }
 
   save() {
@@ -349,11 +373,9 @@ export class DestinationComponent implements OnInit {
 
         // status: Accepted
         if (destinationRequest.status === constants.status.ACCEPTED) {
-          if (!destinationRequest.discount) {
-            destinationRequest.discount = 5;
-          } else {
-            destinationRequest.discount += 5;
-          }
+          // check if status accepted and startDate and endDate changed
+        // if any changed, give discount
+          destinationRequest.discount += 5;
         }
 
         this.destinationRequestService.await(destinationRequest).subscribe(req => {
@@ -417,7 +439,7 @@ export class DestinationComponent implements OnInit {
   }
 
   reloadData() {
-    window.location.reload();
+    this.refreshPage();
   }
 
 }

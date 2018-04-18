@@ -663,14 +663,16 @@ describe("Manager tests", function () {
         data = ({
             // Beograd - Subotica
             startLocation : {
-                "lat": 44.786568,
-                "lng": 20.4489216
+                "lat": 44.7865,
+                "lng": 20.4489
             },
             "endLocation": {
-                "lat": 46.100376,
-                "lng": 19.667587
+                "lat": 46.1003,
+                "lng": 19.6675
             },
-            startDate: new Date("2018-04-29")
+            startDate: new Date("2018-04-29"), 
+            driversPay: 300,
+            fuelExpenses: 1400
         });
         return request(app).post('/manager/' + manager._id + '/destinations')
         .set('x-access-token', token)

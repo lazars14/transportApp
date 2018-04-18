@@ -205,12 +205,12 @@ describe("User tests", function () {
         var data = {
             // Novi Sad - Subotica
             "startLocation": {
-                "lat": 45.267136,
-                "lng": 19.833549
+                "lat": 45.2671,
+                "lng": 19.8335
             },
             "endLocation": {
-                "lat": 46.100376,
-                "lng": 19.667587
+                "lat": 46.1003,
+                "lng": 19.6675
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
@@ -225,12 +225,12 @@ describe("User tests", function () {
         var data = {
             // Backa Palanka - Subotica
             "startLocation": {
-                "lat": 45.249728,
-                "lng": 19.39677
+                "lat": 45.2497,
+                "lng": 19.3967
             },
             "endLocation": {
-                "lat": 46.100376,
-                "lng": 19.667587
+                "lat": 46.1003,
+                "lng": 19.6675
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
@@ -245,12 +245,12 @@ describe("User tests", function () {
         var data = {
             // Vrbas - Subotica
             "startLocation": {
-                "lat": 45.570153,
-                "lng": 19.644968
+                "lat": 45.5701,
+                "lng": 19.6449
             },
             "endLocation": {
-                "lat": 46.100376,
-                "lng": 19.667587
+                "lat": 46.1003,
+                "lng": 19.6675
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
@@ -265,12 +265,12 @@ describe("User tests", function () {
         var data = {
             // Kikinda - Subotica
             "startLocation": {
-                "lat": 45.827284,
-                "lng": 20.461517
+                "lat": 45.8272,
+                "lng": 20.4615
             },
             "endLocation": {
-                "lat": 46.100376,
-                "lng": 19.667587
+                "lat": 46.1003,
+                "lng": 19.6675
             }
         };
         return request(app).post('/user/' + user._id + '/requests')
