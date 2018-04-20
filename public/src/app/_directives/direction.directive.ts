@@ -22,18 +22,23 @@ export class DirectionDirective implements OnInit {
   @Input() waypoints;
   @Output() calculate = new EventEmitter < Object > ();
 
+  directionsService: any;
+  directionsDisplay: any;
+
   constructor(private gmapsApi: GoogleMapsAPIWrapper) {}
 
   ngOnInit() {
+    this.gmapsApi.getNativeMap().then(map => {
+      this.directionsService = new google.maps.DirectionsService;
+    this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.drawDirection([]);
+    });
   }
 
   drawDirection(waypoints) {
     this.gmapsApi.getNativeMap().then(map => {
-      const directionsService = new google.maps.DirectionsService;
-      const directionsDisplay = new google.maps.DirectionsRenderer;
-      directionsDisplay.setMap(map);
-      directionsService.route({
+      this.directionsDisplay.setMap(map);
+      this.directionsService.route({
         origin: {
           lat: this.origin.lat,
           lng: this.origin.lng
@@ -49,7 +54,7 @@ export class DirectionDirective implements OnInit {
       }, (response, status) => {
         if (status === 'OK') {
           console.log(response);
-          directionsDisplay.setDirections(response);
+          this.directionsDisplay.setDirections(response);
         } else {
           window.alert('Bad Direction Request');
         }

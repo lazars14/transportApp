@@ -15,7 +15,7 @@
           <form #f="ngForm" name="form">
 
             <div [hidden]="!showMap" class="form-group">
-              <agm-map #agmMap class="destination-map" [latitude]="45.30" [longitude]="45.30">
+              <agm-map class="destination-map" [latitude]="45.30" [longitude]="45.30">
                   <agm-direction *ngIf="showMap" [origin]="destinationRequest.startLocation" [destination]="destinationRequest.endLocation"></agm-direction>
               </agm-map>
             </div>

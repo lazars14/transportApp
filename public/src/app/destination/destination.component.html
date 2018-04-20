@@ -72,7 +72,7 @@
 
         <div class="col-lg-4">
           <p>Drivers Pay (each per 100km):
-            <span class="red-text">{{ destination.driversPay }}</span>
+            <span class="red-text">{{ destination.driversPay | number : '1.2-2' }}</span>
           </p>
         </div>
 
@@ -90,7 +90,7 @@
 
         <div class="col-lg-4">
           <p>Total:
-            <span class="red-text">{{ total }}</span>
+            <span class="red-text">{{ total | number : '1.2-2' }}</span>
           </p>
         </div>
 
@@ -133,7 +133,7 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                   </button>
                 </td>
-                <td>{{ request.price }}</td>
+                <td>{{ request.price | number : '1.2-2' }}</td>
                 <td>{{ request.discount }}</td>
                 <td>{{ request.status }}</td>
                 <td>{{ request.submissionDate | date:'short' }}</td>

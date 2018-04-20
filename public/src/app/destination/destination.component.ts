@@ -47,7 +47,9 @@ import {
 import {
   DirectionDirective
 } from '../_directives/index';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import {
+  Ng4LoadingSpinnerService
+} from 'ng4-loading-spinner';
 declare var google: any;
 
 @Component({
@@ -363,33 +365,30 @@ export class DestinationComponent implements OnInit {
       pr = pr.then(() => new Promise(async (res) => {
         const requestData = await this.getDataForRequest(this.destinationRequests[ii], legsDetails);
         console.log('request data ', requestData);
+        if (ii === this.destinationRequests.length - 1) {
+          // set destination result (finance)
+          this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
+          console.log('total cost is ', this.totalCost);
+          console.log('tickets income is ', this.ticketsIncome);
+          this.total = this.ticketsIncome - this.totalCost;
+
+          // draw map
+          this.directionDirective.drawDirection($event.waypoints);
+
+          this.sortDestinationRequests();
+
+          this.spinnerService.hide();
+        }
         res();
       }));
     }
 
-    // // update requests
-    // this.destinationRequests.forEach(element => {
-    //   // set all to awaiting (if not accepted and start date or end date have changed)
-    // });
 
-    // this.ticketsIncome = 0;
-    // this.destinationRequests.forEach(request => {
-    //   if (request.status === constants.status.ACCEPTED) {
-    //     const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
-    //     if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
-    //       request.discount += 5;
-    //     }
-    //   }
-    //   this.ticketsIncome += request.price * (1 - request.discount / 100);
-    // });
+  }
 
-    this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
-    this.total = this.ticketsIncome - this.totalCost;
-
-    // draw map
-    this.directionDirective.drawDirection($event.waypoints);
-
-    this.spinnerService.hide();
+  sortDestinationRequests() {
+    // console.log('sorted requests ', _.sortBy(this.destinationRequests, ['destinationOrder']));
+    // to do
   }
 
   getDataForRequest(request, legsDetails) {
@@ -415,7 +414,7 @@ export class DestinationComponent implements OnInit {
       const end = await legsDetails.find(leg => _.inRange(request.endLocation.lat, leg.endLocation.lat - 0.0005,
         leg.endLocation.lat + 0.0005) && _.inRange(leg.endLocation.lng, leg.endLocation.lng - 0.0005,
         leg.endLocation.lng + 0.0005));
-      const endLegIndex = legsDetails.indexOf(start);
+      const endLegIndex = legsDetails.indexOf(end);
       console.log('end leg ', end);
       console.log('end leg index ', endLegIndex);
 
@@ -428,31 +427,62 @@ export class DestinationComponent implements OnInit {
       request.distance = routeData['distance'] / 1000;
 
       // set request start date
-      const endTimeInSeconds = request.startDate.getTime() / 1000 + routeData['duration'];
+      const endTimeInSeconds = startTimeInSeconds + routeData['duration'];
       request.endDate = new Date(endTimeInSeconds * 1000);
 
       // set request destination order
       request.destinationOrder = startLegIndex;
 
-      resolve({dataBeforeRoute: dataBeforeRoute, routeData: routeData});
+      // set request price
+      // * 5 = rsd per km (just for example)
+      request.discount = await this.getRequestDiscount(request);
+      request.price = request.distance * 5 * (1 - request.discount / 100);
+      this.ticketsIncome += request.price;
+
+      resolve({
+        dataBeforeRoute: dataBeforeRoute,
+        routeData: routeData
+      });
+    });
+  }
+
+  getRequestDiscount(request) {
+    return new Promise(async (resolve, reject) => {
+      if (request.status === constants.status.ACCEPTED) {
+        const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
+        if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
+          request.discount += 5;
+          resolve(request.discount);
+        }
+      } else {
+        resolve(request.discount);
+      }
     });
   }
 
   getDataBeforeRequest(startLegIndex, legsDetails) {
     return new Promise(async (resolve, reject) => {
       const filteredBefore = await legsDetails.filter(leg => leg.index < startLegIndex);
+      console.log('filterd route before request ', filteredBefore);
       const durationSum = _.sumBy(filteredBefore, 'duration');
       const distanceSum = _.sumBy(filteredBefore, 'distance');
-      resolve({duration: durationSum, distance: distanceSum});
+      resolve({
+        duration: durationSum,
+        distance: distanceSum
+      });
     });
   }
 
   getRouteData(startLegIndex, endLegIndex, legsDetails) {
     return new Promise(async (resolve, reject) => {
       const filteredRoute = await legsDetails.filter(leg => leg.index >= startLegIndex && leg.index <= endLegIndex);
+      console.log('filtered route ', filteredRoute);
       const durationSum = _.sumBy(filteredRoute, 'duration');
       const distanceSum = _.sumBy(filteredRoute, 'distance');
-      resolve({duration: durationSum, distance: distanceSum});
+      resolve({
+        duration: durationSum,
+        distance: distanceSum
+      });
     });
   }
 
@@ -468,12 +498,6 @@ export class DestinationComponent implements OnInit {
       // request removed from destination, now will set status to submitted
       if (destinationRequest == null) {
         this.destinationRequestService.submit(destinationRequest._id).subscribe(destRequest => {
-          // add request to open requests
-          this.openRequests.push(destRequest);
-          // remove request from current requests
-          const index = this.destinationRequests.indexOf(this.destinationRequest);
-          this.destinationRequests.splice(index, 1);
-
           // push notification?
         }, error => {
           this.notification.error('Set Destination Request Submitted - Error ' + error.status + ' - ' + error.statusText);
@@ -483,9 +507,7 @@ export class DestinationComponent implements OnInit {
 
         // status: Accepted
         if (destinationRequest.status === constants.status.ACCEPTED) {
-          // check if status accepted and startDate and endDate changed
-          // if any changed, give discount
-          destinationRequest.discount += 5;
+          // different text for push notification - your date and time has been change, we offer you this discount...
         }
 
         this.destinationRequestService.await(destinationRequest).subscribe(req => {
