@@ -139,9 +139,12 @@
                 <td>{{ request.submissionDate | date:'short' }}</td>
                 <td>{{ request.confirmationRequestDate | date:'short' }}</td>
                 <td *ngIf="destinationOpen" class="btn-group-small text-center">
-                  <button class="btn btn-lg btn-danger " (click)="setDeleteId(request, true)" data-toggle="modal" data-target="#confirmModal"
+                  <button class="btn btn-lg btn-danger" (click)="setDeleteId(request, true)" data-toggle="modal" data-target="#confirmModal"
                     title="Remove">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </button>
+                  <button [hidden]="request._id != longestRouteReqId" class="btn btn-lg btn-warning" title="Longest route">
+                    <i class="fa fa-exclamation" aria-hidden="true"></i>
                   </button>
                 </td>
               </tr>

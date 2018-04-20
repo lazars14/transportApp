@@ -93,6 +93,8 @@ export class DestinationComponent implements OnInit {
   ticketsIncome = 0;
   total = 0;
 
+  longestRouteReqId;
+
   lat = 0;
   lng = 0;
 
@@ -244,9 +246,12 @@ export class DestinationComponent implements OnInit {
   calculate() {
     this.spinnerService.show();
     this.waypoints = [];
-    this.alreadyAdded = [];
+    this.total = 0;
+    this.totalCost = 0;
+    this.ticketsIncome = 0;
     console.log('calculating');
 
+    // remove duplicate locations
     const promise = new Promise((resolve, reject) => {
       for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
         p = p.then(() => new Promise(async res => {
@@ -331,11 +336,7 @@ export class DestinationComponent implements OnInit {
     console.log('location ', location);
     const found = await this.findRequestForRemoval(location, $event.waypoints);
     console.log('found element ', found);
-    const index = this.destinationRequests.indexOf(found);
-    this.destinationRequests.splice(index, 1);
-
-    // add to open
-    this.openRequests.push(found);
+    this.longestRouteReqId = found['_id'];
 
     const legs = $event.legs.routes[0].legs;
     console.log('legs in destination ', legs);

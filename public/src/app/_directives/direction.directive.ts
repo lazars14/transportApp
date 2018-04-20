@@ -66,10 +66,8 @@ export class DirectionDirective implements OnInit {
   calculateBestRoute(waypoints) {
     let shortestRoute;
     let shortestDuration;
-    let shortestWaypoints = [];
-    let removedWaypoints;
+    let removedWaypoint;
     let requestToRemove = [];
-    let legs;
 
     const promise = new Promise((resolve, reject) => {
       for (let i = 0, p = Promise.resolve({}); i < waypoints.length; i++) {
@@ -77,14 +75,14 @@ export class DirectionDirective implements OnInit {
           console.log('waypoints ', waypoints);
           const waypointsDeep = waypoints.map(x => Object.assign({}, x));
 
-          removedWaypoints = {
+          removedWaypoint = {
             location: waypointsDeep[i]
           };
 
           waypointsDeep.splice(i, 1);
 
           console.log('this is i ', i);
-          console.log('removed waypoints ', removedWaypoints);
+          console.log('removed waypoints ', removedWaypoint);
           console.log('waypoints deep ', waypointsDeep);
 
           const data = await this.calculateRoute(waypointsDeep);
@@ -98,14 +96,12 @@ export class DirectionDirective implements OnInit {
             shortestRoute = await this.calculateRouteDistance(data);
             console.log('this is the shortest distance ', shortestRoute);
             shortestDuration = routeDuration;
-            shortestWaypoints = waypointsDeep;
-            legs = data;
             console.log('legs in setting min values ', data);
-            requestToRemove = _.cloneDeep(removedWaypoints);
+            requestToRemove = _.cloneDeep(removedWaypoint);
           }
 
           if (i === waypoints.length - 1) {
-            resolve();
+            resolve({requestToRemove: requestToRemove, waypoints: waypoints});
           }
 
           res();
@@ -115,15 +111,19 @@ export class DirectionDirective implements OnInit {
 
     });
 
-    promise.then(() => {
+    promise.then(async (data) => {
       console.log('gonna emit');
-      console.log('legs in data in direction ', legs);
+      // all this from
+      const route = await this.calculateRoute(data['waypoints']);
+      const routeDistance = await this.calculateRouteDistance(route);
+      const routeDuration = await this.calculateRouteTime(route);
+      console.log('legs in data in direction ', data);
       this.calculate.emit({
-        distance: shortestRoute,
-        duration: shortestDuration,
-        waypoints: shortestWaypoints,
-        requestToRemove: requestToRemove,
-        legs: legs
+        distance: routeDistance,
+        duration: routeDuration,
+        waypoints: data['waypoints'],
+        requestToRemove: data['requestToRemove'],
+        legs: route
       });
     });
 
