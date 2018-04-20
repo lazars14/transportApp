@@ -79,6 +79,12 @@ module.exports = (function () {
      */
     destinationOrder: {
       type: Number
+    },
+    /**
+     * DestinationRequest request distance (km)
+     */
+    distance: {
+      type: Number
     }
   });
 

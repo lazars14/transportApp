@@ -126,7 +126,8 @@ describe("Manager tests for manipulating requests", function () {
             startDate: "2018-03-15",
             endDate: "2018-03-20",
             destinationOrder: 1,
-            price: 1234
+            price: 1234,
+            distance: 123
         });
         return request(app).put('/manager/' + dummyId + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
         .set('x-access-token', managerDummyToken)
@@ -143,7 +144,8 @@ describe("Manager tests for manipulating requests", function () {
             startDate: "2018-03-15",
             endDate: "2018-03-20",
             destinationOrder: 1,
-            price: 1234
+            price: 1234,
+            distance: 123
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ dummyId + '/setAwaiting')
         .set('x-access-token', token)
@@ -160,7 +162,8 @@ describe("Manager tests for manipulating requests", function () {
             startDate: "2018-03-15",
             endDate: "2018-03-20",
             destinationOrder: 1,
-            price: 1234
+            price: 1234,
+            distance: 123
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
             .set('x-access-token', token)
@@ -307,7 +310,8 @@ describe("Manager tests for manipulating requests", function () {
             startDate: "2018-03-15",
             endDate: "2018-03-20",
             destinationOrder: 1,
-            price: 1234
+            price: 1234,
+            distance: 123
         });
         return request(app).put('/manager/' + manager._id + '/destinationRequests/'+ destinationRequest._id + '/setAwaiting')
             .set('x-access-token', token)

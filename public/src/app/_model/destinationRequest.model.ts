@@ -12,4 +12,5 @@ export class DestinationRequest {
     confirmationRequestDate: Date;
     userId: string;
     destinationOrder: number;
+    distance: number;
 }

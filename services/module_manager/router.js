@@ -731,6 +731,7 @@ router.put('/:managerId/destinationRequests/:destinationRequestId/setSubmitted',
  * @apiParam (body){Number} price DestinationRequest price
  * @apiParam (body){Number} destinationOrder DestinationRequest destinationOrder
  * @apiParam (body){Number} destinationId DestinationRequest destinationId
+ * @apiParam (body){Number} distance DestinationRequest distance
  * @apiParam (body){Number} [discount] DestinationRequest price discount
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok

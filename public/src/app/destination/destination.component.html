@@ -43,17 +43,7 @@
 
     <br>
 
-    <!-- <agm-map #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
-    [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
-      <agm-polyline [editable]="false" [strokeColor]="'#ff0000'">
-          <agm-polyline-point *ngFor="let point of points"
-              [latitude]="point.lat"
-              [longitude]="point.lng">
-          </agm-polyline-point>
-      </agm-polyline>
-  </agm-map> -->
-
-    <agm-map *ngIf="visible" #agmMap class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
+    <agm-map *ngIf="visible" #agmMap id="agmMap" class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
       [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
       <direction #directionDirective [origin]="destination.startLocation" [destination]="destination.endLocation" [waypoints]="waypoints" 
         (calculate)="calculateDistancesAndTimes($event)"></direction>
@@ -121,6 +111,7 @@
                 <th>Order</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Distance (km)</th>
                 <th>Location</th>
                 <th>Price</th>
                 <th>Discount (%)</th>
@@ -135,6 +126,7 @@
                 <td>{{ request.destinationOrder }}</td>
                 <td>{{ request.startDate | date:'short' }}</td>
                 <td>{{ request.endDate | date:'short' }}</td>
+                <td>{{ request.distance | number : '1.2-2' }}</td>
                 <td class="text-center">
                   <button class="btn btn-lg btn-info" (click)="setLocation(request)" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                     data-target="#locationModal" title="Location">

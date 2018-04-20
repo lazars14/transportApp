@@ -607,6 +607,11 @@ exports.requestSetAwaiting = function (req, res, next) {
         return next(error('BAD_REQUEST'));
     }
 
+    if (!req.body.distance) {
+        logger.error('Error - Set request to awaiting - Distance can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
     requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(function (awaitedRequest) {
         res.json(awaitedRequest);
     }).fail(function (err) {

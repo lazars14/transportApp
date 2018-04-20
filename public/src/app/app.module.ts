@@ -37,7 +37,7 @@ import { DestinationModalComponent } from './destination-modal/destination-modal
 import { ExpenseModalComponent } from './expense-modal/expense-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
-import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { DateValueAccessorModule } from 'angular-date-value-accessor';
 
 import { NotificationComponent } from './notification/notification.component';
@@ -46,6 +46,8 @@ import { ExtendRegistrationModalComponent } from './extend-registration-modal/ex
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
+
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 import { DestinationComponent } from './destination/destination.component';
 import { LocationModalComponent } from './location-modal/location-modal.component';
@@ -99,7 +101,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
       apiKey: 'AIzaSyCwYwTnD6SsaPzmEwP1-CZ0Sv9MWexhDDQ',
       libraries: ['places']
     }),
-    AgmDirectionModule
+    AgmDirectionModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,

@@ -67,23 +67,20 @@ export class DirectionDirective implements OnInit {
     let legs;
 
     const promise = new Promise((resolve, reject) => {
-      for (let i = 0, p = Promise.resolve({}); i < waypoints.length; i += 2) {
+      for (let i = 0, p = Promise.resolve({}); i < waypoints.length; i++) {
         p = p.then(() => new Promise(async res => {
-          const waypointsDeep = this.waypoints.map(x => Object.assign({}, x));
+          console.log('waypoints ', waypoints);
+          const waypointsDeep = waypoints.map(x => Object.assign({}, x));
 
           removedWaypoints = {
-            startLocation: waypointsDeep[i],
-            endLocation: waypointsDeep[i + 1]
+            location: waypointsDeep[i]
           };
 
-          // 2 after index, because as stopover we have the request startLocation and endLocation
-          waypointsDeep.splice(i, 2);
+          waypointsDeep.splice(i, 1);
 
           console.log('this is i ', i);
           console.log('removed waypoints ', removedWaypoints);
           console.log('waypoints deep ', waypointsDeep);
-
-          // remove duplicates
 
           const data = await this.calculateRoute(waypointsDeep);
           console.log('this is data ', data);
@@ -98,11 +95,12 @@ export class DirectionDirective implements OnInit {
             shortestDuration = routeDuration;
             shortestWaypoints = waypointsDeep;
             legs = data;
+            console.log('legs in setting min values ', data);
             requestToRemove = _.cloneDeep(removedWaypoints);
           }
 
-          if (i === waypoints.length - 2) {
-            resolve(data);
+          if (i === waypoints.length - 1) {
+            resolve();
           }
 
           res();
@@ -110,12 +108,11 @@ export class DirectionDirective implements OnInit {
 
       }
 
-      // resolve();
-
     });
 
     promise.then(() => {
       console.log('gonna emit');
+      console.log('legs in data in direction ', legs);
       this.calculate.emit({
         distance: shortestRoute,
         duration: shortestDuration,
@@ -126,67 +123,6 @@ export class DirectionDirective implements OnInit {
     });
 
   }
-
-  // for (let i = 0; i < waypoints.length; i += 2) {
-  //   const waypointsDeep = this.waypoints.map(x => Object.assign({}, x));
-
-  //   removedWaypoints = {
-  //     startLocation: waypointsDeep[i],
-  //     endLocation: waypointsDeep[i + 1]
-  //   };
-
-  //   // 2 after index, because as stopover we have the request startLocation and endLocation
-  //   waypointsDeep.splice(i, 2);
-
-  //   for (let index = 0; index < waypointsDeep.length; index++) {
-  //     setTimeout(() => {
-  //       this.gmapsApi.getNativeMap().then(map => {
-  //         const directionsService = new google.maps.DirectionsService;
-  //         directionsService.route({
-  //           origin: {
-  //             lat: this.origin.lat,
-  //             lng: this.origin.lng
-  //           },
-  //           destination: {
-  //             lat: this.destination.lat,
-  //             lng: this.destination.lng
-  //           },
-  //           waypoints: waypointsDeep,
-  //           optimizeWaypoints: true,
-  //           travelMode: 'DRIVING'
-  //         }, (response, status) => {
-  //           console.log('request status ', status);
-  //           if (status === 'OK') {
-  //             console.log('index is ', index);
-  //             const routeDuration = this.calculateRouteTime(response);
-  //             if (!shortestDuration) {
-  //               shortestDuration += routeDuration + 2;
-  //             }
-  //             if (shortestDuration < routeDuration) {
-  //               shortestRoute = this.calculateRouteDistance(response);
-  //               shortestDuration = routeDuration;
-  //               shortestWaypoints = waypointsDeep;
-  //               legs = response.routes[0].legs;
-  //               requestToRemove = requestToRemove.map(x => Object.assign({}, x));
-  //             }
-  //           } else {
-  //             window.alert('Bad Direction Request');
-  //           }
-  //         });
-  //       });
-  //     }, 250);
-
-  //   }
-
-  // }
-
-  // this.calculate.emit({
-  //   distance: shortestRoute,
-  //   duration: shortestDuration,
-  //   waypoints: shortestWaypoints,
-  //   requestToRemove: requestToRemove,
-  //   legs: legs
-  // });
 
   calculateRoute(waypoints: Array < Object > ) {
     return new Promise((resolve, reject) => {

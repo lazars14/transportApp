@@ -47,13 +47,7 @@ import {
 import {
   DirectionDirective
 } from '../_directives/index';
-import {
-  Observable
-} from 'rxjs/Observable';
-import {
-  Subject
-} from 'rxjs/Subject';
-import 'rxjs/add/observable/forkJoin';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 declare var google: any;
 
 @Component({
@@ -65,7 +59,7 @@ export class DestinationComponent implements OnInit {
 
   constructor(private destinationService: DestinationService, private sessionService: SessionService,
     private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService,
-    private driverService: DriverService) {}
+    private driverService: DriverService, private spinnerService: Ng4LoadingSpinnerService) {}
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
   @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
@@ -103,6 +97,7 @@ export class DestinationComponent implements OnInit {
   visible = false;
 
   waypoints = [];
+  alreadyAdded = [];
 
   deleteHeader = 'Reject Request';
   deleteText = 'Are you sure you want to reject this request?';
@@ -147,6 +142,9 @@ export class DestinationComponent implements OnInit {
 
       this.destinationRequestService.findByDestination(id).subscribe(currentRequests => {
         this.destinationRequests = currentRequests;
+        if (this.destinationRequests.length > 0) {
+          this.calculate();
+        }
         this.preChangeDestinationRequests = currentRequests;
       }, error => {
         this.notification.error('Get Destination Requests - Error ' + error.status + ' - ' + error.statusText);
@@ -222,34 +220,79 @@ export class DestinationComponent implements OnInit {
     this.openRequests.splice(index, 1);
   }
 
+  checkIfWaypointExists(waypointLocation) {
+    return new Promise(async (resolve, reject) => {
+      console.log('already added ', this.alreadyAdded);
+      console.log('object for comparing ', waypointLocation);
+      const a = await this.alreadyAdded.find(x => x.lat === waypointLocation.lat && x.lng === waypointLocation.lng);
+      console.log(a);
+      resolve(a);
+    });
+  }
+
+  findRequestForRemoval(waypointLocation, waypoints) {
+    return new Promise(async (resolve, reject) => {
+      console.log('object for comparing ', waypointLocation);
+      const found = await this.destinationRequests.find(x => _.isEqual(x.startLocation, waypointLocation) ||
+        _.isEqual(x.endLocation, waypointLocation));
+      resolve(found);
+    });
+  }
+
   calculate() {
+    this.spinnerService.show();
+    this.waypoints = [];
+    this.alreadyAdded = [];
     console.log('calculating');
 
-    this.destinationRequests.forEach(request => {
+    const promise = new Promise((resolve, reject) => {
+      for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
+        p = p.then(() => new Promise(async res => {
+          console.log('item');
+          const request = this.destinationRequests[i];
+          console.log('request ', request);
 
-      console.log('item');
-      console.log('request ', request);
-      this.waypoints.push({
-        location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
-        stopover: true
-        // destinationRequestId: request._id
-      });
-      console.log('start location lat: ' + request.startLocation.lat);
-      console.log('start location lng: ' + request.startLocation.lng);
+          let waypointExists = await this.checkIfWaypointExists(request.startLocation);
+          console.log(waypointExists);
 
-      this.waypoints.push({
-        location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
-        stopover: true
-        // destinationRequestId: request._id
-      });
-      console.log('end location lat: ' + request.endLocation.lat);
-      console.log('end location lng: ' + request.endLocation.lng);
+          if (!waypointExists || !_.isEqual(request.startLocation, this.destination.startLocation)) {
+            this.waypoints.push({
+              location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
+              stopover: true
+            });
+            this.alreadyAdded.push(request.startLocation);
+            console.log('start location lat: ' + request.startLocation.lat);
+            console.log('start location lng: ' + request.startLocation.lng);
+          }
+
+          waypointExists = await this.checkIfWaypointExists(request.startLocation);
+          console.log(waypointExists);
+
+          if (!waypointExists || !_.isEqual(request.endLocation, this.destination.endLocation)) {
+            this.waypoints.push({
+              location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+              stopover: true
+            });
+            this.alreadyAdded.push(request.endLocation);
+            console.log('end location lat: ' + request.endLocation.lat);
+            console.log('end location lng: ' + request.endLocation.lng);
+          }
+
+          if (i === this.destinationRequests.length - 1) {
+            resolve();
+          }
+
+          res();
+        }));
+      }
 
     });
 
-    console.log('waypoints ', this.waypoints);
-    // this.directionDirective.calculateBestRoute(this.waypoints).then(data => console.log('This is data from rpomises: ', data));
-    this.directionDirective.calculateBestRoute(this.waypoints);
+    promise.then(data => {
+      console.log('waypoints ', this.waypoints);
+      console.log('already added ', this.alreadyAdded);
+      this.directionDirective.calculateBestRoute(this.waypoints);
+    });
 
     // let promise = new Promise((resolve, reject) => {
     //   console.log('do something');
@@ -266,84 +309,151 @@ export class DestinationComponent implements OnInit {
     // }
   }
 
-  calculateDistancesAndTimes($event) {
+  async calculateDistancesAndTimes($event) {
     console.log('passed event ', $event);
 
+    this.waypoints = $event.waypoints;
+
     this.destination.numberOfKms = $event.distance;
-    // duration is $event.duration (in seconds)
+
+    const startDate = new Date(this.destination.startDate);
+    this.destination.endDate = new Date(startDate.getTime() + $event.duration * 1000);
 
     // remove from current requests
     const requestToRemove = $event.requestToRemove;
-    const fixedRequest = {startLocation: { lat: requestToRemove.startLocation.location.lat(),
-       lng: requestToRemove.startLocation.location.lng()},
-    endLocation: { lat: requestToRemove.endLocation.location.lat(), lng: requestToRemove.endLocation.location.lng()} };
-    fixedRequest.startLocation.lat = parseFloat(fixedRequest.startLocation.lat.toFixed(4));
-    fixedRequest.startLocation.lng = parseFloat(fixedRequest.startLocation.lng.toFixed(4));
-    fixedRequest.endLocation.lat = parseFloat(fixedRequest.endLocation.lat.toFixed(4));
-    fixedRequest.endLocation.lng = parseFloat(fixedRequest.endLocation.lng.toFixed(4));
-    console.log('fixed request ', fixedRequest);
-    console.log('last request ', this.destinationRequests[3]);
-    const found = this.destinationRequests.find( x => _.isEqual(x.startLocation, fixedRequest.startLocation) &&
-    _.isEqual(x.endLocation, fixedRequest.endLocation) );
-      console.log('this is found before deletion ', found);
+    console.log('request to remove ', requestToRemove);
+    const location = {
+      lat: parseFloat(requestToRemove.location.location.lat().toFixed(4)),
+      lng: parseFloat(requestToRemove.location.location.lng().toFixed(4))
+    };
+    console.log('location ', location);
+    const found = await this.findRequestForRemoval(location, $event.waypoints);
+    console.log('found element ', found);
     const index = this.destinationRequests.indexOf(found);
     this.destinationRequests.splice(index, 1);
-
-    console.log('this is found ', found);
 
     // add to open
     this.openRequests.push(found);
 
-
     const legs = $event.legs.routes[0].legs;
     console.log('legs in destination ', legs);
 
-    this.destinationRequests.forEach(req => {
-      console.log('request start location lat ', req.startLocation.lat);
-      console.log('request start location lng ', req.startLocation.lng);
+    const legsDetails = [];
 
-      console.log('request end location lat ', req.endLocation.lat);
-      console.log('request end location lng ', req.endLocation.lng);
-    });
+    for (let i = 0; i < legs.length; i++) {
+      const leg = legs[i];
+      legsDetails.push({
+        index: i,
+        startLocation: {
+          lat: parseFloat(leg.start_location.lat().toFixed(4)),
+          lng: parseFloat(leg.start_location.lng().toFixed(4))
+        },
+        endLocation: {
+          lat: parseFloat(leg.end_location.lat().toFixed(4)),
+          lng: parseFloat(leg.end_location.lng().toFixed(4))
+        },
+        duration: leg.duration.value,
+        distance: leg.distance.value
+      });
+    }
 
-    legs.forEach(leg => {
-      console.log('leg start location lat ', parseFloat(leg.start_location.lat().toFixed(4)));
-      console.log('leg start location lng ', parseFloat(leg.start_location.lng().toFixed(4)));
+    console.log('legs details ', legsDetails);
 
-      const obj = {lat: parseFloat(leg.start_location.lat().toFixed(4)), lng: parseFloat(leg.start_location.lng().toFixed(4))};
+    for (let ii = 0, pr = Promise.resolve({}); ii < this.destinationRequests.length; ii++) {
+      pr = pr.then(() => new Promise(async (res) => {
+        const requestData = await this.getDataForRequest(this.destinationRequests[ii], legsDetails);
+        console.log('request data ', requestData);
+        res();
+      }));
+    }
 
-      console.log('found leg start location ', this.destinationRequests.find(x => _.isEqual(x.startLocation, obj)));
+    // // update requests
+    // this.destinationRequests.forEach(element => {
+    //   // set all to awaiting (if not accepted and start date or end date have changed)
+    // });
 
-      console.log('leg end location lat ', parseFloat(leg.end_location.lat().toFixed(4)));
-      console.log('leg end location lng ', parseFloat(leg.end_location.lng().toFixed(4)));
-    });
-
-    // update requests
-    this.destinationRequests.forEach(element => {
-      // set all to awaiting (if not accepted and start date or end date have changed)
-    });
-
-    this.ticketsIncome = 0;
-    this.destinationRequests.forEach(request => {
-      if (request.status === constants.status.ACCEPTED) {
-        const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
-        if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
-          request.discount += 5;
-        }
-      }
-      this.ticketsIncome += request.price * (1 - request.discount / 100);
-    });
+    // this.ticketsIncome = 0;
+    // this.destinationRequests.forEach(request => {
+    //   if (request.status === constants.status.ACCEPTED) {
+    //     const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
+    //     if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
+    //       request.discount += 5;
+    //     }
+    //   }
+    //   this.ticketsIncome += request.price * (1 - request.discount / 100);
+    // });
 
     this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
     this.total = this.ticketsIncome - this.totalCost;
 
     // draw map
     this.directionDirective.drawDirection($event.waypoints);
+
+    this.spinnerService.hide();
   }
 
-  placeMarker($event) {
-    console.log($event.coords.lat);
-    console.log($event.coords.lng);
+  getDataForRequest(request, legsDetails) {
+    return new Promise(async (resolve, reject) => {
+      // start
+      const start = await legsDetails.find(leg => _.inRange(request.startLocation.lat, leg.startLocation.lat - 0.001,
+        leg.startLocation.lat + 0.001) && _.inRange(leg.startLocation.lng, leg.startLocation.lng - 0.001,
+        leg.startLocation.lng + 0.001));
+      const startLegIndex = legsDetails.indexOf(start);
+      console.log('start leg ', start);
+      console.log('start leg index ', startLegIndex);
+
+      const dataBeforeRoute = await this.getDataBeforeRequest(startLegIndex, legsDetails);
+      console.log('data before route ', dataBeforeRoute);
+      console.log('distance before route ', dataBeforeRoute['distance']);
+      console.log('duration before route ', dataBeforeRoute['duration']);
+
+      // set request start date
+      const startDate = new Date(this.destination.startDate);
+      const startTimeInSeconds = startDate.getTime() / 1000 + dataBeforeRoute['duration'];
+      request.startDate = new Date(startTimeInSeconds * 1000);
+
+      const end = await legsDetails.find(leg => _.inRange(request.endLocation.lat, leg.endLocation.lat - 0.0005,
+        leg.endLocation.lat + 0.0005) && _.inRange(leg.endLocation.lng, leg.endLocation.lng - 0.0005,
+        leg.endLocation.lng + 0.0005));
+      const endLegIndex = legsDetails.indexOf(start);
+      console.log('end leg ', end);
+      console.log('end leg index ', endLegIndex);
+
+      const routeData = await this.getRouteData(startLegIndex, endLegIndex, legsDetails);
+      console.log('route data ', routeData);
+      console.log('route distance ', routeData['distance']);
+      console.log('route duration ', routeData['duration']);
+
+      // set request distance
+      request.distance = routeData['distance'] / 1000;
+
+      // set request start date
+      const endTimeInSeconds = request.startDate.getTime() / 1000 + routeData['duration'];
+      request.endDate = new Date(endTimeInSeconds * 1000);
+
+      // set request destination order
+      request.destinationOrder = startLegIndex;
+
+      resolve({dataBeforeRoute: dataBeforeRoute, routeData: routeData});
+    });
+  }
+
+  getDataBeforeRequest(startLegIndex, legsDetails) {
+    return new Promise(async (resolve, reject) => {
+      const filteredBefore = await legsDetails.filter(leg => leg.index < startLegIndex);
+      const durationSum = _.sumBy(filteredBefore, 'duration');
+      const distanceSum = _.sumBy(filteredBefore, 'distance');
+      resolve({duration: durationSum, distance: distanceSum});
+    });
+  }
+
+  getRouteData(startLegIndex, endLegIndex, legsDetails) {
+    return new Promise(async (resolve, reject) => {
+      const filteredRoute = await legsDetails.filter(leg => leg.index >= startLegIndex && leg.index <= endLegIndex);
+      const durationSum = _.sumBy(filteredRoute, 'duration');
+      const distanceSum = _.sumBy(filteredRoute, 'distance');
+      resolve({duration: durationSum, distance: distanceSum});
+    });
   }
 
   save() {
@@ -374,7 +484,7 @@ export class DestinationComponent implements OnInit {
         // status: Accepted
         if (destinationRequest.status === constants.status.ACCEPTED) {
           // check if status accepted and startDate and endDate changed
-        // if any changed, give discount
+          // if any changed, give discount
           destinationRequest.discount += 5;
         }
 
@@ -440,6 +550,8 @@ export class DestinationComponent implements OnInit {
 
   reloadData() {
     this.refreshPage();
+    this.waypoints = [];
+    this.directionDirective.drawDirection(this.waypoints);
   }
 
 }
