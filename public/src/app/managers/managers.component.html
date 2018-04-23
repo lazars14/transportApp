@@ -1,5 +1,5 @@
 <app-notification></app-notification>
-<app-manager-modal [manager]="manager" [action]="action" (modalAddUpdate)="modalAddUpdate()" (resetForm)="resetForm()"></app-manager-modal>
+<app-manager-modal #managerModal [manager]="manager" [action]="action" (modalAddUpdate)="modalAddUpdate($event)" (resetForm)="resetForm()"></app-manager-modal>
 <app-confirm-modal [header]="deleteHeader" [text]="deleteText" (delete)="delete()"></app-confirm-modal>
 <div class="panel panel-default" id="entity-management">
   <div class="panel-heading">
@@ -18,7 +18,6 @@
             <th>Lastname</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Password</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>

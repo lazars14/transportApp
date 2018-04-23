@@ -23,7 +23,7 @@
             <div class="form-group">
               <label for="startTime">
                 <span class="red-text">*</span>Start Time</label>
-              <input type="time" #startTime class="form-control" [value]="time" name="startTime" required>
+              <input type="time" #startTime class="form-control" [(ngModel)]="time" name="startTime" required>
             </div>
 
             <div class="form-group">
@@ -61,7 +61,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <div class="mx-auto">
-            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="!startTime.value && !visible" (click)="ok(startTime.value)">Ok</button>
+            <button type="submit" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="startTime.value == null || !visible" (click)="ok(startTime.value)">Ok</button>
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" (click)="cancel(f)">Cancel</button>
           </div>
         </div>

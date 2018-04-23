@@ -388,8 +388,7 @@ export class DestinationComponent implements OnInit {
   }
 
   sortDestinationRequests() {
-    // console.log('sorted requests ', _.sortBy(this.destinationRequests, ['destinationOrder']));
-    // to do
+    this.destinationRequests.sort((a: DestinationRequest, b: DestinationRequest) => a.destinationOrder < b.destinationOrder ? -1 : 1);
   }
 
   getDataForRequest(request, legsDetails) {

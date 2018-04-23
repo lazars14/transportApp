@@ -40,6 +40,8 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   zoom = 10;
   showMap = false;
 
+  today = new Date();
+
   element: HTMLElement = document.getElementById('showMapButton') as HTMLElement;
 
   @ViewChild(AgmMap) agmMap: AgmMap;
@@ -154,6 +156,14 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
     this.startMarker = destination.startLocation;
     this.endMarker = destination.endLocation;
     this.visible = true;
+  }
+
+  disabled(startTime) {
+    if (startTime != null || !this.visible || this.destination.startDate.getTime() < new Date().getTime()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // showMap() {

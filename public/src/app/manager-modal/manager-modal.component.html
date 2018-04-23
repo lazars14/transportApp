@@ -1,3 +1,5 @@
+<app-notification></app-notification>
+
 <div class="container">
   <!-- The Modal -->
   <div class="modal fade defaultModal" id="myModal">
@@ -17,7 +19,6 @@
               <label for="firstname"><span class="red-text">*</span>Firstname</label>
               <input type="text" class="form-control" [(ngModel)]="manager.firstName" name="firstname" required autofocus>
             </div>
-            <!-- <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">Firstname is required</div> -->
       
             <div class="form-group">
               <label for="lastname"><span class="red-text">*</span>Lastname</label>

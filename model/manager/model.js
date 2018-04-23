@@ -133,7 +133,13 @@ ManagerSchema.statics.update = function (id, data) {
         if (data.firstName) found.firstName = data.firstName;
         if (data.lastName) found.lastName = data.lastName;
         if (data.phone) found.phone = data.phone;
-        if (data.password) found.password = found.cryptPassword(data.password);
+        
+        console.log('this is the new password ', data.password);
+
+        // if password changed, crypt it and save
+        if (data.password != found.password) found.password = found.cryptPassword(data.password);
+
+        console.log('this is the new password crypted ', found.password);
 
         found.save(function (err, manager) {
           if (err) {

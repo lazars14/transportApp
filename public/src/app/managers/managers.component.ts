@@ -3,6 +3,7 @@ import { constants } from './../utils/constants';
 import { Manager } from '../_model/index';
 import { ManagerService } from './../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
+import { ManagerModalComponent } from './../manager-modal/manager-modal.component';
 import { SessionService } from './../_core/index';
 import * as _ from 'lodash';
 
@@ -14,6 +15,7 @@ import * as _ from 'lodash';
 export class ManagersComponent implements OnInit {
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
+  @ViewChild(ManagerModalComponent) managerModal: ManagerModalComponent;
 
   managers: Array<Manager>;
   manager: Manager = new Manager();
@@ -38,17 +40,16 @@ export class ManagersComponent implements OnInit {
     });
   }
 
-  modalAddUpdate() {
+  modalAddUpdate(manager) {
     if (this.action === constants.add) {
-      this.add();
+      this.add(manager);
     } else {
-      this.update();
+      this.update(manager);
     }
   }
 
   resetForm() {
     this.manager = new Manager();
-    console.log(this.manager);
   }
 
   setAction(manager: Manager) {
@@ -56,6 +57,7 @@ export class ManagersComponent implements OnInit {
       this.action = constants.add;
     } else {
       this.manager = _.cloneDeep(manager);
+      this.managerModal.loadManager(manager._id);
       this.action = constants.update;
     }
   }
@@ -65,9 +67,10 @@ export class ManagersComponent implements OnInit {
     this.managerId = id;
   }
 
-  add() {
-    console.log('add in drivers component');
-    this.managerService.create(this.manager).subscribe(
+  add(manager) {
+    console.log('manager to add ', manager);
+    console.log('add in managers component');
+    this.managerService.create(manager).subscribe(
       result => {
         this.notification.success('Manager created successfuly');
         this.refreshPage();
@@ -78,9 +81,10 @@ export class ManagersComponent implements OnInit {
       });
   }
 
-  update() {
+  update(manager) {
+    console.log('manager to update ', manager);
     console.log('update in drivers component');
-    this.managerService.update(this.manager).subscribe(
+    this.managerService.update(manager).subscribe(
       result => {
         this.notification.success('Manager updated successfuly');
         this.refreshPage();
