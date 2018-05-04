@@ -6,6 +6,6 @@ export class User {
     password: string;
     phone: string;
     address: string;
-    tokens: Array<string>;
-    imeis: Array<string>;
+    firebaseToken: string;
+    imei: string;
 }

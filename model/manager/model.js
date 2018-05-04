@@ -135,17 +135,18 @@ ManagerSchema.statics.update = function (id, data) {
         if (data.phone) found.phone = data.phone;
         
         console.log('this is the new password ', data.password);
-
-        // if password changed, crypt it and save
+        if (data.password) {
+          // if password changed, crypt it and save
         if (data.password != found.password) found.password = found.cryptPassword(data.password);
-
-        console.log('this is the new password crypted ', found.password);
+        }
 
         found.save(function (err, manager) {
           if (err) {
             logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update manager with id ' + id);
             return deferred.reject(error("MONGO_ERROR"));
           }
+          manager.password = undefined;
+          delete manager.password;
           return deferred.resolve(manager);
         });
       }

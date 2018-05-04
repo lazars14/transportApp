@@ -448,4 +448,147 @@ describe("User tests", function () {
             });
     });
 
+    it("update user info - fail - missing token", function (done) {
+        var data;
+        data = ({
+            firstName: "firstName",
+            lastName: "lastName",
+            address: "address",
+            phone: "05232352520"
+        });
+        return request(app).put('/user/' + user._id)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("update user info - fail - missing data", function (done) {
+        var data;
+        data = ({
+            firstName: "firstName",
+            lastName: "lastName",
+            address: "address"
+        });
+        return request(app).put('/user/' + user._id)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 400);
+                return done();
+            });
+    });
+
+    it("update user info - fail - not found", function (done) {
+        var data;
+        data = ({
+            firstName: "firstName",
+            lastName: "lastName",
+            address: "address",
+            phone: "05232352520"
+        });
+        return request(app).put('/user/' + dummyId)
+        .set('x-access-token', dummyToken)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("update user info - success - valid data", function (done) {
+        var data;
+        data = ({
+            firstName: "firstName",
+            lastName: "lastName",
+            address: "address",
+            phone: "05232352520"
+        });
+        return request(app).put('/user/' + user._id)
+        .set('x-access-token', token)
+        .type('application/json').send(data).end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    // it("accept request - fail - missing token", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ destinationRequest._id + '/accept')
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
+
+    // it("accept request - fail - not found", function (done) {
+    //     return request(app).put('/user/' + dummyId + '/requests/'+ destinationRequest._id + '/accept')
+    //     .set('x-access-token', dummyToken)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("accept request - fail - not found", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ dummyId + '/accept')
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("accept request - success - valid data", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ destinationRequest._id + '/accept')
+    //         .set('x-access-token', token)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+
+    // it("reject request - fail - missing token", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ destinationRequest._id + '/reject')
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
+
+    // it("reject request - fail - not found", function (done) {
+    //     return request(app).put('/user/' + dummyId + '/requests/'+ destinationRequest._id + '/reject')
+    //     .set('x-access-token', dummyToken)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("reject request - fail - not found", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ dummyId + '/reject')
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 404);
+    //             return done();
+    //         });
+    // });
+
+    // it("reject request - success - valid data", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ destinationRequest._id + '/reject')
+    //         .set('x-access-token', token)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 200);
+    //             return done();
+    //         });
+    // });
+
+    // it("accept request - fail - not allowed", function (done) {
+    //     return request(app).put('/user/' + user._id + '/requests/'+ destinationRequest._id + '/accept')
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 405);
+    //             return done();
+    //         });
+    // });
+
+
+
 });

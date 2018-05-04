@@ -3245,6 +3245,20 @@
           {
             "group": "body",
             "type": "Number",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>DestinationRequest destinationId</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
+            "optional": false,
+            "field": "distance",
+            "description": "<p>DestinationRequest distance</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
             "optional": true,
             "field": "discount",
             "description": "<p>DestinationRequest price discount</p>"
@@ -3954,6 +3968,79 @@
     }
   },
   {
+    "type": "put",
+    "url": "/{userId}/requests/{destinationRequestId}/accept",
+    "title": "User Accept Request",
+    "version": "1.0.0",
+    "name": "User_Accept_Request",
+    "group": "User",
+    "description": "<p>User accept request - accept user request</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>User id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationRequestId",
+            "description": "<p>Request id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_user/router.js",
+    "groupTitle": "User",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not allowed:",
+          "content": "HTTP/1.1 405 Not allowed\n {\n   \"error\": {\n   \"code\": \"405\",\n     \"message\": \"Not allowed\"\n }\n }",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
     "type": "post",
     "url": "/{userId}/requests",
     "title": "User Add Request",
@@ -4279,6 +4366,74 @@
     }
   },
   {
+    "type": "put",
+    "url": "/{userId}/requests/{destinationRequestId}/reject",
+    "title": "User Reject Request",
+    "version": "1.0.0",
+    "name": "User_Reject_Request",
+    "group": "User",
+    "description": "<p>User reject request - reject user request</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>User id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationRequestId",
+            "description": "<p>Request id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_user/router.js",
+    "groupTitle": "User",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
     "type": "get",
     "url": "/{userId}/requests",
     "title": "User Requests",
@@ -4336,6 +4491,97 @@
         {
           "title": "Not Authenticated:",
           "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "put",
+    "url": "/{userId}",
+    "title": "User Update Info",
+    "version": "1.0.0",
+    "name": "User_Update_Info",
+    "group": "User",
+    "description": "<p>User update info - update personal info</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>User id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "firstName",
+            "description": "<p>User's firstname</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "lastName",
+            "description": "<p>User's lastname</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>User's address</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>User's phone</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_user/router.js",
+    "groupTitle": "User",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Bad request:",
+          "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         }
       ]

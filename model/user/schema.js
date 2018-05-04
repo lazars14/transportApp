@@ -43,16 +43,16 @@ module.exports = (function () {
       default: ""
     },
     /**
-     * User phone push tokens
+     * User firebase push token
      */
-    tokens: {
-        type: Array
+    firebaseToken: {
+        type: String
     },
     /**
-     * User imeis
+     * User imei
      */
-    imeis: {
-        type: Array
+    imei: {
+        type: String
     }
   });
 

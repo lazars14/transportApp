@@ -157,8 +157,8 @@ UserSchema.statics.update = function(id, data){
         if(data.lastName) found.lastName = data.lastName;
         if(data.phone) found.phone = data.phone;
         if(data.address) found.address = data.address;
-        if(data.tokens) found.tokens = data.tokens;
-        if(data.imeis) found.imeis = data.imeis;
+        if(data.firebaseToken) found.firebaseToken = data.firebaseToken;
+        if(data.imei) found.imei = data.imei;
 
         found.save(function(err, user){
             if(err){
@@ -251,6 +251,37 @@ UserSchema.statics.changeEmail = function(id, data){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user email with email ' + data.newEmail + ' (because it already exists) for user with id ' + id);
                 // email already exists
+                return deffered.reject(error("MONGO_ERROR"));
+            };
+            return deffered.resolve();
+        });
+
+    }).fail(function(err){
+        deffered.reject(err);
+    });
+
+    return deffered.promise;
+}
+
+/**
+ * Update user info
+ * @param id
+ * @param data
+ */
+UserSchema.statics.updateInfo = function(id, data){
+    var deffered = Q.defer();
+
+    _findById(id).then(function(found){
+        if(!found) return deffered.reject(error("NOT_FOUND"));
+
+        found.firstName = data.firstName;
+        found.lastName = data.lastName;
+        found.address = data.address;
+        found.phone = data.phone;
+
+        found.save(function(err){
+            if(err){
+                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user info with id ' + id);
                 return deffered.reject(error("ALREADY_REGISTERED"));
             };
             return deffered.resolve();

@@ -173,3 +173,65 @@ exports.changeEmail = function(req, res, next){
         return next(err);
     });
 }
+
+/**
+ * Update user info
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.updateInfo = function(req, res, next){
+    if(!req.body.firstName){
+        logger.error('Error - Update user info - Firstname can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.lastName){
+        logger.error('Error - Update user info - Lastname can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.address){
+        logger.error('Error - Update user info - Address can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.phone){
+        logger.error('Error - Update user info - Phone can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    userModel.updateInfo(req.params.userId, req.body).then(function(user){
+        res.json();
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Accept request
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestAccept = function(req, res, next){
+    destinationRequestModel.changeToAccepted(req.params.destinationRequestId).then(function(request){
+        res.json(request);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Reject request
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.requestReject = function(req, res, next){
+    destinationRequestModel.changeToRejected(req.params.destinationRequestId).then(function(request){
+        res.json(request);
+    }).fail(function(err){
+        return next(err);
+    });
+}

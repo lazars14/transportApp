@@ -191,6 +191,71 @@ router.put('/:userId/changePassword', auth.checkUserToken, auth.checkUserId, con
  */
 router.put('/:userId/changeEmail', auth.checkUserToken, auth.checkUserId, controller.changeEmail);
 
+/**
+ * @api {put} /{userId}
+ * User Update Info
+ * @apiVersion 1.0.0
+ * @apiName User Update Info
+ * @apiGroup User
+ * @apiDescription User update info - update personal info
+ * 
+ * @apiParam (path){String} userId User id
+ * 
+ * @apiParam (body){String} firstName User's firstname
+ * @apiParam (body){String} lastName User's lastname
+ * @apiParam (body){String} address User's address
+ * @apiParam (body){String} phone User's phone
+ *  
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ * @apiUse notFound
+ */
+router.put('/:userId', auth.checkUserToken, auth.checkUserId, controller.updateInfo);
+
+/**
+ * @api {put} /{userId}/requests/{destinationRequestId}/accept
+ * User Accept Request
+ * @apiVersion 1.0.0
+ * @apiName User Accept Request
+ * @apiGroup User
+ * @apiDescription User accept request - accept user request
+ * 
+ * @apiParam (path){String} userId User id
+ * @apiParam (path){String} destinationRequestId Request id
+ *  
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ * @apiUse notFound
+ * @apiUse notAllowed
+ */
+router.put('/:userId/requests/:destinationRequestId/accept', auth.checkUserToken, auth.checkUserId, controller.requestAccept);
+
+/**
+ * @api {put} /{userId}/requests/{destinationRequestId}/reject
+ * User Reject Request
+ * @apiVersion 1.0.0
+ * @apiName User Reject Request
+ * @apiGroup User
+ * @apiDescription User reject request - reject user request
+ * 
+ * @apiParam (path){String} userId User id
+ * @apiParam (path){String} destinationRequestId Request id
+ *  
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * 
+ * @apiUse internalError
+ * @apiUse badRequest
+ * @apiUse notAuthorized
+ * @apiUse notFound
+ */
+router.put('/:userId/requests/:destinationRequestId/reject', auth.checkUserToken, auth.checkUserId, controller.requestReject);
+
 logger.info('loaded USER routes');
 
 module.exports = router;
