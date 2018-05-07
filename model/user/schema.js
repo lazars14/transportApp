@@ -47,12 +47,6 @@ module.exports = (function () {
      */
     firebaseToken: {
         type: String
-    },
-    /**
-     * User imei
-     */
-    imei: {
-        type: String
     }
   });
 

@@ -216,13 +216,13 @@ UserSchema.statics.changePassword = function(id, data){
 
         found.password = found.cryptPassword(data.newPassword);
 
-        found.save(function(err){
+        found.save(function(err, user){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user password with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             // don't have to delete password, because I'm not returning the user object
-            return deffered.resolve();
+            return deffered.resolve(user);
         });
 
     }).fail(function(err){
@@ -247,13 +247,13 @@ UserSchema.statics.changeEmail = function(id, data){
 
         found.email = data.newEmail;
 
-        found.save(function(err){
+        found.save(function(err, user){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user email with email ' + data.newEmail + ' (because it already exists) for user with id ' + id);
                 // email already exists
                 return deffered.reject(error("MONGO_ERROR"));
             };
-            return deffered.resolve();
+            return deffered.resolve(user);
         });
 
     }).fail(function(err){
@@ -279,12 +279,12 @@ UserSchema.statics.updateInfo = function(id, data){
         found.address = data.address;
         found.phone = data.phone;
 
-        found.save(function(err){
+        found.save(function(err, user){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user info with id ' + id);
                 return deffered.reject(error("ALREADY_REGISTERED"));
             };
-            return deffered.resolve();
+            return deffered.resolve(user);
         });
 
     }).fail(function(err){
