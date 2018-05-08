@@ -32,7 +32,8 @@ module.exports = (function () {
      * DestinationRequest price
      */
     price: {
-      type: Number
+      type: Number,
+      default: 0
     },
     /**
      * DestinationRequest price discount
@@ -84,7 +85,8 @@ module.exports = (function () {
      * DestinationRequest request distance (km)
      */
     distance: {
-      type: Number
+      type: Number,
+      default: 0
     }
   });
 
