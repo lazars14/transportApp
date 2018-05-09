@@ -72,20 +72,6 @@ ClientSchema.statics.findById = function(id){
     return _findById(id);
 }
 
-// to do
-
-// /**
-//  * Get client info
-//  * @returns {*}
-//  */
-// ClientSchema.statics.getClientInfo = function(){
-//     var deffered = Q.defer();
-
-//     model.findOne
-
-//     return deffered.promise;
-// }
-
 /**
  * Client login
  * @param client
@@ -135,6 +121,9 @@ ClientSchema.statics.update = function(id, data){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update client with id ' + id);
                 return deffered.reject(error("MONGO_ERROR"));
             };
+
+            client.password = undefined;
+            delete client.password;
             return deffered.resolve(client);
         });
     }).fail(function(err){

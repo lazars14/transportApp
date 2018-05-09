@@ -53,7 +53,6 @@ export class DirectionDirective implements OnInit {
         // for not losing scope (response, status) => ; if it was function (response, status) this object wouldn't be visible
       }, (response, status) => {
         if (status === 'OK') {
-          console.log(response);
           this.directionsDisplay.setDirections(response);
         } else {
           window.alert('Bad Direction Request');
@@ -72,7 +71,6 @@ export class DirectionDirective implements OnInit {
     const promise = new Promise((resolve, reject) => {
       for (let i = 0, p = Promise.resolve({}); i < waypoints.length; i++) {
         p = p.then(() => new Promise(async res => {
-          console.log('waypoints ', waypoints);
           const waypointsDeep = waypoints.map(x => Object.assign({}, x));
 
           removedWaypoint = {
@@ -81,22 +79,12 @@ export class DirectionDirective implements OnInit {
 
           waypointsDeep.splice(i, 1);
 
-          console.log('this is i ', i);
-          console.log('removed waypoints ', removedWaypoint);
-          console.log('waypoints deep ', waypointsDeep);
-
           const data = await this.calculateRoute(waypointsDeep);
-          console.log('this is data ', data);
 
           const routeDuration = await this.calculateRouteTime(data);
-          console.log('this is route duration ', routeDuration);
-          console.log('this is shortest duration ', shortestDuration);
           if (i === 0 || routeDuration < shortestDuration) {
-            console.log('setting min values ');
             shortestRoute = await this.calculateRouteDistance(data);
-            console.log('this is the shortest distance ', shortestRoute);
             shortestDuration = routeDuration;
-            console.log('legs in setting min values ', data);
             requestToRemove = _.cloneDeep(removedWaypoint);
           }
 
@@ -112,12 +100,9 @@ export class DirectionDirective implements OnInit {
     });
 
     promise.then(async (data) => {
-      console.log('gonna emit');
-      // all this from
       const route = await this.calculateRoute(data['waypoints']);
       const routeDistance = await this.calculateRouteDistance(route);
       const routeDuration = await this.calculateRouteTime(route);
-      console.log('legs in data in direction ', data);
       this.calculate.emit({
         distance: routeDistance,
         duration: routeDuration,
@@ -147,7 +132,6 @@ export class DirectionDirective implements OnInit {
             optimizeWaypoints: true,
             travelMode: 'DRIVING'
           }, (response, status) => {
-            console.log('request status ', status);
             if (status === 'OK') {
               resolve(response);
             } else {

@@ -90,7 +90,6 @@ export class DestinationsComponent implements OnInit {
   }
 
   setDeleteId(id: string) {
-    console.log('setting id object');
     this.destinationId = id;
   }
 

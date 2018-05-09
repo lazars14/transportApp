@@ -154,11 +154,13 @@ export class DestinationComponent implements OnInit {
         this.notification.error('Get Destination Requests - Error ' + error.status + ' - ' + error.statusText);
       });
 
-      this.destinationRequestService.findAllOpen().subscribe(openRequests => {
-        this.openRequests = openRequests;
-      }, error => {
-        this.notification.error('Get Open Requests - Error ' + error.status + ' - ' + error.statusText);
-      });
+      if (this.destinationOpen) {
+        this.destinationRequestService.findAllOpen().subscribe(openRequests => {
+          this.openRequests = openRequests;
+        }, error => {
+          this.notification.error('Get Open Requests - Error ' + error.status + ' - ' + error.statusText);
+        });
+      }
 
       if (this.destination.vehicleId) {
         this.vehicleService.findByIdManager(this.destination.vehicleId).subscribe(vehicle => {
@@ -207,7 +209,6 @@ export class DestinationComponent implements OnInit {
   }
 
   setLocation(destinationRequest: DestinationRequest) {
-    console.log('setting location');
     this.destinationRequest = destinationRequest;
   }
 
@@ -216,7 +217,6 @@ export class DestinationComponent implements OnInit {
   }
 
   addToDestination(destinationRequest: DestinationRequest) {
-    console.log('adding to destination');
     // add to destinationRequests
     this.destinationRequests.push(destinationRequest);
     // remove from open requests
@@ -224,19 +224,25 @@ export class DestinationComponent implements OnInit {
     this.openRequests.splice(index, 1);
   }
 
+  canAddRequest(userId: string) {
+    const destinationRequestsWithUserId = this.destinationRequests.find(request => request.userId === userId);
+
+    if (destinationRequestsWithUserId !== undefined) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   checkIfWaypointExists(waypointLocation) {
     return new Promise(async (resolve, reject) => {
-      console.log('already added ', this.alreadyAdded);
-      console.log('object for comparing ', waypointLocation);
       const a = await this.alreadyAdded.find(x => x.lat === waypointLocation.lat && x.lng === waypointLocation.lng);
-      console.log(a);
       resolve(a);
     });
   }
 
   findRequestForRemoval(waypointLocation, waypoints) {
     return new Promise(async (resolve, reject) => {
-      console.log('object for comparing ', waypointLocation);
       const found = await this.destinationRequests.find(x => _.isEqual(x.startLocation, waypointLocation) ||
         _.isEqual(x.endLocation, waypointLocation));
       resolve(found);
@@ -249,18 +255,14 @@ export class DestinationComponent implements OnInit {
     this.total = 0;
     this.totalCost = 0;
     this.ticketsIncome = 0;
-    console.log('calculating');
 
     // remove duplicate locations
     const promise = new Promise((resolve, reject) => {
       for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
         p = p.then(() => new Promise(async res => {
-          console.log('item');
           const request = this.destinationRequests[i];
-          console.log('request ', request);
 
           let waypointExists = await this.checkIfWaypointExists(request.startLocation);
-          console.log(waypointExists);
 
           if (!waypointExists || !_.isEqual(request.startLocation, this.destination.startLocation)) {
             this.waypoints.push({
@@ -268,12 +270,9 @@ export class DestinationComponent implements OnInit {
               stopover: true
             });
             this.alreadyAdded.push(request.startLocation);
-            console.log('start location lat: ' + request.startLocation.lat);
-            console.log('start location lng: ' + request.startLocation.lng);
           }
 
           waypointExists = await this.checkIfWaypointExists(request.startLocation);
-          console.log(waypointExists);
 
           if (!waypointExists || !_.isEqual(request.endLocation, this.destination.endLocation)) {
             this.waypoints.push({
@@ -281,8 +280,6 @@ export class DestinationComponent implements OnInit {
               stopover: true
             });
             this.alreadyAdded.push(request.endLocation);
-            console.log('end location lat: ' + request.endLocation.lat);
-            console.log('end location lng: ' + request.endLocation.lng);
           }
 
           if (i === this.destinationRequests.length - 1) {
@@ -296,29 +293,11 @@ export class DestinationComponent implements OnInit {
     });
 
     promise.then(data => {
-      console.log('waypoints ', this.waypoints);
-      console.log('already added ', this.alreadyAdded);
       this.directionDirective.calculateBestRoute(this.waypoints);
     });
-
-    // let promise = new Promise((resolve, reject) => {
-    //   console.log('do something');
-    // });
-
-    // // works
-    // for (let i = 0, p = Promise.resolve({}); i < 10; i++) {
-    //   p = p.then(() => new Promise(resolve =>
-    //     setTimeout(function () {
-    //       console.log(1);
-    //       resolve();
-    //   }, 1000)
-    //   ));
-    // }
   }
 
   async calculateDistancesAndTimes($event) {
-    console.log('passed event ', $event);
-
     this.waypoints = $event.waypoints;
 
     this.destination.numberOfKms = $event.distance;
@@ -328,18 +307,14 @@ export class DestinationComponent implements OnInit {
 
     // remove from current requests
     const requestToRemove = $event.requestToRemove;
-    console.log('request to remove ', requestToRemove);
     const location = {
       lat: parseFloat(requestToRemove.location.location.lat().toFixed(4)),
       lng: parseFloat(requestToRemove.location.location.lng().toFixed(4))
     };
-    console.log('location ', location);
     const found = await this.findRequestForRemoval(location, $event.waypoints);
-    console.log('found element ', found);
     this.longestRouteReqId = found['_id'];
 
     const legs = $event.legs.routes[0].legs;
-    console.log('legs in destination ', legs);
 
     const legsDetails = [];
 
@@ -360,17 +335,12 @@ export class DestinationComponent implements OnInit {
       });
     }
 
-    console.log('legs details ', legsDetails);
-
     for (let ii = 0, pr = Promise.resolve({}); ii < this.destinationRequests.length; ii++) {
       pr = pr.then(() => new Promise(async (res) => {
         const requestData = await this.getDataForRequest(this.destinationRequests[ii], legsDetails);
-        console.log('request data ', requestData);
         if (ii === this.destinationRequests.length - 1) {
           // set destination result (finance)
           this.totalCost = this.destination.numberOfKms / 100 * (this.destination.fuelExpenses + 2 * this.destination.driversPay);
-          console.log('total cost is ', this.totalCost);
-          console.log('tickets income is ', this.ticketsIncome);
           this.total = this.ticketsIncome - this.totalCost;
 
           // draw map
@@ -393,18 +363,12 @@ export class DestinationComponent implements OnInit {
 
   getDataForRequest(request, legsDetails) {
     return new Promise(async (resolve, reject) => {
-      // start
       const start = await legsDetails.find(leg => _.inRange(request.startLocation.lat, leg.startLocation.lat - 0.001,
         leg.startLocation.lat + 0.001) && _.inRange(leg.startLocation.lng, leg.startLocation.lng - 0.001,
         leg.startLocation.lng + 0.001));
       const startLegIndex = legsDetails.indexOf(start);
-      console.log('start leg ', start);
-      console.log('start leg index ', startLegIndex);
 
       const dataBeforeRoute = await this.getDataBeforeRequest(startLegIndex, legsDetails);
-      console.log('data before route ', dataBeforeRoute);
-      console.log('distance before route ', dataBeforeRoute['distance']);
-      console.log('duration before route ', dataBeforeRoute['duration']);
 
       // set request start date
       const startDate = new Date(this.destination.startDate);
@@ -415,13 +379,8 @@ export class DestinationComponent implements OnInit {
         leg.endLocation.lat + 0.0005) && _.inRange(leg.endLocation.lng, leg.endLocation.lng - 0.0005,
         leg.endLocation.lng + 0.0005));
       const endLegIndex = legsDetails.indexOf(end);
-      console.log('end leg ', end);
-      console.log('end leg index ', endLegIndex);
 
       const routeData = await this.getRouteData(startLegIndex, endLegIndex, legsDetails);
-      console.log('route data ', routeData);
-      console.log('route distance ', routeData['distance']);
-      console.log('route duration ', routeData['duration']);
 
       // set request distance
       request.distance = routeData['distance'] / 1000;
@@ -463,7 +422,6 @@ export class DestinationComponent implements OnInit {
   getDataBeforeRequest(startLegIndex, legsDetails) {
     return new Promise(async (resolve, reject) => {
       const filteredBefore = await legsDetails.filter(leg => leg.index < startLegIndex);
-      console.log('filterd route before request ', filteredBefore);
       const durationSum = _.sumBy(filteredBefore, 'duration');
       const distanceSum = _.sumBy(filteredBefore, 'distance');
       resolve({
@@ -476,7 +434,6 @@ export class DestinationComponent implements OnInit {
   getRouteData(startLegIndex, endLegIndex, legsDetails) {
     return new Promise(async (resolve, reject) => {
       const filteredRoute = await legsDetails.filter(leg => leg.index >= startLegIndex && leg.index <= endLegIndex);
-      console.log('filtered route ', filteredRoute);
       const durationSum = _.sumBy(filteredRoute, 'duration');
       const distanceSum = _.sumBy(filteredRoute, 'distance');
       resolve({
@@ -487,8 +444,6 @@ export class DestinationComponent implements OnInit {
   }
 
   save() {
-    console.log('saving changes');
-
     // go through preChanged and destinationRequests
     _.this.preChangeDestinationRequests.forEach(request => {
       const destinationRequest = _.find(this.destinationRequests, {
@@ -547,7 +502,6 @@ export class DestinationComponent implements OnInit {
   }
 
   removeRequest() {
-    console.log('removing request');
     // add request to open destinationRequests
     this.openRequests.push(this.destinationRequest);
     // remove from destinationRequests
@@ -556,7 +510,6 @@ export class DestinationComponent implements OnInit {
   }
 
   rejectRequest() {
-    console.log('rejecting request');
     this.destinationRequestService.reject(this.destinationRequest._id).subscribe(
       result => {
         this.notification.success('DestinationRequest rejected successfuly');
