@@ -453,7 +453,8 @@ export class DestinationComponent implements OnInit {
       // request removed from destination, now will set status to submitted
       if (destinationRequest == null) {
         this.destinationRequestService.submit(destinationRequest._id).subscribe(destRequest => {
-          // push notification?
+          // push notification
+
         }, error => {
           this.notification.error('Set Destination Request Submitted - Error ' + error.status + ' - ' + error.statusText);
         });
@@ -462,11 +463,12 @@ export class DestinationComponent implements OnInit {
 
         // status: Accepted
         if (destinationRequest.status === constants.status.ACCEPTED) {
+          // push notification
           // different text for push notification - your date and time has been change, we offer you this discount...
         }
 
         this.destinationRequestService.await(destinationRequest).subscribe(req => {
-          // send push notification
+          // push notification
         }, error => {
           this.notification.error('Set Destination Request Await - Error ' + error.status + ' - ' + error.statusText);
         });

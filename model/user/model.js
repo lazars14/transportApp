@@ -53,6 +53,25 @@ var _findByEmail = function (email){
 }
 
 /**
+ * find user by firebaseToken
+ * @param firebaseToken
+ * @returns {*}
+ */
+var _findByFirebaseToken = function (firebaseToken){
+    var deffered = Q.defer();
+    
+    model.findOne({firebaseToken: firebaseToken}, function(err, user){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find user with firebase token ' + firebaseToken);
+            return deffered.reject(error("MONGO_ERROR"));
+        }
+        deffered.resolve(user);
+    });
+
+    return deffered.promise;
+}
+
+/**
  * Find user by id
  * @param id
  * @returns {*}
@@ -86,6 +105,15 @@ UserSchema.statics.findAll = function(){
     });
 
     return deffered.promise;
+}
+
+/**
+ * Get user firebase token
+ * @param userId
+ * @returns {*}
+ */
+UserSchema.statics.getFirebaseToken = function(userId){
+    return _findById(id);
 }
 
 /**

@@ -5,6 +5,7 @@ var userModel = require('../../model/user/model');
 var destinationModel = require('../../model/destination/model');
 var requestModel = require('../../model/destinationRequest/model');
 var driverModel = require('../../model/driver/model');
+var notificationModel = require('../../model/notification/model');
 
 var isEmail = require('validator/lib/isEmail');
 
@@ -631,4 +632,34 @@ exports.requestSetRejected = function (req, res, next) {
     }).fail(function (err) {
         return next(err);
     })
+}
+
+/**
+ * Send push notification
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.sendPushNotification = function (req, res, next) {
+    if (!req.body.userId) {
+        logger.error('Error - Send Push Notification - UserToken can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    if (!req.body.message) {
+        logger.error('Error - Send Push Notification - Message can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+    
+    userModel.findById(req.body.userId).then(function(user){
+        if (!user) return next(error('NOT_FOUND'));
+
+        notificationModel.sendPushNotification(user.firebaseToken, req.body.message).then(function (response) {
+            res.json(response);
+        }).fail(function (err) {
+            return next(err);
+        });
+    }).fail(function (err) {
+        return next(err);
+    });
 }

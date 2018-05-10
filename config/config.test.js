@@ -4,6 +4,7 @@ var config = {
     token: {
       secret: '123&$&*!010293123mxan!#'
     },
+    firebaseServerKey: 'AIzaSyDiiYDU2ySFY7rpXMmd3rSIqYgHDGI7kVI',
     logger: {
       path: './log/server.log'
     },
