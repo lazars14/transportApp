@@ -475,8 +475,6 @@ export class DestinationComponent implements OnInit {
 
     });
 
-    // atomicity in mongo - procedure?
-    // if one fails, all fail
   }
 
   setDeleteId(destinationRequest: DestinationRequest, remove: boolean) {

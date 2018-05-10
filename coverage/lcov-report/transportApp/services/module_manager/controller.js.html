@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.7% </span>
+        <span class="strong">59.46% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>157/263</span>
+        <span class='fraction'>154/259</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">48.94% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>46/94</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.43% </span>
+        <span class="strong">59.22% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>63/106</span>
+        <span class='fraction'>61/103</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.73% </span>
+        <span class="strong">60.49% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>150/247</span>
+        <span class='fraction'>147/243</span>
       </div>
     </div>
   </div>
@@ -676,21 +676,7 @@
 631
 632
 633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+634</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -947,20 +933,6 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1612,20 +1584,6 @@ exports.findDestinationsByManagerId = function (req, res, next) {
 }
 &nbsp;
 /**
- * Find all destinations not for manager
- * @param req
- * @param res
- * @param next
- */
-exports.findDestinationsByManagerIdNot = function (req, res, next) {
-    destinationModel.findByManagerIdNot(req.params.managerId).then(function (destinations) {
-        res.json(destinations);
-    }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
-<span class="cstat-no" title="statement not covered" >        return next(err);</span>
-    })
-}
-&nbsp;
-/**
  * Find destination by id
  * @param req
  * @param res
@@ -1633,7 +1591,7 @@ exports.findDestinationsByManagerIdNot = function (req, res, next) {
  */
 &nbsp;
 exports.findDestinationById = function (req, res, next) {
-    destinationModel.findById(req.params.destinationId).then(function (destination) {
+    destinationModel.findByIdManager(req.params.destinationId, req.params.managerId).then(function (destination) {
         if (!destination) return next(error('NOT_FOUND'));
         res.json(destination);
     }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
@@ -1677,7 +1635,7 @@ exports.addDestination = function (req, res, next) {
  * @param next
  */
 exports.updateDestination = function (req, res, next) {
-    destinationModel.update(req.params.destinationId, req.body).then(function (destination) {
+    destinationModel.update(req.params.destinationId, req.body, req.params.managerId).then(function (destination) {
         res.json(destination);
     }).fail(function (err) {
         return next(err);
@@ -1691,7 +1649,7 @@ exports.updateDestination = function (req, res, next) {
  * @param next
  */
 exports.deleteDestination = <span class="fstat-no" title="function not covered" >function (req, res, next) {</span>
-<span class="cstat-no" title="statement not covered" >    destinationModel.delete(req.params.destinationId).then(<span class="fstat-no" title="function not covered" >function (destination) {</span></span>
+<span class="cstat-no" title="statement not covered" >    destinationModel.delete(req.params.destinationId, req.params.destinationId).then(<span class="fstat-no" title="function not covered" >function (destination) {</span></span>
 <span class="cstat-no" title="statement not covered" >        res.json(destination);</span>
     }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
 <span class="cstat-no" title="statement not covered" >        return next(err);</span>
@@ -1779,7 +1737,7 @@ exports.setDestinationVehicle = function (req, res, next) {
             });
         }
 &nbsp;
-        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId).then(function (destination) {
+        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId, req.params.managerId).then(function (destination) {
             res.json(destination);
         }).fail(function (err) {
             return next(err);
@@ -1853,7 +1811,7 @@ exports.setDestinationDrivers = function (req, res, next) {
 <span class="cstat-no" title="statement not covered" >                if (destinationsTwo[0]._id != req.params.destinationId) <span class="cstat-no" title="statement not covered" >return next(error('NOT_ALLOWED'));</span></span>
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(<span class="fstat-no" title="function not covered" >function (destination) {</span></span>
+<span class="cstat-no" title="statement not covered" >            destinationModel.setDrivers(req.params.destinationId, req.body.drivers, req.params.managerId).then(<span class="fstat-no" title="function not covered" >function (destination) {</span></span>
 <span class="cstat-no" title="statement not covered" >                res.json(destination);</span>
             }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
 <span class="cstat-no" title="statement not covered" >                return next(err);</span>
@@ -1887,7 +1845,7 @@ exports.findAllRequestsSubmitted = function (req, res, next) {
  * @param next
  */
 exports.findAllRequestsByDestination = function (req, res, next) {
-    destinationModel.findById(req.params.destinationId).then(function (destination) {
+    destinationModel.findByIdManager(req.params.destinationId, req.params.managerId).then(function (destination) {
         if (!destination) return next(error('NOT_FOUND'));
 &nbsp;
         requestModel.findByDestinationId(req.params.destinationId).then(function (requests) {
@@ -1990,7 +1948,7 @@ exports.requestSetRejected = function (req, res, next) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 09 2018 08:27:28 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

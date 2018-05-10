@@ -394,41 +394,6 @@ router.delete('/:managerId/users/:userId', auth.checkManagerToken, auth.checkMan
 router.get('/:managerId/destinations', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerId);
 
 /**
- * @api {get} /{managerId}/destinations/other
- * Get All Destinations Not Handled By Manager
- * @apiVersion 1.0.0
- * @apiName Get All Destinations Not Handled By Manager
- * @apiGroup Manager
- * @apiDescription Manager get all destinations - get all destinations not handled by manager with specific id
- * 
- * @apiParam (path){String} managerId Manager id
- * 
- * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Destinations All destinations for manager
- * [
- *      {
- *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
- *          "name": "firstExpense",
- *          "amount": "1000.00",
- *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
- *          "date": "2018-03-01"
- *      },
- *      {
- *          "_id": "aas-;s-39;x-s9-3la-fwirw",
- *          "name": "secondExpense",
- *          "amount": "1500.00",
- *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
- *          "date": "2018-03-01"
- *      },
- * ]
- * 
- * @apiUse internalError
- * @apiUse notFound
- * @apiUse notAuthorized
- */
-router.get('/:managerId/destinations/other', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerIdNot);
-
-/**
  * @api {get} /{managerId}/destinations/{destinationId}
  * Find Destination By Id
  * @apiVersion 1.0.0

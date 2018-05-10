@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>36/36</span>
+        <span class='fraction'>35/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>36/36</span>
+        <span class='fraction'>35/35</span>
       </div>
     </div>
   </div>
@@ -961,42 +961,7 @@
 916
 917
 918
-919
-920
-921
-922
-923
-924
-925
-926
-927
-928
-929
-930
-931
-932
-933
-934
-935
-936
-937
-938
-939
-940
-941
-942
-943
-944
-945
-946
-947
-948
-949
-950
-951
-952
-953
-954</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+919</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1336,41 +1301,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2345,41 +2275,6 @@ router.delete('/:managerId/users/:userId', auth.checkManagerToken, auth.checkMan
 router.get('/:managerId/destinations', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerId);
 &nbsp;
 /**
- * @api {get} /{managerId}/destinations/other
- * Get All Destinations Not Handled By Manager
- * @apiVersion 1.0.0
- * @apiName Get All Destinations Not Handled By Manager
- * @apiGroup Manager
- * @apiDescription Manager get all destinations - get all destinations not handled by manager with specific id
- * 
- * @apiParam (path){String} managerId Manager id
- * 
- * @apiSuccess {Number} HttpStatus 200 if everything is ok
- * @apiSuccess {Array} Destinations All destinations for manager
- * [
- *      {
- *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
- *          "name": "firstExpense",
- *          "amount": "1000.00",
- *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
- *          "date": "2018-03-01"
- *      },
- *      {
- *          "_id": "aas-;s-39;x-s9-3la-fwirw",
- *          "name": "secondExpense",
- *          "amount": "1500.00",
- *          "vehicleId" : "awadx-;s-39;x-s9-3la-fff",
- *          "date": "2018-03-01"
- *      },
- * ]
- * 
- * @apiUse internalError
- * @apiUse notFound
- * @apiUse notAuthorized
- */
-router.get('/:managerId/destinations/other', auth.checkManagerToken, auth.checkManagerId, controller.findDestinationsByManagerIdNot);
-&nbsp;
-/**
  * @api {get} /{managerId}/destinations/{destinationId}
  * Find Destination By Id
  * @apiVersion 1.0.0
@@ -2908,7 +2803,7 @@ module.exports = router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 09 2018 08:27:28 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

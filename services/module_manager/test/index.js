@@ -708,32 +708,6 @@ describe("Manager tests", function () {
             });
     });
 
-    it("all destinations not for manager - fail - missing token", function (done) {
-        return request(app).get('/manager/' +manager._id + '/destinations/other')
-        .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 401);
-                return done();
-            });
-    });
-
-    it("all destinations not for manager - fail - not found", function (done) {
-        return request(app).get('/manager/' + dummyId + '/destinations/other')
-            .set('x-access-token', managerDummyToken)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 404);
-                return done();
-            });
-    });
-
-    it("all destinations not for manager - success - valid data", function (done) {
-        return request(app).get('/manager/' + manager._id + '/destinations/other')
-            .set('x-access-token', token)
-            .type('application/json').end(function (err, res) {
-                res.should.have.property("status", 200);
-                return done();
-            });
-    });
-
     it("find destination by id - fail - missing token", function (done) {
         return request(app).get('/manager/' + manager._id + '/destinations/'+ destination._id)
         .type('application/json').end(function (err, res) {

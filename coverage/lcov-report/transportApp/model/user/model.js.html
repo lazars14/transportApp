@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.03% </span>
+        <span class="strong">66.44% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>93/143</span>
+        <span class='fraction'>99/149</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.67% </span>
+        <span class="strong">43.48% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>20/48</span>
+        <span class='fraction'>20/46</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">70.27% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>26/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.53% </span>
+        <span class="strong">70.37% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>89/128</span>
+        <span class='fraction'>95/135</span>
       </div>
     </div>
   </div>
@@ -344,7 +344,13 @@
 299
 300
 301
-302</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+302
+303
+304
+305
+306
+307
+308</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -504,13 +510,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -567,7 +574,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -600,6 +608,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -630,6 +640,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -805,13 +817,14 @@ UserSchema.statics.update = <span class="fstat-no" title="function not covered" 
 <span class="cstat-no" title="statement not covered" >        if(data.phone) <span class="cstat-no" title="statement not covered" >found.phone = data.phone;</span></span>
 <span class="cstat-no" title="statement not covered" >        if(data.address) <span class="cstat-no" title="statement not covered" >found.address = data.address;</span></span>
 <span class="cstat-no" title="statement not covered" >        if(data.firebaseToken) <span class="cstat-no" title="statement not covered" >found.firebaseToken = data.firebaseToken;</span></span>
-<span class="cstat-no" title="statement not covered" >        if(data.imei) <span class="cstat-no" title="statement not covered" >found.imei = data.imei;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        found.save(<span class="fstat-no" title="function not covered" >function(err, user){</span></span>
 <span class="cstat-no" title="statement not covered" >            if(err){</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >                return deffered.reject(error("MONGO_ERROR"));</span>
             };
+<span class="cstat-no" title="statement not covered" >            user.password = undefined;</span>
+<span class="cstat-no" title="statement not covered" >            delete user.password;</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.resolve(user);</span>
         });
 &nbsp;
@@ -868,7 +881,8 @@ UserSchema.statics.changePassword = function(id, data){
 <span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user password with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >                return deffered.reject(error("MONGO_ERROR"));</span>
             };
-            // don't have to delete password, because I'm not returning the user object
+            user.password = undefined;
+            delete user.password;
             return deffered.resolve(user);
         });
 &nbsp;
@@ -900,6 +914,8 @@ UserSchema.statics.changeEmail = function(id, data){
                 // email already exists
 <span class="cstat-no" title="statement not covered" >                return deffered.reject(error("MONGO_ERROR"));</span>
             };
+            user.password = undefined;
+            delete user.password;
             return deffered.resolve(user);
         });
 &nbsp;
@@ -931,6 +947,8 @@ UserSchema.statics.updateInfo = function(id, data){
 <span class="cstat-no" title="statement not covered" >                logger.error('Database error - ' + JSON.stringify(err) + 'while trying to update user info with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >                return deffered.reject(error("ALREADY_REGISTERED"));</span>
             };
+            user.password = undefined;
+            delete user.password;
             return deffered.resolve(user);
         });
 &nbsp;
@@ -952,7 +970,7 @@ module.exports = model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 09 2018 08:27:28 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -24,19 +24,24 @@ function _findById(destinationId, managerId){
 }
 
 /**
- * find destinations by manager id
+ * find destination by id - 
+ * @param destinationId
  * @param managerId
  * @returns {*}
  */
-function _findByManagerId(managerId){
+function _findByIdManager(destinationId, managerId){
     var deffered = Q.defer();
 
-    model.find({managerId : managerId}, function(err, destinations){
+    model.findOne({"_id" : mongoose.Types.ObjectId(destinationId)}, function(err, destination){
         if(err){
-            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destinations for manager id ' + managerId);
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);
             return deffered.reject(error("MONGO_ERROR"));
         };
-        deffered.resolve(destinations);
+        if(destination) {
+            if(destination.managerId != managerId) return deffered.reject(error("NOT_ALLOWED"));
+        }
+        
+        deffered.resolve(destination);
     });
 
     return deffered.promise;
@@ -47,12 +52,12 @@ function _findByManagerId(managerId){
  * @param managerId
  * @returns {*}
  */
-function _findByManagerIdNot(managerId){
+function _findByManagerId(managerId){
     var deffered = Q.defer();
 
-    model.find({managerId: {'$ne': managerId }}, function(err, destinations){
+    model.find({managerId : managerId}, function(err, destinations){
         if(err){
-            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destinations not for manager id ' + managerId);
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destinations for manager id ' + managerId);
             return deffered.reject(error("MONGO_ERROR"));
         };
         deffered.resolve(destinations);
@@ -87,6 +92,16 @@ function _findByVehicleId(vehicleId){
  */
 DestinationSchema.statics.findById = function(destinationId){
     return _findById(destinationId);
+}
+
+/**
+ * Find destination by id for manager
+ * @param destinationId
+ * @param managerId
+ * @returns {*}
+ */
+DestinationSchema.statics.findByIdManager = function(destinationId, managerId){
+    return _findByIdManager(destinationId, managerId);
 }
 
 /**
@@ -159,14 +174,15 @@ DestinationSchema.statics.add = function(managerId, destination){
 
 /**
  * Update destination
- * @param id
+ * @param destinationId
  * @param data
+ * @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.update = function(id, data){
+DestinationSchema.statics.update = function(destinationId, data, managerId){
     var deffered = Q.defer();
     
-    _findById(id).then(function(found){
+    _findByIdManager(destinationId, managerId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         if(data.startLocation) found.startLocation = data.startLocation;
@@ -179,7 +195,7 @@ DestinationSchema.statics.update = function(id, data){
 
         found.save(function(err, destination){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to update destination with id ' + destinationId);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve(destination);
@@ -194,18 +210,19 @@ DestinationSchema.statics.update = function(id, data){
 
 /**
  * Delete destination
- * @param id
+ *  @param destinationId
+ *  @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.delete = function(id){
+DestinationSchema.statics.delete = function(destinationId, managerId){
     var deffered = Q.defer();
 
-    _findById(id).then(function(found){
+    _findByIdManager(destinationId, managerId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         model.remove({_id : mongoose.Types.ObjectId(id)}, function(err, destination){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete destination with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to delete destination with id ' + destinationId);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve(destination);
@@ -252,23 +269,24 @@ DestinationSchema.statics.checkDestinationsForDriver = function(driverId, startD
 
 /**
  * Set destination drivers
- * @param id
+ * @param destinationId
  * @param drivers
+ * @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.setDrivers = function(id, drivers){
+DestinationSchema.statics.setDrivers = function(destinationId, drivers, managerId){
     var deffered = Q.defer();
 
     console.log('posle defer');
 
-    _findById(id).then(function(found){
+    _findByIdManager(destinationId, managerId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         found.drivers = drivers;
 
         found.save(function(err, destination){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination drivers with destination id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination drivers with destination id ' + destinationId);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve(destination);
@@ -316,21 +334,22 @@ DestinationSchema.statics.checkDestinationsForVehicle = function(vehicleId, star
 
 /**
  * Set destination vehicle
- * @param id
+ * @param destinationId
  * @param vehicleId
+ * @param managerId
  * @returns {*}
  */
-DestinationSchema.statics.setVehicle = function(id, vehicleId){
+DestinationSchema.statics.setVehicle = function(destinationId, vehicleId, managerId){
     var deffered = Q.defer();
 
-    _findById(id).then(function(found){
+    _findByIdManager(destinationId, managerId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
         found.vehicleId = vehicleId;
 
         found.save(function(err, destination){
             if(err){
-                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination vehicle with id ' + id);
+                logger.error('Database error - ' + JSON.stringify(err) + ' while trying to set destination vehicle with id ' + destinationId);
                 return deffered.reject(error("MONGO_ERROR"));
             };
             return deffered.resolve(destination);

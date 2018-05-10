@@ -273,20 +273,6 @@ exports.findDestinationsByManagerId = function (req, res, next) {
 }
 
 /**
- * Find all destinations not for manager
- * @param req
- * @param res
- * @param next
- */
-exports.findDestinationsByManagerIdNot = function (req, res, next) {
-    destinationModel.findByManagerIdNot(req.params.managerId).then(function (destinations) {
-        res.json(destinations);
-    }).fail(function (err) {
-        return next(err);
-    })
-}
-
-/**
  * Find destination by id
  * @param req
  * @param res
@@ -294,7 +280,7 @@ exports.findDestinationsByManagerIdNot = function (req, res, next) {
  */
 
 exports.findDestinationById = function (req, res, next) {
-    destinationModel.findById(req.params.destinationId).then(function (destination) {
+    destinationModel.findByIdManager(req.params.destinationId, req.params.managerId).then(function (destination) {
         if (!destination) return next(error('NOT_FOUND'));
         res.json(destination);
     }).fail(function (err) {
@@ -338,7 +324,7 @@ exports.addDestination = function (req, res, next) {
  * @param next
  */
 exports.updateDestination = function (req, res, next) {
-    destinationModel.update(req.params.destinationId, req.body).then(function (destination) {
+    destinationModel.update(req.params.destinationId, req.body, req.params.managerId).then(function (destination) {
         res.json(destination);
     }).fail(function (err) {
         return next(err);
@@ -352,7 +338,7 @@ exports.updateDestination = function (req, res, next) {
  * @param next
  */
 exports.deleteDestination = function (req, res, next) {
-    destinationModel.delete(req.params.destinationId).then(function (destination) {
+    destinationModel.delete(req.params.destinationId, req.params.destinationId).then(function (destination) {
         res.json(destination);
     }).fail(function (err) {
         return next(err);
@@ -440,7 +426,7 @@ exports.setDestinationVehicle = function (req, res, next) {
             });
         }
 
-        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId).then(function (destination) {
+        destinationModel.setVehicle(req.params.destinationId, req.body.vehicleId, req.params.managerId).then(function (destination) {
             res.json(destination);
         }).fail(function (err) {
             return next(err);
@@ -514,7 +500,7 @@ exports.setDestinationDrivers = function (req, res, next) {
                 if (destinationsTwo[0]._id != req.params.destinationId) return next(error('NOT_ALLOWED'));
             }
 
-            destinationModel.setDrivers(req.params.destinationId, req.body.drivers).then(function (destination) {
+            destinationModel.setDrivers(req.params.destinationId, req.body.drivers, req.params.managerId).then(function (destination) {
                 res.json(destination);
             }).fail(function (err) {
                 return next(err);
@@ -548,7 +534,7 @@ exports.findAllRequestsSubmitted = function (req, res, next) {
  * @param next
  */
 exports.findAllRequestsByDestination = function (req, res, next) {
-    destinationModel.findById(req.params.destinationId).then(function (destination) {
+    destinationModel.findByIdManager(req.params.destinationId, req.params.managerId).then(function (destination) {
         if (!destination) return next(error('NOT_FOUND'));
 
         requestModel.findByDestinationId(req.params.destinationId).then(function (requests) {
