@@ -9,8 +9,9 @@ export class PushNotificationService {
 
   apiUrl: string = environment.apiUrl;
 
-  sendNotification(userId: string, message: string) {
-    return this.httpService.post(this.apiUrl + '/manager/' + this.sessionService.getManagerId + '/sendNotification', {userId, message})
+  sendNotification(userId: string, message: string, requestId: string) {
+    return this.httpService.post(this.apiUrl + '/manager/' + this.sessionService.getManagerId + '/sendNotification',
+    {userId, message, requestId})
     .map((res) => res.json());
   }
 

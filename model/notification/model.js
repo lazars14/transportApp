@@ -8,8 +8,9 @@ var
  * Send push notification
  * @param userToken
  * @param message
+ * @param requestId
  */
-function sendPushNotification(userToken, message) {
+function sendPushNotification(userToken, message, requestId) {
     var deferred = Q.defer();
 
     var fcm = new FCM(config.firebaseServerKey);
@@ -18,7 +19,8 @@ function sendPushNotification(userToken, message) {
         to: userToken,
         collapse_key: 'your_collapse_key', 
         data: {
-            message: message
+            message: message,
+            requestId: requestId
         },
         notification: {
             title: 'Transportero',

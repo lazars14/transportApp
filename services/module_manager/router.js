@@ -925,6 +925,7 @@ router.post('/:managerId/drivers/:driverId/available', auth.checkManagerToken, a
  * 
  * @apiParam (body){String} userId User Id
  * @apiParam (body){String} message Notification message
+ * @apiParam (body){String} requestId DestinationRequestId
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} request DestinationRequest

@@ -650,11 +650,16 @@ exports.sendPushNotification = function (req, res, next) {
         logger.error('Error - Send Push Notification - Message can\'t be empty');
         return next(error('BAD_REQUEST'));
     }
+
+    if (!req.body.requestId) {
+        logger.error('Error - Send Push Notification - RequestId can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
     
     userModel.findById(req.body.userId).then(function(user){
         if (!user) return next(error('NOT_FOUND'));
 
-        notificationModel.sendPushNotification(user.firebaseToken, req.body.message).then(function (response) {
+        notificationModel.sendPushNotification(user.firebaseToken, req.body.message, req.body.requestId).then(function (response) {
             res.json(response);
         }).fail(function (err) {
             return next(err);
