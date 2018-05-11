@@ -966,5 +966,66 @@ describe("Client tests", function () {
     //             return done();
     //         });
     // });
+
+    it("find all finished destinations - fail - missing token", function (done) {
+        return request(app).get('/client/' + client._id + '/finishedDestinations')
+        .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 401);
+                return done();
+            });
+    });
+
+    it("find all finished destinations - fail - not found", function (done) {
+        return request(app).get('/client/' + dummyId + '/finishedDestinations')
+            .set('x-access-token', clientDummyToken)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 404);
+                return done();
+            });
+    });
+
+    it("find all finished destinations - success - valid data", function (done) {
+        return request(app).get('/client/' + client._id + '/finishedDestinations')
+            .set('x-access-token', token)
+            .type('application/json').end(function (err, res) {
+                res.should.have.property("status", 200);
+                return done();
+            });
+    });
+
+    // it("get requests by destination - fail - missing token", function (done) {
+    //     return request(app).get('/client/' + client._id + '/destinationRequests/' + destination._id)
+    //         .type('application/json').end(function (err, res) {
+    //             res.should.have.property("status", 401);
+    //             return done();
+    //         });
+    // });
+
+    // it("get requests by destination - fail - not found", function (done){
+    //     return request(app).get('/client/' + dummyId + '/destinationRequests/' + destination._id)
+    //     .set('x-access-token', clientDummyToken)
+    //     .type('application/json').end(function (err, res){
+    //         res.should.have.property("status", 404);
+    //         return done();
+    //     });
+    // });
+
+    // it("get requests by destination - fail - not found", function (done){
+    //     return request(app).get('/client/'+ client._id + '/destinationRequests/' + dummyId)
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res){
+    //         res.should.have.property("status", 404);
+    //         return done();
+    //     });
+    // });
+
+    // it("get requests by destination - success - valid data", function (done){
+    //     return request(app).get('/client/' + client._id + '/destinationRequests/' + destination._id)
+    //     .set('x-access-token', token)
+    //     .type('application/json').end(function (err, res){
+    //         res.should.have.property("status", 200);
+    //         return done();
+    //     });
+    // });
     
 });

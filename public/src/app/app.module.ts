@@ -54,6 +54,7 @@ import { LocationModalComponent } from './location-modal/location-modal.componen
 import { DirectionDirective } from './_directives/direction.directive';
 import { SetVehicleModalComponent } from './set-vehicle-modal/set-vehicle-modal.component';
 import { SetDriversModalComponent } from './set-drivers-modal/set-drivers-modal.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 export function httpServiceFactory(backend: XHRBackend, options: RequestOptions, sessionService: SessionService) {
   return new HttpService(backend, options, sessionService);
@@ -84,7 +85,8 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
     LocationModalComponent,
     DirectionDirective,
     SetVehicleModalComponent,
-    SetDriversModalComponent
+    SetDriversModalComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

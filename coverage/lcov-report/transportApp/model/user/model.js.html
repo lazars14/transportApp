@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.44% </span>
+        <span class="strong">63.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>99/149</span>
+        <span class='fraction'>101/159</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.48% </span>
+        <span class="strong">41.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>20/46</span>
+        <span class='fraction'>20/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.27% </span>
+        <span class="strong">65% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>26/37</span>
+        <span class='fraction'>26/40</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.37% </span>
+        <span class="strong">66.9% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>95/135</span>
+        <span class='fraction'>97/145</span>
       </div>
     </div>
   </div>
@@ -350,7 +350,35 @@
 305
 306
 307
-308</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -402,6 +430,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -438,6 +485,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -712,6 +768,25 @@ var _findByEmail = function (email){
 }
 &nbsp;
 /**
+ * find user by firebaseToken
+ * @param firebaseToken
+ * @returns {*}
+ */
+var _findByFirebaseToken = <span class="fstat-no" title="function not covered" >function (firebaseToken){</span>
+<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+    
+<span class="cstat-no" title="statement not covered" >    model.findOne({firebaseToken: firebaseToken}, <span class="fstat-no" title="function not covered" >function(err, user){</span></span>
+<span class="cstat-no" title="statement not covered" >        if(err){</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to find user with firebase token ' + firebaseToken);</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        deffered.resolve(user);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+}
+&nbsp;
+/**
  * Find user by id
  * @param id
  * @returns {*}
@@ -745,6 +820,15 @@ UserSchema.statics.findAll = function(){
     });
 &nbsp;
     return deffered.promise;
+}
+&nbsp;
+/**
+ * Get user firebase token
+ * @param userId
+ * @returns {*}
+ */
+UserSchema.statics.getFirebaseToken = <span class="fstat-no" title="function not covered" >function(userId){</span>
+<span class="cstat-no" title="statement not covered" >    return _findById(id);</span>
 }
 &nbsp;
 /**
@@ -970,7 +1054,7 @@ module.exports = model;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 11 2018 14:27:59 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

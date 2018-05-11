@@ -566,6 +566,81 @@ router.put('/:clientId/drivers/:driverId', auth.checkClientToken, auth.checkClie
  */
 router.delete('/:clientId/drivers/:driverId', auth.checkClientToken, auth.checkClientId, controller.deleteDriver);
 
+/**
+ * @api {get} /{clientId}/finishedDestinations
+ * Get All Finished Destinations
+ * @apiVersion 1.0.0
+ * @apiName Get All Finished Destinations
+ * @apiGroup Client
+ * @apiDescription Client get all finished destinations - get only finished destinations
+ * 
+ * @apiParam (path){String} clientId Client id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} destinations Destinations array
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        },
+ *        {
+ *           "_id": "a-d.x-;flow1-s9-3la-aswsq",
+ *           "firstName": "Driver",
+ *           "lastName": "Two",
+ *           "email" : "drivertwo@gmail.com",
+ *           "phone": "0600234567",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:clientId/finishedDestinations', auth.checkClientToken, auth.checkClientId, controller.findAllFinishedDestinations);
+
+/**
+ * @api {get} /{clientId}/destinationRequests/{destinationId}
+ * Get All Requests For Destination
+ * @apiVersion 1.0.0
+ * @apiName Get All Requests For Destination
+ * @apiGroup Client
+ * @apiDescription Client get all requests for destination - get all requests for destination
+ * 
+ * @apiParam (path){String} clientId Client id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Array} Requests Requests for destination
+ * [
+ *      {
+ *          "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *          "firstName": "John",
+ *          "lastName": "Doe",
+ *          "phone": "060/123456",
+ *          "email": "johndoe@gmail.com",
+ *          "password": "a3-xjd=-s,;kfga=dg"
+ *      },
+ *      {
+ *          "_id": "aasdfse-39;x-s9-3la-fl2",
+ *          "firstName": "Johna",
+ *          "lastName": "Doe",
+ *          "phone": "060/234567",
+ *          "email": "johnadoe@gmail.com",
+ *          "password": "a3-asdfxjd=-s,;kfga=dg"
+ *      }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.get('/:clientId/destinationRequests/:destinationId', auth.checkClientToken, auth.checkClientId, controller.findAllRequestsByDestination);
+
 logger.info('loaded CLIENT routes');
 
 module.exports = router;

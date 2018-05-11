@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50.66% </span>
+        <span class="strong">55.63% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>77/152</span>
+        <span class='fraction'>89/160</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">42.31% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>20/50</span>
+        <span class='fraction'>22/52</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.59% </span>
+        <span class="strong">53.66% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>17/39</span>
+        <span class='fraction'>22/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.43% </span>
+        <span class="strong">56.76% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>72/140</span>
+        <span class='fraction'>84/148</span>
       </div>
     </div>
   </div>
@@ -409,7 +409,25 @@
 364
 365
 366
-367</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -421,17 +439,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -502,7 +520,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -558,6 +576,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -786,18 +822,18 @@
  * @param managerId
  * @returns {*}
  */
-<span class="fstat-no" title="function not covered" >function _findById(destinationId, managerId){</span>
-<span class="cstat-no" title="statement not covered" >    var deffered = Q.defer();</span>
+function _findById(destinationId, managerId){
+    var deffered = Q.defer();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    model.findOne({"_id" : mongoose.Types.ObjectId(destinationId)}, <span class="fstat-no" title="function not covered" >function(err, destination){</span></span>
-<span class="cstat-no" title="statement not covered" >        if(err){</span>
+    model.findOne({"_id" : mongoose.Types.ObjectId(destinationId)}, function(err, destination){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
 <span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find destination with id ' + id);</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject(error("MONGO_ERROR"));</span>
         };
-<span class="cstat-no" title="statement not covered" >        deffered.resolve(destination);</span>
+        deffered.resolve(destination);
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
+    return deffered.promise;
 }
 &nbsp;
 /**
@@ -867,8 +903,8 @@ function _findByManagerId(managerId){
  * @param destinationId
  * @returns {*}
  */
-DestinationSchema.statics.findById = <span class="fstat-no" title="function not covered" >function(destinationId){</span>
-<span class="cstat-no" title="statement not covered" >    return _findById(destinationId);</span>
+DestinationSchema.statics.findById = function(destinationId){
+    return _findById(destinationId);
 }
 &nbsp;
 /**
@@ -917,14 +953,32 @@ DestinationSchema.statics.findAll = <span class="fstat-no" title="function not c
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    model.find({}, <span class="fstat-no" title="function not covered" >function(err, data){</span></span>
 <span class="cstat-no" title="statement not covered" >        if(err){</span>
-<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all destinations' + driverId);</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all destinations');</span>
 <span class="cstat-no" title="statement not covered" >            return deffered.reject("MONGO_ERROR");</span>
         };
 <span class="cstat-no" title="statement not covered" >        return deffered.resolve(data);</span>
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return deffered.promise;</span>
-} 
+}
+&nbsp;
+/**
+ * Find all finished destinations
+ * @returns {*}
+ */
+DestinationSchema.statics.findAllFinished = function(){
+    var deffered = Q.defer();
+&nbsp;
+    model.find({endDate : { '$lte' : new Date()}}, function(err, data){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
+<span class="cstat-no" title="statement not covered" >            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all finished destinations');</span>
+<span class="cstat-no" title="statement not covered" >            return deffered.reject("MONGO_ERROR");</span>
+        };
+        return deffered.resolve(data);
+    });
+&nbsp;
+    return deffered.promise;
+}
 &nbsp;
 /**
  * Add destination
@@ -1147,7 +1201,7 @@ module.exports = model;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 11 2018 14:27:59 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

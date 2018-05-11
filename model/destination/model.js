@@ -140,14 +140,32 @@ DestinationSchema.statics.findAll = function(){
 
     model.find({}, function(err, data){
         if(err){
-            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all destinations' + driverId);
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all destinations');
             return deffered.reject("MONGO_ERROR");
         };
         return deffered.resolve(data);
     });
 
     return deffered.promise;
-} 
+}
+
+/**
+ * Find all finished destinations
+ * @returns {*}
+ */
+DestinationSchema.statics.findAllFinished = function(){
+    var deffered = Q.defer();
+
+    model.find({endDate : { '$lte' : new Date()}}, function(err, data){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + ' while trying to find all finished destinations');
+            return deffered.reject("MONGO_ERROR");
+        };
+        return deffered.resolve(data);
+    });
+
+    return deffered.promise;
+}
 
 /**
  * Add destination

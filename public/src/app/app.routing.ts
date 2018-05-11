@@ -15,6 +15,7 @@ import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component
 import { UsersComponent } from './users/users.component';
 import { DestinationsComponent } from './destinations/destinations.component';
 import { DestinationComponent } from './destination/destination.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -27,6 +28,10 @@ const appRoutes: Routes = [
                 path: '',
                 canActivateChild: [ClientGuard],
                 children: [
+                    {
+                        path: 'analytics',
+                        component: AnalyticsComponent
+                    },
                     {
                         path: 'managers',
                         component: ManagersComponent

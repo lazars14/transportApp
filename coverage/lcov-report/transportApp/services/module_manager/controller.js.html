@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.46% </span>
+        <span class="strong">56.32% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>154/259</span>
+        <span class='fraction'>156/277</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48.94% </span>
+        <span class="strong">45.1% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>46/94</span>
+        <span class='fraction'>46/102</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.22% </span>
+        <span class="strong">56.48% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>61/103</span>
+        <span class='fraction'>61/108</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.49% </span>
+        <span class="strong">57.31% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>147/243</span>
+        <span class='fraction'>149/260</span>
       </div>
     </div>
   </div>
@@ -676,7 +676,45 @@
 631
 632
 633
-634</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1308,6 +1346,42 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var expenseModel = require('../../model/vehicleExpense/model');
 var vehicleModel = require('../../model/vehicle/model');
@@ -1316,6 +1390,7 @@ var userModel = require('../../model/user/model');
 var destinationModel = require('../../model/destination/model');
 var requestModel = require('../../model/destinationRequest/model');
 var driverModel = require('../../model/driver/model');
+var notificationModel = require('../../model/notification/model');
 &nbsp;
 var isEmail = require('validator/lib/isEmail');
 &nbsp;
@@ -1942,13 +2017,49 @@ exports.requestSetRejected = function (req, res, next) {
     }).fail(function (err) {
         return next(err);
     })
-}</pre></td></tr>
+}
+&nbsp;
+/**
+ * Send push notification
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.sendPushNotification = <span class="fstat-no" title="function not covered" >function (req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!req.body.userId) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('Error - Send Push Notification - UserToken can\'t be empty');</span>
+<span class="cstat-no" title="statement not covered" >        return next(error('BAD_REQUEST'));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!req.body.message) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('Error - Send Push Notification - Message can\'t be empty');</span>
+<span class="cstat-no" title="statement not covered" >        return next(error('BAD_REQUEST'));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!req.body.requestId) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('Error - Send Push Notification - RequestId can\'t be empty');</span>
+<span class="cstat-no" title="statement not covered" >        return next(error('BAD_REQUEST'));</span>
+    }
+    
+<span class="cstat-no" title="statement not covered" >    userModel.findById(req.body.userId).then(<span class="fstat-no" title="function not covered" >function(user){</span></span>
+<span class="cstat-no" title="statement not covered" >        if (!user) <span class="cstat-no" title="statement not covered" >return next(error('NOT_FOUND'));</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        notificationModel.sendPushNotification(user.firebaseToken, req.body.message, req.body.requestId).then(<span class="fstat-no" title="function not covered" >function (response) {</span></span>
+<span class="cstat-no" title="statement not covered" >            res.json(response);</span>
+        }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >            return next(err);</span>
+        });
+    }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >        return next(err);</span>
+    });
+}
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 10 2018 14:15:27 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 11 2018 14:27:59 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

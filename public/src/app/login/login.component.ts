@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.sessionService.storeClient(data);
-          this.router.navigate(['client/dashboard/managers']);
+          this.router.navigate(['client/dashboard/analytics']);
         },
         error => {
           this.notification.error('Login Client - Error ' + error.status + ' - ' + error.statusText);

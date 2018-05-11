@@ -3,6 +3,7 @@ var vehicleModel = require('../../model/vehicle/model');
 var driverModel = require('../../model/driver/model');
 var managerModel = require('../../model/manager/model');
 var expenseModel = require('../../model/vehicleExpense/model');
+var destinationModel = require('../../model/destination/model');
 
 
 var isEmail = require('validator/lib/isEmail');
@@ -257,31 +258,6 @@ exports.getExpensesForVehicle = function(req, res, next){
     });
 }
 
-// /**
-//  * Increase vehicle kms
-//  * @param req
-//  * @param res
-//  * @param next
-//  */
-// exports.increaseVehiclekms = function(req, res, next){
-//     if(!req.body.vehicleId){
-//         logger.error('Error - Increase vehicle kms - VehicleId can\'t be empty');
-//         return next(error("BAD_REQUEST"));
-//     }
-
-//     if(!req.body.numberOfKms){
-//         logger.error('Error - Increase vehicle kms - NumberOfKms can\'t be empty');
-//         return next(error("BAD_REQUEST"));
-//     }
-
-//     vehicleModel.increaseKms(req.body.vehicleId, req.body.numberOfKms).then(function(vehicle){
-//         res.json(vehicle);
-//     }).fail(function(err){
-//         return next(err);
-//     });
-// }
-
-
 // Driver functions
 
 /**
@@ -379,6 +355,39 @@ exports.deleteDriver = function(req, res, next){
     });
 }
 
+/**
+ * Find all finished destinations
+ * @param req
+ * @param res
+ * @param next 
+ */
+exports.findAllFinishedDestinations = function(req, res, next){
+    destinationModel.findAllFinished().then(function(destinations){
+        res.json(destinations);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * Find all requests for destination
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.findAllRequestsByDestination = function (req, res, next) {
+    destinationModel.findById(req.params.destinationId).then(function (destination) {
+        if (!destination) return next(error('NOT_FOUND'));
+
+        requestModel.findByDestinationId(req.params.destinationId).then(function (requests) {
+            res.json(requests);
+        }).fail(function (err) {
+            return next(err);
+        })
+    }).fail(function (err) {
+        return next(err);
+    })
+}
 
 
 
