@@ -43,14 +43,17 @@ export class DestinationsComponent implements OnInit {
       const today = new Date();
       _.forEach(data, (destination) => {
         const startDate = new Date(destination.startDate);
-        const endDate = new Date(destination.endDate);
-        if (startDate.getTime() < today.getTime() && endDate.getTime() < today.getTime()) {
-          this.finishedDestinations.push(destination);
-        } else if (startDate.getTime() < today.getTime() && endDate.getTime() > today.getTime()) {
-          this.inProgressDestinations.push(destination);
-        } else {
+        if (destination.endDate === undefined) {
           this.openDestinations.push(destination);
+        } else {
+          const endDate = new Date(destination.endDate);
+          if (startDate.getTime() < today.getTime() && endDate.getTime() < today.getTime()) {
+            this.finishedDestinations.push(destination);
+          } else if (startDate.getTime() < today.getTime() && endDate.getTime() > today.getTime()) {
+            this.inProgressDestinations.push(destination);
+          }
         }
+
       });
 
     }, error => {

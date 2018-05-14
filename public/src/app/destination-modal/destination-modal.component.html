@@ -17,7 +17,7 @@
             <div class="form-group">
               <label for="startDate">
                 <span class="red-text">*</span>Start Date</label>
-              <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate name="startDate" required>
+              <input type="date" class="form-control" [min]="today" [(ngModel)]="destination.startDate" useValueAsDate id="startDate" name="startDate" required>
             </div>
 
             <div class="form-group">

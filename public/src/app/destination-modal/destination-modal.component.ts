@@ -40,8 +40,6 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   zoom = 10;
   showMap = false;
 
-  today = new Date();
-
   element: HTMLElement = document.getElementById('showMapButton') as HTMLElement;
 
   @ViewChild(AgmMap) agmMap: AgmMap;
