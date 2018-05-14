@@ -95,9 +95,6 @@ export class DestinationComponent implements OnInit {
 
   longestRouteReqId;
 
-  lat = 0;
-  lng = 0;
-
   visible = false;
 
   waypoints = [];
@@ -235,17 +232,6 @@ export class DestinationComponent implements OnInit {
     }
   }
 
-  checkIfWaypointExists(waypointLocation) {
-    return new Promise(async (resolve, reject) => {
-      const a = await this.alreadyAdded.find(x => x.lat === waypointLocation.lat && x.lng === waypointLocation.lng);
-      if (a === undefined) {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
-    });
-  }
-
   findRequestForRemoval(waypointLocation, waypoints) {
     return new Promise(async (resolve, reject) => {
       const found = await this.destinationRequests.find(x => _.isEqual(x.startLocation, waypointLocation) ||
@@ -263,43 +249,12 @@ export class DestinationComponent implements OnInit {
     this.alreadyAdded = [this.destination.startLocation, this.destination.endLocation];
 
     // remove duplicate locations
-    const promise = new Promise((resolve, reject) => {
-      for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
-        p = p.then(() => new Promise(async res => {
-          const request = this.destinationRequests[i];
-
-          let waypointExists = await this.checkIfWaypointExists(request.startLocation);
-
-          if (!waypointExists) {
-            this.waypoints.push({
-              location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
-              stopover: true
-            });
-            this.alreadyAdded.push(request.startLocation);
-          }
-
-          waypointExists = await this.checkIfWaypointExists(request.startLocation);
-          if (!waypointExists) {
-            this.waypoints.push({
-              location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
-              stopover: true
-            });
-            this.alreadyAdded.push(request.endLocation);
-          }
-
-          if (i === this.destinationRequests.length - 1) {
-            resolve();
-          }
-
-          res();
-        }));
-      }
-
+    this.directionDirective.getWaypointsWithoutDuplicates(this.destinationRequests, this.alreadyAdded)
+    .then(waypoints => {
+      this.directionDirective.calculateBestRoute(waypoints);
     });
 
-    promise.then(data => {
-      this.directionDirective.calculateBestRoute(this.waypoints);
-    });
+
   }
 
   async calculateDistancesAndTimes($event) {

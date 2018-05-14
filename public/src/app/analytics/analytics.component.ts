@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DestinationService, DestinationRequestService, DriverService, VehicleService } from './../_services/index';
 import { NotificationComponent } from '../notification/notification.component';
+import { DirectionDirective } from '../_directives';
 
 @Component({
   selector: 'app-analytics',
@@ -10,6 +11,7 @@ import { NotificationComponent } from '../notification/notification.component';
 export class AnalyticsComponent implements OnInit {
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
+  @ViewChild(DirectionDirective) directionDirective: DirectionDirective;
 
   constructor(private destinationService: DestinationService, private requestService: DestinationRequestService,
               private driverService: DriverService, private vehicleService: VehicleService) { }
@@ -44,6 +46,12 @@ export class AnalyticsComponent implements OnInit {
         });
 
         this.requestService.findByDestinationClient(destination._id).subscribe(destinationRequests => {
+          // draw route
+          this.directionDirective.getWaypointsWithoutDuplicates(destinationRequests, [destination.startLocation, destination.endLocation])
+          .then(waypoints => {
+            this.directionDirective.drawDirection(waypoints);
+          });
+
           destination.ticketsIncome = 0;
           for (let index = 0; index < destinationRequests.length; index++) {
             const request = destinationRequests[index];
@@ -52,8 +60,6 @@ export class AnalyticsComponent implements OnInit {
               // set total cost and tickets income
               destination.totalCost = destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay);
               destination.total = destination.ticketsIncome - destination.totalCost;
-
-              // draw route - to do
             }
           }
         }, error => {

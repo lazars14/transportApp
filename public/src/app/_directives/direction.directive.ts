@@ -173,40 +173,52 @@ export class DirectionDirective implements OnInit {
     });
   }
 
-  // getWaypointsWithoutDuplicates() {
-  //   return new Promise((resolve, reject) => {
-  //     for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
-  //       p = p.then(() => new Promise(async res => {
-  //         const request = this.destinationRequests[i];
+  getWaypointsWithoutDuplicates(destinationRequests, alreadyAdded) {
+    return new Promise((resolve, reject) => {
+      const waypoints = [];
+      for (let i = 0, p = Promise.resolve({}); i < destinationRequests.length; i++) {
+        p = p.then(() => new Promise(async res => {
+          const request = destinationRequests[i];
 
-  //         let waypointExists = await this.checkIfWaypointExists(request.startLocation);
+          let waypointExists = await this.checkIfWaypointExists(request.startLocation, alreadyAdded);
 
-  //         if (!waypointExists) {
-  //           this.waypoints.push({
-  //             location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
-  //             stopover: true
-  //           });
-  //           this.alreadyAdded.push(request.startLocation);
-  //         }
+          if (!waypointExists) {
+            waypoints.push({
+              location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
+              stopover: true
+            });
+            alreadyAdded.push(request.startLocation);
+          }
 
-  //         waypointExists = await this.checkIfWaypointExists(request.startLocation);
-  //         if (!waypointExists) {
-  //           this.waypoints.push({
-  //             location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
-  //             stopover: true
-  //           });
-  //           this.alreadyAdded.push(request.endLocation);
-  //         }
+          waypointExists = await this.checkIfWaypointExists(request.startLocation, alreadyAdded);
+          if (!waypointExists) {
+            waypoints.push({
+              location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+              stopover: true
+            });
+            alreadyAdded.push(request.endLocation);
+          }
 
-  //         if (i === this.destinationRequests.length - 1) {
-  //           resolve();
-  //         }
+          if (i === destinationRequests.length - 1) {
+            resolve(waypoints);
+          }
 
-  //         res();
-  //       }));
-  //     }
+          res();
+        }));
+      }
 
-  //   });
-  // }
+    });
+  }
+
+  checkIfWaypointExists(waypointLocation, alreadyAdded) {
+    return new Promise(async (resolve, reject) => {
+      const a = await alreadyAdded.find(x => x.lat === waypointLocation.lat && x.lng === waypointLocation.lng);
+      if (a === undefined) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  }
 
 }
