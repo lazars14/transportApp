@@ -311,11 +311,6 @@ exports.addDestination = function (req, res, next) {
         return next(error('BAD_REQUEST'));
     }
 
-    if (!req.body.requestPerKmPrice) {
-        logger.error('Error - Add destination - RequestPerKmPrice can\'t be empty');
-        return next(error('BAD_REQUEST'));
-    }
-
     destinationModel.add(req.params.managerId, req.body).then(function (destination) {
         res.json(destination);
     }).fail(function (err) {

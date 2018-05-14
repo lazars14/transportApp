@@ -7,30 +7,29 @@
   <div class="panel-body" *ngFor="let destination of destinations">
 
     <div class="container-fluid destination-projected">
-      <h3>Destination Result</h3>
 
       <br>
 
       <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Vehicle</th>
-                <th>Drivers</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ destination.startDate | date:'short' }}</td>
-                <td>{{ destination.endDate | date:'short' }}</td>
-                <td>{{ destination.vehicleInfo }}</td>
-                <td>{{ destination.driversInfo }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Vehicle</th>
+              <th>Drivers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ destination.startDate | date:'short' }}</td>
+              <td>{{ destination.endDate | date:'short' }}</td>
+              <td>{{ destination.vehicleInfo }}</td>
+              <td>{{ destination.driversInfo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <agm-map *ngIf="destination.visible" #agmMap id="agmMap" class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
         [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
@@ -41,24 +40,32 @@
       <br>
 
       <div class="row">
-
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Number of Km's:
             <span class="red-text">{{ destination.numberOfKms | number : '1.2-2' }}</span>
           </p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Fuel Expenses (per 100km):
             <span class="red-text">{{ destination.fuelExpenses | number : '1.2-2' }}</span>
           </p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Drivers Pay (each per 100km):
             <span class="red-text">{{ destination.driversPay | number : '1.2-2' }}</span>
           </p>
         </div>
+
+        <div class="col-lg-3">
+          <p>Request price (per km):
+            <span class="red-text">{{ destination.requestPerKmPrice | number : '1.2-2' }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
 
         <div class="col-lg-4">
           <p>Tickets income:

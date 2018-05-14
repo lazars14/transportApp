@@ -32,7 +32,7 @@
                 <i class="fa fa-bus" aria-hidden="true"></i>
               </button>
               <button [disabled]="!destination.endDate" class="btn btn-lg btn-success" data-toggle="modal" data-target="#setDriversModal"
-              (click)="loadDataForSetting(false)" title="Set Drivers">
+                (click)="loadDataForSetting(false)" title="Set Drivers">
                 <i class="fa fa-users" aria-hidden="true"></i>
               </button>
             </td>
@@ -45,7 +45,7 @@
 
     <agm-map *ngIf="visible" #agmMap id="agmMap" class="destination-map" [zoom]="6" [latitude]="(destination.startLocation.lat + destination.endLocation.lat) / 2"
       [longitude]="(destination.startLocation.lng + destination.endLocation.lng) / 2">
-      <direction #directionDirective [origin]="destination.startLocation" [destination]="destination.endLocation" [waypoints]="waypoints" 
+      <direction #directionDirective [origin]="destination.startLocation" [destination]="destination.endLocation" [waypoints]="waypoints"
         (calculate)="calculateDistancesAndTimes($event)"></direction>
     </agm-map>
 
@@ -58,23 +58,33 @@
 
       <div class="row">
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Number of Km's:
             <span class="red-text">{{ destination.numberOfKms | number : '1.2-2' }}</span>
           </p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Fuel Expenses (per 100km):
             <span class="red-text">{{ destination.fuelExpenses | number : '1.2-2' }}</span>
           </p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <p>Drivers Pay (each per 100km):
             <span class="red-text">{{ destination.driversPay | number : '1.2-2' }}</span>
           </p>
         </div>
+
+        <div class="col-lg-3">
+          <p>Request price (per km):
+            <span class="red-text">{{ destination.requestPerKmPrice | number : '1.2-2' }}</span>
+          </p>
+        </div>
+        
+      </div>
+
+      <div class="row">
 
         <div class="col-lg-4">
           <p>Tickets income:
@@ -182,8 +192,8 @@
                 <p>Submission Date: {{ request.submissionDate | date:'short' }}</p>
                 <!-- {{ dest.startDate | short }} -->
 
-                <button class="btn btn-lg btn-success" [disabled]="!canAddRequest(request.userId)" (click)="addToDestination(request)" data-backdrop="static" data-keyboard="false"
-                  data-toggle="modal" data-target="#myModal" title="Add">
+                <button class="btn btn-lg btn-success" [disabled]="!canAddRequest(request.userId)" (click)="addToDestination(request)" data-backdrop="static"
+                  data-keyboard="false" data-toggle="modal" data-target="#myModal" title="Add">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
                 <button class="btn btn-lg btn-danger" (click)="setDeleteId(request, false)" data-toggle="modal" data-target="#confirmModal"

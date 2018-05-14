@@ -51,8 +51,11 @@ export class AnalyticsComponent implements OnInit {
             const request = destinationRequests[index];
             destination.ticketsIncome += request.distance * destination.requestPerKmPrice * (1 - request.discount / 100);
             if (index === destinationRequests.length - 1) {
+              // set total cost and tickets income
               destination.totalCost = destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay);
               destination.total = destination.ticketsIncome - destination.totalCost;
+
+              // draw route - to do
             }
           }
         }, error => {
