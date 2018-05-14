@@ -623,6 +623,7 @@ describe("Manager tests", function () {
                 "lat": 45.31,
                 "lng": 45.31
             },
+            requestPerKmPrice: 10,
             startDate: new Date(),
             endDate: new Date()
         });
@@ -647,6 +648,7 @@ describe("Manager tests", function () {
             },
             fuelExpenses: 1000,
             driversPay: 500,
+            requestPerKmPrice: 10,
             startDate: new Date(),
             endDate: new Date()
         });
@@ -672,7 +674,8 @@ describe("Manager tests", function () {
                 "lat": 46.1003,
                 "lng": 19.6675
             },
-            startDate: new Date("2018-04-29"), 
+            startDate: new Date("2018-04-29"),
+            requestPerKmPrice: 10, 
             driversPay: 300,
             fuelExpenses: 1400
         });

@@ -395,7 +395,7 @@ export class DestinationComponent implements OnInit {
       // set request price
       // * 5 = rsd per km (just for example)
       request.discount = await this.getRequestDiscount(request);
-      request.price = request.distance * 5 * (1 - request.discount / 100);
+      request.price = request.distance * this.destination.requestPerKmPrice * (1 - request.discount / 100);
       this.ticketsIncome += request.price;
 
       resolve({

@@ -210,6 +210,7 @@ DestinationSchema.statics.update = function(destinationId, data, managerId){
         if(data.driversPay) found.driversPay = data.driversPay;
         if(data.numberOfKms) found.numberOfKms = data.numberOfKms;
         if(data.fuelExpenses) found.fuelExpenses = data.fuelExpenses;
+        if(data.requestPerKmPrice) found.requestPerKmPrice = data.requestPerKmPrice;
 
         found.save(function(err, destination){
             if(err){

@@ -434,6 +434,7 @@ router.get('/:managerId/destinations/:destinationId', auth.checkManagerToken, au
  * @apiParam (body){Object} startLocation Destination start location
  * @apiParam (body){Object} endLocation Destination end location
  * @apiParam (body){Date} startDate Destination start date
+ * @apiParam (body){Number} requestPerKmPrice Destination price per km
  * 
  * @apiSuccess {Number} HttpStatus 200 if everything is ok
  * @apiSuccess {Object} Destination Created destination

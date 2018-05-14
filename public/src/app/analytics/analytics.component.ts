@@ -45,10 +45,16 @@ export class AnalyticsComponent implements OnInit {
           this.notification.error('Get Destination Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
 
-        destination.totalCost = destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay);
         this.requestService.findByDestinationClient(destination._id).subscribe(destinationRequests => {
-          console.log('requests', destinationRequests);
-          // for
+          destination.ticketsIncome = 0;
+          for (let index = 0; index < destinationRequests.length; index++) {
+            const request = destinationRequests[index];
+            destination.ticketsIncome += request.distance * destination.requestPerKmPrice * (1 - request.discount / 100);
+            if (index === destinationRequests.length - 1) {
+              destination.totalCost = destination.numberOfKms / 100 * (destination.fuelExpenses + 2 * destination.driversPay);
+              destination.total = destination.ticketsIncome - destination.totalCost;
+            }
+          }
         }, error => {
           this.notification.error('Get Destination Requests - Error ' + error.status + ' - ' + error.statusText);
         });

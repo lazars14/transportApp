@@ -48,6 +48,13 @@ module.exports = (function () {
       type: Number
     },
     /**
+     * Destination request price (per km)
+     */
+    requestPerKmPrice: {
+      type: Number,
+      default: 5
+    },
+    /**
      * Destination vehicle id
      */
     vehicleId: {

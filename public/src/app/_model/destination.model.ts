@@ -10,4 +10,5 @@ export class Destination {
     vehicleId: string;
     drivers: Array<string>;
     managerId: string;
+    requestPerKmPrice: number;
 }
