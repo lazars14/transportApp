@@ -132,7 +132,8 @@ export class DestinationComponent implements OnInit {
 
       if (this.destination.drivers.length > 0) {
         for (let i = 0; i < 2; i++) {
-          this.driverService.findByIdManager(this.destination.drivers[i]).subscribe(driver => {
+          const driverId = this.destination.drivers[i];
+          this.driverService.findByIdManager(driverId['_id']).subscribe(driver => {
             this.driversInfo += driver.firstName + ' ' + driver.lastName;
             this.drivers.push(driver);
             if (i === 0) {
@@ -237,7 +238,11 @@ export class DestinationComponent implements OnInit {
   checkIfWaypointExists(waypointLocation) {
     return new Promise(async (resolve, reject) => {
       const a = await this.alreadyAdded.find(x => x.lat === waypointLocation.lat && x.lng === waypointLocation.lng);
-      resolve(a);
+      if (a === undefined) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
     });
   }
 
@@ -255,6 +260,7 @@ export class DestinationComponent implements OnInit {
     this.total = 0;
     this.totalCost = 0;
     this.ticketsIncome = 0;
+    this.alreadyAdded = [this.destination.startLocation, this.destination.endLocation];
 
     // remove duplicate locations
     const promise = new Promise((resolve, reject) => {
@@ -264,7 +270,7 @@ export class DestinationComponent implements OnInit {
 
           let waypointExists = await this.checkIfWaypointExists(request.startLocation);
 
-          if (!waypointExists || !_.isEqual(request.startLocation, this.destination.startLocation)) {
+          if (!waypointExists) {
             this.waypoints.push({
               location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
               stopover: true
@@ -273,8 +279,7 @@ export class DestinationComponent implements OnInit {
           }
 
           waypointExists = await this.checkIfWaypointExists(request.startLocation);
-
-          if (!waypointExists || !_.isEqual(request.endLocation, this.destination.endLocation)) {
+          if (!waypointExists) {
             this.waypoints.push({
               location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
               stopover: true

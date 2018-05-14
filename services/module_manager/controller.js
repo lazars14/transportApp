@@ -155,7 +155,6 @@ exports.addExpense = function (req, res, next) {
     vehicleModel.findById(req.params.vehicleId).then(function (vehicle) {
         if (!vehicle) return next(error("NOT_FOUND"));
 
-        console.log('usao u kontroler');
         expenseModel.add(req.params.vehicleId, req.body).then(function (expense) {
             res.json(expense);
         }).fail(function (err) {

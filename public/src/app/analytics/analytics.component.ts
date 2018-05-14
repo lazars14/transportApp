@@ -25,8 +25,6 @@ export class AnalyticsComponent implements OnInit {
       finishedDestinationsResponse.forEach(destination => {
         destination.visible = true;
 
-        console.log('drivers', destination.drivers);
-
         destination.driversInfo = '';
         for (let i = 0; i < 2; i++) {
           this.driverService.findById(destination.drivers[i]._id).subscribe(driver => {

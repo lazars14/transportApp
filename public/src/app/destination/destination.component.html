@@ -190,8 +190,6 @@
               </agm-map>
               <div class="destination-content-text">
                 <p>Submission Date: {{ request.submissionDate | date:'short' }}</p>
-                <!-- {{ dest.startDate | short }} -->
-
                 <button class="btn btn-lg btn-success" [disabled]="!canAddRequest(request.userId)" (click)="addToDestination(request)" data-backdrop="static"
                   data-keyboard="false" data-toggle="modal" data-target="#myModal" title="Add">
                   <i class="fa fa-plus" aria-hidden="true"></i>

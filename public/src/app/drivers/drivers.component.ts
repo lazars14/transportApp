@@ -59,12 +59,10 @@ export class DriversComponent implements OnInit {
   }
 
   setDeleteId(id: string) {
-    console.log('setting id object');
     this.driverId = id;
   }
 
   add() {
-    console.log('add in drivers component');
     this.driverService.create(this.driver).subscribe(
       result => {
         this.notification.success('Driver created successfuly');
@@ -77,7 +75,6 @@ export class DriversComponent implements OnInit {
   }
 
   update() {
-    console.log('update in drivers component');
     this.driverService.update(this.driver).subscribe(
       result => {
         this.notification.success('Driver updated successfuly');
@@ -92,13 +89,11 @@ export class DriversComponent implements OnInit {
   delete() {
     this.driverService.delete(this.driverId).subscribe(
       result => {
-        console.log(result);
         this.notification.success('Driver deleted successfuly');
         this.refreshPage();
         this.resetForm();
       },
       error => {
-        console.log('frontend error ' + error);
         this.notification.error('Delete Driver - Error ' + error.status + ' - ' + error.statusText);
       });
   }

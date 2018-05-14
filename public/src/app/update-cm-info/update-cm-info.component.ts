@@ -61,7 +61,6 @@ export class UpdateCmInfoComponent implements OnInit {
 
   ok() {
     if (this.userType === constants.client) {
-      console.log('update client info');
       this.clientService.update(this.convertUserObject(true)).subscribe(
         data => {
           this.notification.success('Client updated successfuly');
@@ -71,7 +70,6 @@ export class UpdateCmInfoComponent implements OnInit {
           this.notification.error('Update Client - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
-      console.log('update manager info');
       this.managerService.updateInfo(this.convertUserObject(false)).subscribe(
         data => {
           this.notification.success('Manager updated successfuly');

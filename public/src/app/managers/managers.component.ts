@@ -63,13 +63,10 @@ export class ManagersComponent implements OnInit {
   }
 
   setDeleteId(id: string) {
-    console.log('setting id object');
     this.managerId = id;
   }
 
   add(manager) {
-    console.log('manager to add ', manager);
-    console.log('add in managers component');
     this.managerService.create(manager).subscribe(
       result => {
         this.notification.success('Manager created successfuly');
@@ -82,8 +79,6 @@ export class ManagersComponent implements OnInit {
   }
 
   update(manager) {
-    console.log('manager to update ', manager);
-    console.log('update in drivers component');
     this.managerService.update(manager).subscribe(
       result => {
         this.notification.success('Manager updated successfuly');
@@ -96,7 +91,6 @@ export class ManagersComponent implements OnInit {
   }
 
   delete() {
-    console.log('delete in drivers component');
     this.managerService.delete(this.managerId).subscribe(
       result => {
         this.notification.success('Manager deleted successfuly');

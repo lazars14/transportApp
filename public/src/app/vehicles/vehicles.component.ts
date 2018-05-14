@@ -116,10 +116,8 @@ export class VehiclesComponent implements OnInit {
   resetForm() {
     if (this.client) {
       this.vehicle = new Vehicle();
-      console.log('reseting vehicle');
     } else {
       this.expense = new VehicleExpense();
-      console.log('reseting vehicle expense');
     }
   }
 
@@ -177,13 +175,10 @@ export class VehiclesComponent implements OnInit {
     }
 
     this.id = id;
-
-    console.log('setting id object');
   }
 
   add() {
     if (this.client) {
-      console.log('add vehicle in component');
       this.vehicleService.create(this.vehicle).subscribe(
         result => {
           this.notification.success('Vehicle created successfuly');
@@ -194,7 +189,6 @@ export class VehiclesComponent implements OnInit {
           this.notification.error('Add Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
-      console.log('add vehicleExpense in component');
       this.vehicleExpenseService.create(this.expense).subscribe(
         result => {
           this.notification.success('Vehicle expense created successfuly');
@@ -210,7 +204,6 @@ export class VehiclesComponent implements OnInit {
 
   update() {
     if (this.client) {
-      console.log('update vehicle in component');
       this.vehicleService.update(this.vehicle).subscribe(
         result => {
           this.notification.success('Vehicle updated successfuly');
@@ -221,8 +214,6 @@ export class VehiclesComponent implements OnInit {
           this.notification.error('Update Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
-      console.log('update vehicleExpense in component');
-      console.log('updated expense date ', this.expense.date);
       this.vehicleExpenseService.update(this.expense).subscribe(
         result => {
           this.notification.success('Vehicle created successfuly');
@@ -238,7 +229,6 @@ export class VehiclesComponent implements OnInit {
 
   delete() {
     if (this.client) {
-      console.log('delete vehicle in component');
       this.vehicleService.delete(this.id).subscribe(
         result => {
           this.notification.success('Vehicle deleted successfuly');
@@ -249,7 +239,6 @@ export class VehiclesComponent implements OnInit {
           this.notification.error('Delete Vehicle - Error ' + error.status + ' - ' + error.statusText);
         });
     } else {
-      console.log('delete vehicleExpense in component');
       this.vehicleExpenseService.delete(this.id, this.vehicleId).subscribe(
         result => {
           this.notification.success('Vehicle deleted successfuly');
@@ -264,7 +253,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   extendRegistration() {
-    console.log('extend vehicle registration');
     this.vehicleService.extendRegistration(this.vehicle).subscribe(
       result => {
         this.notification.success('Registration extended successfuly');

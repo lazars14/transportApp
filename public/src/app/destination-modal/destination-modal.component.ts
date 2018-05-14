@@ -57,15 +57,7 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
     this.destination.startDate = new Date();
   }
 
-  ngAfterViewInit() {
-    console.log('ovo je mapa ', this.agmMap);
-    // $('#myModal').on('show.bs.modal', function() {
-      // this.showMap = true;
-      // this.agmMap.triggerResize();
-      // console.log('shown');
-      // this.element.click();
-    // });
-  }
+  ngAfterViewInit() {}
 
   get time() {
     if (this.destination.startDate) {
@@ -92,14 +84,12 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   }
 
   ok(time) {
-    console.log(this.visible);
     this.destination.startLocation = this.startMarker;
     this.destination.endLocation = this.endMarker;
     const month = this.destination.startDate.getMonth() + 1,
   day = this.destination.startDate.getDate(),
   year = this.destination.startDate.getFullYear();
   this.destination.startDate = new Date(month + '-' + day + '-' + year + ' ' + time);
-    // console.log('novi datum: ', this.destination.startDate);
     this.modalAddUpdate.emit();
   }
 
@@ -109,8 +99,6 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   }
 
   mapClicked($event) {
-    console.log('clicked');
-    console.log('markers count ', this.markersCount);
     if (this.markersCount === 0) {
       this.markers.push({
         lat: $event.coords.lat,
@@ -120,7 +108,6 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
       });
       this.startMarker = $event.coords;
       this.markersCount++;
-      console.log('first click');
     } else if (this.markersCount === 1) {
       this.markers.push({
         lat: $event.coords.lat,
@@ -130,25 +117,14 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
       });
       this.endMarker = $event.coords;
       this.markersCount++;
-      console.log('second click');
       this.visible = true;
-      // this.direction.drawDirection(this.startMarker, this.endMarker);
-      // reset markers to display only A to B
       this.markers = [];
     }
   }
 
   resetMap(date) {
-    console.log('reseting map');
     this.visible = false;
     this.markersCount = 0;
-
-    // testing
-    console.log('datum posle dodavanja ', this.destination.startDate);
-    console.log(date);
-
-    // this.startMarker = {};
-    // this.endMarker = {};
   }
 
   setMapForEdit(destination: Destination) {
@@ -165,9 +141,5 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
       return false;
     }
   }
-
-  // showMap() {
-  //   this.agmMap.triggerResize();
-  // }
 
 }

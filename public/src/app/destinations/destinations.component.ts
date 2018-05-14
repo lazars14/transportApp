@@ -94,7 +94,6 @@ export class DestinationsComponent implements OnInit {
   }
 
   add() {
-    console.log('add in destinations component');
     this.destinationService.create(this.destination).subscribe(
       result => {
         this.notification.success('Destination created successfuly');
@@ -107,7 +106,6 @@ export class DestinationsComponent implements OnInit {
   }
 
   update() {
-    console.log('update in destinations component');
     this.destinationService.update(this.destination).subscribe(
       result => {
         this.notification.success('Destination updated successfuly');

@@ -16,7 +16,6 @@ export class UsersComponent implements OnInit {
 
   users: Array<User>;
 
-  action: string;
   userId: string;
 
   deleteHeader = 'Delete User';
@@ -38,12 +37,10 @@ export class UsersComponent implements OnInit {
   }
 
   setDeleteId(id: string) {
-    console.log('setting id object');
     this.userId = id;
   }
 
   delete() {
-    console.log('delete in users component');
     this.userService.delete(this.userId).subscribe(
       result => {
         this.notification.success('User deleted successfuly');

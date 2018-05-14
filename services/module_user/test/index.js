@@ -103,7 +103,6 @@ describe("User tests", function () {
         };
         return request(app).post('/user/login')
             .type('application/json').send(data).end(function (err, res) {
-                if(err) console.log("doslo je do greske");
                 res.should.have.property("status", 409);
                 done();
             });
@@ -118,7 +117,6 @@ describe("User tests", function () {
         return request(app).post('/user/login')
             .type('application/json').send(data).end(function (err, res) {
                 res.body.should.have.property("token");
-                // data for further tests
                 token = res.body.token;
                 user = res.body.user;
                 return done();

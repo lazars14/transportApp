@@ -50,7 +50,6 @@ export class DirectionDirective implements OnInit {
         waypoints: waypoints,
         optimizeWaypoints: true,
         travelMode: 'DRIVING'
-        // for not losing scope (response, status) => ; if it was function (response, status) this object wouldn't be visible
       }, (response, status) => {
         if (status === 'OK') {
           this.directionsDisplay.setDirections(response);

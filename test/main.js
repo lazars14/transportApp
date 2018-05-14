@@ -10,13 +10,10 @@ var bcrypt = require('bcryptjs');
 
 describe('main', function () {
   before(function (done) {
-    console.log('Before test drop exitisting test database');
     return exec('mongo transportApp_test --eval "db.dropDatabase()"', function (err, data) {
       if (err) {
-        console.log('Error droping exitisting test database');
         throw err;
       } else {
-        console.log('Existing test database successfully droped');
         return done();
       }
     });
@@ -26,10 +23,8 @@ describe('main', function () {
     var passwordCrypted = bcrypt.hashSync("test", bcrypt.genSaltSync(8), null);
     return exec("mongo transportApp_test --eval \"db.clients.insertOne({email: \'client@gmail.com\', password: \'" + passwordCrypted  + "\', firstName: \'Joe\', lastName: \'Doe\'})\"", function (err, data) {
       if (err) {
-        console.log('Error inserting client into db');
         throw err;
       } else {
-        console.log('Successfully created client in db');
         return done();
       }
     });
