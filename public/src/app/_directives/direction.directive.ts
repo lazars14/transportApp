@@ -173,4 +173,40 @@ export class DirectionDirective implements OnInit {
     });
   }
 
+  // getWaypointsWithoutDuplicates() {
+  //   return new Promise((resolve, reject) => {
+  //     for (let i = 0, p = Promise.resolve({}); i < this.destinationRequests.length; i++) {
+  //       p = p.then(() => new Promise(async res => {
+  //         const request = this.destinationRequests[i];
+
+  //         let waypointExists = await this.checkIfWaypointExists(request.startLocation);
+
+  //         if (!waypointExists) {
+  //           this.waypoints.push({
+  //             location: new google.maps.LatLng(request.startLocation.lat, request.startLocation.lng),
+  //             stopover: true
+  //           });
+  //           this.alreadyAdded.push(request.startLocation);
+  //         }
+
+  //         waypointExists = await this.checkIfWaypointExists(request.startLocation);
+  //         if (!waypointExists) {
+  //           this.waypoints.push({
+  //             location: new google.maps.LatLng(request.endLocation.lat, request.endLocation.lng),
+  //             stopover: true
+  //           });
+  //           this.alreadyAdded.push(request.endLocation);
+  //         }
+
+  //         if (i === this.destinationRequests.length - 1) {
+  //           resolve();
+  //         }
+
+  //         res();
+  //       }));
+  //     }
+
+  //   });
+  // }
+
 }
