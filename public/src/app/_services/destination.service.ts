@@ -15,6 +15,11 @@ export class DestinationService {
     .map((res) => res.json());
   }
 
+  findAllFinishedClient() {
+    return this.httpService.get(this.apiUrl + '/client/' + this.sessionService.getClientId() + '/finishedDestinations')
+    .map((res) => res.json());
+  }
+
   findById(id: string) {
     return this.httpService.get(this.apiUrl + '/manager/' + this.sessionService.getManagerId() + '/destinations/' + id)
     .map((res) => res.json());

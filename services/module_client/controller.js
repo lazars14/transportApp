@@ -4,6 +4,7 @@ var driverModel = require('../../model/driver/model');
 var managerModel = require('../../model/manager/model');
 var expenseModel = require('../../model/vehicleExpense/model');
 var destinationModel = require('../../model/destination/model');
+var requestModel = require('../../model/destinationRequest/model');
 
 
 var isEmail = require('validator/lib/isEmail');
