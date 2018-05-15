@@ -25,7 +25,7 @@ import { ClientService,
          VehicleExpenseService,
          VehicleService,
          AuthService} from './_services/index';
-import { SessionService, HttpService, ClientGuard, ManagerGuard } from './_core/index';
+import { SessionService, HttpService, ClientGuard, ManagerGuard, ErrorHandlerService } from './_core/index';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UpdateCmInfoComponent } from './update-cm-info/update-cm-info.component';
 import { UsersComponent } from './users/users.component';
@@ -108,7 +108,7 @@ export function httpServiceFactory(backend: XHRBackend, options: RequestOptions,
   ],
   providers: [AuthService, ClientGuard, ManagerGuard,
     SessionService, ClientService, DestinationRequestService, DestinationService,
-    DriverService, ManagerService, UserService, VehicleExpenseService, VehicleService,
+    DriverService, ManagerService, UserService, VehicleExpenseService, VehicleService, ErrorHandlerService,
     { provide: BrowserXhr, useClass: NgProgressBrowserXhr },
     {
       provide: HttpService,
