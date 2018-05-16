@@ -82,12 +82,18 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   }
 
   ok(time) {
+    this.startMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    this.startMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+    this.endMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    this.endMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+
     this.destination.startLocation = this.startMarker;
     this.destination.endLocation = this.endMarker;
+
     const month = this.destination.startDate.getMonth() + 1,
-  day = this.destination.startDate.getDate(),
-  year = this.destination.startDate.getFullYear();
-  this.destination.startDate = new Date(month + '-' + day + '-' + year + ' ' + time);
+    day = this.destination.startDate.getDate(),
+    year = this.destination.startDate.getFullYear();
+    this.destination.startDate = new Date(month + '-' + day + '-' + year + ' ' + time);
     this.modalAddUpdate.emit();
   }
 
