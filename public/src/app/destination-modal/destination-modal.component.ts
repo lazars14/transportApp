@@ -97,6 +97,7 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   }
 
   mapClicked($event) {
+    console.log('markers count is ', this.markersCount);
     if (this.markersCount === 0) {
       this.markers.push({
         lat: $event.coords.lat,
@@ -123,6 +124,10 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   resetMap(date) {
     this.visible = false;
     this.markersCount = 0;
+    this.markers = [];
+    this.startMarker = {};
+    this.endMarker = {};
+    this.agmMap.triggerResize();
   }
 
   setMapForEdit(destination: Destination) {

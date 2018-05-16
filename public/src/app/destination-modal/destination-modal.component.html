@@ -41,7 +41,7 @@
               <input type="number" class="form-control" [(ngModel)]="destination.requestPerKmPrice" name="requestPerKmPrice" min="0">
             </div>
 
-            <div [hidden]="!showMap" class="form-group">
+            <div class="form-group">
               <agm-map id="agmMap" class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)" [zoom]="zoom">
                 <agm-direction *ngIf="endMarker.lat" [origin]="startMarker" [destination]="endMarker" [visible]="visible"></agm-direction>
                 <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
@@ -53,12 +53,7 @@
               <button class="btn btn-danger btn-lg" (click)="resetMap()">Reset Map</button>
             </div>
 
-            <div class="form-group">
-              <button id="showMapButton" class="btn btn-success btn-lg" (click)="showMap = true; agmMap.triggerResize()">Show Map</button>
-            </div>
-
-            <p>
-              <span class="red-text">*</span> - mandatory fields</p>
+            <p><span class="red-text">*</span> - mandatory fields</p>
 
           </form>
         </div>

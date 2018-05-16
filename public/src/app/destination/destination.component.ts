@@ -110,6 +110,8 @@ export class DestinationComponent implements OnInit {
   deleteTextRemove = 'Are you sure you want to remove the request?';
 
   ngOnInit() {
+    this.destinationRequest.startLocation = {lat: 0, lng: 0};
+    this.destinationRequest.endLocation = {lat: 0, lng: 0};
     this.refreshPage();
   }
 
