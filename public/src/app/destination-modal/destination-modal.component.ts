@@ -127,7 +127,7 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-  resetMap(date) {
+  resetMap() {
     this.visible = false;
     this.markersCount = 0;
     this.markers = [];

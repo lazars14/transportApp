@@ -667,3 +667,30 @@ exports.sendPushNotification = function (req, res, next) {
         return next(err);
     });
 }
+
+/**
+ * Update requests
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.updateRequests = function (req, res, next) {
+    if (!req.body.destinationRequests) {
+        logger.error('Error - Update Requests - DestinationRequests can\'t be empty');
+        return next(error('BAD_REQUEST'));
+    }
+
+    requestModel.checkRequests(req.body.destinationRequests, req.params.destinationId)
+    .then(function (destinationId) {
+        // everything ok, make changes
+        requestModel.updateRequestsToAwaiting(req.body.destinationRequests, req.params.destinationId)
+        .then(function(requests){
+            res.json(requests);
+        }).fail(function (err) {
+            return next(err);
+        });
+    }).fail(function (err) {
+        return next(err);
+    });
+
+}

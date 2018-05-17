@@ -90,4 +90,11 @@ export class DestinationRequestService {
     .catch(err => this.errorHandlerService.handleError(err));
   }
 
+  updateRequestsToAwaiting(destinationRequests: Array<DestinationRequest>, destinationId: string) {
+    return this.httpService.post(this.apiUrl + '/manager/' + this.sessionService.getManagerId()
+    + '/destinations/' + destinationId + '/updateRequests', {destinationRequests: destinationRequests})
+    .map((res) => res.json())
+    .catch(err => this.errorHandlerService.handleError(err));
+  }
+
 }

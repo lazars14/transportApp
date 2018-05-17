@@ -727,6 +727,69 @@
   },
   {
     "type": "get",
+    "url": "/{clientId}/finishedDestinations",
+    "title": "Get All Finished Destinations",
+    "version": "1.0.0",
+    "name": "Get_All_Finished_Destinations",
+    "group": "Client",
+    "description": "<p>Client get all finished destinations - get only finished destinations</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "clientId",
+            "description": "<p>Client id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "destinations",
+            "description": "<p>Destinations array [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; }, { &quot;_id&quot;: &quot;a-d.x-;flow1-s9-3la-aswsq&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;Two&quot;, &quot;email&quot; : &quot;drivertwo@gmail.com&quot;, &quot;phone&quot;: &quot;0600234567&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_client/router.js",
+    "groupTitle": "Client",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
     "url": "/{clientId}/managers",
     "title": "Get All Managers",
     "version": "1.0.0",
@@ -762,6 +825,76 @@
             "optional": false,
             "field": "Managers",
             "description": "<p>Managers array [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot; : &quot;060/123456&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-s,;kfga=dg&quot; }, { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-213&quot;, &quot;firstName&quot;: &quot;Jane&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot; : &quot;060/123456&quot;, &quot;email&quot;: &quot;janedoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-swekfga=123&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_client/router.js",
+    "groupTitle": "Client",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "url": "/{clientId}/destinationRequests/{destinationId}",
+    "title": "Get All Requests For Destination",
+    "version": "1.0.0",
+    "name": "Get_All_Requests_For_Destination",
+    "group": "Client",
+    "description": "<p>Client get all requests for destination - get all requests for destination</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "clientId",
+            "description": "<p>Client id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "Requests",
+            "description": "<p>Requests for destination [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/123456&quot;, &quot;email&quot;: &quot;johndoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-xjd=-s,;kfga=dg&quot; }, { &quot;_id&quot;: &quot;aasdfse-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Johna&quot;, &quot;lastName&quot;: &quot;Doe&quot;, &quot;phone&quot;: &quot;060/234567&quot;, &quot;email&quot;: &quot;johnadoe@gmail.com&quot;, &quot;password&quot;: &quot;a3-asdfxjd=-s,;kfga=dg&quot; } ]</p>"
           }
         ]
       }
@@ -1537,6 +1670,13 @@
             "optional": false,
             "field": "startDate",
             "description": "<p>Destination start date</p>"
+          },
+          {
+            "group": "body",
+            "type": "Number",
+            "optional": true,
+            "field": "requestPerKmPrice",
+            "description": "<p>Destination price per km</p>"
           }
         ]
       }
@@ -2423,69 +2563,6 @@
   },
   {
     "type": "get",
-    "url": "/{managerId}/destinations/other",
-    "title": "Get All Destinations Not Handled By Manager",
-    "version": "1.0.0",
-    "name": "Get_All_Destinations_Not_Handled_By_Manager",
-    "group": "Manager",
-    "description": "<p>Manager get all destinations - get all destinations not handled by manager with specific id</p>",
-    "parameter": {
-      "fields": {
-        "path": [
-          {
-            "group": "path",
-            "type": "String",
-            "optional": false,
-            "field": "managerId",
-            "description": "<p>Manager id</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "HttpStatus",
-            "description": "<p>200 if everything is ok</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Array",
-            "optional": false,
-            "field": "Destinations",
-            "description": "<p>All destinations for manager [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;name&quot;: &quot;firstExpense&quot;, &quot;amount&quot;: &quot;1000.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, { &quot;_id&quot;: &quot;aas-;s-39;x-s9-3la-fwirw&quot;, &quot;name&quot;: &quot;secondExpense&quot;, &quot;amount&quot;: &quot;1500.00&quot;, &quot;vehicleId&quot; : &quot;awadx-;s-39;x-s9-3la-fff&quot;, &quot;date&quot;: &quot;2018-03-01&quot; }, ]</p>"
-          }
-        ]
-      }
-    },
-    "filename": "services/module_manager/router.js",
-    "groupTitle": "Manager",
-    "error": {
-      "examples": [
-        {
-          "title": "Internal server error:",
-          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
-          "type": "json"
-        },
-        {
-          "title": "Not Found:",
-          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
-          "type": "json"
-        },
-        {
-          "title": "Not Authenticated:",
-          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
-          "type": "json"
-        }
-      ]
-    }
-  },
-  {
-    "type": "get",
     "url": "/{managerId}/drivers",
     "title": "Get All Drivers",
     "version": "1.0.0",
@@ -3025,6 +3102,92 @@
         {
           "title": "Invalid username/password:",
           "content": "HTTP/1.1 409 Invalid username/password\n {\n   \"error\": {\n     \"code\": \"409\",\n     \"message\": \"Invalid username/password\"\n   }\n }",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
+    "url": "/{managerId}/sendNotification",
+    "title": "Send Push Notification To User",
+    "version": "1.0.0",
+    "name": "Send_Push_Notification_To_User",
+    "group": "Manager",
+    "description": "<p>Manager send push notification to user - send notification to user about his request</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>User Id</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Notification message</p>"
+          },
+          {
+            "group": "body",
+            "type": "String",
+            "optional": false,
+            "field": "requestId",
+            "description": "<p>DestinationRequestId</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "request",
+            "description": "<p>DestinationRequest [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
           "type": "json"
         }
       ]
@@ -3866,6 +4029,85 @@
         {
           "title": "Bad request:",
           "content": "HTTP/1.1 400 Bad request\n {\n   \"error\": {\n     \"code\": \"400\",\n     \"message\": \"Bad request\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Authenticated:",
+          "content": "HTTP/1.1 401 Not Authenticated\n {\n   \"error\": \"No Access Right\"\n}",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  {
+    "type": "post",
+    "url": "/{managerId}/destinations/{destinationId}/updateRequests",
+    "title": "Update Requests For Destination",
+    "version": "1.0.0",
+    "name": "Update_Requests_For_Destination",
+    "group": "Manager",
+    "description": "<p>Manager update requests for destination - change statuses</p>",
+    "parameter": {
+      "fields": {
+        "path": [
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "managerId",
+            "description": "<p>Manager id</p>"
+          },
+          {
+            "group": "path",
+            "type": "String",
+            "optional": false,
+            "field": "destinationId",
+            "description": "<p>Destination id</p>"
+          }
+        ],
+        "body": [
+          {
+            "group": "body",
+            "type": "Array",
+            "optional": false,
+            "field": "destinationRequests",
+            "description": "<p>Requests before any change</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "HttpStatus",
+            "description": "<p>200 if everything is ok</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "requests",
+            "description": "<p>DestinationRequests [ { &quot;_id&quot;: &quot;a-d.x-;s-39;x-s9-3la-fl2&quot;, &quot;firstName&quot;: &quot;Driver&quot;, &quot;lastName&quot;: &quot;One&quot;, &quot;email&quot; : &quot;driverone@gmail.com&quot;, &quot;phone&quot;: &quot;0600123456&quot;, &quot;address&quot;: &quot;St. Joseph's Boulevard 50&quot; } ]</p>"
+          }
+        ]
+      }
+    },
+    "filename": "services/module_manager/router.js",
+    "groupTitle": "Manager",
+    "error": {
+      "examples": [
+        {
+          "title": "Internal server error:",
+          "content": "HTTP/1.1 500 Internal server error\n {\n   \"error\": {\n     \"code\": \"500\",\n     \"message\": \"Internal server error\"\n   }\n }",
+          "type": "json"
+        },
+        {
+          "title": "Not Found:",
+          "content": "HTTP/1.1 404 Not Found\n{\n  \"error\": \"Not Found\"\n}",
           "type": "json"
         },
         {

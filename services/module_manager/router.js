@@ -947,6 +947,38 @@ router.post('/:managerId/drivers/:driverId/available', auth.checkManagerToken, a
  */
 router.post('/:managerId/sendNotification', auth.checkManagerToken, auth.checkManagerId, controller.sendPushNotification);
 
+/**
+ * @api {post} /{managerId}/destinations/{destinationId}/updateRequests
+ * Update Requests For Destination
+ * @apiVersion 1.0.0
+ * @apiName Update Requests For Destination
+ * @apiGroup Manager
+ * @apiDescription Manager update requests for destination - change statuses
+ * 
+ * @apiParam (path){String} managerId Manager id
+ * @apiParam (path){String} destinationId Destination id
+ * 
+ * @apiParam (body){Array} destinationRequests Requests before any change
+ * 
+ * @apiSuccess {Number} HttpStatus 200 if everything is ok
+ * @apiSuccess {Object} requests DestinationRequests
+ * [
+ *        {
+ *           "_id": "a-d.x-;s-39;x-s9-3la-fl2",
+ *           "firstName": "Driver",
+ *           "lastName": "One",
+ *           "email" : "driverone@gmail.com",
+ *           "phone": "0600123456",
+ *           "address": "St. Joseph's Boulevard 50"
+ *        }
+ * ]
+ * 
+ * @apiUse internalError
+ * @apiUse notFound
+ * @apiUse notAuthorized
+ */
+router.post('/:managerId/destinations/:destinationId/updateRequests', auth.checkManagerToken, auth.checkManagerId, controller.updateRequests);
+
 logger.info('loaded MANAGER routes');
 
 module.exports = router;

@@ -75,8 +75,7 @@ export class DestinationComponent implements OnInit {
 
   destinationRequests = [];
   openRequests = [];
-
-  preChangeDestinationRequests = [];
+  requestsForRemoval = [];
 
   destinationOpen: boolean;
   remove: boolean;
@@ -110,8 +109,14 @@ export class DestinationComponent implements OnInit {
   deleteTextRemove = 'Are you sure you want to remove the request?';
 
   ngOnInit() {
-    this.destinationRequest.startLocation = {lat: 0, lng: 0};
-    this.destinationRequest.endLocation = {lat: 0, lng: 0};
+    this.destinationRequest.startLocation = {
+      lat: 0,
+      lng: 0
+    };
+    this.destinationRequest.endLocation = {
+      lat: 0,
+      lng: 0
+    };
     this.refreshPage();
   }
 
@@ -149,7 +154,6 @@ export class DestinationComponent implements OnInit {
         if (this.destinationRequests.length > 0) {
           this.calculate();
         }
-        this.preChangeDestinationRequests = currentRequests;
       }, error => {
         this.notification.error('Get Destination Requests - Error ' + error.status + ' - ' + error.statusText);
       });
@@ -252,9 +256,9 @@ export class DestinationComponent implements OnInit {
 
     // remove duplicate locations
     this.directionDirective.getWaypointsWithoutDuplicates(this.destinationRequests, this.alreadyAdded)
-    .then(waypoints => {
-      this.directionDirective.calculateBestRoute(waypoints);
-    });
+      .then(waypoints => {
+        this.directionDirective.calculateBestRoute(waypoints);
+      });
 
 
   }
@@ -355,8 +359,6 @@ export class DestinationComponent implements OnInit {
       request.destinationOrder = startLegIndex;
 
       // set request price
-      // * 5 = rsd per km (just for example)
-      request.discount = await this.getRequestDiscount(request);
       request.price = request.distance * this.destination.requestPerKmPrice * (1 - request.discount / 100);
       this.ticketsIncome += request.price;
 
@@ -364,20 +366,6 @@ export class DestinationComponent implements OnInit {
         dataBeforeRoute: dataBeforeRoute,
         routeData: routeData
       });
-    });
-  }
-
-  getRequestDiscount(request) {
-    return new Promise(async (resolve, reject) => {
-      if (request.status === constants.status.ACCEPTED) {
-        const originalRequest = this.preChangeDestinationRequests.find(x => x._id === request._id);
-        if (originalRequest.startDate !== request.startDate || originalRequest.endDate !== request.endDate) {
-          request.discount += 5;
-          resolve(request.discount);
-        }
-      } else {
-        resolve(request.discount);
-      }
     });
   }
 
@@ -406,39 +394,44 @@ export class DestinationComponent implements OnInit {
   }
 
   save() {
-    // go through preChanged and destinationRequests
-    _.this.preChangeDestinationRequests.forEach(request => {
-      const destinationRequest = _.find(this.destinationRequests, {
-        _id: request._id
-      });
+    if (this.destinationRequests.length > 0) {
+      this.destinationRequestService.updateRequestsToAwaiting(this.destinationRequests, this.destination._id)
+        .subscribe(requests => {
+          // everything ok
 
-      // request removed from destination, now will set status to submitted
-      if (destinationRequest == null) {
-        this.destinationRequestService.submit(destinationRequest._id).subscribe(destRequest => {
-          // push notification
+          if (this.requestsForRemoval.length > 0) {
+            this.removeItems();
+          } else {
+            this.notification.success('Update Destination Requests - Success');
+          }
 
         }, error => {
-          this.notification.error('Set Destination Request Submitted - Error ' + error.status + ' - ' + error.statusText);
+          this.notification.error('Update Destination Requests - Error ' + error.status + ' - ' + error.statusText);
+          this.reloadData();
         });
-      } else {
-        // found request
-
-        // status: Accepted
-        if (destinationRequest.status === constants.status.ACCEPTED) {
-          // push notification
-          // different text for push notification - your date and time has been change, we offer you this discount...
-        }
-
-        this.destinationRequestService.await(destinationRequest).subscribe(req => {
-          // push notification
-        }, error => {
-          this.notification.error('Set Destination Request Await - Error ' + error.status + ' - ' + error.statusText);
-        });
-      }
+    } else {
+      this.removeItems();
+    }
 
 
-    });
+  }
 
+  removeItems() {
+    let processedItems = 0;
+          // now set the status of the removed requests to submitted (if they're not rejected by user)
+          for (let index = 0; index < this.requestsForRemoval.length; index++) {
+            const idForRemoval = this.requestsForRemoval[index];
+            this.destinationRequestService.submit(idForRemoval)
+              .subscribe(request => {
+                processedItems++;
+                if (processedItems === this.requestsForRemoval.length) {
+                  this.notification.success('Update Destination Requests - Success');
+                  this.reloadData();
+                }
+              }, error => {
+                this.notification.error('Set Request To Submitted - Error ' + error.status + ' - ' + error.statusText);
+              });
+          }
   }
 
   setDeleteId(destinationRequest: DestinationRequest, remove: boolean) {
@@ -466,6 +459,7 @@ export class DestinationComponent implements OnInit {
   removeRequest() {
     // add request to open destinationRequests
     this.openRequests.push(this.destinationRequest);
+    this.requestsForRemoval.push(this.destinationRequest._id);
     // remove from destinationRequests
     const index = this.destinationRequests.indexOf(this.destinationRequest);
     this.destinationRequests.splice(index, 1);
@@ -486,6 +480,7 @@ export class DestinationComponent implements OnInit {
   }
 
   reloadData() {
+    this.requestsForRemoval = [];
     this.refreshPage();
     this.waypoints = [];
     this.directionDirective.drawDirection(this.waypoints);

@@ -165,7 +165,7 @@
 
           <div *ngIf="destinationOpen" class="text-center">
             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal" [disabled]="destinationRequests.length == 0" (click)="calculate()">Calculate</button>
-            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="destinationRequests.length == 0" (click)="save()">Save</button>
+            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" [disabled]="destinationRequests.length == 0 && requestsForRemoval.length == 0" (click)="save()">Save</button>
             <button type="button" class="btn btn-info btn-lg" (click)="reloadData()">Reload</button>
           </div>
 
