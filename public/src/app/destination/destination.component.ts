@@ -401,12 +401,13 @@ export class DestinationComponent implements OnInit {
         .subscribe(async requests => {
           // everything ok
 
+          const destRequests = _.cloneDeep(this.destinationRequests);
+          await this.sendPushNotifications(destRequests, 'You have a request that is awaiting your confirmation!');
+
           if (this.requestsForRemoval.length > 0) {
             this.removeItems();
           } else {
             this.notification.success('Update Destination Requests - Success');
-            const destRequests = _.cloneDeep(this.destinationRequests);
-            await this.sendPushNotifications(destRequests, 'You have a request that is awaiting your confirmation!');
             this.reloadData();
           }
 
