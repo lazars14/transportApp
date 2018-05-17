@@ -23,6 +23,7 @@ import {
   Destination
 } from './../_model/index';
 declare var $: any;
+import { constants } from './../utils/constants';
 
 @Component({
   selector: 'app-destination-modal',
@@ -82,10 +83,21 @@ export class DestinationModalComponent implements OnInit, AfterViewInit {
   }
 
   ok(time) {
-    this.startMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
-    this.startMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
-    this.endMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
-    this.endMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+    // if (this.action === constants.add) {
+    //   this.startMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    //   this.startMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+    //   this.endMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    //   this.endMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+
+    //   console.log('end marker ', this.endMarker);
+    // } else {
+    //   // update
+
+    // }
+    // this.startMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    // this.startMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
+    // this.endMarker['lat'] = Number(parseFloat(this.startMarker['lat']).toFixed(4));
+    // this.endMarker['lng'] = Number(parseFloat(this.startMarker['lng']).toFixed(4));
 
     this.destination.startLocation = this.startMarker;
     this.destination.endLocation = this.endMarker;
