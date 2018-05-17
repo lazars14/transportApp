@@ -48,7 +48,8 @@ describe("User tests", function () {
         var data;
         data = {
             email: "user@gmail.com",
-            password: "test"
+            password: "test",
+            firebaseToken: 'asdfkasdf;klasjdf;kasjd;fka'
         };
 
         return request(app).post('/user/register')

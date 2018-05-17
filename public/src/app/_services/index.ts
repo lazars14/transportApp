@@ -7,4 +7,5 @@ export * from './manager.service';
 export * from './vehicle-expense.service';
 export * from './vehicle.service';
 export * from './user.service';
+export * from './push-notification.service';
 

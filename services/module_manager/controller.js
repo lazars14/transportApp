@@ -685,7 +685,13 @@ exports.updateRequests = function (req, res, next) {
         // everything ok, make changes
         requestModel.updateRequestsToAwaiting(req.body.destinationRequests, req.params.destinationId)
         .then(function(requests){
-            res.json(requests);
+            // send push notifications
+            for (let index = 0; index < req.body.destinationRequests.length; index++) {
+                const destinationRequest = destinationRequests[index];
+                const userId = destinationRequest.userId;
+                
+            }
+            // res.json(requests);
         }).fail(function (err) {
             return next(err);
         });

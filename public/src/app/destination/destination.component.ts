@@ -24,7 +24,8 @@ import {
 import {
   DestinationRequestService,
   VehicleService,
-  DriverService
+  DriverService,
+  PushNotificationService
 } from './../_services/index';
 import * as _ from 'lodash';
 import {
@@ -61,7 +62,8 @@ export class DestinationComponent implements OnInit {
 
   constructor(private destinationService: DestinationService, private sessionService: SessionService,
     private router: Router, private destinationRequestService: DestinationRequestService, private vehicleService: VehicleService,
-    private driverService: DriverService, private spinnerService: Ng4LoadingSpinnerService) {}
+    private driverService: DriverService, private spinnerService: Ng4LoadingSpinnerService,
+    private pushService: PushNotificationService) {}
 
   @ViewChild(NotificationComponent) notification: NotificationComponent;
   @ViewChild(SetVehicleModalComponent) setVehicleModal: SetVehicleModalComponent;
@@ -396,13 +398,16 @@ export class DestinationComponent implements OnInit {
   save() {
     if (this.destinationRequests.length > 0) {
       this.destinationRequestService.updateRequestsToAwaiting(this.destinationRequests, this.destination._id)
-        .subscribe(requests => {
+        .subscribe(async requests => {
           // everything ok
 
           if (this.requestsForRemoval.length > 0) {
             this.removeItems();
           } else {
             this.notification.success('Update Destination Requests - Success');
+            const destRequests = _.cloneDeep(this.destinationRequests);
+            await this.sendPushNotifications(destRequests, 'You have a request that is awaiting your confirmation!');
+            this.reloadData();
           }
 
         }, error => {
@@ -413,25 +418,36 @@ export class DestinationComponent implements OnInit {
       this.removeItems();
     }
 
+  }
 
+  sendPushNotifications(destinationRequests, message) {
+    for (let index = 0; index < destinationRequests.length; index++) {
+      const request = destinationRequests[index];
+      this.pushService.sendNotification(request.userId, message, request._id)
+        .subscribe(data => {
+
+        }, error => {
+          this.notification.error('Send Push Notification - Error ' + error.status + ' - ' + error.statusText);
+        });
+    }
   }
 
   removeItems() {
     let processedItems = 0;
-          // now set the status of the removed requests to submitted (if they're not rejected by user)
-          for (let index = 0; index < this.requestsForRemoval.length; index++) {
-            const idForRemoval = this.requestsForRemoval[index];
-            this.destinationRequestService.submit(idForRemoval)
-              .subscribe(request => {
-                processedItems++;
-                if (processedItems === this.requestsForRemoval.length) {
-                  this.notification.success('Update Destination Requests - Success');
-                  this.reloadData();
-                }
-              }, error => {
-                this.notification.error('Set Request To Submitted - Error ' + error.status + ' - ' + error.statusText);
-              });
+    // now set the status of the removed requests to submitted (if they're not rejected by user)
+    for (let index = 0; index < this.requestsForRemoval.length; index++) {
+      const idForRemoval = this.requestsForRemoval[index];
+      this.destinationRequestService.submit(idForRemoval)
+        .subscribe(request => {
+          processedItems++;
+          if (processedItems === this.requestsForRemoval.length) {
+            this.notification.success('Update Destination Requests - Success');
+            this.reloadData();
           }
+        }, error => {
+          this.notification.error('Set Request To Submitted - Error ' + error.status + ' - ' + error.statusText);
+        });
+    }
   }
 
   setDeleteId(destinationRequest: DestinationRequest, remove: boolean) {

@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.78% </span>
+        <span class="strong">57.84% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>165/276</span>
+        <span class='fraction'>166/287</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50.98% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>52/102</span>
+        <span class='fraction'>52/104</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.19% </span>
+        <span class="strong">57.52% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>65/108</span>
+        <span class='fraction'>65/113</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61% </span>
+        <span class="strong">58.89% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>158/259</span>
+        <span class='fraction'>159/270</span>
       </div>
     </div>
   </div>
@@ -712,7 +712,40 @@
 667
 668
 669
-670</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1379,6 +1412,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var expenseModel = require('../../model/vehicleExpense/model');
@@ -2050,13 +2116,46 @@ exports.sendPushNotification = <span class="fstat-no" title="function not covere
 <span class="cstat-no" title="statement not covered" >        return next(err);</span>
     });
 }
+&nbsp;
+/**
+ * Update requests
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.updateRequests = <span class="fstat-no" title="function not covered" >function (req, res, next) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!req.body.destinationRequests) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('Error - Update Requests - DestinationRequests can\'t be empty');</span>
+<span class="cstat-no" title="statement not covered" >        return next(error('BAD_REQUEST'));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    requestModel.checkRequests(req.body.destinationRequests, req.params.destinationId)</span>
+    .then(<span class="fstat-no" title="function not covered" >function (destinationId) {</span>
+        // everything ok, make changes
+<span class="cstat-no" title="statement not covered" >        requestModel.updateRequestsToAwaiting(req.body.destinationRequests, req.params.destinationId)</span>
+        .then(<span class="fstat-no" title="function not covered" >function(requests){</span>
+            // send push notifications
+<span class="cstat-no" title="statement not covered" >            for (let index = 0; index &lt; req.body.destinationRequests.length; index++) {</span>
+<span class="cstat-no" title="statement not covered" >                const destinationRequest = destinationRequests[index];</span>
+<span class="cstat-no" title="statement not covered" >                const userId = destinationRequest.userId;</span>
+                
+            }
+            // res.json(requests);
+        }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >            return next(err);</span>
+        });
+    }).fail(<span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >        return next(err);</span>
+    });
+&nbsp;
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 14 2018 14:31:34 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 17 2018 14:28:52 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

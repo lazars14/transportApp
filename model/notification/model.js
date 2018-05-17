@@ -1,8 +1,7 @@
 var
     Q = require("q"),
     config = require('../../config/'),
-    FCM = require('fcm-push'),
-    userModel = require('../../model/user/model');
+    FCM = require('fcm-push');
 
 /**
  * Send push notification
@@ -10,7 +9,7 @@ var
  * @param message
  * @param requestId
  */
-function sendPushNotification(userToken, message, requestId) {
+exports.sendPushNotification = function(userToken, message, requestId) {
     var deferred = Q.defer();
 
     var fcm = new FCM(config.firebaseServerKey);
