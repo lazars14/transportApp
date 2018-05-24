@@ -11,20 +11,20 @@ export class ClientGuard implements CanActivate, CanActivateChild {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      // if (!this.sessionService.isClientLoggedIn()) {
-      //   this._router.navigate(['/']);
-      //   return false;
-      // }
+      if (!this.sessionService.isClientLoggedIn()) {
+        this._router.navigate(['/']);
+        return false;
+      }
     return true;
   }
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      // if (!this.sessionService.isClientLoggedIn()) {
-      //   this._router.navigate(['client/login']);
-      //   return false;
-      // }
+      if (!this.sessionService.isClientLoggedIn()) {
+        this._router.navigate(['client/login']);
+        return false;
+      }
     return true;
   }
 }
