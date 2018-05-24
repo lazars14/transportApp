@@ -1,0 +1,18 @@
+{
+  "name": "public",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Lazar Stijakovic <zomlaaa95@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/zomlaaa95/transportApp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
