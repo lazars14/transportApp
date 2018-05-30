@@ -26,7 +26,8 @@ var config = {
       db: "transportApp_test",
       debug: false
     },
-    "serverURL": "http://localhost:9000"
+    // http://localhost:9000
+    "serverURL": "http://www.diplomskilazarstijakovic.in.rs/"
   };
   
   module.exports = config;
