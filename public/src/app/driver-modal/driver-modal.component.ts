@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { Driver } from '../_model/index';
 
 @Component({
   selector: 'app-driver-modal',
@@ -9,7 +10,7 @@ import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 export class DriverModalComponent implements OnInit {
 
   @Input() action: string;
-  @Input() driver: object;
+  @Input() driver: Driver;
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 

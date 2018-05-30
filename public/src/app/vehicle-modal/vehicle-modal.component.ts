@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { constants } from './../utils/constants';
+import { Vehicle } from '../_model/index';
 
 @Component({
   selector: 'app-vehicle-modal',
@@ -10,7 +11,7 @@ import { constants } from './../utils/constants';
 export class VehicleModalComponent implements OnInit {
 
   @Input() action: string;
-  @Input() vehicle: object;
+  @Input() vehicle: Vehicle;
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 

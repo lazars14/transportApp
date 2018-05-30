@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { Vehicle } from '../_model/index';
 
 @Component({
   selector: 'app-extend-registration-modal',
@@ -8,7 +9,7 @@ import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 })
 export class ExtendRegistrationModalComponent implements OnInit {
 
-  @Input() vehicle: object;
+  @Input() vehicle: Vehicle;
   @Output() extendRegistration = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 

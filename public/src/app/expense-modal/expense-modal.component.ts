@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { VehicleExpense } from '../_model/index';
 
 @Component({
   selector: 'app-expense-modal',
@@ -9,7 +10,7 @@ import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 export class ExpenseModalComponent implements OnInit {
 
   @Input() action: string;
-  @Input() expense: object;
+  @Input() expense: VehicleExpense;
   @Output() modalAddUpdate = new EventEmitter();
   @Output() resetForm = new EventEmitter();
 

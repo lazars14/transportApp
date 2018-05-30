@@ -16,7 +16,13 @@ export class UpdateCmInfoComponent implements OnInit {
   @ViewChild(NotificationComponent) notification: NotificationComponent;
 
   userType: string;
-  user: object;
+  user = {
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    password: ''
+  }
 
   constructor(private router: Router, private sessionService: SessionService,
       private clientService: ClientService, private managerService: ManagerService) { }

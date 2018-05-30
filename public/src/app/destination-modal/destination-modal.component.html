@@ -17,13 +17,13 @@
             <div class="form-group">
               <label for="startDate">
                 <span class="red-text">*</span>Start Date</label>
-              <input type="date" class="form-control" [min]="today" [(ngModel)]="destination.startDate" useValueAsDate id="startDate" name="startDate" required>
+              <input type="date" class="form-control" [(ngModel)]="destination.startDate" useValueAsDate id="startDate" name="startDate" required>
             </div>
 
             <div class="form-group">
               <label for="startTime">
                 <span class="red-text">*</span>Start Time</label>
-              <input type="time" #startTime class="form-control" [(ngModel)]="time" name="startTime" required>
+              <input type="time" #startTime class="form-control" value="{{ time }}" name="startTime" required>
             </div>
 
             <div class="form-group">
@@ -43,7 +43,7 @@
 
             <div class="form-group">
               <agm-map id="agmMap" class="destinations-map" [latitude]="45.30" [longitude]="45.30" (mapClick)="mapClicked($event)" [zoom]="zoom">
-                <agm-direction *ngIf="endMarker.lat" [origin]="startMarker" [destination]="endMarker" [visible]="visible"></agm-direction>
+                <agm-direction *ngIf="visible" [origin]="startMarker" [destination]="endMarker" [visible]="visible"></agm-direction>
                 <agm-marker *ngFor="let m of markers; let i = index" [markerDraggable]="true" [latitude]="m.lat" [longitude]="m.lng"></agm-marker>
               </agm-map>
 
