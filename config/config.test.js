@@ -27,7 +27,7 @@ var config = {
       debug: false
     },
     // http://localhost:9000
-    "serverURL": "http://www.diplomskilazarstijakovic.in.rs/"
+    "serverURL": "http://localhost:9000"
   };
   
   module.exports = config;
