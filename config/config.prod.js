@@ -1,6 +1,6 @@
 var config = {
     env: 'prod',
-    server: 'http://www.diplomskilazarstijakovic.in.rs/',
+    server: 'http://www.diplomskilazarstijakovic.in.rs',
     token: {
       secret: '123&$&*!010293123mxan!#'
     },
@@ -27,7 +27,7 @@ var config = {
       debug: false
     },
     // http://localhost:9000
-    "serverURL": "http://www.diplomskilazarstijakovic.in.rs/"
+    "serverURL": "http://www.diplomskilazarstijakovic.in.rs"
   };
   
   module.exports = config;
