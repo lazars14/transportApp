@@ -7,6 +7,8 @@ var should = require("should"),
 
 describe("Client tests", function () {
 
+    this.timeout(0);
+
     var token;
     var client;
     var driver;
@@ -46,6 +48,7 @@ describe("Client tests", function () {
     });
 
     it("login - fail - invalid password", function (done) {
+        // this.timeout(0);
         var data;
         data = {
             email: "client@gmail.com",

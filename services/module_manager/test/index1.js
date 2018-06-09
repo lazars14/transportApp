@@ -7,6 +7,8 @@ var should = require("should"),
 
 describe("Manager tests for manipulating requests", function () {
 
+    this.timeout(0);
+
     var token;
     var manager;
     var destination;

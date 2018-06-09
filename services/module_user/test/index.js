@@ -7,6 +7,8 @@ var should = require("should"),
 
 describe("User tests", function () {
 
+    this.timeout(0);
+
     var token;
     var user;
     var destinationRequest;

@@ -7,9 +7,12 @@ var should = require('should'),
   exec = require('child_process').exec;
   
 var bcrypt = require('bcryptjs');
+var clientModel = require('./../model/client/model');
 
 describe('main', function () {
-  before(function (done) {
+
+  it('should successfully drop db', function (done) {
+    this.timeout(0);
     return exec('mongo transportApp_test --eval "db.dropDatabase()"', function (err, data) {
       if (err) {
         throw err;
@@ -17,20 +20,28 @@ describe('main', function () {
         return done();
       }
     });
+
   });
 
   it('should successfully create client in db', function (done) {
-    var passwordCrypted = bcrypt.hashSync("test", bcrypt.genSaltSync(8), null);
-    return exec("mongo transportApp_test --eval \"db.clients.insertOne({email: \'client@gmail.com\', password: \'" + passwordCrypted  + "\', firstName: \'Joe\', lastName: \'Doe\'})\"", function (err, data) {
-      if (err) {
-        throw err;
-      } else {
-        return done();
-      }
+    const dummyClient = {
+      email: 'client@gmail.com',
+      password: 'test',
+      firstName: 'Joe',
+      lastName: 'Doe'
+    }
+
+    clientModel.createDummyClient(dummyClient).then(function (client) {
+      return done();
+    }).fail(function (err) {
+      throw err;
     });
+
   });
 
-  it('should successfully drop test database', function (done) {
+  it('all tests', function (done) {
+    this.timeout(0);
+
     require('../services/module_client/test');
     require('../services/module_manager/test');
     require('../services/module_user/test');

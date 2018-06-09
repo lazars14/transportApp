@@ -73,6 +73,29 @@ ClientSchema.statics.findById = function(id){
 }
 
 /**
+ * Create dummy client
+ * @param newClient
+ */
+ClientSchema.statics.createDummyClient = function(newClient){
+    var deffered = Q.defer();
+
+    newClient = new model(newClient);
+    newClient.password = bcrypt.hashSync(newClient.password, bcrypt.genSaltSync(8), null);
+    newClient.save(function(err, client){
+        if(err){
+            logger.error('Database error - ' + JSON.stringify(err) + 'while trying to create dummy client');
+            return deffered.reject(error("MONGO_ERROR"));
+        };
+
+        client.password = undefined;
+        delete client.password;
+        return deffered.resolve(client);
+    });
+
+    return deffered.promise;
+}
+
+/**
  * Client login
  * @param client
  * @returns {*}
@@ -81,7 +104,10 @@ ClientSchema.statics.login = function (client) {
     var deffered = Q.defer();
 
     _findByEmail(client.email).then(function (found) {
+        console.log('found client ', found);
+        console.log('passed client ', client);
         if(found === null) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
+
         if (!model.validatePassword(client.password, found.password)) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
 
         var token = jwt.sign({email: found.email, clientId: found._id}, config.token.secret, {

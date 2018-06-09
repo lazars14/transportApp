@@ -7,6 +7,8 @@ var should = require("should"),
 
 describe("Manager tests", function () {
 
+    this.timeout(0);
+
     var token;
     var manager;
     var vehicleId;
