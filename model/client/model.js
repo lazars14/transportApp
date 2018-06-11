@@ -104,8 +104,6 @@ ClientSchema.statics.login = function (client) {
     var deffered = Q.defer();
 
     _findByEmail(client.email).then(function (found) {
-        console.log('found client ', found);
-        console.log('passed client ', client);
         if(found === null) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));
 
         if (!model.validatePassword(client.password, found.password)) return deffered.reject(error("INVALID_USERNAME_PASSWORD"));

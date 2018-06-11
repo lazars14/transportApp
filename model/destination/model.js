@@ -296,8 +296,6 @@ DestinationSchema.statics.checkDestinationsForDriver = function(driverId, startD
 DestinationSchema.statics.setDrivers = function(destinationId, drivers, managerId){
     var deffered = Q.defer();
 
-    console.log('posle defer');
-
     _findByIdManager(destinationId, managerId).then(function(found){
         if(!found) return deffered.reject(error("NOT_FOUND"));
 
@@ -328,7 +326,6 @@ DestinationSchema.statics.setDrivers = function(destinationId, drivers, managerI
 function _checkDestinationsForVehicle(vehicleId, startDateEntry, endDateEntry){
     var deffered = Q.defer();
 
-    console.log('pre find-a');
     model.find({vehicleId : vehicleId, startDate : { "$gte" : startDateEntry}, endDate : { "$lte" : endDateEntry}}, function(err, destination){
         if(err){
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to check vehicle for destinations, vehicle id is ' + vehicleId);

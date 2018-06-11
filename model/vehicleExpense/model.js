@@ -92,7 +92,6 @@ VehicleExpenseSchema.statics.add = function (vehicleId, vehicleExpense) {
     vehicleExpense.vehicleId = vehicleId;
 
     vehicleExpense.save(function (err, expense) {
-        console.log('usao u save');
         if (err) {
             logger.error('Database error - ' + JSON.stringify(err) + ' while trying to add expense');
             return deffered.reject(error("MONGO_ERROR"));

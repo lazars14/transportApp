@@ -6,7 +6,6 @@ logger = require('../lib/logger');
 var should = require('should'),
   exec = require('child_process').exec;
   
-var bcrypt = require('bcryptjs');
 var clientModel = require('./../model/client/model');
 
 describe('main', function () {

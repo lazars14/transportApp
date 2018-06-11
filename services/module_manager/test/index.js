@@ -2,7 +2,6 @@ var should = require("should"),
     config = require("../../../config/"),
     request  = require('supertest'),
     jwt = require('jsonwebtoken'),
-    crypto = require('crypto'),
     app      = require("../../../server.js");
 
 describe("Manager tests", function () {
@@ -676,7 +675,7 @@ describe("Manager tests", function () {
                 "lat": 46.1003,
                 "lng": 19.6675
             },
-            startDate: new Date("2018-04-29"),
+            startDate: new Date("2018-07-29"),
             requestPerKmPrice: 10, 
             driversPay: 300,
             fuelExpenses: 1400

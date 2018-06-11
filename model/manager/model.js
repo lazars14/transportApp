@@ -134,7 +134,6 @@ ManagerSchema.statics.update = function (id, data) {
         if (data.lastName) found.lastName = data.lastName;
         if (data.phone) found.phone = data.phone;
         
-        console.log('this is the new password ', data.password);
         if (data.password) {
           // if password changed, crypt it and save
         if (data.password != found.password) found.password = found.cryptPassword(data.password);
