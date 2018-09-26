@@ -129,12 +129,17 @@ UserSchema.statics.register = function(user){
         if(found) return deffered.reject(error("ALREADY_REGISTERED"));
 
         user.password = user.cryptPassword(user.password);
-        user.save(function(err, data){
+        user.save(function(err, user){
             if(err){
                 logger.error('Database error - ' + JSON.stringify(err) + 'while trying to register user');
                 return deffered.reject(error("MONGO_ERROR"));
             };
-            return deffered.resolve(data);
+
+            var token = jwt.sign({email: user.email, userId: user._id}, config.token.secret, {
+                expiresIn: 1440 // expires in 24 hours
+            });
+
+            return deffered.resolve({user: user, token: token});
         });
 
     }).fail(function(err){
