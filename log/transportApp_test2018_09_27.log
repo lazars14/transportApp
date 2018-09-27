@@ -1,0 +1,14 @@
+2018-09-27T14:25:06.829Z - info: loaded enviroment: test
+2018-09-27T14:25:07.225Z - info: loaded CLIENT routes
+2018-09-27T14:25:07.233Z - info: loaded MANAGER routes
+2018-09-27T14:25:07.236Z - info: loaded USER routes
+2018-09-27T14:25:07.252Z - info: listening on port 9000
+2018-09-27T14:25:07.253Z - info: trying to find postLoader for  module_client
+2018-09-27T14:25:07.254Z - info: trying to find postLoader for  module_manager
+2018-09-27T14:25:07.254Z - info: trying to find postLoader for  module_user
+2018-09-27T14:25:13.592Z - info:  type=GET, url=/user/5bacdbf1e5d8863c60a6bd4a/requests, , , 
+2018-09-27T14:25:13.595Z - error:  type=GET, url=/user/5bacdbf1e5d8863c60a6bd4a/requests, , , , code=403, message=Your session has expired, please re-login., stack=undefined, stack=
+2018-09-27T14:25:35.159Z - info:  type=POST, url=/user/login, , , email=test@test.com, password=12345678
+2018-09-27T14:25:35.176Z - error:  type=POST, url=/user/login, , , email=test@test.com, password=12345678, code=404, message=Not found, stack=undefined, stack=
+2018-09-27T14:25:07.270Z - info: Mongoose - connection OK to: mongodb://localhost:27017/transportApp_test
+2018-09-27T14:26:10.728Z - info:  type=POST, url=/client/login, , , email=test@test.com, password=12345678
