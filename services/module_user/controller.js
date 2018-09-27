@@ -64,58 +64,6 @@ exports.loginUser = function(req, res, next){
     });
 }
 
-// DestinationRequest functions
-
-/**
- * Add request
- * @param req
- * @param res
- * @param next
- */
-exports.addRequest = function(req, res, next){
-    if(!req.body.startLocation){
-        logger.error('Error - Create request - Start location can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
-    if(!req.body.endLocation){
-        logger.error('Error - Create request - End location can\'t be empty');
-        return next(error("BAD_REQUEST"));
-    }
-
-    userModel.findById(req.params.userId).then(function(found){
-        if(!found) return next(error("NOT_FOUND"));
-
-        destinationRequestModel.add(req.params.userId, req.body).then(function(destinationRequest){
-            res.json(destinationRequest);
-        }).fail(function(err){
-            return next(err);
-        });
-    }).fail(function(err){
-        return next(err);
-    });
-}
-
-/**
- * User requests
- * @param req
- * @param res
- * @param next
- */
-exports.userRequests = function(req, res, next){
-    userModel.findById(req.params.userId).then(function(found){
-        if(!found) return next(error("NOT_FOUND"));
-
-        destinationRequestModel.findByUserId(req.params.userId).then(function(requests){
-            res.json(requests);
-        }).fail(function(err){
-            return next(err);
-        });
-    }).fail(function(err){
-        return next(err);
-    });
-}
-
 /**
  * Change user password
  * @param req
@@ -144,7 +92,7 @@ exports.changePassword = function(req, res, next){
     }
 
     userModel.changePassword(req.params.userId, req.body).then(function(user){
-        res.json();
+        res.json({success: true});
     }).fail(function(err){
         return next(err);
     });
@@ -168,7 +116,7 @@ exports.changeEmail = function(req, res, next){
     }
 
     userModel.changeEmail(req.params.userId, req.body).then(function(user){
-        res.json();
+        res.json({success: true});
     }).fail(function(err){
         return next(err);
     });
@@ -202,7 +150,59 @@ exports.updateInfo = function(req, res, next){
     }
 
     userModel.updateInfo(req.params.userId, req.body).then(function(user){
-        res.json();
+        res.json(user);
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+// DestinationRequest functions
+
+/**
+ * Add request
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.addRequest = function(req, res, next){
+    if(!req.body.startLocation){
+        logger.error('Error - Create request - Start location can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    if(!req.body.endLocation){
+        logger.error('Error - Create request - End location can\'t be empty');
+        return next(error("BAD_REQUEST"));
+    }
+
+    userModel.findById(req.params.userId).then(function(found){
+        if(!found) return next(error("NOT_FOUND"));
+
+        destinationRequestModel.add(req.params.userId, req.body).then(function(destinationRequest){
+            res.json({success: true});
+        }).fail(function(err){
+            return next(err);
+        });
+    }).fail(function(err){
+        return next(err);
+    });
+}
+
+/**
+ * User requests
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.userRequests = function(req, res, next){
+    userModel.findById(req.params.userId).then(function(found){
+        if(!found) return next(error("NOT_FOUND"));
+
+        destinationRequestModel.findByUserId(req.params.userId).then(function(requests){
+            res.json(requests);
+        }).fail(function(err){
+            return next(err);
+        });
     }).fail(function(err){
         return next(err);
     });
@@ -216,7 +216,7 @@ exports.updateInfo = function(req, res, next){
  */
 exports.requestAccept = function(req, res, next){
     destinationRequestModel.changeToAccepted(req.params.destinationRequestId).then(function(request){
-        res.json(request);
+        res.json({success: true});
     }).fail(function(err){
         return next(err);
     });
@@ -230,7 +230,7 @@ exports.requestAccept = function(req, res, next){
  */
 exports.requestReject = function(req, res, next){
     destinationRequestModel.changeToRejected(req.params.destinationRequestId).then(function(request){
-        res.json(request);
+        res.json({success: true});
     }).fail(function(err){
         return next(err);
     });

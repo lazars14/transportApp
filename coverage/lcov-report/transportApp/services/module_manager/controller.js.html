@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.84% </span>
+        <span class="strong">56.1% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>166/287</span>
+        <span class='fraction'>161/287</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>52/104</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.52% </span>
+        <span class="strong">53.1% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>65/113</span>
+        <span class='fraction'>60/113</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.89% </span>
+        <span class="strong">57.04% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>159/270</span>
+        <span class='fraction'>154/270</span>
       </div>
     </div>
   </div>
@@ -999,7 +999,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1302,7 +1302,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1346,9 +1346,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1360,21 +1360,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1700,8 +1700,8 @@ exports.findAllUsers = function (req, res, next) {
  * @param next
  */
 exports.deleteUser = function (req, res, next) {
-    userModel.delete(req.params.userId).then(function (user) {
-        res.json(user);
+    userModel.delete(req.params.userId).then(<span class="fstat-no" title="function not covered" >function (user) {</span>
+<span class="cstat-no" title="statement not covered" >        res.json(user);</span>
     }).fail(function (err) {
         return next(err);
     });
@@ -2003,8 +2003,8 @@ exports.findAllRequestsByDestination = function (req, res, next) {
  * @param next
  */
 exports.requestSetSubmitted = function (req, res, next) {
-    requestModel.changeToSubmitted(req.params.destinationRequestId).then(function (submittedRequest) {
-        res.json(submittedRequest);
+    requestModel.changeToSubmitted(req.params.destinationRequestId).then(<span class="fstat-no" title="function not covered" >function (submittedRequest) {</span>
+<span class="cstat-no" title="statement not covered" >        res.json(submittedRequest);</span>
     }).fail(function (err) {
         return next(err);
     })
@@ -2047,8 +2047,8 @@ exports.requestSetAwaiting = function (req, res, next) {
 <span class="cstat-no" title="statement not covered" >        return next(error('BAD_REQUEST'));</span>
     }
 &nbsp;
-    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(function (awaitedRequest) {
-        res.json(awaitedRequest);
+    requestModel.changeToAwaiting(req.params.destinationRequestId, req.body).then(<span class="fstat-no" title="function not covered" >function (awaitedRequest) {</span>
+<span class="cstat-no" title="statement not covered" >        res.json(awaitedRequest);</span>
     }).fail(function (err) {
         return next(err);
     })
@@ -2061,8 +2061,8 @@ exports.requestSetAwaiting = function (req, res, next) {
  * @param next
  */
 exports.requestSetAccepted = function (req, res, next) {
-    requestModel.changeToAccepted(req.params.destinationRequestId).then(function (awaitedRequest) {
-        res.json(awaitedRequest);
+    requestModel.changeToAccepted(req.params.destinationRequestId).then(<span class="fstat-no" title="function not covered" >function (awaitedRequest) {</span>
+<span class="cstat-no" title="statement not covered" >        res.json(awaitedRequest);</span>
     }).fail(function (err) {
         return next(err);
     })
@@ -2075,8 +2075,8 @@ exports.requestSetAccepted = function (req, res, next) {
  * @param next
  */
 exports.requestSetRejected = function (req, res, next) {
-    requestModel.changeToRejected(req.params.destinationRequestId).then(function (awaitedRequest) {
-        res.json(awaitedRequest);
+    requestModel.changeToRejected(req.params.destinationRequestId).then(<span class="fstat-no" title="function not covered" >function (awaitedRequest) {</span>
+<span class="cstat-no" title="statement not covered" >        res.json(awaitedRequest);</span>
     }).fail(function (err) {
         return next(err);
     })
@@ -2155,7 +2155,7 @@ exports.updateRequests = <span class="fstat-no" title="function not covered" >fu
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 11 2018 08:28:39 GMT+0200 (Central Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 27 2018 15:58:13 GMT+0200 (Central Europe Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

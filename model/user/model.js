@@ -127,7 +127,7 @@ UserSchema.statics.register = function(user){
     user = new model(user);
     _findByEmail(user.email).then(function(found){
         if(found) return deffered.reject(error("ALREADY_REGISTERED"));
-
+        
         user.password = user.cryptPassword(user.password);
         user.save(function(err, savedUser){
             if(err){
@@ -135,7 +135,7 @@ UserSchema.statics.register = function(user){
                 return deffered.reject(error("MONGO_ERROR"));
             };
 
-            var token = jwt.sign({email: savedUser.email, savedUser: user._id}, config.token.secret, {
+            var token = jwt.sign({email: savedUser.email, user: user}, config.token.secret, {
                 expiresIn: 1440 // expires in 24 hours
             });
 
@@ -158,6 +158,7 @@ UserSchema.statics.login = function (user) {
     var deferred = Q.defer();
 
     _findByEmail(user.email).then(function (found) {
+        if(!found) return deferred.reject(error("NOT_FOUND"));
         if (!model.validatePassword(user.password, found.password)) return deferred.reject(error("INVALID_USERNAME_PASSWORD"));
 
         var token = jwt.sign({email: found.email, userId: found._id}, config.token.secret, {

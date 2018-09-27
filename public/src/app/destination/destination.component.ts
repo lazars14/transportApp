@@ -402,7 +402,7 @@ export class DestinationComponent implements OnInit {
           // everything ok
 
           const destRequests = _.cloneDeep(this.destinationRequests);
-          await this.sendPushNotifications(destRequests, 'You have a request that is awaiting your confirmation!');
+          // await this.sendPushNotifications(destRequests, 'You have a request that is awaiting your confirmation!');
 
           if (this.requestsForRemoval.length > 0) {
             this.removeItems();
